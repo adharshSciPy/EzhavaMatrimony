@@ -1,77 +1,105 @@
 import { User } from "../model/userModel.js";
-import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
+import crypto from "crypto";
+import bcrypt from "bcrypt";
 
 const registerUser = async (req, res) => {
   const { relation, firstName, userEmail, userName } = req.body;
-  const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
 
   try {
-    // Validate required fields
     if (!relation || !firstName || !userEmail || !userName) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
-    // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(userEmail)) {
       return res.status(400).json({ message: "Invalid email format" });
     }
 
-    // Check if email is already in use
     const existingUser = await User.findOne({ userEmail });
     if (existingUser) {
       return res.status(400).json({ message: "Email is already in use" });
     }
 
-    // Assign a default role (fetch from environment or set a hardcoded value)
     const role = process.env.DEFAULT_USER_ROLE || 400;
 
-    // Create the user in the database
+    const otp = crypto.randomInt(100000, 999999); // Generate a 6-digit OTP
+    const hashedOtp = await bcrypt.hash(otp.toString(), 10); // Hash the OTP
+    const otpExpiry = Date.now() + 10 * 60 * 1000; // OTP valid for 10 minutes
+
     const user = await User.create({
       relation,
       firstName,
       userEmail,
       userName,
       role,
+      otp: hashedOtp, // Save hashed OTP
+      otpExpiry, // Save OTP expiry time
+      isVerified: false, // Default to false
     });
 
-    // Generate the token
-    const token = jwt.sign({ id: user._id }, ACCESS_TOKEN_SECRET, { expiresIn: "1d" });
-
-    // Configure transporter for email
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: "kannur4806@gmail.com", // Store email in env variable
-        pass: "Sanjuunnikuttan@12345", // Store password in env variable
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
       },
     });
 
-    // Setup mail options
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: userEmail,
-      subject: "Email Verification",
-      text: `Please verify your email by clicking the following link: 
-        ${process.env.CLIENT_URL}/verify-email?token=${token}`,
+      subject: "Email Verification - OTP",
+      text: `Your One-Time Password (OTP) for email verification is: ${otp}. 
+        The OTP is valid for 10 minutes.`,
     };
 
-    // Send the email
     await transporter.sendMail(mailOptions);
 
-    // Ensure user creation was successful
-    if (!user) {
-      return res.status(500).json({ message: "User registration failed" });
-    }
-
-    // Respond with success and include the verification token
     return res.status(201).json({
-      message: "User registration successful. Please check your email for verification.",
+      message:
+        "User registered successfully. Please check your email for the OTP.",
+      user: {
+        id: user._id,
+        relation: user.relation,
+        firstName: user.firstName,
+        userEmail: user.userEmail,
+        userName: user.userName,
+        role: user.role,
+      },
     });
   } catch (err) {
     console.error("Error during registration:", err);
-    return res.status(500).json({ message: `Internal Server Error: ${err.message}` });
+    return res
+      .status(500)
+      .json({ message: `Internal Server Error: ${err.message}` });
+  }
+};
+const verifyOtp = async (req, res) => {
+  const { userEmail, otp } = req.body;
+
+  try {
+    const user = await User.findOne({ userEmail });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const isOtpValid = await bcrypt.compare(otp.toString(), user.otp);
+    if (!isOtpValid || user.otpExpiry < Date.now()) {
+      return res.status(400).json({ message: "Invalid or expired OTP" });
+    }
+
+    user.isVerified = true;
+    user.otp = undefined;
+    user.otpExpiry = undefined;
+    await user.save();
+
+    return res.status(200).json({ message: "Email verified successfully" });
+  } catch (err) {
+    console.error("Error during OTP verification:", err);
+    return res
+      .status(500)
+      .json({ message: `Internal Server Error: ${err.message}` });
   }
 };
 
@@ -128,7 +156,9 @@ const editUser = async (req, res) => {
       password,
     };
 
-    const editedUser = await User.findByIdAndUpdate(id, updatedData, { new: true });
+    const editedUser = await User.findByIdAndUpdate(id, updatedData, {
+      new: true,
+    });
 
     if (!editedUser) {
       return res.status(404).json({ message: "User not found" });
@@ -143,30 +173,50 @@ const editUser = async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
+const resendOtp = async (req, res) => {
+  const { userEmail } = req.body;
 
-const verifyEmail = async (req, res) => {
-    const { token } = req.query;
-  
-    try {
-      const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-  
-      const user = await User.findById(decoded.id);
-  
-      if (!user) {
-        return res.status(400).json({ message: "User not found" });
-      }
-  
-      if (user.isVerified) {
-        return res.status(400).json({ message: "Email already verified" });
-      }
-      user.isVerified = true;
-      await user.save();
-  
-      return res.status(200).json({ message: "Email verified successfully" });
-    } catch (err) {
-      return res.status(400).json({ message: "Invalid or expired token" });
+  try {
+    const user = await User.findOne({ userEmail });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
     }
-  };
-  
 
-export { registerUser, editUser ,verifyEmail};
+    if (user.isVerified) {
+      return res.status(400).json({ message: "Email already verified" });
+    }
+
+    const otp = crypto.randomInt(100000, 999999); // Generate a new OTP
+    const hashedOtp = await bcrypt.hash(otp.toString(), 10);
+    user.otp = hashedOtp;
+    user.otpExpiry = Date.now() + 10 * 60 * 1000; // Reset expiry time
+    await user.save();
+
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: userEmail,
+      subject: "Resend OTP",
+      text: `Your new OTP is: ${otp}. It is valid for 10 minutes.`,
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    return res.status(200).json({ message: "OTP resent successfully" });
+  } catch (err) {
+    console.error("Error during OTP resend:", err);
+    return res
+      .status(500)
+      .json({ message: `Internal Server Error: ${err.message}` });
+  }
+};
+
+export { registerUser, editUser, verifyOtp, resendOtp };
