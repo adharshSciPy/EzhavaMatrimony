@@ -227,9 +227,8 @@ const getUser = async (req, res) => {
   const { id } = req.params;
   try {
     let userDetails;
-    const user = await User.findById(id);
-    const gender = user.gender;
-    console.log("gender coming", gender);
+    const user = await User.findById(id)
+    const gender = user.gender
     if (gender === "Male") {
       userDetails = await User.find({ gender: "Female" });
     } else {
@@ -336,6 +335,17 @@ const resetPassword = async (req, res) => {
     }
   }
 };
+
+const getUserById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const userdata = await User.findById(id)
+    return res.status(200).json({ data: userdata })
+  } catch (error) {
+    return res.status(400).json({ message: error.message })
+  }
+}
+
 const userLogin = async (req, res) => {
   const { userEmail, password } = req.body;
   try {
@@ -346,7 +356,7 @@ const userLogin = async (req, res) => {
 
     // Find the user
     const user = await User.findOne({ userEmail: userEmail });
-    
+
     if (!user) {
       return res.status(404).json({ message: "Email doesn't exist" });
     }
@@ -356,7 +366,7 @@ const userLogin = async (req, res) => {
     if (!isPasswordCorrect) {
       return res.status(401).json({ message: "Incorrect password" });
     }
-    
+
     if (!user.isEnabled) {
       return res
         .status(401)
@@ -383,6 +393,9 @@ const userLogin = async (req, res) => {
       .json({ message: `Internal Server Error: ${err.message}` });
   }
 };
+
+
+
 const refreshAccessToken = async (req, res) => {
   const { refreshToken } = req.cookies;
 
@@ -456,5 +469,5 @@ export {
   forgotPassword,
   resetPassword,
   getUser,
-  userLogin,refreshAccessToken
+  userLogin, refreshAccessToken, getUserById
 };

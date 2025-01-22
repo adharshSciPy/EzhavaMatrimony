@@ -18,7 +18,7 @@ const userSchema = new Schema({
   dateOfBirth: {
     type: String,
   },
-  gender:{
+  gender: {
     type: String,
   },
   religion: {
@@ -99,11 +99,21 @@ const userSchema = new Schema({
     type: Date,
   },
   profileViews:
-   [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-   isEnabled:{
-    type:Boolean,
-    default:true,
-   }
+    [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+  isEnabled: {
+    type: Boolean,
+    default: true,
+  },
+  age: {
+    type: Number
+  },
+  location: {
+    type: String
+  },
+  hobbies: {
+    type: String,
+  }
+
 });
 
 userSchema.pre("save", async function (next) {

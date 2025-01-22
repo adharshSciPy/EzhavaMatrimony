@@ -1,10 +1,58 @@
-import React from "react";
+import React, { useState } from "react";
 import "../LandingPage/landingpage.css";
+import axios from "axios";
+import { useNavigate ,Link} from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function LandingPage() {
+  let field = {
+    userEmail: "",
+    password: "",
+  };
+  const [form, setForm] = useState(field);
+  const [errorMessage, setErrorMessage] = useState(""); // State to track error message
+  const notifyError = (message) => toast.error(message);
+
+  const navigate = useNavigate();
+
+  const handleSignin = async (e) => {
+    e.preventDefault(); // Prevent the default form submission behavior
+    try {
+      const response = await axios.post(`http://localhost:8000/api/v1/user/login`, form);
+      console.log("Token:", response?.data?.token);
+
+      // Navigate to /formpage1 on successful login
+      if (response.status === 200) {
+        
+        navigate(`/formpage1`);
+      }
+    } catch (error) {
+      setErrorMessage(error.response?.data?.message || "Invalid email or password. Please try again.");
+      notifyError(error.response?.data?.message)
+    }
+  };
+
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
+
   return (
     <div>
       <div className="landing-main-container">
+      <ToastContainer
+        position="bottom-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        pauseOnHover
+      />
         {/* Left section text */}
         <div className="landing-text-container">
           <h1>Ezhava Matrimony</h1>
@@ -19,20 +67,38 @@ function LandingPage() {
           <div className="landing-form-subheader">
             <h4>Find Your Perfect Soulmate</h4>
           </div>
-          <form>
+          <form onSubmit={handleSignin}>
             <label>
-              <input type="text" placeholder="Username" required />
+              <input
+                type="email"
+                name="userEmail"
+                placeholder="userEmail"
+                required
+                onChange={handleChange}
+                value={form.userEmail}
+              />
             </label>
             <label>
-              <input type="email" placeholder="Password" required />
+              <input
+                type="password"
+                name="password"
+                placeholder="password"
+                required
+                onChange={handleChange}
+                value={form.password}
+              />
             </label>
             <button type="submit">Sign In</button>
-            <div className="fp"><a href="Forgot Password">Forgot Password</a></div>
-            <div className="signin">
-              Create Your Account <a href="SignIn">Sign in</a>
+            <div className="fp">
+            <Link className='signup-link' to="/forgotpassworduser">Forgot Password</Link>
+          
+            </div>
+            <div className="signin" >
+             <p> Create your account</p>
+            <Link className='signup-link' to="/login">Sign up</Link>
+
             </div>
           </form>
-          <p className="landing-terms">*T&C may apply</p>
         </div>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { editUser, registerUser, verifyOtp ,resetPassword ,forgotPassword, getUser, userLogin } from "../controller/userController.js";
+import { editUser, registerUser, verifyOtp ,resetPassword ,forgotPassword, getUser, userLogin, getUserById } from "../controller/userController.js";
 import { Router } from 'express'
 
 
@@ -11,6 +11,7 @@ userRouter.route('/verifyOtp').post(verifyOtp)
 userRouter.route('/getUserById/:id').get(getUser)
 userRouter.route('/resetpassworduser/:id/:token').post(resetPassword);
 userRouter.route('/forgotpassworduser').post(forgotPassword)
+userRouter.route('/usercarddetails/:id').get(getUserById)
 userRouter.route('/login').post(userLogin)
 
 
