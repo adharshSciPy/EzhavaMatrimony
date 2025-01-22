@@ -107,7 +107,7 @@ const editUser = async (req, res) => {
   const {
     dateOfBirth,
     religion,
-    motherTounge,
+    motherTongue,
     email,
     password,
     caste,
@@ -115,6 +115,7 @@ const editUser = async (req, res) => {
     Gothran,
     sudhajathakam,
     dhosham,
+    gender,
     maritalStatus,
     height,
     familStatus,
@@ -133,7 +134,7 @@ const editUser = async (req, res) => {
     let updatedData = {
       dateOfBirth,
       religion,
-      motherTounge,
+      motherTongue,
       email,
       caste,
       subCaste,
@@ -153,6 +154,7 @@ const editUser = async (req, res) => {
       annualIncome,
       about,
       password,
+      gender,
     };
     if (password) {
       const hashedPassword = await bcrypt.hash(password, 10);
@@ -221,6 +223,24 @@ const resendOtp = async (req, res) => {
   }
 };
 
+const getUser = async (req, res) => {
+  const { id } = req.params;
+  try {
+    let userDetails;
+    const user = await User.findById(id);
+    const gender = user.gender;
+    console.log("gender coming", gender);
+    if (gender === "Male") {
+      userDetails = await User.find({ gender: "Female" });
+    } else {
+      userDetails = await User.find({ gender: "Male" });
+    }
+    return res.status(200).json({ user: userDetails });
+  } catch (error) {
+    return res.status(400).json({ message: error.message });
+  }
+};
+
 const forgotPassword = async (req, res) => {
   const { userEmail } = req.body;
   const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
@@ -228,10 +248,14 @@ const forgotPassword = async (req, res) => {
   try {
     const user = await User.findOne({ userEmail });
     if (!user) {
-      return res.status(404).json({ message: "User not found. Check the email." });
+      return res
+        .status(404)
+        .json({ message: "User not found. Check the email." });
     }
 
-    const token = jwt.sign({ id: user._id }, ACCESS_TOKEN_SECRET, { expiresIn: "1d" });
+    const token = jwt.sign({ id: user._id }, ACCESS_TOKEN_SECRET, {
+      expiresIn: "1d",
+    });
 
     const resetLink = `${process.env.CLIENT_URL}/resetpassworduser/${user._id}/${token}`;
     const transporter = nodemailer.createTransport({
@@ -260,12 +284,16 @@ const forgotPassword = async (req, res) => {
         return res.status(500).json({ message: "Failed to send email." });
       } else {
         console.log("Email sent:", info.response);
-        return res.status(200).json({ message: "Password reset email sent successfully." });
+        return res
+          .status(200)
+          .json({ message: "Password reset email sent successfully." });
       }
     });
   } catch (error) {
     console.error("Error in forgotPassword:", error);
-    return res.status(500).json({ message: "Internal server error", error: error.message });
+    return res
+      .status(500)
+      .json({ message: "Internal server error", error: error.message });
   }
 };
 
@@ -278,7 +306,9 @@ const resetPassword = async (req, res) => {
     // Verify the token
     const decoded = jwt.verify(token, ACCESS_TOKEN_SECRET);
     if (decoded.id !== id) {
-      return res.status(400).json({ message: "Invalid token or mismatched user ID." });
+      return res
+        .status(400)
+        .json({ message: "Invalid token or mismatched user ID." });
     }
 
     const user = await User.findById(id);
@@ -300,9 +330,131 @@ const resetPassword = async (req, res) => {
       return res.status(401).json({ message: "Invalid reset link." });
     } else {
       console.error("Error in resetPassword:", error);
-      return res.status(500).json({ message: "Internal server error.", error: error.message });
+      return res
+        .status(500)
+        .json({ message: "Internal server error.", error: error.message });
     }
   }
 };
+const userLogin = async (req, res) => {
+  const { userEmail, password } = req.body;
+  try {
+    // Sanitize and validate input
+    if (!userEmail?.trim() || !password?.trim()) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
 
-export { registerUser, editUser, verifyOtp, resendOtp,forgotPassword,resetPassword};
+    // Find the user
+    const user = await User.findOne({ userEmail: userEmail });
+    
+    if (!user) {
+      return res.status(404).json({ message: "Email doesn't exist" });
+    }
+
+    // Verify password
+    const isPasswordCorrect = await user.isPasswordCorrect(password);
+    if (!isPasswordCorrect) {
+      return res.status(401).json({ message: "Incorrect password" });
+    }
+    
+    if (!user.isEnabled) {
+      return res
+        .status(401)
+        .json({ message: "You have been disabled by admin" });
+    }
+    const accessToken = await user.generateAccessToken();
+    const refreshToken = await user.generateRefreshToken();
+
+    // Set refresh token in cookie
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production", // Secure only in production
+      sameSite: "None",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    return res
+      .status(200)
+      .json({ message: "Login successful", token: accessToken });
+  } catch (err) {
+    console.error("Error during login:", err);
+    return res
+      .status(500)
+      .json({ message: `Internal Server Error: ${err.message}` });
+  }
+};
+const refreshAccessToken = async (req, res) => {
+  const { refreshToken } = req.cookies;
+
+  if (!refreshToken) {
+    return res.status(401).json({ message: "Unauthorized API request" });
+  }
+
+  try {
+    // Verify refresh token
+    jwt.verify(
+      refreshToken,
+      process.env.REFRESH_TOKEN_SECRET,
+      async (err, decoded) => {
+        if (err) {
+          if (err.name === "TokenExpiredError") {
+            return res
+              .status(403)
+              .json({ message: "Refresh token expired. Please log in again." });
+          }
+          return res.status(403).json({ message: "Forbidden. Invalid token." });
+        }
+
+        let user;
+        const role = Number(decoded.role);
+
+        // Retrieve user based on role from decoded token
+        if (!role) {
+          return res
+            .status(403)
+            .json({ message: "Forbidden. Invalid user role." });
+        }
+
+        // const adminRole = Number(process.env.ADMIN_ROLE);
+        const userRole = Number(process.env.USER_ROLE);
+
+        switch (role) {
+          // case adminRole:
+          //   user = await Admin.findById(decoded.id);
+          //   break;
+          case userRole:
+            user = await User.findById(decoded.id);
+            break;
+          default:
+            return res.status(404).json({ message: "Invalid role" });
+        }
+
+        if (!user) {
+          return res.status(404).json({ message: "Cannot find user" });
+        }
+
+        // Generate new access token
+        const accessToken = await user.generateAccessToken();
+
+        return res
+          .status(200)
+          .json({ message: "User validation successful", data: accessToken });
+      }
+    );
+  } catch (err) {
+    console.error("Error during token refresh:", err);
+    return res
+      .status(500)
+      .json({ message: `Internal Server Error: ${err.message}` });
+  }
+};
+export {
+  registerUser,
+  editUser,
+  verifyOtp,
+  resendOtp,
+  forgotPassword,
+  resetPassword,
+  getUser,
+  userLogin,refreshAccessToken
+};

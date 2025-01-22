@@ -67,10 +67,10 @@ function FormPage1() {
                   </div>
                   <div className={styles.inputGroup}>
                     <select className={styles.input}>
-                      <option>Male</option>
-                      <option>Female</option>
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
                       
-                      <option>Other</option>
+                      {/* <option>Other</option> */}
                     </select>
                   </div>
                   <div className={styles.helperTextDiv}></div>
@@ -84,10 +84,10 @@ function FormPage1() {
                   </div>
                   <div className={styles.inputGroup}>
                     <select className={styles.input}>
-                      <option>Hindu</option>
-                      <option>Muslim</option>
-                      <option>Christian</option>
-                      <option>Other</option>
+                      <option value="Hindu">Hindu</option>
+                      <option value="Muslim">Muslim</option>
+                      <option value="Christain">Christian</option>
+                      <option value="Others">Others</option>
                     </select>
                   </div>
                   <div className={styles.helperTextDiv}></div>
@@ -101,9 +101,9 @@ function FormPage1() {
                   </div>
                   <div className={styles.inputGroup}>
                     <select className={styles.input}>
-                      <option>Hindi</option>
-                      <option>English</option>
-                      <option>Others</option>
+                      <option value="Hindi">Hindi</option>
+                      <option value="Hindi">English</option>
+                      <option value="Others">Others</option>
                     </select>
                   </div>
                   <div className={styles.helperTextDiv}></div>
