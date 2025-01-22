@@ -1,31 +1,177 @@
-import React from 'react'
-import styles from './formpage1.module.css'
+import React from "react";
+import styles from "./formpage1.module.css";
+import image from "../../assets/free-photo-of-couple-in-green-grass-field.jpeg";
+import image2 from "../../assets/heartshape.png";
 
 function FormPage1() {
   return (
-    <div>
-        <div className={styles.container}>
-            <div className={styles.progressDiv}>
-                <h4 className={styles.progressHeading}>You Have Completed 20%</h4>
-            </div>
-            <div className={styles.contentDiv}>
-                <div className={styles.imageDisplayDiv}>
-                    
-                    <div className={styles.imagesDiv}>
+    <div className={styles.mainContainer}>
+      <div className={styles.progressDiv}>
+        <div className={styles.progressHeading}>You have completed</div><div className={styles.progressHeading2}>20%</div>
+      </div>
+      <div className={styles.container}>
+        {/* Progress Bar */}
 
-                    </div>
-                    <div className={styles.heartDisplay}>
+        {/* Main Content */}
+        <div className={styles.contentDiv}>
+          {/* Image Section */}
+          
+        
+          <div className={styles.imageDisplayDiv}>
+            <img
+              src={image} // Replace with actual image URL
+              alt="Couple"
+              className={styles.image}
+            />
+            {/* <div className={styles.pulsatingDiv}>
+             <div className={styles.heartDiv}>
+            <img src={image2} alt="heart"  className={styles.image2}/>
+          </div>
+          </div> */}
+          </div>
+         
 
-                    </div>
 
+          {/* Form Section */}
+          <div className={styles.formContainer}>
+            <h3 className={styles.formHeading}>
+              Tell us about your friend's basic details
+            </h3>
+
+            <form className={styles.form}>
+              <div className={styles.formGroup}>
+                <div className={styles.fieldGroup}>
+                  <div className={styles.labelGroup}>
+                    <label>Date Of Birth</label>
+                  </div>
+                  <div className={styles.inputGroup}>
+                    <input
+                      type="date"
+                      className={styles.input}
+                      placeholder="DD / MM / YY"
+                      style={{ color: "#666" }}
+                    />
+                  </div>
+                  <div className={styles.helperTextDiv}>
+                    <p className={styles.helperText}>
+                      Your friend's date of birth to find a perfect match
+                    </p>
+                  </div>
                 </div>
-                <div className={styles.dataConatiner}>
-                    
+              </div>
+
+              <div className={styles.formGroup}>
+                <div className={styles.fieldGroup}>
+                  <div className={styles.labelGroup}>
+                    <label>Gender</label>
+                  </div>
+                  <div className={styles.inputGroup}>
+                    <select className={styles.input}>
+                      <option>Male</option>
+                      <option>Female</option>
+                      
+                      <option>Other</option>
+                    </select>
+                  </div>
+                  <div className={styles.helperTextDiv}></div>
                 </div>
-            </div>
+              </div>
+
+              <div className={styles.formGroup}>
+                <div className={styles.fieldGroup}>
+                  <div className={styles.labelGroup}>
+                    <label>Religion</label>
+                  </div>
+                  <div className={styles.inputGroup}>
+                    <select className={styles.input}>
+                      <option>Hindu</option>
+                      <option>Muslim</option>
+                      <option>Christian</option>
+                      <option>Other</option>
+                    </select>
+                  </div>
+                  <div className={styles.helperTextDiv}></div>
+                </div>
+              </div>
+
+              <div className={styles.formGroup}>
+                <div className={styles.fieldGroup}>
+                  <div className={styles.labelGroup}>
+                    <label>Mother Tongue</label>
+                  </div>
+                  <div className={styles.inputGroup}>
+                    <select className={styles.input}>
+                      <option>Hindi</option>
+                      <option>English</option>
+                      <option>Others</option>
+                    </select>
+                  </div>
+                  <div className={styles.helperTextDiv}></div>
+                </div>
+              </div>
+
+              <div className={styles.formGroup}>
+              <div className={styles.fieldGroup}>
+              <div className={styles.labelGroup}>
+              
+                <label>Email ID</label>
+                </div>
+                <div className={styles.inputGroup}>
+
+                <input
+                  type="email"
+                  className={styles.input}
+                  placeholder="Enter email"
+                />
+                </div>
+                <div className={styles.helperTextDiv}>
+
+                <p className={styles.helperText}>
+                  Check your email for a perfect match
+                </p>
+                </div>
+                </div>
+              </div>
+
+              <div className={styles.formGroup}>
+              <div className={styles.fieldGroup}>
+              <div className={styles.labelGroup}>
+
+
+                <label>Password</label>
+                </div>
+                <div className={styles.inputGroup}>
+
+                <input
+                  type="password"
+                  className={styles.input}
+                  placeholder="Enter password"
+                />
+                </div>
+                <div className={styles.helperTextDiv}>
+
+                <p className={styles.helperText}>
+                  Password must have between 6–20 characters
+                </p>
+                </div>
+              </div>
+              </div>
+                  <div className={styles.btnDiv}>
+              <button type="submit" className={styles.submitButton}>
+                Continue
+              </button>
+              </div>  
+            </form>
+          </div>
         </div>
+      </div>
+
+      {/* Footer */}
+      <div className={styles.footer}>
+        <p>Copyright © 2025. All rights reserved</p>
+      </div>
     </div>
-  )
+  );
 }
 
-export default FormPage1
+export default FormPage1;
