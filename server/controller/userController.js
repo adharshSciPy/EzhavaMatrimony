@@ -229,7 +229,6 @@ const getUser = async (req, res) => {
     let userDetails;
     const user = await User.findById(id)
     const gender = user.gender
-    console.log("gender coming", gender)
     if (gender === "Male") {
       userDetails = await User.find({ gender: "Female" })
     }
@@ -328,4 +327,14 @@ const resetPassword = async (req, res) => {
   }
 };
 
-export { registerUser, editUser, verifyOtp, resendOtp, forgotPassword, resetPassword, getUser };
+const getUserById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const userdata = await User.findById(id)
+    return res.status(200).json({ data: userdata })
+  } catch (error) {
+    return res.status(400).json({ message: error.message })
+  }
+}
+
+export { registerUser, editUser, verifyOtp, resendOtp, forgotPassword, resetPassword, getUser, getUserById };
