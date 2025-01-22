@@ -2,6 +2,8 @@ import { User } from "../model/userModel.js";
 import nodemailer from "nodemailer";
 import crypto from "crypto";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+
 const registerUser = async (req, res) => {
   const { relation, firstName, userEmail } = req.body;
 
@@ -20,9 +22,7 @@ const registerUser = async (req, res) => {
       return res.status(400).json({ message: "Email is already in use" });
     }
 
-
-
-    const role = process.env.DEFAULT_USER_ROLE;
+    const role = process.env.USER_ROLE;
 
     const otp = crypto.randomInt(100000, 999999); // Generate a 6-digit OTP
     const hashedOtp = await bcrypt.hash(otp.toString(), 10); // Hash the OTP
@@ -64,7 +64,6 @@ const registerUser = async (req, res) => {
         relation: user.relation,
         firstName: user.firstName,
         userEmail: user.userEmail,
-        userName: user.userName,
         role: user.role,
       },
     });
@@ -234,7 +233,7 @@ const getUser = async (req, res) => {
     if (gender === "Male") {
       userDetails = await User.find({ gender: "Female" })
     }
-    else{
+    else {
       userDetails = await User.find({ gender: "Male" })
     }
     return res.status(200).json({ user: userDetails })
@@ -245,4 +244,88 @@ const getUser = async (req, res) => {
 
 }
 
-export { registerUser, editUser, verifyOtp, resendOtp, getUser };
+const forgotPassword = async (req, res) => {
+  const { userEmail } = req.body;
+  const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
+
+  try {
+    const user = await User.findOne({ userEmail });
+    if (!user) {
+      return res.status(404).json({ message: "User not found. Check the email." });
+    }
+
+    const token = jwt.sign({ id: user._id }, ACCESS_TOKEN_SECRET, { expiresIn: "1d" });
+
+    const resetLink = `${process.env.CLIENT_URL}/resetpassworduser/${user._id}/${token}`;
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: userEmail,
+      subject: "Password Reset Request",
+      html: `
+        <p>Hi ${user.firstName},</p>
+        <p>We received a request to reset your password. Click the link below to reset your password:</p>
+        <a href="${resetLink}" target="_blank">${resetLink}</a>
+        <p>If you didn't request this, please ignore this email.</p>
+      `,
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error("Error sending email:", error);
+        return res.status(500).json({ message: "Failed to send email." });
+      } else {
+        console.log("Email sent:", info.response);
+        return res.status(200).json({ message: "Password reset email sent successfully." });
+      }
+    });
+  } catch (error) {
+    console.error("Error in forgotPassword:", error);
+    return res.status(500).json({ message: "Internal server error", error: error.message });
+  }
+};
+
+const resetPassword = async (req, res) => {
+  const { id, token } = req.params;
+  const { password } = req.body;
+  const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
+
+  try {
+    // Verify the token
+    const decoded = jwt.verify(token, ACCESS_TOKEN_SECRET);
+    if (decoded.id !== id) {
+      return res.status(400).json({ message: "Invalid token or mismatched user ID." });
+    }
+
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    // Hash the new password
+    const hashedPassword = await bcrypt.hash(password, 10);
+    user.password = hashedPassword;
+
+    await user.save();
+
+    return res.status(200).json({ message: "Password updated successfully." });
+  } catch (error) {
+    if (error.name === "TokenExpiredError") {
+      return res.status(401).json({ message: "Reset link has expired." });
+    } else if (error.name === "JsonWebTokenError") {
+      return res.status(401).json({ message: "Invalid reset link." });
+    } else {
+      console.error("Error in resetPassword:", error);
+      return res.status(500).json({ message: "Internal server error.", error: error.message });
+    }
+  }
+};
+
+export { registerUser, editUser, verifyOtp, resendOtp, forgotPassword, resetPassword, getUser };
