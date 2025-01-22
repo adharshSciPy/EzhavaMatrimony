@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import cookieParser from "cookie-parser";
 import dotenv from 'dotenv'
-
+import userRouter from './routes/userRouter.js';
 
 dotenv.config()
 
@@ -17,6 +17,7 @@ app.use(express.urlencoded({ extended: true, limit: "16kb" }))
 app.use(cors())
 app.use(cookieParser())
 
-
+app.use("/api/v1/user", userRouter);
+    
 
 export { app }
