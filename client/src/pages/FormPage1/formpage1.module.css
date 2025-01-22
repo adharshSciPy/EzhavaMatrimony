@@ -222,6 +222,29 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
   }
+  /* formpage4 */
+  .textAreaDiv {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 20px 0;
+  }
+  
+  .leftLabel, .rightLabel {
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+    margin: 0 10px;
+  }
+  
+  .textArea {
+    flex-grow: 1;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+  }
   
   .submitButton:hover {
     background-color: #e0a800;
