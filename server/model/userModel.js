@@ -1,5 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcrypt";
+import { type } from "os";
+import jwt from "jsonwebtoken";
 
 const defaultRole = process.env.USER_ROLE;
 
@@ -22,7 +24,7 @@ const userSchema = new Schema({
   religion: {
     type: String,
   },
-  motherTounge: {
+  motherTongue: {
     type: String,
   },
   email: {
@@ -96,7 +98,12 @@ const userSchema = new Schema({
   otpExpiry: {
     type: Date,
   },
-  profileViews: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+  profileViews:
+   [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+   isEnabled:{
+    type:Boolean,
+    default:true,
+   }
 });
 
 userSchema.pre("save", async function (next) {
@@ -111,6 +118,26 @@ userSchema.pre("save", async function (next) {
     next(error);
   }
 });
+
+userSchema.methods.isPasswordCorrect = async function (password) {
+  return await bcrypt.compare(password, this.password);
+};
+
+
+userSchema.methods.generateAccessToken = function () {
+  const payload = { id: this._id, email: this.userEmail };
+  const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
+    expiresIn: "7d", // Adjust the expiry as needed
+  });
+  return accessToken;
+};
+userSchema.methods.generateRefreshToken = function () {
+  const payload = { id: this._id };
+  const refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
+    expiresIn: "7d", // Adjust the expiry as needed
+  });
+  return refreshToken;
+};
 
 
 export const User = mongoose.model("User", userSchema);
