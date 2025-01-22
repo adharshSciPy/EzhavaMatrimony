@@ -85,8 +85,8 @@ function FormPage1() {
                   <div className={styles.inputGroup}>
                     <select className={styles.input}>
                       <option value="Hindu">Hindu</option>
-                      <option value="Muslim">Muslim</option>
-                      <option value="Christain">Christian</option>
+                      {/* <option value="Muslim">Muslim</option>
+                      <option value="Christain">Christian</option> */}
                       <option value="Others">Others</option>
                     </select>
                   </div>
@@ -101,8 +101,7 @@ function FormPage1() {
                   </div>
                   <div className={styles.inputGroup}>
                     <select className={styles.input}>
-                      <option value="Hindi">Hindi</option>
-                      <option value="Hindi">English</option>
+                      <option value="Malayalam">Malayalam</option>
                       <option value="Others">Others</option>
                     </select>
                   </div>

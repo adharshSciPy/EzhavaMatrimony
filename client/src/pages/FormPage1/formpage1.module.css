@@ -188,6 +188,9 @@
     justify-content: center;
     align-items: center;
   }
+  .inputGroupButtons{
+    width:70% ;
+  }
   .helperTextDiv{
     width: 20%;
     display: flex;
@@ -265,6 +268,7 @@
     background-color: #f8cb58; /* Apply hover styles here */
     border-style: none;
     color: #fff;
+    box-shadow: 0px 1px 2px  0.8px #666;
    }
   .btnDiv{
     width: 100%;
