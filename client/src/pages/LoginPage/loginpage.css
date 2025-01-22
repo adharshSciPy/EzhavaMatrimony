@@ -108,9 +108,9 @@ body {
   margin-left: 13px;
 }
 
-.form-container input,
-.form-container select {
-  width: 90%;
+.form-container input
+{
+  width: 95%;
   padding: 10px;
   margin-top: 5px;
   border: 1px solid #ccc;
@@ -119,6 +119,11 @@ body {
 }
 .form-container select{
   width: 95%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 0.9rem;
 }
 .form-container button {
   background-color: #f8cb58;
@@ -168,7 +173,7 @@ body {
     width: 95%;
   }
   .form-container input{
-    width:92%;
+    width:95%;
   }
   .form-container button {
     width: 80%;
@@ -216,7 +221,7 @@ body {
     width: 100%;
   }
   .form-container input{
-    width: 95%;
+    width: 100%;
   }
 
   .form-container label {
