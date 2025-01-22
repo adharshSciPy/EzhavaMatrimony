@@ -26,6 +26,7 @@ function LoginPAge() {
       Matrimony Profile for
       <select>
         <option value="">Select</option>
+        <option value="Myself">Myself</option>
         <option value="Friend">Friend</option>
         <option value="Son">Son</option>
         <option value="Daughter">Daughter</option>
