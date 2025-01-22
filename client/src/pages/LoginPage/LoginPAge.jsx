@@ -39,7 +39,6 @@ function LoginPAge() {
     </label>
     <button type="submit">Register Now</button>
   </form>
-  <p className="terms">*T&C may apply</p>
 </div>
 </div>
 </div>

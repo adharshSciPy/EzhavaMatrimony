@@ -150,6 +150,16 @@ body {
     color: #777;
     text-align: left;
   }
+  .signin{
+    display: flex ;
+    align-items: flex-end;
+    justify-content: center;
+  }
+  .signin p{
+    margin: 0;
+    padding-right: 10px;
+  }
+
   @media (max-width: 1024px) {
     .landing-main-container {
       flex-direction: column;
