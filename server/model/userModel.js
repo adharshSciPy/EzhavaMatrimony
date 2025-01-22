@@ -1,4 +1,5 @@
 import mongoose, { Schema } from "mongoose";
+import bcrypt from "bcrypt";
 
 const defaultRole = process.env.USER_ROLE;
 
@@ -13,6 +14,9 @@ const userSchema = new Schema({
     type: String,
   },
   dateOfBirth: {
+    type: String,
+  },
+  gender:{
     type: String,
   },
   religion: {
@@ -82,20 +86,31 @@ const userSchema = new Schema({
     type: Number,
     default: defaultRole,
   },
-  userName: {
-    type: String,
-    unique: true,
-  },
   isVerified: {
     type: Boolean,
     default: false, // Set default to false when the user registers
   },
-  otp:{
-    type:String
+  otp: {
+    type: String,
   },
-  otpExpiry:{
-    type:Date
+  otpExpiry: {
+    type: Date,
+  },
+  profileViews: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+});
+
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
+  console.log("Password before hashing:", this.password);
+  try {
+    this.password = await bcrypt.hash(this.password, 10);
+    console.log("Password after hashing:", this.password);
+    next();
+  } catch (error) {
+    console.error("Error hashing password:", error);
+    next(error);
   }
 });
+
 
 export const User = mongoose.model("User", userSchema);

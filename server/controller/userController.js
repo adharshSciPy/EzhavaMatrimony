@@ -2,12 +2,11 @@ import { User } from "../model/userModel.js";
 import nodemailer from "nodemailer";
 import crypto from "crypto";
 import bcrypt from "bcrypt";
-
 const registerUser = async (req, res) => {
-  const { relation, firstName, userEmail, userName } = req.body;
+  const { relation, firstName, userEmail } = req.body;
 
   try {
-    if (!relation || !firstName || !userEmail || !userName) {
+    if (!relation || !firstName || !userEmail ) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
@@ -21,6 +20,8 @@ const registerUser = async (req, res) => {
       return res.status(400).json({ message: "Email is already in use" });
     }
 
+
+
     const role = process.env.DEFAULT_USER_ROLE || 400;
 
     const otp = crypto.randomInt(100000, 999999); // Generate a 6-digit OTP
@@ -31,7 +32,6 @@ const registerUser = async (req, res) => {
       relation,
       firstName,
       userEmail,
-      userName,
       role,
       otp: hashedOtp, // Save hashed OTP
       otpExpiry, // Save OTP expiry time
@@ -155,7 +155,10 @@ const editUser = async (req, res) => {
       about,
       password,
     };
-
+    if (password) {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      updatedData.password = hashedPassword;
+    } 
     const editedUser = await User.findByIdAndUpdate(id, updatedData, {
       new: true,
     });
