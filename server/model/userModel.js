@@ -107,17 +107,11 @@ const userSchema = new Schema({
   age: {
     type: Number
   },
-  occupation: {
-    type: String
-  },
   location: {
     type: String
   },
   hobbies: {
     type: String,
-  },
-  subCaste: {
-    type: String
   }
 
 });
