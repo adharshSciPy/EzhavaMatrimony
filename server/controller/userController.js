@@ -6,7 +6,7 @@ const registerUser = async (req, res) => {
   const { relation, firstName, userEmail } = req.body;
 
   try {
-    if (!relation || !firstName || !userEmail ) {
+    if (!relation || !firstName || !userEmail) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
@@ -22,7 +22,7 @@ const registerUser = async (req, res) => {
 
 
 
-    const role = process.env.DEFAULT_USER_ROLE || 400;
+    const role = process.env.DEFAULT_USER_ROLE;
 
     const otp = crypto.randomInt(100000, 999999); // Generate a 6-digit OTP
     const hashedOtp = await bcrypt.hash(otp.toString(), 10); // Hash the OTP
@@ -116,6 +116,7 @@ const editUser = async (req, res) => {
     Gothran,
     sudhajathakam,
     dhosham,
+    gender,
     maritalStatus,
     height,
     familStatus,
@@ -154,11 +155,12 @@ const editUser = async (req, res) => {
       annualIncome,
       about,
       password,
+      gender
     };
     if (password) {
       const hashedPassword = await bcrypt.hash(password, 10);
       updatedData.password = hashedPassword;
-    } 
+    }
     const editedUser = await User.findByIdAndUpdate(id, updatedData, {
       new: true,
     });
@@ -222,4 +224,25 @@ const resendOtp = async (req, res) => {
   }
 };
 
-export { registerUser, editUser, verifyOtp, resendOtp };
+const getUser = async (req, res) => {
+  const { id } = req.params;
+  try {
+    let userDetails;
+    const user = await User.findById(id)
+    const gender = user.gender
+    console.log("gender coming", gender)
+    if (gender === "Male") {
+      userDetails = await User.find({ gender: "Female" })
+    }
+    else{
+      userDetails = await User.find({ gender: "Male" })
+    }
+    return res.status(200).json({ user: userDetails })
+
+  } catch (error) {
+    return res.status(400).json({ message: error.message })
+  }z
+
+}
+
+export { registerUser, editUser, verifyOtp, resendOtp, getUser };
