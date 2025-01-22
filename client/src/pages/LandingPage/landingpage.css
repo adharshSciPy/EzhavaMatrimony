@@ -30,18 +30,18 @@ body {
   }
   
   .landing-text-container h1 {
-    font-size: 2.rem;
+    font-size: 4.5rem;
     margin: 0 0 10px;
+    font-style: normal;
+    color: #f8cb58;
   }
   
-  .landing-text-container h2 {
-    font-size: 1.8rem;
-    margin: 0px 0;
-  }
   
   .landing-text-container p {
-    font-size: 1rem;
-    margin: 10px 0;
+    font-size: 1.5rem;
+    margin: 1px 0;
+    color: #f8cb58;
+    margin-left: 25px;
   }
   
   /* Form container */
@@ -93,7 +93,7 @@ body {
     margin-top: 20px;
   }
   
-  /* Form labels and inputs */
+  
   .landing-form-container form {
     display: flex;
     flex-direction: column;
@@ -107,18 +107,25 @@ body {
     flex-direction: column;
     margin-left: 13px;
   }
-  
-  .landing-form-container input,
-  .landing-form-container select {
+  .fp{
+    text-align: center;
+  }
+  .fp a{
+    text-decoration: none;
+  }
+  .signin {
+    text-align: center;
+  }
+  .signin a{
+    text-decoration: none;
+  }
+  .landing-form-container input {
     width: 90%;
     padding: 10px;
     margin-top: 5px;
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 0.9rem;
-  }
-  .landing-form-container select{
-    width: 95%;
   }
   .landing-form-container button {
     background-color: #f8cb58;
@@ -132,7 +139,7 @@ body {
     font-size: 1rem;
     margin-top: 10px;
   }
-  
+  .landing-form-container
   .landing-form-container button:hover {
     background-color: #e65100;
     color: white;
@@ -164,9 +171,6 @@ body {
       margin-left: 30px;
     }
     
-    .landing-form-container select {
-      width: 95%;
-    }
     .landing-form-container input{
       width:92%;
     }
@@ -190,15 +194,12 @@ body {
     }
   
     .landing-text-container h1 {
-      font-size: 1.8rem;
+      font-size: 3rem;
     }
   
-    .landing-text-container h2 {
-      font-size: 1.5rem;
-    }
   
     .landing-text-container p {
-      font-size: 0.9rem;
+      font-size: 1.5rem;
     }
   
     .landing-form-container {
@@ -212,9 +213,6 @@ body {
     }
   
     
-    .landing-form-container select {
-      width: 100%;
-    }
     .landing-form-container input{
       width: 95%;
     }
@@ -229,15 +227,14 @@ body {
   
   @media (max-width: 495px) {
     .landing-text-container h1 {
-      font-size: 1.5rem;
+      font-size: 2rem;
     }
   
-    .landing-text-container h2 {
-      font-size: 1.2rem;
-    }
+   
   
     .landing-text-container p {
       font-size: 0.8rem;
+      margin-right: 25px;
     }
   
     .landing-form-container {
@@ -245,8 +242,7 @@ body {
       padding: 15px;
     }
   
-    .landing-form-container input,
-    .landing-form-container select {
+    .landing-form-container input{
       font-size: 0.8rem;
       padding: 8px;
     }
