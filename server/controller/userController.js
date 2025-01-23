@@ -128,6 +128,9 @@ const editUser = async (req, res) => {
     occupation,
     annualIncome,
     about,
+    location,
+     hobbies,
+    age
   } = req.body;
 
   try {
@@ -155,6 +158,9 @@ const editUser = async (req, res) => {
       about,
       password,
       gender,
+      location,
+      hobbies,
+      age
     };
     if (password) {
       const hashedPassword = await bcrypt.hash(password, 10);
@@ -461,6 +467,69 @@ const refreshAccessToken = async (req, res) => {
       .json({ message: `Internal Server Error: ${err.message}` });
   }
 };
+const topMatch = async (req, res) => {
+  const { id } = req.params;
+
+  if (!id) {
+    return res.status(400).json({ message: 'User ID is required' });
+  }
+
+  try {
+    // Find the user by ID
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+
+    // Prepare regex for hobbies
+    const escapeRegex = str => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const hobbiesRegex = user.hobbies
+      ? user.hobbies.split(',').map(hobby => escapeRegex(hobby.trim())).join('|')
+      : null;
+
+
+    // Determine opposite gender
+    // Ensure gender comparison is case-insensitive
+       const oppositeGender = user.gender.toLowerCase() === 'male' ? 'female' : 'male';
+
+    const matchQuery = {
+      $or: [
+        { location: { $regex: new RegExp(`^${user.location}$`, 'i') } },
+        ...(hobbiesRegex ? [{ hobbies: { $regex: hobbiesRegex, $options: 'i' } }] : []),
+        { occupation: { $regex: new RegExp(`^${user.occupation}$`, 'i') } }
+      ],
+      gender: oppositeGender, // Opposite gender
+      _id: { $ne: user._id }  // Exclude the current user
+    };
+
+
+    // Find matching users
+    const matches = await User.find(matchQuery).select('firstName occupation age location hobbies gender');
+
+
+    if (matches.length === 0) {
+      return res.status(200).json({ message: 'No matches found', matches: [] });
+    }
+
+    // Format the response with matched users
+    const response = matches.map(match => ({
+      name: match.firstName,
+      id: match._id,
+      occupation: match.occupation,
+      age: match.age,
+      location: match.location,
+      hobbies: match.hobbies,
+    }));
+
+    res.status(200).json({ message: 'Matches found', matches: response });
+  } catch (err) {
+    res.status(500).json({ message: 'Error fetching matches', error: err.message });
+  }
+};
+
+
+
 export {
   registerUser,
   editUser,
@@ -469,5 +538,8 @@ export {
   forgotPassword,
   resetPassword,
   getUser,
-  userLogin, refreshAccessToken, getUserById
+  userLogin,
+   refreshAccessToken,
+    getUserById,
+    topMatch
 };
