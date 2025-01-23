@@ -11,28 +11,13 @@ function LandingPage() {
     password: "",
   };
   const [form, setForm] = useState(field);
-  const [errorMessage, setErrorMessage] = useState(""); // State to track error message
+  const [errorMessage, setErrorMessage] = useState(""); 
   const notifyError = (message) => toast.error(message);
-  const [passwordFocus, setPasswordFocus] = useState(false);
 
   const navigate = useNavigate();
-  const [passwordValidation, setPasswordValidation] = useState({
-    hasLowercase: false,
-    hasUppercase: false,
-    hasNumber: false,
-    hasMinLength: false,
-  });
-  const validatePassword = (password) => {
-    const validation = {
-      hasLowercase: /[a-z]/.test(password),
-      hasUppercase: /[A-Z]/.test(password),
-      hasNumber: /\d/.test(password),
-      hasMinLength: password.length >= 8,
-    };
-    setPasswordValidation(validation);
-  };
+
   const handleSignin = async (e) => {
-    e.preventDefault(); // Prevent the default form submission behavior
+    e.preventDefault(); 
     try {
       const response = await axios.post(
         `http://localhost:8000/api/v1/user/login`,
@@ -54,10 +39,6 @@ function LandingPage() {
   };
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    if (name === "password") {
-      validatePassword(value);
-    }
     setForm({
       ...form,
       [e.target.name]: e.target.value,
@@ -96,7 +77,7 @@ function LandingPage() {
               <input
                 type="email"
                 name="userEmail"
-                placeholder="userEmail"
+                placeholder="Email"
                 required
                 onChange={handleChange}
                 value={form.userEmail}
@@ -109,57 +90,9 @@ function LandingPage() {
                 placeholder="password"
                 required
                 onChange={handleChange}
-                onFocus={() => setPasswordFocus(true)}
-                onBlur={() => setPasswordFocus(false)}
                 value={form.password}
               />
             </label>
-            {passwordFocus && (
-                  <ul className="passwordValidation">
-                    <li
-                      style={{
-                        color: passwordValidation.hasMinLength
-                          ? "green"
-                          : "red",
-                        fontSize: "12px",
-                        textAlign: "left",
-                      }}
-                    >
-                      &#8226; At least 8 characters long
-                    </li>
-                    <li
-                      style={{
-                        color: passwordValidation.hasLowercase
-                          ? "green"
-                          : "red",
-                        fontSize: "12px",
-                        textAlign: "left",
-                      }}
-                    >
-                      &#8226; At least one lowercase letter
-                    </li>
-                    <li
-                      style={{
-                        color: passwordValidation.hasUppercase
-                          ? "green"
-                          : "red",
-                        fontSize: "12px",
-                        textAlign: "left",
-                      }}
-                    >
-                      &#8226; At least one uppercase letter
-                    </li>
-                    <li
-                      style={{
-                        color: passwordValidation.hasNumber ? "green" : "red",
-                        fontSize: "12px",
-                        textAlign: "left",
-                      }}
-                    >
-                      &#8226; At least one number
-                    </li>
-                  </ul>
-                )}
             <button type="submit">Sign In</button>
             <div className="fp">
               <Link className="signup-link" to="/forgotpassworduser">
