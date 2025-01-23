@@ -7,7 +7,8 @@ function FormPage1() {
   return (
     <div className={styles.mainContainer}>
       <div className={styles.progressDiv}>
-        <div className={styles.progressHeading}>You have completed</div><div className={styles.progressHeading2}>20%</div>
+        <div className={styles.progressHeading}>You have completed</div>
+        <div className={styles.progressHeading2}>20%</div>
       </div>
       <div className={styles.container}>
         {/* Progress Bar */}
@@ -15,8 +16,7 @@ function FormPage1() {
         {/* Main Content */}
         <div className={styles.contentDiv}>
           {/* Image Section */}
-          
-        
+
           <div className={styles.imageDisplayDiv}>
             <img
               src={image} // Replace with actual image URL
@@ -29,8 +29,6 @@ function FormPage1() {
           </div>
           </div> */}
           </div>
-         
-
 
           {/* Form Section */}
           <div className={styles.formContainer}>
@@ -43,6 +41,7 @@ function FormPage1() {
                 <div className={styles.fieldGroup}>
                   <div className={styles.labelGroup}>
                     <label>Date Of Birth</label>
+                    <p className={styles.starHead}>*</p>
                   </div>
                   <div className={styles.inputGroup}>
                     <input
@@ -50,6 +49,7 @@ function FormPage1() {
                       className={styles.input}
                       placeholder="DD / MM / YY"
                       style={{ color: "#666" }}
+                      required
                     />
                   </div>
                   <div className={styles.helperTextDiv}>
@@ -64,12 +64,14 @@ function FormPage1() {
                 <div className={styles.fieldGroup}>
                   <div className={styles.labelGroup}>
                     <label>Gender</label>
+                    <p className={styles.starHead}>*</p>
                   </div>
                   <div className={styles.inputGroup}>
-                    <select className={styles.input}>
+                    <select className={styles.input} required>
+                    <option value="">Select Gender</option>
                       <option value="Male">Male</option>
                       <option value="Female">Female</option>
-                      
+
                       {/* <option>Other</option> */}
                     </select>
                   </div>
@@ -80,13 +82,13 @@ function FormPage1() {
               <div className={styles.formGroup}>
                 <div className={styles.fieldGroup}>
                   <div className={styles.labelGroup}>
-                    <label>Religion</label>
+                    <label>Mother Tongue</label>
+                    <p className={styles.starHead}>*</p>
                   </div>
                   <div className={styles.inputGroup}>
-                    <select className={styles.input}>
-                      <option value="Hindu">Hindu</option>
-                      {/* <option value="Muslim">Muslim</option>
-                      <option value="Christain">Christian</option> */}
+                    <select className={styles.input} required>
+                    <option value="">Select Language</option>
+                      <option value="Malayalam">Malayalam</option>
                       <option value="Others">Others</option>
                     </select>
                   </div>
@@ -97,69 +99,51 @@ function FormPage1() {
               <div className={styles.formGroup}>
                 <div className={styles.fieldGroup}>
                   <div className={styles.labelGroup}>
-                    <label>Mother Tongue</label>
+                    <label>Email ID</label>
+                    <p className={styles.starHead}>*</p>
                   </div>
                   <div className={styles.inputGroup}>
-                    <select className={styles.input}>
-                      <option value="Malayalam">Malayalam</option>
-                      <option value="Others">Others</option>
-                    </select>
+                    <input
+                      type="email"
+                      className={styles.input}
+                      placeholder="Enter email"
+                      required
+                    />
                   </div>
-                  <div className={styles.helperTextDiv}></div>
+                  <div className={styles.helperTextDiv}>
+                    <p className={styles.helperText}>
+                      Check your email for a perfect match
+                    </p>
+                  </div>
                 </div>
               </div>
 
               <div className={styles.formGroup}>
-              <div className={styles.fieldGroup}>
-              <div className={styles.labelGroup}>
-              
-                <label>Email ID</label>
-                </div>
-                <div className={styles.inputGroup}>
-
-                <input
-                  type="email"
-                  className={styles.input}
-                  placeholder="Enter email"
-                />
-                </div>
-                <div className={styles.helperTextDiv}>
-
-                <p className={styles.helperText}>
-                  Check your email for a perfect match
-                </p>
-                </div>
-                </div>
-              </div>
-
-              <div className={styles.formGroup}>
-              <div className={styles.fieldGroup}>
-              <div className={styles.labelGroup}>
-
-
-                <label>Password</label>
-                </div>
-                <div className={styles.inputGroup}>
-
-                <input
-                  type="password"
-                  className={styles.input}
-                  placeholder="Enter password"
-                />
-                </div>
-                <div className={styles.helperTextDiv}>
-
-                <p className={styles.helperText}>
-                  Password must have between 6–20 characters
-                </p>
+                <div className={styles.fieldGroup}>
+                  <div className={styles.labelGroup}>
+                    <label>Password</label>
+                    <p className={styles.starHead}>*</p>
+                  </div>
+                  <div className={styles.inputGroup}>
+                    <input
+                      type="password"
+                      className={styles.input}
+                      placeholder="Enter password"
+                      required
+                    />
+                  </div>
+                  <div className={styles.helperTextDiv}>
+                    <p className={styles.helperText}>
+                      Password must have between 6–20 characters
+                    </p>
+                  </div>
                 </div>
               </div>
+              <div className={styles.btnDiv}>
+                <button type="submit" className={styles.submitButton}>
+                  Continue
+                </button>
               </div>
-                  <div className={styles.btnDiv}>
-              <button type="submit" className={styles.submitButton}>
-                Continue
-              </button>
-              </div>  
             </form>
           </div>
         </div>
