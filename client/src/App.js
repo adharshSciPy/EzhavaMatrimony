@@ -6,6 +6,7 @@ import LandingPage from "./pages/LandingPage/LandingPage";
 import FormPage2 from "./pages/FormPage2/FormPage2";
 import FormPage4 from "./pages/FormPage4/FormPage4";
 import FormPage3 from "./pages/FormPage3/FormPage3";
+import Formpage5 from "./pages/FormPage5/FormPage5";
 
 
 function App() {
@@ -18,7 +19,7 @@ function App() {
           <Route path="/formpage1" element={<FormPage1 />} />
           <Route path="/formpage2" element={<FormPage2 />} />
           <Route path="/formpage3" element={<FormPage3/>} />
-
+          <Route path="/formpage5" element={<Formpage5/>} />
           <Route path="/formpage4" element={<FormPage4 />} />
         </Routes>
       </BrowserRouter>
