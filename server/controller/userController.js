@@ -229,10 +229,10 @@ const getUser = async (req, res) => {
     let userDetails;
     const user = await User.findById(id)
     const gender = user.gender
-    if (gender === "Male") {
-      userDetails = await User.find({ gender: "Female" });
+    if (gender === "Male" || gender === "male") {
+      userDetails = await User.find({ gender: "Female", gender: "female" });
     } else {
-      userDetails = await User.find({ gender: "Male" });
+      userDetails = await User.find({ gender: "Male", gender: "male" });
     }
     return res.status(200).json({ user: userDetails });
   } catch (error) {
