@@ -21,10 +21,12 @@
   
   .container {
     width: 75%;
-    height: 400px;
+    /* height: 500px; */
     /* max-width: 1200px; */
     background: rgba(255, 255, 255, 0.9);
     border-radius: 10px;
+    /* height: 400px;
+    overflow: hidden; */
     
    
   }
@@ -36,7 +38,7 @@
     /* border: 2px solid #ffc107 ; */
     width: 75%;
     display: flex;
-    
+    margin-top: 2rem;
     justify-content: flex-end;
 
   }
@@ -79,11 +81,7 @@
     /* background-image: url('../../assets/free-photo-of-couple-in-green-grass-field.jpeg'); */
     background-repeat: no-repeat;
     background-size: cover;
-    /* object-fit: fill; */
-    /* border-radius: ; */
-    /* background: #000; */
-    /* justify-content: center;
-    align-items: center; */
+   
     position: relative;
   }
   
@@ -144,12 +142,9 @@
   .formContainer {
     flex: 1;
     padding: 20px;
-    height: 400px;
-    overflow-y: scroll;
+    /* height: 400px;
+    overflow-y: scroll; */
 
-  }
-  .formContainer::-webkit-scrollbar{
-    display: none;
   }
   
   .formHeading {
@@ -167,38 +162,48 @@
   .fieldGroup {
     width: 100%;
     display: flex;
-    justify-content: space-evenly;
+    /* justify-content: space-evenly; */
     /* flex-direction: column; */
     padding: 10px;
+    
+    column-gap: 10px;
   }
   .labelGroup{
-    width: 30%;
+    width: 32%;
     color: #666;
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    padding-right: 10px;
+    
+    /* border: 2px solid #666; */
   }
  
   .starHead{
     color: red;
     font-weight: 600;
-    display: none;
+    /* display: none; */
     padding-left: 5px;
   }
   .mandatoryField{
     color: red;
     font-size: 14px;
-    display: none;
+    /* display: none; */
   }
   .inputGroup{
     width: 46%;
     display: flex;
     justify-content: center;
     align-items: center;
+    /* border: 2px solid #333; */
+
+
   }
   .inputGroupButtons{
-    width:70% ;
+    width:70%;
+    margin-left: 5px;
+    /* border: 2px solid #333; */
+
+    
   }
   .helperTextDiv{
     width: 20%;
@@ -253,9 +258,20 @@
   .optionButtonOuterDiv{
     width: 100%;
     display: flex;
-    justify-content:space-evenly;
+    /* justify-content:space-evenly; */
+       flex-wrap:wrap;
+     gap: 10px;
+ 
     align-items: center;
     /* margin: auto; */
+  }
+  .optionButtonOuterDiv3{
+    width: 100%;
+    display: flex;
+    /* justify-content:space-evenly;
+     */
+  
+    align-items: center;
   }
   .optionSingleButton{
     padding: 5px 8px 5px 8px;
@@ -349,7 +365,6 @@
       
       .container{
         width: 80%;
-        
         /* overflow:hidden; */
 
         
@@ -370,6 +385,9 @@
             size: 13px;
             padding: 2px;
             justify-content: flex-start;
+        }
+        .inputGroupButtons{
+            width: 100%;
         }
         .optionalDiv{
           display: none;
@@ -395,7 +413,7 @@
         }
         .optionButtonOuterDiv{
           justify-content: flex-start;
-          gap: 5%;
+          /* gap: 5%; */
 
         }
         .footer{

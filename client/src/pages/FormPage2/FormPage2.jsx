@@ -62,6 +62,25 @@ function FormPage2() {
                   </div>
                 </div>
               </div> */}
+              
+                            <div className={styles.formGroup}>
+                              <div className={styles.fieldGroup}>
+                                <div className={styles.labelGroup}>
+                                  <label>Religion</label>
+                    <p className={styles.starHead}>*</p>
+
+                                </div>
+                                <div className={styles.inputGroup}>
+                                  <select className={styles.input} required>
+                                  <option value="">Select Religion</option>
+                                    <option value="Hindu">Hindu</option>
+              
+                                    <option value="Others">Others</option>
+                                  </select>
+                                </div>
+                                <div className={styles.helperTextDiv}></div>
+                              </div>
+                            </div>
 
               <div className={styles.formGroup}>
                 <div className={styles.fieldGroup}>
@@ -70,7 +89,8 @@ function FormPage2() {
                     <p className={styles.starHead}>*</p>
                   </div>
                   <div className={styles.inputGroup}>
-                    <select className={styles.input}>
+                    <select className={styles.input} required>
+                    {/* <option value=""></option> */}
                       <option value="Ezhava">Ezhava</option>
                     </select>
                   </div>
@@ -85,7 +105,8 @@ function FormPage2() {
                     <p className={styles.starHead}>*</p>
                   </div>
                   <div className={styles.inputGroup}>
-                    <select className={styles.input}>
+                    <select className={styles.input} required>
+                    <option value="">Select SubCaste</option>
                       <option value="Thiyya">Thiyya</option>
                       <option value="Chekavars">Chekavars</option>
                       <option value="Vilaakkithala Nairs">
@@ -106,7 +127,8 @@ function FormPage2() {
                     <p className={styles.starHead}>*</p>
                   </div>
                   <div className={styles.inputGroup}>
-                    <select className={styles.input}>
+                    <select className={styles.input} required >
+                    <option value="">Gothram</option>
                       <option value="Kashyapa">Kashyapa</option>
                       <option value="Vishwamitra">Vishwamitra</option>
                       <option value="Agastya">Agastya</option>
