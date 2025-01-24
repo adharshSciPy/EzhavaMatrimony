@@ -9,12 +9,12 @@
     background-color: #f9f9f9;
   }
   
-  .form-group {
+  .verify-otp-container .form-group {
     margin-bottom: 15px;
     text-align: left;
   }
   
-  label {
+  .form-group .label {
     display: block;
     font-weight: bold;
     margin-bottom: 5px;

@@ -3,6 +3,7 @@ import nodemailer from "nodemailer";
 import crypto from "crypto";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { log } from "console";
 
 const registerUser = async (req, res) => {
   const { relation, firstName, userEmail } = req.body;
@@ -78,6 +79,8 @@ const registerUser = async (req, res) => {
 
 const editUser = async (req, res) => {
   const { id } = req.params;
+  console.log(id);
+  
   const {
     dateOfBirth,
     religion,
@@ -106,6 +109,7 @@ const editUser = async (req, res) => {
      hobbies,
     age
   } = req.body;
+  console.log(id);
 
   try {
     let updatedData = {
@@ -136,6 +140,8 @@ const editUser = async (req, res) => {
       hobbies,
       age
     };
+    console.log(id);
+    
     if (password) {
       const hashedPassword = await bcrypt.hash(password, 10);
       updatedData.password = hashedPassword;
@@ -155,16 +161,21 @@ const editUser = async (req, res) => {
   } catch (error) {
     console.error("Error editing user:", error);
     return res.status(500).json({ message: "Internal server error" });
+    console.log(id);
+    
   }
 };
 const resendOtp = async (req, res) => {
-  const { userEmail } = req.body;
+  const { userEmail } = req.params;
 
   try {
-    const user = await User.findOne({ userEmail });
-
+    const user = await User.findOne({ userEmail } );
+    console.log(user);
+    console.log(userEmail);
+    
     if (!user) {
       return res.status(404).json({ message: "User not found" });
+     
     }
 
     if (user.isVerified) {
@@ -521,7 +532,7 @@ const verifyOtp = async (req, res) => {
     if (!isOtpValid || user.otpExpiry < Date.now()) {
       return res.status(400).json({ message: "Invalid or expired OTP" });
     }
-    
+
     // Update user status and clear OTP fields
     user.isVerified = true;
     user.otp = undefined;
@@ -549,5 +560,6 @@ export {
   userLogin,
    refreshAccessToken,
     getUserById,
-    topMatch
+    topMatch,
+    
 };

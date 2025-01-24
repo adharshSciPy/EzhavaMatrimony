@@ -8,7 +8,7 @@ import FormPage4 from "./pages/FormPage4/FormPage4";
 import FormPage3 from "./pages/FormPage3/FormPage3";
 import Formpage5 from "./pages/FormPage5/FormPage5";
 import Dashboard from "./pages/Dashboard/Dashboard";
-
+import OtpPage from "./pages/Otppage/OtpPage"
 
 function App() {
   return (
@@ -16,13 +16,14 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LandingPage />} />
-          <Route path="/login" element={<LoginPAge />} />
+          <Route path="/register" element={<LoginPAge />} />
           <Route path="/formpage1" element={<FormPage1 />} />
           <Route path="/formpage2" element={<FormPage2 />} />
           <Route path="/formpage3" element={<FormPage3/>} />
           <Route path="/formpage5" element={<Formpage5/>} />
           <Route path="/formpage4" element={<FormPage4 />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/OtpPage" element={<OtpPage />} />
 
         </Routes>
       </BrowserRouter>
