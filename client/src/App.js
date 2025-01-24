@@ -7,6 +7,7 @@ import FormPage2 from "./pages/FormPage2/FormPage2";
 import FormPage4 from "./pages/FormPage4/FormPage4";
 import FormPage3 from "./pages/FormPage3/FormPage3";
 import Formpage5 from "./pages/FormPage5/FormPage5";
+import Dashboard from "./pages/Dashboard/Dashboard";
 
 
 function App() {
@@ -21,6 +22,8 @@ function App() {
           <Route path="/formpage3" element={<FormPage3/>} />
           <Route path="/formpage5" element={<Formpage5/>} />
           <Route path="/formpage4" element={<FormPage4 />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+
         </Routes>
       </BrowserRouter>
     </div>

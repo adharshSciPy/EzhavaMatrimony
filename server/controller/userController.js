@@ -74,33 +74,7 @@ const registerUser = async (req, res) => {
       .json({ message: `Internal Server Error: ${err.message}` });
   }
 };
-const verifyOtp = async (req, res) => {
-  const { userEmail, otp } = req.body;
-
-  try {
-    const user = await User.findOne({ userEmail });
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    const isOtpValid = await bcrypt.compare(otp.toString(), user.otp);
-    if (!isOtpValid || user.otpExpiry < Date.now()) {
-      return res.status(400).json({ message: "Invalid or expired OTP" });
-    }
-
-    user.isVerified = true;
-    user.otp = undefined;
-    user.otpExpiry = undefined;
-    await user.save();
-
-    return res.status(200).json({ message: "Email verified successfully" });
-  } catch (err) {
-    console.error("Error during OTP verification:", err);
-    return res
-      .status(500)
-      .json({ message: `Internal Server Error: ${err.message}` });
-  }
-};
+ 
 
 const editUser = async (req, res) => {
   const { id } = req.params;
@@ -525,6 +499,40 @@ const topMatch = async (req, res) => {
     res.status(200).json({ message: 'Matches found', matches: response });
   } catch (err) {
     res.status(500).json({ message: 'Error fetching matches', error: err.message });
+  }
+};
+const verifyOtp = async (req, res) => {
+  const { userEmail } = req.params; // Extract userEmail from URL params
+  const { otp } = req.body; // Extract OTP from request body
+
+  if (!userEmail || !otp) {
+    return res.status(400).json({ message: "User email and OTP are required" });
+  }
+
+  try {
+    // Find user by email
+    const user = await User.findOne({ userEmail });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Check if OTP is valid and not expired
+    const isOtpValid = await bcrypt.compare(otp.toString(), user.otp);
+    if (!isOtpValid || user.otpExpiry < Date.now()) {
+      return res.status(400).json({ message: "Invalid or expired OTP" });
+    }
+    
+    // Update user status and clear OTP fields
+    user.isVerified = true;
+    user.otp = undefined;
+    user.otpExpiry = undefined;
+    await user.save();
+
+    // Respond with success message
+    return res.status(200).json({ message: "Email verified successfully" });
+  } catch (err) {
+    console.error("Error during OTP verification:", err);
+    return res.status(500).json({ message: `Internal Server Error: ${err.message}` });
   }
 };
 
