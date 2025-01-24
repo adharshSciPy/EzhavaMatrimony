@@ -6,14 +6,14 @@ import image from "../../assets/free-photo-of-couple-in-green-grass-field.jpeg";
 
 function FormPage2() {
   const [selected, setSelected] = useState("");
-  const[selectedJathakam,setSelectedJathakam]=useState("");
+  const [selectedJathakam, setSelectedJathakam] = useState("");
   const btnSelected = (button) => {
     setSelected(button);
-    console.log("hhaiii",button)
+    console.log("hhaiii", button);
   };
-  const btnSelectedJathakam=(button)=>{
-    setSelectedJathakam(button)
-  }
+  const btnSelectedJathakam = (button) => {
+    setSelectedJathakam(button);
+  };
   return (
     <div className={styles.mainContainer}>
       <div className={styles.progressDiv}>
@@ -62,25 +62,24 @@ function FormPage2() {
                   </div>
                 </div>
               </div> */}
-              
-                            <div className={styles.formGroup}>
-                              <div className={styles.fieldGroup}>
-                                <div className={styles.labelGroup}>
-                                  <label>Religion</label>
-                    <p className={styles.starHead}>*</p>
 
-                                </div>
-                                <div className={styles.inputGroup}>
-                                  <select className={styles.input} required>
-                                  <option value="">Select Religion</option>
-                                    <option value="Hindu">Hindu</option>
-              
-                                    <option value="Others">Others</option>
-                                  </select>
-                                </div>
-                                <div className={styles.helperTextDiv}></div>
-                              </div>
-                            </div>
+              <div className={styles.formGroup}>
+                <div className={styles.fieldGroup}>
+                  <div className={styles.labelGroup}>
+                    <label>Religion</label>
+                    <p className={styles.starHead}>*</p>
+                  </div>
+                  <div className={styles.inputGroup}>
+                    <select className={styles.input} required>
+                      <option value="">Select Religion</option>
+                      <option value="Hindu">Hindu</option>
+
+                      <option value="Others">Others</option>
+                    </select>
+                  </div>
+                  <div className={styles.helperTextDiv}></div>
+                </div>
+              </div>
 
               <div className={styles.formGroup}>
                 <div className={styles.fieldGroup}>
@@ -90,7 +89,7 @@ function FormPage2() {
                   </div>
                   <div className={styles.inputGroup}>
                     <select className={styles.input} required>
-                    {/* <option value=""></option> */}
+                      {/* <option value=""></option> */}
                       <option value="Ezhava">Ezhava</option>
                     </select>
                   </div>
@@ -106,7 +105,7 @@ function FormPage2() {
                   </div>
                   <div className={styles.inputGroup}>
                     <select className={styles.input} required>
-                    <option value="">Select SubCaste</option>
+                      <option value="">Select SubCaste</option>
                       <option value="Thiyya">Thiyya</option>
                       <option value="Chekavars">Chekavars</option>
                       <option value="Vilaakkithala Nairs">
@@ -127,8 +126,8 @@ function FormPage2() {
                     <p className={styles.starHead}>*</p>
                   </div>
                   <div className={styles.inputGroup}>
-                    <select className={styles.input} required >
-                    <option value="">Gothram</option>
+                    <select className={styles.input} required>
+                      <option value="">Gothram</option>
                       <option value="Kashyapa">Kashyapa</option>
                       <option value="Vishwamitra">Vishwamitra</option>
                       <option value="Agastya">Agastya</option>
@@ -154,28 +153,39 @@ function FormPage2() {
                       placeholder="Enter email"
                     /> */}
                     <div className={styles.optionButtonOuterDiv}>
-                    <button
+                      <button
                         className={`${styles.optionSingleButton} ${
                           selectedJathakam === "Yes" ? styles.selected : ""
                         }`}
-                        onClick={(event)=>{
-                            event.preventDefault();
-                            btnSelectedJathakam("Yes")}}
+                        onClick={(event) => {
+                          event.preventDefault();
+                          btnSelectedJathakam("Yes");
+                        }}
                       >
                         Yes
                       </button>
-                      <button  className={`${styles.optionSingleButton} ${
+                      <button
+                        className={`${styles.optionSingleButton} ${
                           selectedJathakam === "No" ? styles.selected : ""
                         }`}
-                        onClick={(event)=>{
-                            event.preventDefault();
-                            btnSelectedJathakam("No")}}>No</button>
-                      <button  className={`${styles.optionSingleButton} ${
-                          selectedJathakam === "Don't Know" ? styles.selected : ""
+                        onClick={(event) => {
+                          event.preventDefault();
+                          btnSelectedJathakam("No");
+                        }}
+                      >
+                        No
+                      </button>
+                      <button
+                        className={`${styles.optionSingleButton} ${
+                          selectedJathakam === "Don't Know"
+                            ? styles.selected
+                            : ""
                         }`}
-                        onClick={(event)=>{
-                            event.preventDefault();
-                            btnSelectedJathakam("Don't Know")}}>
+                        onClick={(event) => {
+                          event.preventDefault();
+                          btnSelectedJathakam("Don't Know");
+                        }}
+                      >
                         Don't Know
                       </button>
                     </div>
@@ -199,24 +209,33 @@ function FormPage2() {
                         className={`${styles.optionSingleButton} ${
                           selected === "Yes" ? styles.selected : ""
                         }`}
-                        onClick={(event)=>{
-                            event.preventDefault();
-                            btnSelected("Yes")}}
+                        onClick={(event) => {
+                          event.preventDefault();
+                          btnSelected("Yes");
+                        }}
                       >
                         Yes
                       </button>
-                      <button  className={`${styles.optionSingleButton} ${
+                      <button
+                        className={`${styles.optionSingleButton} ${
                           selected === "No" ? styles.selected : ""
                         }`}
-                        onClick={(event)=>{
-                            event.preventDefault();
-                            btnSelected("No")}}>No</button>
-                      <button  className={`${styles.optionSingleButton} ${
+                        onClick={(event) => {
+                          event.preventDefault();
+                          btnSelected("No");
+                        }}
+                      >
+                        No
+                      </button>
+                      <button
+                        className={`${styles.optionSingleButton} ${
                           selected === "Don't Know" ? styles.selected : ""
                         }`}
-                        onClick={(event)=>{
-                            event.preventDefault();
-                            btnSelected("Don't Know")}}>
+                        onClick={(event) => {
+                          event.preventDefault();
+                          btnSelected("Don't Know");
+                        }}
+                      >
                         Don't Know
                       </button>
                     </div>

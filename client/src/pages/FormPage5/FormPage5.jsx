@@ -1,225 +1,368 @@
-import React ,{useState}from "react";
-import  "../FormPage5/formpage5.css";
+import React, { useState } from "react";
+import styles from "../FormPage3/formpage3.module.css";
 import image from "../../assets/free-photo-of-couple-in-green-grass-field.jpeg";
 
-function Formpage5() {
-    const [selected, setSelected] = useState("");
-      const[selectedJathakam,setSelectedJathakam]=useState("");
-      const btnSelected = (button) => {
-        setSelected(button);
-        console.log("hhaiii",button)
-      };
-      const btnSelectedJathakam=(button)=>{
-        setSelectedJathakam(button)
-      }
+function FormPage5() {
+ 
+  const [employ, setEmploy] = useState("");
+ 
+  const [residentStatus, setResidentStatus] = useState("");
+
+
+  //   const btnSelectedJathakam = (button) => {
+  //     setSelectedJathakam(button);
+  //   };
+  const employStatus = (button) => {
+    setEmploy(button);
+  };
+  const resident = (button) => {
+    setResidentStatus(button);
+  };
+
   return (
-   <div className="main-container5">
-         <div className="progressDiv5">
-           <div className="progressHeading5">You have completed</div>
-           <div className="progressHeading5_1">40%</div>
-         </div>
-         <div className="container5">
-    
-   
-           {/* Main Content */}
-           <div className="contentDiv5">
-   
-             <div className="imageDisplayDiv5">
-               <img
-                 src={image} // Replace with actual image URL
-                 alt="Couple"
-                 className={image}
-               />
-             </div>
-   
-             {/* Form Section */}
-             <div className="formContainer5">
-               <h3 className="formHeading5">
-                 Fill up your religious details for Finding Right Match
-               </h3>
-   
-               <form className="form5">
-                 {/* <div className={styles.formGroup}>
-                   <div className={styles.fieldGroup}>
-                     <div className={styles.labelGroup}>
-                       <label>Date Of Birth</label>
-                     </div>
-                     <div className={styles.inputGroup}>
-                       <input
-                         type="date"
-                         className={styles.input}
-                         placeholder="DD / MM / YY"
-                         style={{ color: "#666" }}
-                       />
-                     </div>
-                     <div className={styles.helperTextDiv}>
-                       <p className={styles.helperText}>
-                         Your friend's date of birth to find a perfect match
-                       </p>
-                     </div>
-                   </div>
-                 </div> */}
-   
-                 <div className="formGroup5">
-                   <div className="fieldGroup5">
-                     <div className="labelGroup5">
-                       <label>Caste</label>
-                       <p className="starHead5">*</p>
-                     </div>
-                     <div className="inputGroup5">
-                       <select className="input5">
-                         <option value="Ezhava">Ezhava</option>
-                       </select>
-                     </div>
-                     <div className="helperTextDiv5"></div>
-                   </div>
-                 </div>
-   
-                 <div className="formGroup5">
-                   <div className="fieldGroup5">
-                     <div className="labelGroup5">
-                       <label>SubCaste</label>
-                       <p className="starHead5">*</p>
-                     </div>
-                     <div className="inputGroup5">
-                       <select className="input5">
-                         <option value="Thiyya">Thiyya</option>
-                         <option value="Chekavars">Chekavars</option>
-                         <option value="Vilaakkithala Nairs">
-                           Vilaakkithala Nairs
-                         </option>
-                         <option value="Velar">Velar</option>
-                         <option value="Kalari Panickers">Kalari Panickers</option>
-                       </select>
-                     </div>
-                     <div className="helperTextDiv5"></div>
-                   </div>
-                 </div>
-   
-                 <div className="formGroup5">
-                   <div className="fieldGroup5">
-                     <div className="labelGroup5">
-                       <label>Gothram</label>
-                       <p className="starHead5">*</p>
-                     </div>
-                     <div className="inputGroup5">
-                       <select className="input5">
-                         <option value="Kashyapa">Kashyapa</option>
-                         <option value="Vishwamitra">Vishwamitra</option>
-                         <option value="Agastya">Agastya</option>
-                       </select>
-                     </div>
-                     <div className="helperTextDiv5">
-                       <div className="optionalDiv5">
-                         <p className="optionalDivText5">Optional</p>
-                       </div>
-                     </div>
-                   </div>
-                 </div>
-   
-                 <div className="formGroup5">
-                   <div className="fieldGroup5">
-                     <div className="labelGroup5">
-                       <label>Suddha Jathakam</label>
-                     </div>
-                     <div className="inputGroup5">
-                       {/* <input
-                         type="email"
-                         className={styles.input}
-                         placeholder="Enter email"
-                       /> */}
-                       <div className="optionButtonOuterDiv5">
-                       <button
-                           className={`${"optionSingleButton5"} ${
-                             selectedJathakam === "Yes" ? "selected" : ""
-                           }`}
-                           onClick={(event)=>{
-                               event.preventDefault();
-                               btnSelectedJathakam("Yes")}}
-                         >
-                           Yes
-                         </button>
-                         <button  className={`${"optionSingleButton5"} ${
-                             selectedJathakam === "No" ? "selected" : ""
-                           }`}
-                           onClick={(event)=>{
-                               event.preventDefault();
-                               btnSelectedJathakam("No")}}>No</button>
-                         <button  className={`${"optionSingleButton5"} ${
-                             selectedJathakam === "Don't Know" ? "selected" : ""
-                           }`}
-                           onClick={(event)=>{
-                               event.preventDefault();
-                               btnSelectedJathakam("Don't Know")}}>
-                           Don't Know
-                         </button>
-                       </div>
-                     </div>
-                     <div className="helperTextDiv5">
-                       <div className="optionalDiv5">
-                         <p className="optionalDivText5">Optional</p>
-                       </div>
-                     </div>
-                   </div>
-                 </div>
-   
-                 <div className="formGroup5">
-                   <div className="fieldGroup5">
-                     <div className="labelGroup5">
-                       <label>Dosham</label>
-                     </div>
-                     <div className="inputGroup5">
-                       <div className="optionButtonOuterDiv5">
-                         <button
-                           className={`${"optionSingleButton5"} ${
-                             selected === "Yes" ? "selected" : ""
-                           }`}
-                           onClick={(event)=>{
-                               event.preventDefault();
-                               btnSelected("Yes")}}
-                         >
-                           Yes
-                         </button>
-                         <button  className={`${"optionSingleButton5"} ${
-                             selected === "No" ? "selected" : ""
-                           }`}
-                           onClick={(event)=>{
-                               event.preventDefault();
-                               btnSelected("No")}}>No</button>
-                         <button  className={`${"optionSingleButton5"} ${
-                             selected === "Don't Know" ? "selected" : ""
-                           }`}
-                           onClick={(event)=>{
-                               event.preventDefault();
-                               btnSelected("Don't Know")}}>
-                           Don't Know
-                         </button>
-                       </div>
-                     </div>
-                     <div className="helperTextDiv5">
-                       <div className="optionalDiv5">
-                         <p className="optionalDivText5">Optional</p>
-                       </div>
-                     </div>
-                   </div>
-                 </div>
-                 <div className="btnDiv5">
-                   <button type="submit" className="submitButton5">
-                     Continue
-                   </button>
-                 </div>
-                 <div className="mandatoryField5">* Mandatory fields</div>
-               </form>
-             </div>
-           </div>
-         </div>
-   
-         {/* Footer */}
-         <div className="footer5">
-           <p>Copyright © 2025. All rights reserved</p>
-         </div>
-       </div>
+    <div className={styles.mainContainer}>
+      <div className={styles.container}>
+        {/* Progress Bar */}
+
+        {/* Main Content */}
+        <div className={styles.contentDiv}>
+          {/* Image Section */}
+
+          <div className={styles.imageDisplayDiv}>
+            <img
+              src={image} // Replace with actual image URL
+              alt="Couple"
+              className={styles.image}
+            />
+          </div>
+
+          {/* Form Section */}
+
+          <div className={styles.formContainer}>
+            <h3 className={styles.formHeading}>
+              Tell us about your friends personal details
+            </h3>
+
+            <form className={styles.form}>
+              <div className={styles.formGroup}>
+                <div className={styles.fieldGroup}>
+                  <div className={styles.labelGroup}>
+                    <label>Highest Education</label>
+                    <p className={styles.starHead}>*</p>
+                  </div>
+                  <div className={styles.inputGroup}>
+                    <input
+                      type="text"
+                      className={styles.input}
+                      placeholder="Education"
+                    />
+                  </div>
+                  <div className={styles.helperTextDiv}></div>
+                </div>
+              </div>
+
+              <div className={styles.formGroup}>
+                <div className={styles.fieldGroup}>
+                  <div className={styles.labelGroup}>
+                    <label>Education in Detail</label>
+                    <p className={styles.starHead}>*</p>
+                  </div>
+                  <div className={styles.inputGroup}>
+                    <input
+                      type="text"
+                      className={styles.input}
+                      placeholder="Education in Details"
+                    />
+                  </div>
+                  <div className={styles.helperTextDiv}></div>
+                </div>
+              </div>
+
+              <div className={styles.formGroup}>
+                <div className={styles.fieldGroup}>
+                  <div className={styles.labelGroup}>
+                    <label>Employed in</label>
+                    <p className={styles.starHead}>*</p>
+                  </div>
+                  <div className={styles.inputGroupButtons}>
+                    <div className={styles.optionButtonOuterDiv}>
+                      <button
+                        className={`${styles.optionSingleButton} ${
+                          employ === "Government" ? styles.selected : ""
+                        }`}
+                        onClick={(event) => {
+                          event.preventDefault();
+                          employStatus("Government");
+                        }}
+                      >
+                        Government
+                      </button>
+                      <button
+                        className={`${styles.optionSingleButton} ${
+                          employ === "Private" ? styles.selected : ""
+                        }`}
+                        onClick={(event) => {
+                          event.preventDefault();
+                          employStatus("Private");
+                        }}
+                      >
+                        Private
+                      </button>
+                      <button
+                        className={`${styles.optionSingleButton} ${
+                          employ === "Business" ? styles.selected : ""
+                        }`}
+                        onClick={(event) => {
+                          event.preventDefault();
+                          employStatus("Business");
+                        }}
+                      >
+                        Business
+                      </button>
+                      <button
+                        className={`${styles.optionSingleButton} ${
+                          employ === "Defence" ? styles.selected : ""
+                        }`}
+                        onClick={(event) => {
+                          event.preventDefault();
+                          employStatus("Defence");
+                        }}
+                      >
+                        Defence
+                      </button>
+                      <button
+                        className={`${styles.optionSingleButton} ${
+                          employ === "SelfEmployed" ? styles.selected : ""
+                        }`}
+                        onClick={(event) => {
+                          event.preventDefault();
+                          employStatus("SelfEmployed");
+                        }}
+                      >
+                        SelfEmployed
+                      </button>
+                      <button
+                        className={`${styles.optionSingleButton} ${
+                          employ === "NotWorking" ? styles.selected : ""
+                        }`}
+                        onClick={(event) => {
+                          event.preventDefault();
+                          employStatus("NotWorking");
+                        }}
+                      >
+                        NotWorking
+                      </button>
+                    </div>
+                  </div>
+                  {/* <div className={styles.helperTextDiv}></div> */}
+                </div>
+              </div>
+
+              <div className={styles.formGroup}>
+                <div className={styles.fieldGroup}>
+                  <div className={styles.labelGroup}>
+                    <label>Annual Income</label>
+                    <p className={styles.starHead}>*</p>
+                  </div>
+                  <div className={styles.inputGroup}>
+                    <input
+                      type="text"
+                      className={styles.input}
+                      placeholder="Your Income"
+                    />
+                  </div>
+                  <div className={styles.helperTextDiv}></div>
+                </div>
+              </div>
+
+              <div className={styles.formGroup}>
+                <div className={styles.fieldGroup}>
+                  <div className={styles.labelGroup}>
+                    <label>Occupation</label>
+                    <p className={styles.starHead}>*</p>
+                  </div>
+                  <div className={styles.inputGroup}>
+                    <input
+                      type="text"
+                      className={styles.input}
+                      placeholder="Occupation"
+                    />
+                  </div>
+                  <div className={styles.helperTextDiv}></div>
+                </div>
+              </div>
+
+              <div className={styles.formGroup}>
+                <div className={styles.fieldGroup}>
+                  <div className={styles.labelGroup}>
+                    <label>State</label>
+                    <p className={styles.starHead}>*</p>
+                  </div>
+                  <div className={styles.inputGroup}>
+                    <select className={styles.input} required>
+                      <option value="">Select Your State</option>
+                      <option value="Andhra Pradesh">Andhra Pradesh</option>
+                      <option value="Arunachal Pradesh">
+                        Arunachal Pradesh
+                      </option>
+                      <option value="Assam">Assam</option>
+                      <option value="Bihar">Bihar</option>
+                      <option value="Chhattisgarh">Chhattisgarh</option>
+                      <option value="Goa">Goa</option>
+                      <option value="Gujarat">Gujarat</option>
+                      <option value="Haryana">Haryana</option>
+                      <option value="Himachal Pradesh">Himachal Pradesh</option>
+                      <option value="Jharkhand">Jharkhand</option>
+                      <option value="Karnataka">Karnataka</option>
+                      <option value="Kerala">Kerala</option>
+                      <option value="Madhya Pradesh">Madhya Pradesh</option>
+                      <option value="Maharashtra">Maharashtra</option>
+                      <option value="Manipur">Manipur</option>
+                      <option value="Meghalaya">Meghalaya</option>
+                      <option value="Mizoram">Mizoram</option>
+                      <option value="Nagaland">Nagaland</option>
+                      <option value="Odisha">Odisha</option>
+                      <option value="Punjab">Punjab</option>
+                      <option value="Rajasthan">Rajasthan</option>
+                      <option value="Sikkim">Sikkim</option>
+                      <option value="Tamil Nadu">Tamil Nadu</option>
+                      <option value="Telangana">Telangana</option>
+                      <option value="Tripura">Tripura</option>
+                      <option value="Uttar Pradesh">Uttar Pradesh</option>
+                      <option value="Uttarakhand">Uttarakhand</option>
+                      <option value="West Bengal">West Bengal</option>
+                      <option value="Andaman and Nicobar Islands">
+                        Andaman and Nicobar Islands
+                      </option>
+                      <option value="Chandigarh">Chandigarh</option>
+                      <option value="Dadra and Nagar Haveli and Daman and Diu">
+                        Dadra and Nagar Haveli and Daman and Diu
+                      </option>
+                      <option value="Delhi">Delhi</option>
+                      <option value="Jammu and Kashmir">
+                        Jammu and Kashmir
+                      </option>
+                      <option value="Ladakh">Ladakh</option>
+                      <option value="Lakshadweep">Lakshadweep</option>
+                      <option value="Puducherry">Puducherry</option>
+                    </select>
+                  </div>
+                  <div className={styles.helperTextDiv}></div>
+                </div>
+              </div>
+              <div className={styles.formGroup}>
+                <div className={styles.fieldGroup}>
+                  <div className={styles.labelGroup}>
+                    <label>City</label>
+                    <p className={styles.starHead}>*</p>
+                  </div>
+                  <div className={styles.inputGroup}>
+                    <input
+                      type="text"
+                      className={styles.input}
+                      placeholder="City"
+                    />
+                  </div>
+                  <div className={styles.helperTextDiv}></div>
+                </div>
+              </div>
+              <div className={styles.formGroup}>
+                <div className={styles.fieldGroup}>
+                  <div className={styles.labelGroup}>
+                    <label>Citizenship</label>
+                    <p className={styles.starHead}>*</p>
+                  </div>
+                  <div className={styles.inputGroup}>
+                    <input
+                      type="text"
+                      className={styles.input}
+                      placeholder=""
+                    />
+                  </div>
+                  <div className={styles.helperTextDiv}></div>
+                </div>
+              </div>
+              <div className={styles.formGroup}>
+                <div className={styles.fieldGroup}>
+                  <div className={styles.labelGroup}>
+                    <label>Resident Status</label>
+                    <p className={styles.starHead}>*</p>
+                  </div>
+                  <div className={styles.inputGroup}>
+                    <div className={styles.optionButtonOuterDiv}>
+                      <button
+                        className={`${styles.optionSingleButton} ${
+                          residentStatus === "Permanent Resident" ? styles.selected : ""
+                        }`}
+                        onClick={(event) => {
+                          event.preventDefault();
+                         resident("Permanent Resident");
+                        }}
+                      >
+                        Permanent Resident
+                      </button>
+                      <button
+                        className={`${styles.optionSingleButton} ${
+                          residentStatus === "Work Permit"
+                            ? styles.selected
+                            : ""
+                        }`}
+                        onClick={(event) => {
+                          event.preventDefault();
+                          resident("Work Permit");
+                        }}
+                      >
+                        Work Permit
+                      </button>
+                      <button
+                        className={`${styles.optionSingleButton} ${
+                          residentStatus === "Student Visa"
+                            ? styles.selected
+                            : ""
+                        }`}
+                        onClick={(event) => {
+                          event.preventDefault();
+                          resident("Student Visa");
+                        }}
+                      >
+                        Student Visa
+                      </button>
+                      <button
+                        className={`${styles.optionSingleButton} ${
+                          residentStatus === "Temporary Visa"
+                            ? styles.selected
+                            : ""
+                        }`}
+                        onClick={(event) => {
+                          event.preventDefault();
+                          resident("Temporary Visa");
+                        }}
+                      >
+                        Temporary Visa
+                      </button>
+                    </div>
+                  </div>
+                  <div className={styles.helperTextDiv}></div>
+                </div>
+              </div>
+
+              <div className={styles.btnDiv}>
+                <button type="submit" className={styles.submitButton}>
+                  Continue
+                </button>
+              </div>
+              <div className={styles.mandatoryField}>* Mandatory fields</div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div className={styles.footer}>
+        <p>Copyright © 2025. All rights reserved</p>
+      </div>
+    </div>
   );
 }
 
-export default Formpage5;
+export default FormPage5;
