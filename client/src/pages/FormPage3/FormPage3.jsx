@@ -1,11 +1,16 @@
 import React, { useState } from "react";
-import styles from "../FormPage1/formpage1.module.css";
+import styles from "./formpage3.module.css";
 import image from "../../assets/free-photo-of-couple-in-green-grass-field.jpeg";
 
 function FormPage3() {
   const [selected, setSelected] = useState("");
   const [martial, setMarital] = useState("");
   const [family, setFamily] = useState("");
+  const [familyType, setFamilyType] = useState("");
+  const [familyValues, setFamilyValues] = useState("");
+  const [physicallyChallenged, setPhysicallyChallenged] = useState("");
+
+
   const btnSelected = (button) => {
     setSelected(button);
     console.log("hhaiii", button);
@@ -20,6 +25,15 @@ function FormPage3() {
   const familyStatus = (button) => {
     setFamily(button);
   };
+  const familyTypeSelected = (button) => {
+    setFamilyType(button);
+  };
+  const familyValuesSelected = (button) => {
+    setFamilyValues(button);
+  };
+  const physicallyChallengedSelected=(button)=>{
+    setPhysicallyChallenged(button)
+  }
 
   return (
     <div className={styles.mainContainer}>
@@ -43,6 +57,7 @@ function FormPage3() {
           </div>
 
           {/* Form Section */}
+          
           <div className={styles.formContainer}>
             <h3 className={styles.formHeading}>
               Tell us about your friends personal details
@@ -53,7 +68,7 @@ function FormPage3() {
                 <div className={styles.fieldGroup}>
                   <div className={styles.labelGroup}>
                     <label>Maritial Status</label>
-                    {/* <p className={styles.starHead}>*</p> */}
+                    <p className={styles.starHead}>*</p>
                   </div>
                   <div className={styles.inputGroupButtons}>
                     <div className={styles.optionButtonOuterDiv}>
@@ -128,7 +143,7 @@ function FormPage3() {
                 <div className={styles.fieldGroup}>
                   <div className={styles.labelGroup}>
                     <label>Family Status</label>
-                    {/* <p className={styles.starHead}>*</p> */}
+                    <p className={styles.starHead}>*</p>
                   </div>
                   <div className={styles.inputGroupButtons}>
                     <div className={styles.optionButtonOuterDiv}>
@@ -160,7 +175,7 @@ function FormPage3() {
                         }`}
                         onClick={(event) => {
                           event.preventDefault();
-                          setFamily("High Class");
+                          familyStatus("High Class");
                         }}
                       >
                         High Class
@@ -171,7 +186,7 @@ function FormPage3() {
                         }`}
                         onClick={(event) => {
                           event.preventDefault();
-                          martialStatus("Rich");
+                          familyStatus("Rich");
                         }}
                       >
                         Rich/Affluent
@@ -186,6 +201,8 @@ function FormPage3() {
                 <div className={styles.fieldGroup}>
                   <div className={styles.labelGroup}>
                     <label>Family NetWorth</label>
+                    <p className={styles.starHead}>*</p>
+
                   </div>
                   <div className={styles.inputGroup}>
                     <select className={styles.input}>
@@ -197,9 +214,7 @@ function FormPage3() {
                     </select>
                   </div>
                   <div className={styles.helperTextDiv}>
-                    <div className={styles.optionalDiv}>
-                      <p className={styles.optionalDivText}>Optional</p>
-                    </div>
+                  
                   </div>
                 </div>
               </div>
@@ -207,52 +222,141 @@ function FormPage3() {
               <div className={styles.formGroup}>
                 <div className={styles.fieldGroup}>
                   <div className={styles.labelGroup}>
-                    <label>Dosham</label>
+                    <label>Family Type</label>
+                    <p className={styles.starHead}>*</p>
+
                   </div>
                   <div className={styles.inputGroup}>
                     <div className={styles.optionButtonOuterDiv}>
                       <button
                         className={`${styles.optionSingleButton} ${
-                          selected === "Yes" ? styles.selected : ""
+                          familyType === "Joint" ? styles.selected : ""
                         }`}
                         onClick={(event) => {
                           event.preventDefault();
-                          btnSelected("Yes");
+                          familyTypeSelected("Joint");
                         }}
                       >
-                        Yes
+                        Joint
                       </button>
                       <button
                         className={`${styles.optionSingleButton} ${
-                          selected === "No" ? styles.selected : ""
+                          familyType === "Nuclear" ? styles.selected : ""
                         }`}
                         onClick={(event) => {
                           event.preventDefault();
-                          btnSelected("No");
+                          familyTypeSelected("Nuclear");
                         }}
                       >
-                        No
-                      </button>
-                      <button
-                        className={`${styles.optionSingleButton} ${
-                          selected === "Don't Know" ? styles.selected : ""
-                        }`}
-                        onClick={(event) => {
-                          event.preventDefault();
-                          btnSelected("Don't Know");
-                        }}
-                      >
-                        Don't Know
+                        Nuclear
                       </button>
                     </div>
                   </div>
                   <div className={styles.helperTextDiv}>
-                    <div className={styles.optionalDiv}>
-                      <p className={styles.optionalDivText}>Optional</p>
-                    </div>
+
                   </div>
                 </div>
               </div>
+
+              
+
+              <div className={styles.formGroup}>
+                <div className={styles.fieldGroup}>
+                  <div className={styles.labelGroup}>
+                    <label>Family Values</label>
+                    <p className={styles.starHead}>*</p>
+                  </div>
+                  <div className={styles.inputGroupButtons}>
+                    <div className={styles.optionButtonOuterDiv}>
+                      <button
+                        className={`${styles.optionSingleButton} ${
+                          familyValues === "Orthodox" ? styles.selected : ""
+                        }`}
+                        onClick={(event) => {
+                          event.preventDefault();
+                          familyValuesSelected("Orthodox");
+                        }}
+                      >
+                        Orthodox
+                      </button>
+                      <button
+                        className={`${styles.optionSingleButton} ${
+                          familyValues === "Traditional" ? styles.selected : ""
+                        }`}
+                        onClick={(event) => {
+                          event.preventDefault();
+                          familyValuesSelected("Traditional");
+                        }}
+                      >
+                        Traditional
+                      </button>
+                      <button
+                        className={`${styles.optionSingleButton} ${
+                          familyValues === "Moderate" ? styles.selected : ""
+                        }`}
+                        onClick={(event) => {
+                          event.preventDefault();
+                          familyValuesSelected("Moderate");
+                        }}
+                      >
+                        Moderate
+                      </button>
+                      <button
+                        className={`${styles.optionSingleButton} ${
+                          familyValues === "Liberal" ? styles.selected : ""
+                        }`}
+                        onClick={(event) => {
+                          event.preventDefault();
+                          familyValuesSelected("Liberal");
+                        }}
+                      >
+                        Liberal
+                      </button>
+                    </div>
+                  </div>
+                  {/* <div className={styles.helperTextDiv}></div> */}
+                </div>
+              </div>
+
+              <div className={styles.formGroup}>
+                <div className={styles.fieldGroup}>
+                  <div className={styles.labelGroup}>
+                    <label>Disabled</label>
+                    <p className={styles.starHead}>*</p>
+                        
+                  </div>
+                  <div className={styles.inputGroup}>
+                    <div className={styles.optionButtonOuterDiv}>
+                      <button
+                        className={`${styles.optionSingleButton} ${
+                          physicallyChallenged === "Nope" ? styles.selected : ""
+                        }`}
+                        onClick={(event) => {
+                          event.preventDefault();
+                          physicallyChallengedSelected("Nope");
+                        }}
+                      >
+                        Nope
+                      </button>
+                      <button
+                        className={`${styles.optionSingleButton} ${
+                          physicallyChallenged === "Physically Challenged" ? styles.selected : ""
+                        }`}
+                        onClick={(event) => {
+                          event.preventDefault();
+                          physicallyChallengedSelected("Physically Challenged");
+                        }}
+                      >
+                        Physically Challenged
+                      </button>
+                    </div>
+                  </div>
+                  <div className={styles.helperTextDiv}>
+                    
+                  </div>
+                </div>
+              </div>
+
               <div className={styles.btnDiv}>
                 <button type="submit" className={styles.submitButton}>
                   Continue
