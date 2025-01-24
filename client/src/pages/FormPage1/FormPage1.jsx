@@ -21,8 +21,8 @@ function FormPage1() {
   const notifyError = (message) => toast.error(message);
   const notifySuccess = (message) => toast.success(message);
   const navigate = useNavigate();
-  const { id,userEmail } = useSelector((state) => state.user);
-  
+  const { id, userEmail } = useSelector((state) => state.user);
+
   const handleChange = (e) => {
     setForm({
       ...form,
@@ -33,29 +33,25 @@ function FormPage1() {
     e.preventDefault();
 
     try {
-      console.log('this',id);
-      console.log('this',userEmail);
 
-      
-      const response = await axios.patch(
-        `http://localhost:8000/api/v1/user/edit/${id}`,
-        form
-      );
-      if (response.status === 201) {
-              // Show success toast
-              navigate(`/formpage2`)
-              
-            }
+      const response = await axios.patch(`http://localhost:8000/api/v1/user/edit/${id}`, form);
+      console.log(response);
+
+      if (response.status === 200) {
+        notifySuccess(response.data.data.message || "Successfully Submitted.")
+        navigate(`/formpage2`)
+      }
     } catch (error) {
       setErrorMessage(
         error.response?.data?.message || "Please try again."
       );
       notifyError(error.response?.data?.message || "Something went wrong. Please try again.");
-      
+
     }
   };
   return (
     <div className={styles.mainContainer}>
+      <ToastContainer position="bottom-right" />
       <div className={styles.progressDiv}>
         <div className={styles.progressHeading}>You have completed</div>
         <div className={styles.progressHeading2}>20%</div>
@@ -150,7 +146,7 @@ function FormPage1() {
                       required
                       value={form.motherTongue}
                       onChange={handleChange}
-                     name="motherTongue"
+                      name="motherTongue"
                     >
                       <option value="">Select Language</option>
                       <option value="Malayalam">Malayalam</option>
