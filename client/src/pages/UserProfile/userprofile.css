@@ -1,0 +1,125 @@
+/* Profile Page Styles
+
+.profile-page {
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Header */
+  .Prof-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    border-bottom: 1px solid #ddd;
+    gap: 20px;
+  }
+  
+  .Prof-header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  /* Content */
+  .content {
+    padding: 20px;
+  }
+  
+  .Prof-match-buttons {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Profile Card */
+  .profile-card3 {
+    margin-top: 20px;
+    display: flex;
+    padding: 10px;
+    gap: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .profile-image {
+    width: 150px; /* Set the desired width */
+    height: 150px; /* Set the desired height */
+    border-radius: 8px; /* Rounded corners */
+    object-fit: cover; /* Ensures the image doesn't stretch */
+    margin-right: 16px; /* Spacing between the image and content */
+  }
+  .profile-details {
+    flex: 1;
+  }
+  
+  .profile-info {
+    color: #777;
+    margin-bottom: 8px;
+  }
+  
+  .profile-icons {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+  
+  /* About Section */
+  .about-section {
+    margin-top: 20px;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+  }
+  
+  .about-text {
+    color: #555;
+    margin-top: 10px;
+  }
+  
+  .divider {
+    margin: 10px 0;
+  }
+  
+  .basic-details {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+  }
+  
+  /* Similar Profiles */
+  .similar-profiles {
+    margin-top: 20px;
+  }
+  
+  .similar-profile-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .similar-profile-card {
+    display: flex;
+    padding: 10px;
+    gap: 10px;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .similar-profile-image {
+    border-radius: 8px;
+    width: 50px;
+  }
+  
+  .similar-profile-details {
+    flex: 1;
+  }
+  
+  .similar-profile-info {
+    font-size: 0.9rem;
+    color: #777;
+  }
+   */
