@@ -34,9 +34,43 @@ return (
             className={styles.textArea}
             placeholder="Type here..."
           ></textarea>
-          <label className={styles.rightLabel}>Write a few words</label>
         </div>
-        
+        <form className={styles.form}>
+                      <div className={styles.formGroup}>
+                        <div className={styles.fieldGroup}>
+                          <div className={styles.labelGroup}>
+                            <label>Age</label>
+                            <p className={styles.starHead}>*</p>
+                          </div>
+                          <div className={styles.inputGroup}>
+                            <input
+                              type="text"
+                              className={styles.input}
+                              placeholder=""
+                            />
+                          </div>
+                          <div className={styles.helperTextDiv}></div>
+                        </div>
+                      </div>
+
+                      <div className={styles.formGroup}>
+                        <div className={styles.fieldGroup}>
+                          <div className={styles.labelGroup}>
+                            <label>Hobbies</label>
+                            <p className={styles.starHead}>*</p>
+                          </div>
+                          <div className={styles.inputGroup}>
+                            <input
+                              type="text"
+                              className={styles.input}
+                              placeholder=""
+                            />
+                          </div>
+                          <div className={styles.helperTextDiv}></div>
+                        </div>
+                      </div>
+                      
+        </form>
 
         
 

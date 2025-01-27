@@ -9,6 +9,8 @@ import FormPage3 from "./pages/FormPage3/FormPage3";
 import Formpage5 from "./pages/FormPage5/FormPage5";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import OtpPage from "./pages/Otppage/OtpPage"
+import UserProfle from "./pages/UserProfile/UserProfle";
+
 
 function App() {
   return (
@@ -24,7 +26,7 @@ function App() {
           <Route path="/formpage4" element={<FormPage4 />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/OtpPage" element={<OtpPage />} />
-
+          <Route path="/prof" element={<UserProfle />} />
         </Routes>
       </BrowserRouter>
     </div>
