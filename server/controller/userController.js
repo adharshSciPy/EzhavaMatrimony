@@ -3,7 +3,7 @@ import nodemailer from "nodemailer";
 import crypto from "crypto";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { log } from "console";
+import { likedByProfile } from "../model/likedProfileModel.js";
 
 const registerUser = async (req, res) => {
   const { relation, firstName, userEmail } = req.body;
@@ -75,12 +75,12 @@ const registerUser = async (req, res) => {
       .json({ message: `Internal Server Error: ${err.message}` });
   }
 };
- 
+
 
 const editUser = async (req, res) => {
   const { id } = req.params;
   console.log(id);
-  
+
   const {
     dateOfBirth,
     religion,
@@ -106,7 +106,7 @@ const editUser = async (req, res) => {
     annualIncome,
     about,
     location,
-     hobbies,
+    hobbies,
     age
   } = req.body;
   console.log(id);
@@ -141,7 +141,7 @@ const editUser = async (req, res) => {
       age
     };
     console.log(id);
-    
+
     if (password) {
       const hashedPassword = await bcrypt.hash(password, 10);
       updatedData.password = hashedPassword;
@@ -162,20 +162,20 @@ const editUser = async (req, res) => {
     console.error("Error editing user:", error);
     return res.status(500).json({ message: "Internal server error" });
     console.log(id);
-    
+
   }
 };
 const resendOtp = async (req, res) => {
   const { userEmail } = req.params;
 
   try {
-    const user = await User.findOne({ userEmail } );
+    const user = await User.findOne({ userEmail });
     console.log(user);
     console.log(userEmail);
-    
+
     if (!user) {
       return res.status(404).json({ message: "User not found" });
-     
+
     }
 
     if (user.isVerified) {
@@ -476,7 +476,7 @@ const topMatch = async (req, res) => {
 
     // Determine opposite gender
     // Ensure gender comparison is case-insensitive
-       const oppositeGender = user.gender.toLowerCase() === 'male' ? 'female' : 'male';
+    const oppositeGender = user.gender.toLowerCase() === 'male' ? 'female' : 'male';
 
     const matchQuery = {
       $or: [
@@ -547,6 +547,49 @@ const verifyOtp = async (req, res) => {
   }
 };
 
+const userdetails = async (req, res) => {
+  try {
+    const userdetails = await User.find()
+    return res.status(200).json({ message: "User details successfully", data: userdetails })
+  } catch (error) {
+    return res.status(400).json({ message: "Internal server error due to", error: error.message })
+  }
+}
+
+const profileLiked = async (req, res) => {
+  const { likedByUserId } = req.params;
+  const { likedUserId } = req.body;
+
+  try {
+    // Save the like to the database
+    const like = new likedByProfile({ likedByUserId, likedUserId });
+    await like.save();
+
+    // Notify the liked user via Socket.io
+    req.io.to(likedUserId).emit('profile_liked', { likedByUserId, likedUserId });
+
+    // Send success response
+    res.status(200).json({ message: 'Profile liked successfully' });
+  } catch (error) {
+    console.error('Error liking profile:', error.message);
+    res.status(500).json({ error: 'An error occurred while liking the profile' });
+  }
+};
+
+const likedprofiles = async (req, res) => {
+  const { likedByUserId } = req.params;
+  try {
+    const likeddata = await likedByProfile.find({
+      likedByUserId: likedByUserId
+    });
+
+    return res.status(200).json({ message: "Successfully fetched data", data: likeddata });
+  } catch (error) {
+    return res.status(400).json({ message: "Internal server error due", error: error })
+  }
+}
+
+
 
 
 export {
@@ -558,8 +601,11 @@ export {
   resetPassword,
   getUser,
   userLogin,
-   refreshAccessToken,
-    getUserById,
-    topMatch,
-    
+  refreshAccessToken,
+  getUserById,
+  topMatch,
+  profileLiked,
+  userdetails,
+  likedprofiles,
+
 };
