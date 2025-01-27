@@ -5,7 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import BounceLoader from "react-spinners/BounceLoader";
-
+import { useDispatch } from "react-redux";
+import { setUser } from "../../features/slice";
 
 function LoginPage() {
   const [form, setForm] = useState({
@@ -13,6 +14,8 @@ function LoginPage() {
     userEmail: "",
     firstName: "",
   });
+  const dispatch = useDispatch();
+
   const [errorMessage, setErrorMessage] = useState("");
   const notifyError = (message) => toast.error(message);
   const notifySuccess = (message) => toast.success(message);
@@ -24,7 +27,6 @@ function LoginPage() {
       [e.target.name]: e.target.value,
     });
   };
-
   const handleSignin = async (e) => {
     e.preventDefault();
      setIsLoading(true); 
@@ -35,6 +37,10 @@ function LoginPage() {
       );
       if (response.status === 201) {
         // Show success toast
+        const { id, userEmail } = response.data.user; 
+        
+        
+        dispatch(setUser({ id, userEmail }));
         toast.success("OTP sent to registered mail ID", {
           onClose: () => navigate(`/OtpPage`,{ state: { userEmail: form.userEmail } }),
         });

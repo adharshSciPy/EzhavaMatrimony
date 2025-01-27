@@ -1,11 +1,57 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./formpage1.module.css";
 import image from "../../assets/free-photo-of-couple-in-green-grass-field.jpeg";
 import image2 from "../../assets/heartshape.png";
+import axios from "axios";
+import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useSelector } from "react-redux";
 
 function FormPage1() {
+  const [form, setForm] = useState({
+    dateOfBirth: "",
+    gender: "",
+    motherTongue: "",
+    email: "",
+    password: "",
+  });
+  const [errorMessage, setErrorMessage] = useState("");
+  const notifyError = (message) => toast.error(message);
+  const notifySuccess = (message) => toast.success(message);
+  const navigate = useNavigate();
+  const { id, userEmail } = useSelector((state) => state.user);
+
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+
+      const response = await axios.patch(`http://localhost:8000/api/v1/user/edit/${id}`, form);
+      console.log(response);
+
+      if (response.status === 200) {
+        notifySuccess(response.data.data.message || "Successfully Submitted.")
+        navigate(`/formpage2`)
+      }
+    } catch (error) {
+      setErrorMessage(
+        error.response?.data?.message || "Please try again."
+      );
+      notifyError(error.response?.data?.message || "Something went wrong. Please try again.");
+
+    }
+  };
   return (
     <div className={styles.mainContainer}>
+      <ToastContainer position="bottom-right" />
       <div className={styles.progressDiv}>
         <div className={styles.progressHeading}>You have completed</div>
         <div className={styles.progressHeading2}>20%</div>
@@ -36,7 +82,7 @@ function FormPage1() {
               Tell us about your friend's basic details
             </h3>
 
-            <form className={styles.form}>
+            <form className={styles.form} onSubmit={handleSubmit}>
               <div className={styles.formGroup}>
                 <div className={styles.fieldGroup}>
                   <div className={styles.labelGroup}>
@@ -50,6 +96,9 @@ function FormPage1() {
                       placeholder="DD / MM / YY"
                       style={{ color: "#666" }}
                       required
+                      value={form.dateOfBirth}
+                      onChange={handleChange}
+                      name="dateOfBirth"
                     />
                   </div>
                   <div className={styles.helperTextDiv}>
@@ -67,8 +116,14 @@ function FormPage1() {
                     <p className={styles.starHead}>*</p>
                   </div>
                   <div className={styles.inputGroup}>
-                    <select className={styles.input} required>
-                    <option value="">Select Gender</option>
+                    <select
+                      className={styles.input}
+                      required
+                      value={form.gender}
+                      onChange={handleChange}
+                      name="gender"
+                    >
+                      <option value="">Select Gender</option>
                       <option value="Male">Male</option>
                       <option value="Female">Female</option>
 
@@ -86,8 +141,14 @@ function FormPage1() {
                     <p className={styles.starHead}>*</p>
                   </div>
                   <div className={styles.inputGroup}>
-                    <select className={styles.input} required>
-                    <option value="">Select Language</option>
+                    <select
+                      className={styles.input}
+                      required
+                      value={form.motherTongue}
+                      onChange={handleChange}
+                      name="motherTongue"
+                    >
+                      <option value="">Select Language</option>
                       <option value="Malayalam">Malayalam</option>
                       <option value="Others">Others</option>
                     </select>
@@ -108,6 +169,9 @@ function FormPage1() {
                       className={styles.input}
                       placeholder="Enter email"
                       required
+                      value={form.email}
+                      onChange={handleChange}
+                      name="email"
                     />
                   </div>
                   <div className={styles.helperTextDiv}>
@@ -130,6 +194,9 @@ function FormPage1() {
                       className={styles.input}
                       placeholder="Enter password"
                       required
+                      value={form.password}
+                      onChange={handleChange}
+                      name="password"
                     />
                   </div>
                   <div className={styles.helperTextDiv}>

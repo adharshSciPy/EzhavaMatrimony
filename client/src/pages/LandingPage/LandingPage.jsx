@@ -101,7 +101,7 @@ function LandingPage() {
             </div>
             <div className="signin">
               <p> Create your account</p>
-              <Link className="signup-link" to="/login">
+              <Link className="signup-link" to="/register">
                 Sign up
               </Link>
             </div>
