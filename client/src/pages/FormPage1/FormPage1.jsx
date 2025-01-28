@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import styles from "./formpage1.module.css";
 import image from "../../assets/free-photo-of-couple-in-green-grass-field.jpeg";
-import image2 from "../../assets/heartshape.png";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -69,11 +67,6 @@ function FormPage1() {
               alt="Couple"
               className={styles.image}
             />
-            {/* <div className={styles.pulsatingDiv}>
-             <div className={styles.heartDiv}>
-            <img src={image2} alt="heart"  className={styles.image2}/>
-          </div>
-          </div> */}
           </div>
 
           {/* Form Section */}

@@ -1,23 +1,61 @@
 import React, { useState } from "react";
 import styles from "../FormPage3/formpage3.module.css";
 import image from "../../assets/free-photo-of-couple-in-green-grass-field.jpeg";
+import { useSelector } from "react-redux";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function FormPage5() {
- 
-  const [employ, setEmploy] = useState("");
- 
+  const { id } = useSelector((state) => state.user);
+  const [employmentStatus, setEmploymentStatus] = useState("");
   const [residentStatus, setResidentStatus] = useState("");
-
-
-  //   const btnSelectedJathakam = (button) => {
-  //     setSelectedJathakam(button);
-  //   };
-  const employStatus = (button) => {
-    setEmploy(button);
-  };
-  const resident = (button) => {
-    setResidentStatus(button);
-  };
+  const [form,setForm]=useState({})
+  const navigate = useNavigate();
+  
+ const  handleChange=(e)=>{
+  setForm({
+    ...form,
+    [e.target.name]:e.target.value
+  })
+ }
+ const handleSubmit=async(e)=>{
+  e.preventDefault()
+  const formData={
+    ...form,
+    employmentStatus,
+    residentStatus
+    
+  }
+  try {
+    console.log(id);
+    console.log(employmentStatus);
+    
+    const response=await axios.patch(`http://localhost:8000/api/v1/user/edit/${id}`,
+      formData)
+      if (response.status === 200) {
+        navigate(`/dashboard`);
+        console.log(response);
+        
+      }
+  } catch (error) {
+    console.error(error);
+      alert("An error occurred while submitting the form.");
+    }
+  }
+ 
+  const renderOptionButtons = (options, selectedOption, setSelectedOption) =>
+    options.map((option) => (
+      <button
+        key={option}
+        type="button"
+        className={`${styles.optionSingleButton} ${
+          selectedOption === option ? styles.selected : ""
+        }`}
+        onClick={() => setSelectedOption(option)}
+      >
+        {option}
+      </button>
+    ));
 
   return (
     <div className={styles.mainContainer}>
@@ -43,7 +81,7 @@ function FormPage5() {
               Tell us about your friends personal details
             </h3>
 
-            <form className={styles.form}>
+            <form className={styles.form} onSubmit={handleSubmit}>
               <div className={styles.formGroup}>
                 <div className={styles.fieldGroup}>
                   <div className={styles.labelGroup}>
@@ -55,6 +93,9 @@ function FormPage5() {
                       type="text"
                       className={styles.input}
                       placeholder="Education"
+                      name="education"
+                      onChange={handleChange}
+                      value={form.value}
                     />
                   </div>
                   <div className={styles.helperTextDiv}></div>
@@ -72,6 +113,9 @@ function FormPage5() {
                       type="text"
                       className={styles.input}
                       placeholder="Education in Details"
+                      name="educationDetails"
+                      onChange={handleChange}
+                      value={form.value}
                     />
                   </div>
                   <div className={styles.helperTextDiv}></div>
@@ -86,72 +130,18 @@ function FormPage5() {
                   </div>
                   <div className={styles.inputGroupButtons}>
                     <div className={styles.optionButtonOuterDiv}>
-                      <button
-                        className={`${styles.optionSingleButton} ${
-                          employ === "Government" ? styles.selected : ""
-                        }`}
-                        onClick={(event) => {
-                          event.preventDefault();
-                          employStatus("Government");
-                        }}
-                      >
-                        Government
-                      </button>
-                      <button
-                        className={`${styles.optionSingleButton} ${
-                          employ === "Private" ? styles.selected : ""
-                        }`}
-                        onClick={(event) => {
-                          event.preventDefault();
-                          employStatus("Private");
-                        }}
-                      >
-                        Private
-                      </button>
-                      <button
-                        className={`${styles.optionSingleButton} ${
-                          employ === "Business" ? styles.selected : ""
-                        }`}
-                        onClick={(event) => {
-                          event.preventDefault();
-                          employStatus("Business");
-                        }}
-                      >
-                        Business
-                      </button>
-                      <button
-                        className={`${styles.optionSingleButton} ${
-                          employ === "Defence" ? styles.selected : ""
-                        }`}
-                        onClick={(event) => {
-                          event.preventDefault();
-                          employStatus("Defence");
-                        }}
-                      >
-                        Defence
-                      </button>
-                      <button
-                        className={`${styles.optionSingleButton} ${
-                          employ === "SelfEmployed" ? styles.selected : ""
-                        }`}
-                        onClick={(event) => {
-                          event.preventDefault();
-                          employStatus("SelfEmployed");
-                        }}
-                      >
-                        SelfEmployed
-                      </button>
-                      <button
-                        className={`${styles.optionSingleButton} ${
-                          employ === "NotWorking" ? styles.selected : ""
-                        }`}
-                        onClick={(event) => {
-                          event.preventDefault();
-                          employStatus("NotWorking");
-                        }}
-                      >
-                        NotWorking
-                      </button>
+                      {renderOptionButtons(
+                        [
+                          "Government",
+                          "Private",
+                          "Business",
+                          "Defence",
+                          "SelfEmployed",
+                          "NotWorking",
+                        ],
+                        employmentStatus,
+                        setEmploymentStatus
+                      )}
                     </div>
                   </div>
                   {/* <div className={styles.helperTextDiv}></div> */}
@@ -169,6 +159,9 @@ function FormPage5() {
                       type="text"
                       className={styles.input}
                       placeholder="Your Income"
+                      value={form.value}
+                      onChange={handleChange}
+                      name="annualIncome"
                     />
                   </div>
                   <div className={styles.helperTextDiv}></div>
@@ -186,6 +179,9 @@ function FormPage5() {
                       type="text"
                       className={styles.input}
                       placeholder="Occupation"
+                      value={form.value}
+                      onChange={handleChange}
+                      name="occupation"
                     />
                   </div>
                   <div className={styles.helperTextDiv}></div>
@@ -199,7 +195,7 @@ function FormPage5() {
                     <p className={styles.starHead}>*</p>
                   </div>
                   <div className={styles.inputGroup}>
-                    <select className={styles.input} required>
+                    <select className={styles.input} required value={form.value} onChange={handleChange} name="state"  >
                       <option value="">Select Your State</option>
                       <option value="Andhra Pradesh">Andhra Pradesh</option>
                       <option value="Arunachal Pradesh">
@@ -260,7 +256,10 @@ function FormPage5() {
                     <input
                       type="text"
                       className={styles.input}
-                      placeholder="City"
+                      placeholder="city"
+                      value={form.value}
+                      name="city"
+                      onChange={handleChange}
                     />
                   </div>
                   <div className={styles.helperTextDiv}></div>
@@ -277,6 +276,9 @@ function FormPage5() {
                       type="text"
                       className={styles.input}
                       placeholder=""
+                      name="citizenship"
+                      value={form.value}
+                      onChange={handleChange}
                     />
                   </div>
                   <div className={styles.helperTextDiv}></div>
@@ -290,56 +292,16 @@ function FormPage5() {
                   </div>
                   <div className={styles.inputGroup}>
                     <div className={styles.optionButtonOuterDiv}>
-                      <button
-                        className={`${styles.optionSingleButton} ${
-                          residentStatus === "Permanent Resident" ? styles.selected : ""
-                        }`}
-                        onClick={(event) => {
-                          event.preventDefault();
-                         resident("Permanent Resident");
-                        }}
-                      >
-                        Permanent Resident
-                      </button>
-                      <button
-                        className={`${styles.optionSingleButton} ${
-                          residentStatus === "Work Permit"
-                            ? styles.selected
-                            : ""
-                        }`}
-                        onClick={(event) => {
-                          event.preventDefault();
-                          resident("Work Permit");
-                        }}
-                      >
-                        Work Permit
-                      </button>
-                      <button
-                        className={`${styles.optionSingleButton} ${
-                          residentStatus === "Student Visa"
-                            ? styles.selected
-                            : ""
-                        }`}
-                        onClick={(event) => {
-                          event.preventDefault();
-                          resident("Student Visa");
-                        }}
-                      >
-                        Student Visa
-                      </button>
-                      <button
-                        className={`${styles.optionSingleButton} ${
-                          residentStatus === "Temporary Visa"
-                            ? styles.selected
-                            : ""
-                        }`}
-                        onClick={(event) => {
-                          event.preventDefault();
-                          resident("Temporary Visa");
-                        }}
-                      >
-                        Temporary Visa
-                      </button>
+                      {renderOptionButtons(
+                        [
+                          "Permanent Resident",
+                          "Work Permit",
+                          "Temporary Visa",
+                          "Student Visa",
+                        ],
+                        residentStatus,
+                        setResidentStatus
+                      )}
                     </div>
                   </div>
                   <div className={styles.helperTextDiv}></div>

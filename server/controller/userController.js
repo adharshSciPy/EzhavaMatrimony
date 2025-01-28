@@ -90,24 +90,30 @@ const editUser = async (req, res) => {
     caste,
     subCaste,
     Gothran,
-    sudhajathakam,
-    dhosham,
+    suddhaJathakam,
+    dosham,
     gender,
     maritalStatus,
     height,
-    familStatus,
+    familyStatus,
     familyNetworth,
     familyType,
     familyValues,
-    PhysicalValue,
+    physicallyChallenged,
     education,
-    employed,
+    employmentStatus,
     occupation,
     annualIncome,
     about,
     location,
     hobbies,
-    age
+    age,
+    city,
+    citizenship,
+    residentStatus,
+    educationDetails,
+    state
+
   } = req.body;
   console.log(id);
 
@@ -120,17 +126,17 @@ const editUser = async (req, res) => {
       caste,
       subCaste,
       Gothran,
-      sudhajathakam,
-      dhosham,
+      suddhaJathakam,
+      dosham,
       maritalStatus,
       height,
-      familStatus,
+      familyStatus,
       familyNetworth,
       familyType,
       familyValues,
-      PhysicalValue,
+      physicallyChallenged,
       education,
-      employed,
+      employmentStatus,
       occupation,
       annualIncome,
       about,
@@ -138,7 +144,12 @@ const editUser = async (req, res) => {
       gender,
       location,
       hobbies,
-      age
+      age,
+      city,
+      citizenship,
+      residentStatus,
+      educationDetails,
+      state
     };
     console.log(id);
 
