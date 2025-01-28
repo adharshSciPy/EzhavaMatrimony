@@ -5,6 +5,16 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { likedByProfile } from "../model/likedProfileModel.js";
 
+const generateShortId = () => {
+  const timestamp = Date.now(); // Get current time in milliseconds
+  const randomComponent = Math.floor(Math.random() * 1000); // Random number from 0 to 999
+
+  // Combine timestamp and random component to create a unique ID
+  const uniqueId = `EZ ${timestamp}${randomComponent}`;
+
+  return uniqueId;
+};
+
 const registerUser = async (req, res) => {
   const { relation, firstName, userEmail } = req.body;
 
@@ -23,6 +33,8 @@ const registerUser = async (req, res) => {
       return res.status(400).json({ message: "Email is already in use" });
     }
 
+    const userId = generateShortId();
+
     const role = process.env.USER_ROLE;
 
     const otp = crypto.randomInt(100000, 999999); // Generate a 6-digit OTP
@@ -33,6 +45,7 @@ const registerUser = async (req, res) => {
       relation,
       firstName,
       userEmail,
+      userId,
       role,
       otp: hashedOtp, // Save hashed OTP
       otpExpiry, // Save OTP expiry time
