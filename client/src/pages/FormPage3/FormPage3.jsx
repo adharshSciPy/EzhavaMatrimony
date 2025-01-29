@@ -1,40 +1,64 @@
 import React, { useState } from "react";
 import styles from "./formpage3.module.css";
 import image from "../../assets/free-photo-of-couple-in-green-grass-field.jpeg";
+import { useSelector } from "react-redux";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function FormPage3() {
-  const [selected, setSelected] = useState("");
-  const [martial, setMarital] = useState("");
-  const [family, setFamily] = useState("");
+  const { id } = useSelector((state) => state.user);
+  const [maritalStatus, setMaritalStatus] = useState("");
+  const [familyStatus, setFamilyStatus] = useState("");
   const [familyType, setFamilyType] = useState("");
   const [familyValues, setFamilyValues] = useState("");
   const [physicallyChallenged, setPhysicallyChallenged] = useState("");
-
-
-  const btnSelected = (button) => {
-    setSelected(button);
-    console.log("hhaiii", button);
-  };
-  //   const btnSelectedJathakam = (button) => {
-  //     setSelectedJathakam(button);
-  //   };
-  const martialStatus = (button) => {
-    setMarital(button);
-    console.log("hai", button);
-  };
-  const familyStatus = (button) => {
-    setFamily(button);
-  };
-  const familyTypeSelected = (button) => {
-    setFamilyType(button);
-  };
-  const familyValuesSelected = (button) => {
-    setFamilyValues(button);
-  };
-  const physicallyChallengedSelected=(button)=>{
-    setPhysicallyChallenged(button)
+   const [form,setForm]=useState({})
+  const navigate = useNavigate();
+  const handleChange=(e)=>{
+    setForm({
+      ...form,
+      [e.target.name]:e.target.value
+    });
   }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
+    const formData = {
+      ...form,
+      maritalStatus,
+      familyStatus,
+      familyType,
+      familyValues,
+      physicallyChallenged,
+    };
+    try {
+      const response = await axios.patch(
+        `http://localhost:8000/api/v1/user/edit/${id}`,
+        formData
+      );
+      if (response.status === 200) {
+        navigate(`/formpage4`);
+        console.log(response);
+        
+      }
+    } catch (error) {
+      console.error(error);
+      alert("An error occurred while submitting the form.");
+    }
+  }
+  const renderOptionButtons = (options, selectedOption, setSelectedOption) =>
+    options.map((option) => (
+      <button
+        key={option}
+        type="button"
+        className={`${styles.optionSingleButton} ${
+          selectedOption === option ? styles.selected : ""
+        }`}
+        onClick={() => setSelectedOption(option)}
+      >
+        {option}
+      </button>
+    ));
   return (
     <div className={styles.mainContainer}>
       <div className={styles.progressDiv}>
@@ -57,13 +81,13 @@ function FormPage3() {
           </div>
 
           {/* Form Section */}
-          
+
           <div className={styles.formContainer}>
             <h3 className={styles.formHeading}>
               Tell us about your friends personal details
             </h3>
 
-            <form className={styles.form}>
+            <form className={styles.form} onSubmit={handleSubmit}>
               <div className={styles.formGroup}>
                 <div className={styles.fieldGroup}>
                   <div className={styles.labelGroup}>
@@ -72,50 +96,11 @@ function FormPage3() {
                   </div>
                   <div className={styles.inputGroupButtons}>
                     <div className={styles.optionButtonOuterDiv}>
-                      <button
-                        className={`${styles.optionSingleButton} ${
-                          martial === "Married" ? styles.selected : ""
-                        }`}
-                        onClick={(event) => {
-                          event.preventDefault();
-                          martialStatus("Married");
-                        }}
-                      >
-                        Married
-                      </button>
-                      <button
-                        className={`${styles.optionSingleButton} ${
-                          martial === "Widowed" ? styles.selected : ""
-                        }`}
-                        onClick={(event) => {
-                          event.preventDefault();
-                          martialStatus("Widowed");
-                        }}
-                      >
-                        Widowed
-                      </button>
-                      <button
-                        className={`${styles.optionSingleButton} ${
-                          martial === "Divorced" ? styles.selected : ""
-                        }`}
-                        onClick={(event) => {
-                          event.preventDefault();
-                          martialStatus("Divorced");
-                        }}
-                      >
-                        Divorced
-                      </button>
-                      <button
-                        className={`${styles.optionSingleButton} ${
-                          martial === "Awaiting Divorce" ? styles.selected : ""
-                        }`}
-                        onClick={(event) => {
-                          event.preventDefault();
-                          martialStatus("Awaiting Divorce");
-                        }}
-                      >
-                        Awaiting Divorce
-                      </button>
+                      {renderOptionButtons(
+                        ["Never Married", "Widowed", "Divorced", "Awaiting Divorce"],
+                        maritalStatus,
+                        setMaritalStatus
+                      )}
                     </div>
                   </div>
                   {/* <div className={styles.helperTextDiv}></div> */}
@@ -133,6 +118,8 @@ function FormPage3() {
                       type="text"
                       className={styles.input}
                       placeholder="Height In Centimeters"
+                      name="height"
+                      value={form.value} onChange={handleChange}
                     />
                   </div>
                   <div className={styles.helperTextDiv}></div>
@@ -147,50 +134,16 @@ function FormPage3() {
                   </div>
                   <div className={styles.inputGroupButtons}>
                     <div className={styles.optionButtonOuterDiv}>
-                      <button
-                        className={`${styles.optionSingleButton} ${
-                          family === "Middle Class" ? styles.selected : ""
-                        }`}
-                        onClick={(event) => {
-                          event.preventDefault();
-                          familyStatus("Middle Class");
-                        }}
-                      >
-                        Middle Class
-                      </button>
-                      <button
-                        className={`${styles.optionSingleButton} ${
-                          family === "Upper Middle Class" ? styles.selected : ""
-                        }`}
-                        onClick={(event) => {
-                          event.preventDefault();
-                          familyStatus("Upper Middle Class");
-                        }}
-                      >
-                        Upper Middle Class
-                      </button>
-                      <button
-                        className={`${styles.optionSingleButton} ${
-                          family === "High Class" ? styles.selected : ""
-                        }`}
-                        onClick={(event) => {
-                          event.preventDefault();
-                          familyStatus("High Class");
-                        }}
-                      >
-                        High Class
-                      </button>
-                      <button
-                        className={`${styles.optionSingleButton} ${
-                          family === "Rich" ? styles.selected : ""
-                        }`}
-                        onClick={(event) => {
-                          event.preventDefault();
-                          familyStatus("Rich");
-                        }}
-                      >
-                        Rich/Affluent
-                      </button>
+                      {renderOptionButtons(
+                        [
+                          "Middle Class",
+                          "Upper Middle Class",
+                          "High Class",
+                          "Rich/Affluent",
+                        ],
+                        familyStatus,
+                        setFamilyStatus
+                      )}
                     </div>
                   </div>
                   {/* <div className={styles.helperTextDiv}></div> */}
@@ -202,10 +155,10 @@ function FormPage3() {
                   <div className={styles.labelGroup}>
                     <label>Family NetWorth</label>
                     <p className={styles.starHead}>*</p>
-
                   </div>
                   <div className={styles.inputGroup}>
-                    <select className={styles.input}>
+                    <select className={styles.input} name="familyIncome"
+                      value={form.value} onChange={handleChange}>
                       <option value="less_than_1M">Less than $1M</option>
                       <option value="1M_to_5M">$1M to $5M</option>
                       <option value="5M_to_10M">$5M to $10M</option>
@@ -213,9 +166,7 @@ function FormPage3() {
                       <option value="above_50M">Above $50M</option>
                     </select>
                   </div>
-                  <div className={styles.helperTextDiv}>
-                  
-                  </div>
+                  <div className={styles.helperTextDiv}></div>
                 </div>
               </div>
 
@@ -224,41 +175,19 @@ function FormPage3() {
                   <div className={styles.labelGroup}>
                     <label>Family Type</label>
                     <p className={styles.starHead}>*</p>
-
                   </div>
                   <div className={styles.inputGroup}>
                     <div className={styles.optionButtonOuterDiv}>
-                      <button
-                        className={`${styles.optionSingleButton} ${
-                          familyType === "Joint" ? styles.selected : ""
-                        }`}
-                        onClick={(event) => {
-                          event.preventDefault();
-                          familyTypeSelected("Joint");
-                        }}
-                      >
-                        Joint
-                      </button>
-                      <button
-                        className={`${styles.optionSingleButton} ${
-                          familyType === "Nuclear" ? styles.selected : ""
-                        }`}
-                        onClick={(event) => {
-                          event.preventDefault();
-                          familyTypeSelected("Nuclear");
-                        }}
-                      >
-                        Nuclear
-                      </button>
+                      {renderOptionButtons(
+                        ["Joint", "Nuclear"],
+                        familyType,
+                        setFamilyType
+                      )}
                     </div>
                   </div>
-                  <div className={styles.helperTextDiv}>
-
-                  </div>
+                  <div className={styles.helperTextDiv}></div>
                 </div>
               </div>
-
-              
 
               <div className={styles.formGroup}>
                 <div className={styles.fieldGroup}>
@@ -268,50 +197,11 @@ function FormPage3() {
                   </div>
                   <div className={styles.inputGroupButtons}>
                     <div className={styles.optionButtonOuterDiv}>
-                      <button
-                        className={`${styles.optionSingleButton} ${
-                          familyValues === "Orthodox" ? styles.selected : ""
-                        }`}
-                        onClick={(event) => {
-                          event.preventDefault();
-                          familyValuesSelected("Orthodox");
-                        }}
-                      >
-                        Orthodox
-                      </button>
-                      <button
-                        className={`${styles.optionSingleButton} ${
-                          familyValues === "Traditional" ? styles.selected : ""
-                        }`}
-                        onClick={(event) => {
-                          event.preventDefault();
-                          familyValuesSelected("Traditional");
-                        }}
-                      >
-                        Traditional
-                      </button>
-                      <button
-                        className={`${styles.optionSingleButton} ${
-                          familyValues === "Moderate" ? styles.selected : ""
-                        }`}
-                        onClick={(event) => {
-                          event.preventDefault();
-                          familyValuesSelected("Moderate");
-                        }}
-                      >
-                        Moderate
-                      </button>
-                      <button
-                        className={`${styles.optionSingleButton} ${
-                          familyValues === "Liberal" ? styles.selected : ""
-                        }`}
-                        onClick={(event) => {
-                          event.preventDefault();
-                          familyValuesSelected("Liberal");
-                        }}
-                      >
-                        Liberal
-                      </button>
+                      {renderOptionButtons(
+                        ["Orthodox", "Traditional", "Moderate", "Liberal"],
+                        familyValues,
+                    setFamilyValues
+                      )}
                     </div>
                   </div>
                   {/* <div className={styles.helperTextDiv}></div> */}
@@ -323,37 +213,17 @@ function FormPage3() {
                   <div className={styles.labelGroup}>
                     <label>Disabled</label>
                     <p className={styles.starHead}>*</p>
-                        
                   </div>
                   <div className={styles.inputGroup}>
                     <div className={styles.optionButtonOuterDiv}>
-                      <button
-                        className={`${styles.optionSingleButton} ${
-                          physicallyChallenged === "Nope" ? styles.selected : ""
-                        }`}
-                        onClick={(event) => {
-                          event.preventDefault();
-                          physicallyChallengedSelected("Nope");
-                        }}
-                      >
-                        Nope
-                      </button>
-                      <button
-                        className={`${styles.optionSingleButton} ${
-                          physicallyChallenged === "Physically Challenged" ? styles.selected : ""
-                        }`}
-                        onClick={(event) => {
-                          event.preventDefault();
-                          physicallyChallengedSelected("Physically Challenged");
-                        }}
-                      >
-                        Physically Challenged
-                      </button>
+                      {renderOptionButtons(
+                        ["Nope", "Physically Challenged"],
+                        physicallyChallenged,
+                    setPhysicallyChallenged
+                      )}
                     </div>
                   </div>
-                  <div className={styles.helperTextDiv}>
-                    
-                  </div>
+                  <div className={styles.helperTextDiv}></div>
                 </div>
               </div>
 

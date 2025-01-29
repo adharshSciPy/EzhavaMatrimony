@@ -42,10 +42,10 @@ const userSchema = new Schema({
   Gothran: {
     type: String,
   },
-  sudhajathakam: {
+  suddhaJathakam: {
     type: String,
   },
-  dhosham: {
+  dosham: {
     type: String,
   },
   maritalStatus: {
@@ -54,7 +54,7 @@ const userSchema = new Schema({
   height: {
     type: String,
   },
-  familStatus: {
+  familyStatus: {
     type: String,
   },
   familyNetworth: {
@@ -66,19 +66,29 @@ const userSchema = new Schema({
   familyValues: {
     type: String,
   },
-  PhysicalValue: {
+  physicallyChallenged:{
     type: String,
   },
   education: {
     type: String,
   },
-  employed: {
+  employmentStatus: {
+    type: String,
+  },
+  city: {
+    type: String,
+  },
+  citizenship: {
     type: String,
   },
   occupation: {
     type: String,
   },
   annualIncome: {
+    type: String,
+  },
+  
+  familyIncome: {
     type: String,
   },
   about: {
@@ -98,8 +108,8 @@ const userSchema = new Schema({
   otpExpiry: {
     type: Date,
   },
-  profileViews:
-    [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+  // profileViews:
+  //   [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   isEnabled: {
     type: Boolean,
     default: true,
@@ -112,6 +122,20 @@ const userSchema = new Schema({
   },
   hobbies: {
     type: String,
+  },
+  educationDetails:{
+    type:String
+  },
+  
+  residentStatus:{
+    type:String
+  },
+  userId:{
+    type:String
+  },
+  
+  state:{
+    type:String
   }
 
 });
