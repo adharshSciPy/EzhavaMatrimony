@@ -38,7 +38,8 @@ function FormPage4() {
         <div className={styles.progressHeading}>You have completed</div>
         <div className={styles.progressHeading2}>90%</div>
       </div>
-      <div className={styles.container}>
+      
+  <div className={styles.container}>
         {/* Progress Bar */}
 
         {/* Main Content */}
