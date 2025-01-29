@@ -9,6 +9,7 @@ return (
     <div className={styles.progressHeading}>You have completed</div>
     <div className={styles.progressHeading2}>90%</div>
   </div>
+  
   <div className={styles.container}>
     {/* Progress Bar */}
 
@@ -68,8 +69,25 @@ return (
                           </div>
                           <div className={styles.helperTextDiv}></div>
                         </div>
+                        
                       </div>
-                      
+                      <div className={styles.formGroup}>
+                        <div className={styles.fieldGroup}>
+                          <div className={styles.labelGroup}>
+                            <label>Location</label>
+                            <p className={styles.starHead}>*</p>
+                          </div>
+                          <div className={styles.inputGroup}>
+                            <input
+                              type="text"
+                              className={styles.input}
+                              placeholder=""
+                            />
+                          </div>
+                          <div className={styles.helperTextDiv}></div>
+                        </div>
+                        
+                      </div>
         </form>
 
         
