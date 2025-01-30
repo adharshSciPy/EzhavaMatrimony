@@ -14,15 +14,17 @@
     margin: auto;
     background-color: #EBF3F5;
     margin-top: 50px;
+    margin-bottom: 50px;
     border-radius: 20px;
     display: flex;
     gap: 20px;
     overflow: hidden;
+    position: relative;
 
 }
 
 .admin-dashboard .container-main .nav {
-    min-height: 100vh;
+    height: 100vh;
     padding-top: 50px;
     transition: transform 0.3s ease-in-out;
     border-right: 1px solid black;
@@ -111,10 +113,58 @@
     width: 90%;
     display: flex;
     justify-content: end;
+    padding-bottom: 20px;
 }
 .admin-dashboard  .see-all-link .custom-link{
     text-decoration: none;
     color: #F8CB58;
+
 }
 
 
+@media(max-width:900px){
+    .admin-dashboard .contents .profiles-container .main-container-profiles{
+    width: 100%;
+    padding-right: 10px;
+    
+}
+.admin-dashboard  .see-all-link{
+    width: 100%;
+}
+.admin-dashboard .container-main {
+    gap: 10px;
+}
+
+}
+@media(max-width:660px){
+    .admin-dashboard .container-main .nav {
+        height: max-content;
+        padding: 0;
+        overflow: hidden;
+        border: none;   
+    }
+.admin-dashboard .container-main {
+    width: 100%;
+    margin: 0;
+    border-radius: 0;
+}
+.admin-dashboard .button-container{
+    flex-direction: column;
+}
+.contents .profiles-container .main-container-profiles .profiles{
+    flex-direction: column;
+
+}
+.admin-dashboard .button-container .profile-verification-container {
+    width: 100%;
+}
+.admin-dashboard .button-container {
+    width: 100%;
+}
+.admin-dashboard .heading h1{
+    text-align: center;
+}
+.contents .profiles-container .main-container-profiles .profiles div{
+    padding-bottom: 20px;
+}
+}

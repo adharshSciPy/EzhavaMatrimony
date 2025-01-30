@@ -1,5 +1,6 @@
 .sidebar-container {
 box-sizing: border-box;
+height: 100vh;
   }
   
   .sidebar-container .sidebar {
@@ -8,6 +9,7 @@ box-sizing: border-box;
     flex-direction: column;
     transition: width 0.3s ease-in-out;
     overflow: hidden;
+    
   }
   
   .sidebar-container .sidebar.pinned {
