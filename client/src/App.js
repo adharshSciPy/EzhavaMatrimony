@@ -10,7 +10,7 @@ import Formpage5 from "./pages/FormPage5/FormPage5";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import OtpPage from "./pages/Otppage/OtpPage"
 import UserProfle from "./pages/UserProfile/UserProfle";
-
+import AdminProfile from "./pages/adminDashboard/Adimindashboard"
 
 function App() {
   return (
@@ -27,6 +27,8 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/OtpPage" element={<OtpPage />} />
           <Route path="/prof" element={<UserProfle />} />
+          <Route path="/Admindashboard" element={<AdminProfile />} />
+
         </Routes>
       </BrowserRouter>
     </div>
