@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DashStyles from "./dashboard.module.css";
 import {
   Pen,
@@ -15,15 +15,53 @@ import {
 } from "phosphor-react";
 import { Link } from "react-router-dom";
 import image from "../../assets/free-photo-of-couple-in-green-grass-field.jpeg";
+import Nav from "../../component/Navbar/Nav";
+import Footer from "../../component/Footer/Footer"
 
 function Dashboard() {
   const [liked, setLiked] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+
+  // const[showHamburger,setShowHamburger]=useState(true);
+
   const likedProfile = () => {
     setLiked(!liked);
   };
+
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
+
+  useEffect(() => {
+    const handleScrollHam = () => {
+      document
+        .querySelectorAll(
+          `.${DashStyles.ham1}, .${DashStyles.ham2}, .${DashStyles.ham3}`
+        )
+        .forEach((el) => {
+          if (
+            window.scrollY > 159 &&
+            !el.classList.contains(DashStyles.open1) &&
+            !el.classList.contains(DashStyles.open2) &&
+            !el.classList.contains(DashStyles.open3)
+          ) {
+            el.style.display = "none";
+          } else {
+            el.style.display = "block";
+          }
+        });
+    };
+
+    window.addEventListener("scroll", handleScrollHam);
+    return () => {
+      window.removeEventListener("scroll", handleScrollHam);
+    };
+  }, []);
+
   return (
     <div>
       <div className={DashStyles.mainContainer}>
+        <Nav />
         <div className={DashStyles.SubContainer}>
           <div className={DashStyles.ProfileDiv}>
             <div className={DashStyles.ProfileCard}>
@@ -90,6 +128,8 @@ function Dashboard() {
                           style={{ display: "none" }}
                         />
                       </div>
+                      
+                      
                     </div>
                   </div>
                 </div>
@@ -133,12 +173,167 @@ function Dashboard() {
               </div>
             </div>
           </div>
-          <div className={DashStyles.Container}>
+          {/* Profile details div for smalle screens start */}
+          <div
+            className={isOpen ? "overlay overlayActive" : "overlay"}
+            // onClick={toggleMenu}
+          >
+            <div className={DashStyles.HamburgerMain}>
+              {/* {showHamburger&&( */}
+              <div
+                className={DashStyles.Hamburger}
+                onClick={() => toggleMenu()}
+              >
+                <div
+                  className={`${DashStyles.ham1} ${
+                    isOpen ? DashStyles.open1 : ""
+                  }`}
+                ></div>
+                <div
+                  className={`${DashStyles.ham2} ${
+                    isOpen ? DashStyles.open2 : ""
+                  }`}
+                ></div>
+                <div
+                  className={`${DashStyles.ham3} ${
+                    isOpen ? DashStyles.open3 : ""
+                  }`}
+                ></div>
+              </div>
+              {/* )} */}
+              {/* profile div for smaller screens */}
+              <div
+                className={`${DashStyles.drawer} ${
+                  isOpen ? DashStyles.drawerOpen : DashStyles.drawerClosed
+                }`}
+              >
+                <div className={DashStyles.ProfileCard}>
+                  <div className={DashStyles.ProfileImage}></div>
+                  <div className={DashStyles.ProfileDetails}>
+                    <p className={DashStyles.Greeting}>Good Morning!</p>
+                    <h2 className={DashStyles.UserName}>Sanju</h2>
+                    {/* <p className={DashStyles.UserId}>Sanju@007</p> */}
+                    <p className={DashStyles.MemberId}>IDB 6142154</p>
+                    <p className={DashStyles.MembershipStatus}>
+                      Membership: Free
+                    </p>
+                    <button className={DashStyles.UpgradeButton}>
+                      Upgrade
+                    </button>
+                  </div>
+                </div>
+                <div className={DashStyles.ProfileCompletion}>
+                  <p style={{ fontWeight: "600", fontSize: "14px" }}>
+                    Complete your profile
+                  </p>
+                  <p style={{ fontSize: "10px" }}>Your Profile Strength: 30%</p>
+                  <div className={DashStyles.LinkIcon}>
+                    <div className={DashStyles.Icon}>
+                      <Pen
+                        size={20}
+                        weight="duotone"
+                        className={DashStyles.penIcon}
+                      />
+                    </div>
+                    <div className={DashStyles.link}>
+                      <Link to="/">Edit Profile</Link>
+                    </div>
+                  </div>
+                  <div className={DashStyles.LinkIcon}>
+                    <div className={DashStyles.Icon}>
+                      <Heart size={20} weight="duotone" />
+                    </div>
+                    <div className={DashStyles.link}>
+                      <Link to="/">Liked Profiles</Link>
+                    </div>
+                  </div>
+                  <div className={DashStyles.LinkIcon}>
+                    <div className={DashStyles.Icon}>
+                      <User size={20} weight="duotone" />
+                    </div>
+                    <div className={DashStyles.link}>
+                      <div
+                        className={DashStyles.DropdownSecond}
+                        onClick={() => {
+                          console.log("Dropdown toggled");
+                          document
+                            .querySelector(
+                              `.${DashStyles.DropdownMenuSecondSmall}`
+                            )
+                            .classList.toggle(DashStyles.show2);
+                        }}
+                      >
+                        Profile Verification
+                        <div className={DashStyles.DropdownMenuSecondSmall}>
+                          <div
+                            className={DashStyles.DropdownItemSecond}
+                            onClick={() =>
+                              document.getElementById("fileUpload").click()
+                            }
+                          >
+                            Upload document
+                            <input
+                              type="file"
+                              id="fileUpload"
+                              style={{ display: "none" }}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className={DashStyles.SettingsMain}>
+                  <div className={DashStyles.LinkIcon}>
+                    <div className={DashStyles.Icon}>
+                      <Gear size={20} weight="duotone" />
+                    </div>
+                    <div className={DashStyles.link}>
+                      <Link to="/">Settings</Link>
+                    </div>
+                  </div>
+                  <div className={DashStyles.LinkIcon}>
+                    <div className={DashStyles.Icon}>
+                      <Question size={20} weight="duotone" />
+                    </div>
+                    <div className={DashStyles.link}>
+                      <div
+                        className={DashStyles.HelpButton}
+                        onClick={() =>
+                          window.open(
+                            "https://mail.google.com/mail/?view=cm&fs=1&to=support@example.com&su=Help%20Request",
+                            "_blank"
+                          )
+                        }
+                      >
+                        Help
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className={DashStyles.LinkIcon}>
+                    <div className={DashStyles.Icon}>
+                      <ShieldCheck size={20} weight="duotone" />
+                    </div>
+                    <div className={DashStyles.link}>
+                      <Link to="/">Safe Matrimony</Link>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            className={`${DashStyles.Container} ${
+              isOpen ? DashStyles.contentDimmed : ""
+            }`}
+          >
             <div className={DashStyles.OuterBox}>
               <div className={DashStyles.SmallBox}></div>
               <div className={DashStyles.BigBox}></div>
             </div>
-            
+
             {/* Top recommendation start */}
             <div className={DashStyles.TopRecommendation}>
               <div className={DashStyles.trHeading}>
@@ -640,6 +835,7 @@ function Dashboard() {
             {/* Explore Matrimony end */}
           </div>
         </div>
+        <Footer/>
       </div>
     </div>
   );
