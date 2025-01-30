@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DashStyles from "./dashboard.module.css";
 import {
   Pen,
@@ -15,22 +15,53 @@ import {
 } from "phosphor-react";
 import { Link } from "react-router-dom";
 import image from "../../assets/free-photo-of-couple-in-green-grass-field.jpeg";
+import Nav from "../../component/Navbar/Nav";
+import Footer from "../../component/Footer/Footer"
 
 function Dashboard() {
   const [liked, setLiked] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+
+  // const[showHamburger,setShowHamburger]=useState(true);
+
   const likedProfile = () => {
     setLiked(!liked);
   };
-
-  const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
+  useEffect(() => {
+    const handleScrollHam = () => {
+      document
+        .querySelectorAll(
+          `.${DashStyles.ham1}, .${DashStyles.ham2}, .${DashStyles.ham3}`
+        )
+        .forEach((el) => {
+          if (
+            window.scrollY > 159 &&
+            !el.classList.contains(DashStyles.open1) &&
+            !el.classList.contains(DashStyles.open2) &&
+            !el.classList.contains(DashStyles.open3)
+          ) {
+            el.style.display = "none";
+          } else {
+            el.style.display = "block";
+          }
+        });
+    };
+
+    window.addEventListener("scroll", handleScrollHam);
+    return () => {
+      window.removeEventListener("scroll", handleScrollHam);
+    };
+  }, []);
+
   return (
     <div>
       <div className={DashStyles.mainContainer}>
+        <Nav />
         <div className={DashStyles.SubContainer}>
           <div className={DashStyles.ProfileDiv}>
             <div className={DashStyles.ProfileCard}>
@@ -97,6 +128,8 @@ function Dashboard() {
                           style={{ display: "none" }}
                         />
                       </div>
+                      
+                      
                     </div>
                   </div>
                 </div>
@@ -146,6 +179,7 @@ function Dashboard() {
             // onClick={toggleMenu}
           >
             <div className={DashStyles.HamburgerMain}>
+              {/* {showHamburger&&( */}
               <div
                 className={DashStyles.Hamburger}
                 onClick={() => toggleMenu()}
@@ -166,6 +200,7 @@ function Dashboard() {
                   }`}
                 ></div>
               </div>
+              {/* )} */}
               {/* profile div for smaller screens */}
               <div
                 className={`${DashStyles.drawer} ${
@@ -222,11 +257,11 @@ function Dashboard() {
                         onClick={() => {
                           console.log("Dropdown toggled");
                           document
-                            .querySelector(`.${DashStyles.DropdownMenuSecondSmall}`)
+                            .querySelector(
+                              `.${DashStyles.DropdownMenuSecondSmall}`
+                            )
                             .classList.toggle(DashStyles.show2);
                         }}
-                        
-                          
                       >
                         Profile Verification
                         <div className={DashStyles.DropdownMenuSecondSmall}>
@@ -241,7 +276,6 @@ function Dashboard() {
                               type="file"
                               id="fileUpload"
                               style={{ display: "none" }}
-                              
                             />
                           </div>
                         </div>
@@ -801,6 +835,7 @@ function Dashboard() {
             {/* Explore Matrimony end */}
           </div>
         </div>
+        <Footer/>
       </div>
     </div>
   );

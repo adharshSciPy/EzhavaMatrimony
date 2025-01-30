@@ -4,7 +4,6 @@
 }
 .mainContainer {
   width: 100%;
-
   /* margin-left: 3rem; */
 }
 .SubContainer {
@@ -612,12 +611,14 @@ place-items: center;
   }
  
 }
+
 @media (max-width: 800px) {
   .ProfileDiv {
     display: none;
   }
   .Hamburger {
     display: flex;
+    top: 5px;
   }
   .Container {
     width: 100%;
@@ -634,6 +635,35 @@ place-items: center;
     margin: 10px;
   }
   .Hamburger {
-    position: sticky;
+    top: 10px;
+    right: -28px;
+    z-index: 1000;
+    padding: 2px;
+    gap: 2px;
+    width:70px ;
+    /* background: #000; */
   }
+
+  .ham1,.ham3{
+    width: 15px;
+  }
+  .ham3{
+    left: 10px;
+  }
+  .ham2{
+    width: 25px;
+  }
+  .open2{
+    display: none;
+  }
+  .open1,.open3{
+    left: 10px;
+    top: 10px;
+    width:30px;
+    /* padding: 10px; */
+  }
+.drawer{
+width: 90%;
+/* padding: 10px; */
+}
 }
