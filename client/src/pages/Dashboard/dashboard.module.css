@@ -237,7 +237,7 @@
   gap: 15px;
   margin: 20px 0;
   place-items: center;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
 }
 /* .trContentDisplay {
   display: grid; 
@@ -252,7 +252,7 @@
 }
 .trCard {
   border-radius: 10px;
-  width: 210px;
+  width: 170px;
   height: 282px;
   background-color: #f0c040;
   flex: 0 210 1;
@@ -596,7 +596,7 @@ place-items: center;
 }  */
 @media (max-width: 1048px) {
   .SubContainer {
-    margin-left: 50px;
+    margin: 50px;
   }
   .Container {
     width: 70%;
@@ -613,6 +613,12 @@ place-items: center;
 }
 
 @media (max-width: 800px) {
+ 
+  .trContentDisplay{
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 10px;
+
+  }
   .ProfileDiv {
     display: none;
   }
@@ -624,7 +630,7 @@ place-items: center;
     width: 100%;
   }
   .SubContainer {
-    margin: 5rem;
+    margin: 2rem;
   }
   .ExploreMatrimonyDiv{
     width: 100%;
@@ -666,4 +672,5 @@ place-items: center;
 width: 90%;
 /* padding: 10px; */
 }
+
 }
