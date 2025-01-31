@@ -237,7 +237,7 @@
   gap: 15px;
   margin: 20px 0;
   place-items: center;
-  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(238px, 1fr));
 }
 /* .trContentDisplay {
   display: grid; 
@@ -252,44 +252,48 @@
 }
 .trCard {
   border-radius: 10px;
-  width: 170px;
-  height: 282px;
+  width: 236px;
+  height: 398px;
   background-color: #f0c040;
-  flex: 0 210 1;
   cursor: pointer;
-
-  /* border: 2px solid #333; */
+  overflow: hidden; /* Ensures no overflow issues */
 }
+
 .trCardImg {
   width: 100%;
-  /* border: 2px solid #a01010; */
-  /* mix-blend-mode: color-dodge; */
-  height: 230px;
-  /* border-radius: 10px; */
+  height: 330px; /* Maintain a fixed height for consistency */
 }
+
 .cardImage {
   width: 100%;
   height: 100%;
+  object-fit: cover; /* Ensures the image fills the area without distortion */
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }
+
 .trCardDetails {
   width: 100%;
-  height: 50px;
+  height: 68px; /* Increased for better spacing */
   background-color: #f0c040;
   border-radius: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  /* gap: 10px; */
-  /* border: 2px solid black; */
 }
-.trUserName,
-.trUserDetails {
-  color: #fff;
-  font-weight: 500;
-}
+
+  .trUserName {
+    color: #fff;
+    font-weight: 900;
+    padding-left: 10px;
+  }
+  .trUserDetails{
+    color: #fff;
+    font-weight: 700;
+    padding-left: 10px;
+
+  }
 /* .trCardDetailSub{
      padding: 10px 0 0 10px; 
     
@@ -567,7 +571,7 @@ place-items: center;
 .DropdownMenuSecondSmall {
   display: none;
   position: absolute;
-  top:  Adjusted from calc(70% + 10px) ;
+  top: calc(70% + 10px) ;
   left: 0;
   width: 100%;
   background-color: #f0c040;
@@ -604,6 +608,7 @@ place-items: center;
   }
   .ProfileDiv {
     width: 25%;
+    right: 5px;
   }
   .LinkIcon {
     gap: 0;
@@ -613,12 +618,16 @@ place-items: center;
 }
 
 @media (max-width: 800px) {
- 
+
   .trContentDisplay{
-    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(237px, 1fr));
     gap: 10px;
 
+
   }
+  /* .trUserName,.trUserDetail{
+    font-weight: 800;
+  } */
   .ProfileDiv {
     display: none;
   }
@@ -630,13 +639,13 @@ place-items: center;
     width: 100%;
   }
   .SubContainer {
-    margin: 2rem;
+    margin: 10px;
   }
   .ExploreMatrimonyDiv{
     width: 100%;
 }
 }
-@media (max-width:468px) {
+@media (max-width:500px) {
   .SubContainer{
     margin: 10px;
   }
