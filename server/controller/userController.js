@@ -602,14 +602,20 @@ const profileLiked = async (req, res) => {
 
 const likedprofiles = async (req, res) => {
   const { likedByUserId } = req.params;
-  try {
-    const likeddata = await likedByProfile.find({
-      likedByUserId: likedByUserId
-    });
 
-    return res.status(200).json({ message: "Successfully fetched data", data: likeddata });
+  try {
+    // Find all liked profiles and populate likedUserId to get full user details
+    const likedData = await likedByProfile.find({ likedByUserId })
+      .populate('likedUserId', 'firstName age height location profilePicture') // Fetch selected details
+
+    if (!likedData || likedData.length === 0) {
+      return res.status(200).json({ message: "No liked profiles found", data: [] });
+    }
+
+    return res.status(200).json({ message: "Successfully fetched liked profiles", data: likedData });
   } catch (error) {
-    return res.status(400).json({ message: "Internal server error due", error: error })
+    console.error("Error fetching liked profiles:", error);
+    return res.status(500).json({ message: "Internal server error", error: error.message });
   }
 }
 
