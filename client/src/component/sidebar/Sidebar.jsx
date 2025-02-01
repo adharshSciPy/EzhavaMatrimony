@@ -21,7 +21,7 @@ function Sidebar() {
       { key: "admin", label: "Dashboard", icon: <HomeOutlined />, path: "/Admindashboard" },
       { key: "profile", label: "Profile Verification", icon: <UserOutlined />, path: "/profile" },
       { key: "Report", label: "Reports & Complaints", icon: <ContainerOutlined />, path: "/Adminreport" },
-      { key: "settings", label: "Settings", icon: <SettingOutlined />, path: "/settings" },
+      { key: "settings", label: "Settings", icon: <SettingOutlined />, path: "/Adminsettings" },
       { key: "signout", label: "Signout", icon: <LogoutOutlined />, path: "/" },
     ],
     []
