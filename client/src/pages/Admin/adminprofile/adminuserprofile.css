@@ -32,6 +32,7 @@
   width: 40%;
   height: 300px;
   z-index: 10;
+  position: relative;
 }
 .profile-cards .image-container img {
   height: 100%;
@@ -44,6 +45,7 @@
   justify-content: center;
   width: 100%;
   padding-left: 20px;
+  position: relative;
 }
 .profile-cards .details-sections div {
   padding-top: 20px;
@@ -56,6 +58,7 @@
   display: flex;
   width: 100%;
   justify-content: space-between;
+  position: relative;
 }
 .profile-cards .profile-name-container .option svg {
   height: 30px;
@@ -88,16 +91,17 @@
 }
 .profile-cards .premium-container {
   position: absolute;
-  left: 0px;
+  left:-50px;
   background-color: white;
   padding: 20px 70px;
   border-radius: 50px;
-  top: -15px;
+  top:-20px;
   color: #f8cb58;
   border: 3px solid #f8cb58;
-  width: 50%;
-  display: flex;
+  width: auto;
+  display: flex;    
   justify-content: end;
+  z-index: -10;
 }
 .profile-view-main-container .about-card {
   width: 65%;
@@ -378,4 +382,68 @@
     background-color: transparent;
     color: #F8CB58;
     font-size: 20px;
+}
+
+
+
+@media (max-width:1150px) {
+    .profile-view-main-container .about-card .about-card-container {
+        width: 100%;
+        padding: 20px 10px 20px 20px;
+    }
+    .profile-view-main-container .about-card .about-card-container .description-container {
+        width: 100%;
+    }
+    .profile-view-main-container .about-card .about-card-container .basic-details-container {
+        width: 90%;
+    }
+    .profile-view-main-container .about-card .profile-like-container {
+        width: 100%;
+    }
+    .profile-view-main-container .about-card .like-card-container {
+        padding: 0;
+    }
+    .profile-view-main-container .about-card .like-card-container .like-card {
+        flex: 1 1 calc(100%);;
+    }
+    .profile-cards {
+        width: 95%;
+        margin: auto;
+    }
+    .profile-view-main-container .about-similar {
+        margin: auto;
+        width: 95%;
+    }
+    .profile-view-main-container .about-card {
+        margin-left: 0px;
+        
+    }
+    
+}
+@media(max-width:768px){
+    .profile-view-main-container .about-similar {
+        flex-direction: column;
+    }
+    .profile-view-main-container .about-card {
+        width: 100%;
+    }
+    .profile-view-main-container .about-similar .similar-profile-container {
+        width: 100%;
+        margin-top: 0;
+    }
+    .profile-view-main-container .about-similar .similar-profile-container .main-similar-profile {
+        margin-bottom: 20px;
+    }
+    .profile-cards .premium-container {
+        width: auto;
+
+    }
+    .all-match{
+        padding: 20px 0px;
+    }
+}
+@media(max-width:500px){
+    .profile-cards .verify-container {
+        display: none;
+    }
 }

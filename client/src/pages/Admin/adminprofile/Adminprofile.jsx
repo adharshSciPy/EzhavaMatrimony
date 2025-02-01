@@ -13,10 +13,12 @@ function Adminprofile() {
         <div className="profile-cards">
           <div className="image-container">
             <img src={padam} alt="Profile" className="profile-image" />
+            
           </div>
 
           <div className="details-sections">
             <div className="profile-name-container">
+            
               <div className="heading-text">
                 <h2 className="profile-name-container">Gopika Krishnan</h2>
               </div>
@@ -51,13 +53,14 @@ function Adminprofile() {
             <div className="profile-location-container">
               <span>Kerala, India</span>
             </div>
+            <div className="premium-container">
+            <h3>Premium</h3>
+          </div>
           </div>
           <div className="verify-container">
             <h3>Verify Profile</h3>
           </div>
-          <div className="premium-container">
-            <h3>Premium</h3>
-          </div>
+          
         </div>
         <div className="about-similar">
           <div className="about-card">
@@ -255,18 +258,7 @@ function Adminprofile() {
                   <div className="prof-detail same1">Demo</div>
                 </div>
               </div>
-              <div className="about-pat">
-                <div className="about-pat-main">
-                  <div className="heading">
-                    <h3>Her Basic Preferences you match preferred Groom's</h3>
-                  </div>
-                  <div className="contents">
-                    <div className="first-part">demo</div>
-                    <div className="first-part">demo</div>
-                    <div className="first-part">demo</div>
-                  </div>
-                </div>
-              </div>
+             
               <div className="profile-like-container">
                 <div className="profile-like-main">
                   <div className="heading">
