@@ -261,20 +261,20 @@
 
 .trCardImg {
   width: 100%;
-  height: 330px; /* Maintain a fixed height for consistency */
+  height: 330px; 
 }
 
 .cardImage {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Ensures the image fills the area without distortion */
+  object-fit: cover;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }
 
 .trCardDetails {
   width: 100%;
-  height: 68px; /* Increased for better spacing */
+  height: 68px; 
   background-color: #f0c040;
   border-radius: 10px;
   display: flex;
@@ -454,7 +454,7 @@ place-items: center;
   display: flex;
   justify-content: flex-end;
 }
-.Hamburger {
+.Hamburger,.FilterHam {
   width: 70px;
   padding: 5px;
   display: flex;
@@ -519,7 +519,7 @@ place-items: center;
   left: -300px;
   width: 300px;
   height: 100vh;
-  background-color: #f0c040;
+  /* background-color: #f0c040; */
   box-shadow: -2px 0 5px 2px rgba(0, 0, 0, 0.1);
   padding: 20px;
   transition: transform 0.7s ease-in-out, opacity 0.6s ease-in-out;
@@ -565,7 +565,7 @@ place-items: center;
 
 /* Background content dimmed */
 .contentDimmed {
-  opacity: 0.2; /* Reduce visibility */
+  opacity: 0.2; 
   transition: opacity 0.7s ease-in-out;
 }
 .DropdownMenuSecondSmall {
@@ -578,7 +578,7 @@ place-items: center;
   /* color: #fff; */
   border-radius: 4px;
   box-shadow: 0 2px 3px #666;
-  z-index: 1000; /* Increased to ensure it is above other content */
+  z-index: 1000;
   text-align: center;
   padding: 8px 0;
   font-weight: 600;
@@ -587,8 +587,91 @@ place-items: center;
 .show2{
   display: block;
 }
+/* Styling for the Top Recommendation page */
+.PageSelection{
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-top: 20px;
+  color: #222;
+}
+a{
+  text-decoration: none;
+  cursor: pointer;
+}
+.heading{
+  color: #222;
+  
+}
+.tabSelected{
+  text-decoration: underline;
+  color: #f0c040;
+}
+/*/Styling for Filter Div */
+.FilterDiv{
+  width: 20%;
+  position: absolute;
+  top: 80px;
+  right: 30px;
+  border-radius: 10px;
+  border: 2px solid #d9d9d9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.FilterProfiles{
+  padding: 10px;
+  border-bottom: 2px solid #d9d9d9;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.FilterProfilesHeading{
+font-size: 15px;
+}
+.BasicDetailsMainDiv,.ProfessionalDetailsMainDiv{
+  width: 100%;
+  padding-left: 10px;
+  border-bottom: 2px solid #d9d9d9;
+ 
+}
+.BasicDetailsHead,.ProfessionalDetailsHead{
+  font-size: 13px;
+  padding: 10px 0 10px 10px;
+}
+.BasicDetailsDiv,.ProfessionalDetailsDiv{
+  display: flex;
+  flex-direction: column;
+  row-gap: 15px;
 
 
+}
+.bdSelect,.pdSelect{
+  width: 90%;
+  padding: 5px;
+  margin: auto;
+  border: 2px solid #d9d9d9;
+  border-radius: 6px;
+}
+.bdSelect:last-child,.pdSelect:last-child{
+  margin-bottom: 20px;
+}
+.textBox{
+  padding-left: 5px;
+}
+.LocationDetailsMainDiv{
+  display: flex;
+  justify-content: space-between;
+padding: 10px 0 10px 0;
+
+}
+.penIconDiv{
+  padding-right: 5px;
+}
 
 /* @media (min-width:1240px) {
   .trContentDisplay{
@@ -607,13 +690,19 @@ place-items: center;
     width: 70%;
     /* border: 2px solid red; */
   }
-  .ProfileDiv {
+  .ProfileDiv,.FilterDiv {
     width: 25%;
     right: 5px;
   }
   .LinkIcon {
     gap: 0;
     font-size: 12px;
+  }
+  .BasicDetailsMainDiv,.ProfessionalDetailsMainDiv{
+    padding-left: 2px;
+  }
+  .FilterIcon{
+    display: none;
   }
  
 }
@@ -629,10 +718,10 @@ place-items: center;
   /* .trUserName,.trUserDetail{
     font-weight: 800;
   } */
-  .ProfileDiv {
+  .ProfileDiv,.FilterDiv {
     display: none;
   }
-  .Hamburger {
+  .Hamburger,.FilterHam {
     display: flex;
     top: 5px;
   }
@@ -644,6 +733,12 @@ place-items: center;
   }
   .ExploreMatrimonyDiv{
     width: 100%;
+}
+.FilterProfiles{
+  background-color: #f0c040;
+}
+.FilterIcon{
+  display: block;
 }
 }
 @media (max-width:500px) {
@@ -658,6 +753,14 @@ place-items: center;
     gap: 2px;
     width:70px ;
     /* background: #000; */
+  }
+  .FilterHam{
+    top: 10px;
+    right: -40px;
+    z-index: 1000;
+    padding: 2px;
+    gap: 2px;
+    width:70px ;
   }
 
   .ham1,.ham3{

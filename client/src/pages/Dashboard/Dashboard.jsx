@@ -89,7 +89,7 @@ function Dashboard() {
                   />
                 </div>
                 <div className={DashStyles.link}>
-                  <Link to="/">Edit Profile</Link>
+                  <Link to="/formpage1">Edit Profile</Link>
                 </div>
               </div>
               <div className={DashStyles.LinkIcon}>
@@ -236,7 +236,7 @@ function Dashboard() {
                       />
                     </div>
                     <div className={DashStyles.link}>
-                      <Link to="/">Edit Profile</Link>
+                      <Link to="/formpage1">Edit Profile</Link>
                     </div>
                   </div>
                   <div className={DashStyles.LinkIcon}>
@@ -481,7 +481,7 @@ function Dashboard() {
               </div>
               <div className={DashStyles.SeeAll}>
                 {/* <h4 className={DashStyles.saHead}>See All</h4> */}
-                <Link to="/">
+                <Link to="/toprecommendations">
                   See All <span className={DashStyles.SpanArrow}>{">"}</span>
                 </Link>
               </div>

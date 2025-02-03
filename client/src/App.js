@@ -12,6 +12,7 @@ import OtpPage from "./pages/Otppage/OtpPage"
 import UserProfle from "./pages/UserProfile/UserProfle";
 import AdminProfile from "./pages/Admin/adminDashboard/Adimindashboard"
 import Report from "./pages/Admin/Reports/Report"
+import TopRecommendation from "./pages/TopRecomendation/TopRecommendation";
 
 
 function App() {
@@ -31,6 +32,8 @@ function App() {
           <Route path="/prof" element={<UserProfle />} />
           <Route path="/Admindashboard" element={<AdminProfile />} />
           <Route path="/Adminreport" element={<Report />} />
+          <Route path="/toprecommendations" element={<TopRecommendation />} />
+
 
 
         </Routes>
