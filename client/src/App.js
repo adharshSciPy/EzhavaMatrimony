@@ -13,8 +13,8 @@ import UserProfle from "./pages/UserProfile/UserProfle";
 import AdminProfile from "./pages/Admin/adminDashboard/Adimindashboard"
 import Report from "./pages/Admin/Reports/Report"
 import TopRecommendation from "./pages/TopRecomendation/TopRecommendation";
-
-
+import Settings from "./pages/Admin/settings/Settings";
+import AdminUserProfileView from "./pages/Admin/adminprofile/Adminprofile"
 function App() {
   return (
     <div className="App">
@@ -33,6 +33,11 @@ function App() {
           <Route path="/Admindashboard" element={<AdminProfile />} />
           <Route path="/Adminreport" element={<Report />} />
           <Route path="/toprecommendations" element={<TopRecommendation />} />
+
+          <Route path="/Adminreport" element={<Report />} />
+          <Route path="/Adminsettings" element={<Settings />} />
+          <Route path="/Adminusersview/:id" element={<AdminUserProfileView />} />
+
 
 
 
