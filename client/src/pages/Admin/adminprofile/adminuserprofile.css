@@ -264,126 +264,7 @@
   align-items: center;
   justify-content: space-between;
 }
-.profile-view-main-container .about-card .profile-like-container{
-    width: 95%;
-    overflow: hidden;
-    margin-top: 30px;
-}
-.profile-view-main-container .about-card .profile-like-container .profile-like-main{
 
-    width: 100%;
-    overflow: hidden;
-}
-.profile-view-main-container .about-card .profile-like-container .profile-like-main .list-all{
-    width: 100%;
-    display: flex;
-    padding-top: 20px;
-    justify-content: end;
-}
-.profile-view-main-container .about-card .profile-like-container .profile-like-main .list-all .custom-link{
-    text-decoration: none;
-    color: black;
-    display: flex;
-    align-items: center;
-}
-.profile-view-main-container .about-card .like-card-container{
-    width: 100%;
-    padding: 10px;
-    overflow: hidden;
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-.profile-view-main-container .about-card .like-card-container .like-card{
-    flex: 0 0 calc(49%);
-    display: flex;
-    background-color: #5E7165;
-    border-radius: 20px;
-    gap: 10px;
-
-
-}
-.profile-view-main-container .about-card .like-card-container .like-card div{
-    width: 50%;
-}
-.profile-view-main-container .about-card .like-card-container .like-card div img{
-    object-fit: cover;
-    height: 100%;
-    width: 100%;
-    border-radius: 20px;
-}
-
-.profile-view-main-container .about-card .like-card-container .description-container div{
-    width: 100%;
-    padding-bottom:20px;
-    color: white;
-}
-.profile-view-main-container .about-card .like-card-container .description-container div button{
-    border: none;
-    background-color: transparent;
-    color: #F8CB58;
-    font-size: 20px;
-}
-.profile-view-main-container .about-similar .similar-profile-container{
-    width: 35%;
-    margin-top: 50px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  
-  border-radius: 20px;
-  overflow: hidden;
-  height: max-content;
-  padding-bottom: 20px;
-
-}
-.profile-view-main-container .about-similar .similar-profile-container .main-similar-profile{
-    width: 100%;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  border-radius: 20px;
-  padding: 20px;
-  text-align: center;
-  margin-bottom: 50px;
-}
-.profile-view-main-container .about-similar .similar-profile-container .like-card-container{
-    width: 100%;
-    padding: 10px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-} 
-.profile-view-main-container .about-similar .similar-profile-container .like-card{
-    flex: 1;
-    display: flex;
-    background-color: #5E7165;
-    border-radius: 20px;
-    gap: 10px;
-
-
-}
-.profile-view-main-container .about-similar .similar-profile-container .like-card div{
-    width: 50%;
-}
-.profile-view-main-container .about-similar .similar-profile-container .description-container{
-    padding-top: 20px;
-}
-.profile-view-main-container .about-similar .similar-profile-container .like-card-container .like-card div img{
-    object-fit: cover;
-    height: 100%;
-    width: 100%;
-    border-radius: 20px;
-}
-
-.profile-view-main-container .about-similar .similar-profile-container .like-card-container .description-container div{
-    width: 100%;
-    padding-bottom:20px;
-    color: white;
-}
-.profile-view-main-container .about-similar .similar-profile-container .like-card-container .description-container div button{
-    border: none;
-    background-color: transparent;
-    color: #F8CB58;
-    font-size: 20px;
-}
 
 
 
@@ -397,15 +278,6 @@
     }
     .profile-view-main-container .about-card .about-card-container .basic-details-container {
         width: 90%;
-    }
-    .profile-view-main-container .about-card .profile-like-container {
-        width: 100%;
-    }
-    .profile-view-main-container .about-card .like-card-container {
-        padding: 0;
-    }
-    .profile-view-main-container .about-card .like-card-container .like-card {
-        flex: 1 1 calc(100%);;
     }
     .profile-cards {
         width: 95%;
@@ -428,13 +300,7 @@
     .profile-view-main-container .about-card {
         width: 100%;
     }
-    .profile-view-main-container .about-similar .similar-profile-container {
-        width: 100%;
-        margin-top: 0;
-    }
-    .profile-view-main-container .about-similar .similar-profile-container .main-similar-profile {
-        margin-bottom: 20px;
-    }
+
     .profile-cards .premium-container {
         width: auto;
 
@@ -445,7 +311,7 @@
 }
 @media(max-width:500px){
     .profile-cards .verify-container {
-        display: nonecd;
+        display: none;
     }
     .profile-cards{
       flex-direction: column;

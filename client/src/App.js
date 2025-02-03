@@ -33,7 +33,7 @@ function App() {
           <Route path="/Adminreport" element={<Report />} />
           <Route path="/Adminreport" element={<Report />} />
           <Route path="/Adminsettings" element={<Settings />} />
-          <Route path="/Adminusersview" element={<AdminUserProfileView />} />
+          <Route path="/Adminusersview/:id" element={<AdminUserProfileView />} />
 
 
 
