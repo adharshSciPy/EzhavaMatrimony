@@ -154,13 +154,14 @@
 .profile-view-main-container .basic-details-container .same {
   display: flex;
   align-items: center;
-  width: 60%;
+  width: 45%;
 }
 .profile-view-main-container .basic-details-container .same1 {
   display: flex;
   align-items: center;
-  width: 40%;
+  width: 50%;
   justify-content: start;
+  flex-wrap: wrap;
 }
 
 .profile-view-main-container .basic-details-container .details-main {
@@ -444,6 +445,19 @@
 }
 @media(max-width:500px){
     .profile-cards .verify-container {
-        display: none;
+        display: nonecd;
     }
+    .profile-cards{
+      flex-direction: column;
+    } 
+    .profile-cards .premium-container {
+      display: none;
+
+  }
+  .profile-cards .verify-container {
+   display: none;
+  }
+  .profile-cards .image-container {
+    width: 100%;
+  }
 }

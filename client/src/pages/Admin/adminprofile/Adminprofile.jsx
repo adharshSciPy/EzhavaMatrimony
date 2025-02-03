@@ -13,12 +13,10 @@ function Adminprofile() {
         <div className="profile-cards">
           <div className="image-container">
             <img src={padam} alt="Profile" className="profile-image" />
-            
           </div>
 
           <div className="details-sections">
             <div className="profile-name-container">
-            
               <div className="heading-text">
                 <h2 className="profile-name-container">Gopika Krishnan</h2>
               </div>
@@ -54,13 +52,12 @@ function Adminprofile() {
               <span>Kerala, India</span>
             </div>
             <div className="premium-container">
-            <h3>Premium</h3>
-          </div>
+              <h3>Premium</h3>
+            </div>
           </div>
           <div className="verify-container">
             <h3>Verify Profile</h3>
           </div>
-          
         </div>
         <div className="about-similar">
           <div className="about-card">
@@ -100,7 +97,7 @@ function Adminprofile() {
                       <p>Degree</p>
                     </div>
                     <div className="prof-detail same1">
-                      Other Bachelor Degree in Medicine,Student
+                      <p>Other Bachelor Degree in Medicine,Student</p>
                     </div>
                   </div>
                   <div className="location-container details-main">
@@ -258,7 +255,7 @@ function Adminprofile() {
                   <div className="prof-detail same1">Demo</div>
                 </div>
               </div>
-             
+
               <div className="profile-like-container">
                 <div className="profile-like-main">
                   <div className="heading">
@@ -359,67 +356,66 @@ function Adminprofile() {
               <div className="container-similar">
                 <h3>Similar Profile</h3>
               </div>
-              
             </div>
             <div className="like-card-container">
-                <div className="like-card">
-                  <div className="image-container">
-                    <img src={padam} alt="" />
-                  </div>
-                  <div className="description-container">
-                    <div className="name">
-                      <h5>Gopika Krishnan</h5>
-                    </div>
-                    <div className="age">
-                      <p>25 Yrs</p>
-                    </div>
-                    <div className="location">
-                      <p>kerala,India</p>
-                    </div>
-                    <div className="view-button">
-                      <button>View Profile</button>
-                    </div>
-                  </div>
+              <div className="like-card">
+                <div className="image-container">
+                  <img src={padam} alt="" />
                 </div>
-                <div className="like-card">
-                  <div className="image-container">
-                    <img src={padam} alt="" />
+                <div className="description-container">
+                  <div className="name">
+                    <h5>Gopika Krishnan</h5>
                   </div>
-                  <div className="description-container">
-                    <div className="name">
-                      <h5>Gopika Krishnan</h5>
-                    </div>
-                    <div className="age">
-                      <p>25 Yrs</p>
-                    </div>
-                    <div className="location">
-                      <p>kerala,India</p>
-                    </div>
-                    <div className="view-button">
-                      <button>View Profile</button>
-                    </div>
+                  <div className="age">
+                    <p>25 Yrs</p>
                   </div>
-                </div>
-                <div className="like-card">
-                  <div className="image-container">
-                    <img src={padam} alt="" />
+                  <div className="location">
+                    <p>kerala,India</p>
                   </div>
-                  <div className="description-container">
-                    <div className="name">
-                      <h5>Gopika Krishnan</h5>
-                    </div>
-                    <div className="age">
-                      <p>25 Yrs</p>
-                    </div>
-                    <div className="location">
-                      <p>kerala,India</p>
-                    </div>
-                    <div className="view-button">
-                      <button>View Profile</button>
-                    </div>
+                  <div className="view-button">
+                    <button>View Profile</button>
                   </div>
                 </div>
               </div>
+              <div className="like-card">
+                <div className="image-container">
+                  <img src={padam} alt="" />
+                </div>
+                <div className="description-container">
+                  <div className="name">
+                    <h5>Gopika Krishnan</h5>
+                  </div>
+                  <div className="age">
+                    <p>25 Yrs</p>
+                  </div>
+                  <div className="location">
+                    <p>kerala,India</p>
+                  </div>
+                  <div className="view-button">
+                    <button>View Profile</button>
+                  </div>
+                </div>
+              </div>
+              <div className="like-card">
+                <div className="image-container">
+                  <img src={padam} alt="" />
+                </div>
+                <div className="description-container">
+                  <div className="name">
+                    <h5>Gopika Krishnan</h5>
+                  </div>
+                  <div className="age">
+                    <p>25 Yrs</p>
+                  </div>
+                  <div className="location">
+                    <p>kerala,India</p>
+                  </div>
+                  <div className="view-button">
+                    <button>View Profile</button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <hr className="separator"></hr>
