@@ -3,7 +3,7 @@ import "./userprofile.css";
 import padam from "../../assets/serious-man-portrait-real-people-high-definition-grey-background-photo.jpg";
 import Nav from "../../component/Navbar/Nav";
 import Footer from "../../component/Footer/Footer";
-
+import { Link } from "react-router-dom";
 function UserProfle() {
   return (
     <div>
@@ -31,11 +31,41 @@ function UserProfle() {
       </div>
       <div className="Prof-About">
         <h2 className="Prof-head">About Gopika Krishna</h2>
-        <h3 className="Prof-head2">Similar Profiles</h3>
         <p className="Prof-content">
-          asdiuhsssssssssssssssssssssssssssssssssssssssssssssssssaksjhasdasdhasdasaadhasajdhjsdhadadagdasdhsjdhshdjhuyasdtuyasdgtuaysd
+          asdiuhssssssssssss ssssss ssss ssssssss sssssss
+          ssssssssssssaksjhasdasdhasdasaadhasajdhjsdhadadagdasdhsjdhshdjhuyasdtuyasdgtuaysd
         </p>
-        
+      </div>
+      <div className="mid-container">
+        <h3>Similar Profiles</h3>
+        <div className="profile-card-mid">
+          
+          <img src={padam} alt="Profile" className="profile-image-mid" />
+          <div className="profile-info-mid">
+            <h2 className="profile-name-mid">Gopika Krishnan</h2>
+            <p>25 Yrs, 5'7"</p>
+            <p>Kerala, India</p>
+            <button className="view-profile-btn-mid">View Profile</button>
+          </div>
+        </div>
+        <div className="profile-card-mid">
+          <img src={padam} alt="Profile" className="profile-image-mid" />
+          <div className="profile-info-mid">
+            <h2 className="profile-name-mid">Gopika Krishnan</h2>
+            <p>25 Yrs, 5'7"</p>
+            <p>Kerala, India</p>
+            <button className="view-profile-btn-mid">View Profile</button>
+          </div>
+        </div>
+        <div className="profile-card-mid">
+          <img src={padam} alt="Profile" className="profile-image-mid" />
+          <div className="profile-info-mid">
+            <h2 className="profile-name-mid">Gopika Krishnan</h2>
+            <p>25 Yrs, 5'7"</p>
+            <p>Kerala, India</p>
+            <button className="view-profile-btn-mid">View Profile</button>
+          </div>
+        </div>
       </div>
       <div className="profile-card-container">
         <div className="profile-details-section">
@@ -231,7 +261,7 @@ function UserProfle() {
                 height="24px"
                 viewBox="0 -960 960 960"
                 width="24px"
-                fill="#EA3323"  
+                fill="#EA3323"
               >
                 <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z" />
               </svg>
@@ -433,42 +463,90 @@ function UserProfle() {
                 <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z" />
               </svg>
             </span>
-            </div>
-            <div className="profile-detail-item1">
-              <span className="first-detail">Preffered Residing City</span>
-              <span className="second-detail">Any</span>
-              <span className="material-icons profile-icon">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="24px"
-                  viewBox="0 -960 960 960"
-                  width="24px"
-                  fill="#EA3323"
-                >
-                  <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z" />
-                </svg>
-              </span>
-            </div>
-            <div className="profile-detail-item1">
-              <span className="first-detail">Preffered Citizenship</span>
-              <span className="second-detail">Any</span>
-              <span className="material-icons profile-icon">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="24px"
-                  viewBox="0 -960 960 960"
-                  width="24px"
-                  fill="#EA3323"
-                >
-                  <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z" />
-                </svg>
-              </span>
-            </div>
-          
+          </div>
+          <div className="profile-detail-item1">
+            <span className="first-detail">Preffered Residing City</span>
+            <span className="second-detail">Any</span>
+            <span className="material-icons profile-icon">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="24px"
+                viewBox="0 -960 960 960"
+                width="24px"
+                fill="#EA3323"
+              >
+                <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z" />
+              </svg>
+            </span>
+          </div>
+          <div className="profile-detail-item1">
+            <span className="first-detail">Preffered Citizenship</span>
+            <span className="second-detail">Any</span>
+            <span className="material-icons profile-icon">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="24px"
+                viewBox="0 -960 960 960"
+                width="24px"
+                fill="#EA3323"
+              >
+                <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z" />
+              </svg>
+            </span>
+          </div>
         </div>
       </div>
-      
-    {/* <Footer /> */}
+      <div className="profile-card-container">
+        <div className="profile-details-section">
+          <h3 className="profile-section-title">Profiles You May Like</h3>
+        </div>
+      </div>
+      <div className="SeeAll-container">
+        <div className="seeall">
+                <Link to="/">
+                  See all  <span className="SpanArrow">  {">"} </span>
+                </Link>
+              </div>
+              </div>
+      <div className="mid-container2">
+        <div className="profile-card-mid2">
+          <img src={padam} alt="Profile" className="profile-image-mid2" />
+          <div className="profile-info-mid2">
+            <h2 className="profile-name-mid2">Gopika Krishnan</h2>
+            <p>25 Yrs, 5'7"</p>
+            <p>Kerala, India</p>
+            <button className="view-profile-btn-mid2">View Profile</button>
+          </div>
+        </div>
+        <div className="profile-card-mid2">
+          <img src={padam} alt="Profile" className="profile-image-mid2" />
+          <div className="profile-info-mid2">
+            <h2 className="profile-name-mid2">Gopika Krishnan</h2>
+            <p>25 Yrs, 5'7"</p>
+            <p>Kerala, India</p>
+            <button className="view-profile-btn-mid2">View Profile</button>
+          </div>
+        </div>
+        <div className="profile-card-mid2">
+          <img src={padam} alt="Profile" className="profile-image-mid2" />
+          <div className="profile-info-mid2">
+            <h2 className="profile-name-mid2">Gopika Krishnan</h2>
+            <p>25 Yrs, 5'7"</p>
+            <p>Kerala, India</p>
+            <button className="view-profile-btn-mid2">View Profile</button>
+          </div>
+        </div>
+        <div className="profile-card-mid2">
+          <img src={padam} alt="Profile" className="profile-image-mid2" />
+          <div className="profile-info-mid2">
+            <h2 className="profile-name-mid2">Gopika Krishnan</h2>
+            <p>25 Yrs, 5'7"</p>
+            <p>Kerala, India</p>
+            <button className="view-profile-btn-mid2">View Profile</button>
+          </div>
+        </div>
+      </div>
+      <Footer />
     </div>
   );
 }

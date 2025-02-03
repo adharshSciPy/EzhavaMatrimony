@@ -11,6 +11,8 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import OtpPage from "./pages/Otppage/OtpPage"
 import UserProfle from "./pages/UserProfile/UserProfle";
 import AdminProfile from "./pages/adminDashboard/Adimindashboard"
+import Report from "./pages/ReportViolation/Report";
+
 
 function App() {
   return (
@@ -28,6 +30,9 @@ function App() {
           <Route path="/OtpPage" element={<OtpPage />} />
           <Route path="/prof" element={<UserProfle />} />
           <Route path="/Admindashboard" element={<AdminProfile />} />
+          <Route path="/report" element={<Report />} />
+
+          
 
         </Routes>
       </BrowserRouter>

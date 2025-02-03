@@ -40,7 +40,128 @@
   font-weight: bold;
   margin-bottom: 8px;
 }
+.profile-card-mid-container{
+  display: flex;
+  justify-content: space-between;
+  
+}
+.mid-container {
+  position: absolute;
+  margin: 20px auto;
+  order: -1; /* Bring it above the footer in flex-based layouts */
+}
+.mid-container h3{
+  position: relative;
+  left: 1130px;
+  font-size: 20px;
+}
+.profile-card-mid {
+  position: relative;
+  left:1000px;
+  display: flex;
+  align-items: center;
+  background-color: #5a706a;
+  border-radius: 10px;
+  padding: 15px;
+  max-width: 400px;
+  color: white;
+  font-family: Arial, sans-serif;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 10px;
+  
+}
 
+.profile-image-mid {
+  width: 150px;
+  height: 150px;
+  border-radius: 10px;
+  object-fit: cover;
+  margin-right: 15px;
+}
+
+.profile-info-mid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.profile-name-mid {
+  font-size: 1.5em;
+  margin: 0;
+}
+.profile-name-mid p{
+  margin-top: 40px;
+}
+.view-profile-btn-mid {
+  background-color: #5a7060;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+  font-size: 1em;
+}
+
+.view-profile-btn-mid:hover {
+  background-color: #ffba08;
+}
+.mid-container2{
+  width: 70%;
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: 80px;
+  gap: 20px;
+  margin-top: 20px;
+  
+}
+.profile-card-mid2 {
+  display: flex;
+  align-items: center;
+  background-color: #5a706a;
+  border-radius: 10px;
+  padding: 15px;
+  max-width: 400px;
+  color: white;
+  font-family: Arial, sans-serif;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 10px;
+  
+}
+
+.profile-image-mid2 {
+  width: 150px;
+  height: 150px;
+  border-radius: 10px;
+  object-fit: cover;
+  margin-right: 15px;
+}
+
+.profile-info-mid2 {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.profile-name-mid2 {
+  font-size: 1.5em;
+  margin: 0;
+}
+.profile-name-mid2 p{
+  margin-top: 40px;
+}
+.view-profile-btn-mid2 {
+  background-color: #5a7060;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+  font-size: 1em;
+}
+
+.view-profile-btn-mid2:hover {
+  background-color: #ffba08;
+}
 .profile-age {
   color: #666;
   margin-bottom: 16px;
@@ -66,6 +187,8 @@
 }
 .Prof-content{
   margin-top: 10px;
+  width: 50%;
+  height: 50px;
 }
 /* Profile Card CSS */
 /* Profile Card CSS */
@@ -79,18 +202,20 @@
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  margin-top: 20px;
+  
   font-family: Arial, sans-serif;
   color: #333;
   margin-left: 80px;
 }
-
+.Prof-head2{
+  margin-right: 150px;
+}
 .profile-details-section {
   margin-bottom: 20px;
 }
 
 .profile-section-title {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: bold;
   margin-bottom: 10px;
   color: #333;
@@ -193,7 +318,7 @@
 width: 100%;
 max-width: 1200px;
 margin: 0;
-height: 880px;
+/* height: 880px; */
 background: #fff;
 border-radius: 10px;
 box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -218,4 +343,37 @@ margin-left: 80px;
   flex: 2;
   text-align: left;
   margin-bottom: 2px;
+}
+.SeeAll-container{
+  position: absolute;
+  margin-bottom: 50px;
+}
+.SeeAll-container a {
+  text-decoration: none;
+  font-size: 16px;
+  color: #333;
+  font-weight: 600;
+}
+.seeall {
+  position: relative;
+  left:800px
+}
+.SpanArrow {
+  color: #f0c040;
+  font-weight: 700;
+}
+@media screen and (max-width: 1024px) {
+  .mid-container {
+    position: relative;
+    width: 100%;
+    order: -1;
+  }
+}
+@media screen and (max-width: 768px) {
+  .mid-container {
+    display: block;
+    position: relative;
+    margin: 20px 0;
+    order: -1;
+  }
 }

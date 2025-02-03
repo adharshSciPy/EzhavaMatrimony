@@ -84,6 +84,7 @@ function Footer() {
                 <p>Copyright@2025.All rights recieved</p>
             </div>
         </div>
+        
     </footer>
     </div>
   )
