@@ -27,7 +27,7 @@ function LandingPage() {
 
       // Navigate to /formpage1 on successful login
       if (response.status === 200) {
-        navigate(`/formpage1`);
+        navigate(`/dashboard`);
       }
     } catch (error) {
       setErrorMessage(

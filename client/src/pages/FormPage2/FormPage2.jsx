@@ -183,7 +183,7 @@ function FormPage2() {
                     <p className={styles.starHead}></p>
                   </div>
                   <div className={styles.inputGroup}>
-                    <select className={styles.input} required value={form.value} onChange={handleChange} name="gothram">
+                    <select className={styles.input}  value={form.value} onChange={handleChange} name="gothram">
                       <option value="">Gothram</option>
                       <option value="Kashyapa">Kashyapa</option>
                       <option value="Vishwamitra">Vishwamitra</option>

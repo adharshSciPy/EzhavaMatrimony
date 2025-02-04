@@ -509,33 +509,6 @@ function TopRecommendation() {
                   </div>
                 </div>
               </div>
-              {/* <div className={DashStyles.trCard}>
-                  <div className={DashStyles.trCardImg}>
-                    <img
-                      src={image}
-                      alt="Crad imgae"
-                      className={DashStyles.cardImage}
-                    />
-                  </div>
-                  <div className={DashStyles.trCardDetails}>
-                    <div className={DashStyles.trCardDetailSub}>
-                      <h5 className={DashStyles.trUserName}>Gopika Krishnan</h5>
-                      <h6 className={DashStyles.trUserDetails}>25 Yrs ,5'7"</h6>
-                    </div>
-                    <div
-                      className={DashStyles.LikeButton}
-                      onClick={() => likedProfile()}
-                    >
-                      <HeartStraight
-                        size={20}
-                        weight={liked ? "fill" : "light"}
-                        className={`${DashStyles.likedHeartBefore} ${
-                          liked ? DashStyles.likedHeart : ""
-                        }`}
-                      />
-                    </div>
-                  </div>
-                </div> */}
               <div className={DashStyles.trCard}>
                 <div className={DashStyles.trCardImg}>
                   <img
