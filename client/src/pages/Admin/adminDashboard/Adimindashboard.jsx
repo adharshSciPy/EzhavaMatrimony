@@ -79,7 +79,7 @@ function Adimindashboard() {
                 </div>
               </div>
               <div className="see-all-link">
-                <Link className="custom-link">See all</Link>
+                <Link className="custom-link" to={'/getFullUser'}>See all</Link>
               </div>
             </div>
             <div className="third-part">

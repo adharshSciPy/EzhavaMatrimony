@@ -15,6 +15,7 @@ import Report from "./pages/Admin/Reports/Report"
 import TopRecommendation from "./pages/TopRecomendation/TopRecommendation";
 import Settings from "./pages/Admin/settings/Settings";
 import AdminUserProfileView from "./pages/Admin/adminprofile/Adminprofile"
+import GetFullUser from "./pages/Admin/userPage/GetFullUser"
 import AllMatches from "./pages/AllMatches/AllMatches";
 
 function App() {
@@ -41,6 +42,8 @@ function App() {
           <Route path="/Adminreport" element={<Report />} />
           <Route path="/Adminsettings" element={<Settings />} />
           <Route path="/Adminusersview/:id" element={<AdminUserProfileView />} />
+          <Route path="/getFullUser" element={<GetFullUser />} />
+
 
 
 
