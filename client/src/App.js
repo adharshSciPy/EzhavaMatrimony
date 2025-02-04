@@ -15,6 +15,8 @@ import Report from "./pages/Admin/Reports/Report"
 import TopRecommendation from "./pages/TopRecomendation/TopRecommendation";
 import Settings from "./pages/Admin/settings/Settings";
 import AdminUserProfileView from "./pages/Admin/adminprofile/Adminprofile"
+import AllMatches from "./pages/AllMatches/AllMatches";
+
 function App() {
   return (
     <div className="App">
@@ -33,6 +35,8 @@ function App() {
           <Route path="/Admindashboard" element={<AdminProfile />} />
           <Route path="/Adminreport" element={<Report />} />
           <Route path="/toprecommendations" element={<TopRecommendation />} />
+          <Route path="/allmatches" element={< AllMatches/>} />
+
 
           <Route path="/Adminreport" element={<Report />} />
           <Route path="/Adminsettings" element={<Settings />} />
