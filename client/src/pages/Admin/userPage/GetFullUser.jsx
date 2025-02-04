@@ -7,7 +7,7 @@ import Pagination from "../components/PaginationAdmin"
 function GetFullUser() {
     const [userData, setUserData] = useState([]);
     const [currentPage,setCurrentPage]=useState(1)
-    const [itemsPerPage,setItemsPerPage]=useState(4)
+    const [itemsPerPage,setItemsPerPage]=useState(10)
 
     let lastIndex=currentPage*itemsPerPage;
     let indexOfFirstItem=lastIndex-itemsPerPage;
@@ -27,6 +27,7 @@ function GetFullUser() {
       console.error("Error fetching user details:", error);
     }
   };
+  if(!fetchUserData) return(<div>loading...</div>)
   return (
     <div>
       <div className="user-page-main">

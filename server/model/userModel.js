@@ -12,6 +12,10 @@ const userSchema = new Schema({
   firstName: {
     type: String,
   },
+
+  image: {
+    type: String,
+  },
   userEmail: {
     type: String,
   },
@@ -66,7 +70,7 @@ const userSchema = new Schema({
   familyValues: {
     type: String,
   },
-  physicallyChallenged:{
+  physicallyChallenged: {
     type: String,
   },
   education: {
@@ -87,7 +91,7 @@ const userSchema = new Schema({
   annualIncome: {
     type: String,
   },
-  
+
   familyIncome: {
     type: String,
   },
@@ -115,29 +119,28 @@ const userSchema = new Schema({
     default: true,
   },
   age: {
-    type: Number
+    type: Number,
   },
   location: {
-    type: String
+    type: String,
   },
   hobbies: {
     type: String,
   },
-  educationDetails:{
-    type:String
+  educationDetails: {
+    type: String,
   },
-  
-  residentStatus:{
-    type:String
-  },
-  userId:{
-    type:String
-  },
-  
-  state:{
-    type:String
-  }
 
+  residentStatus: {
+    type: String,
+  },
+  userId: {
+    type: String,
+  },
+
+  state: {
+    type: String,
+  },
 });
 
 userSchema.pre("save", async function (next) {
@@ -157,7 +160,6 @@ userSchema.methods.isPasswordCorrect = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
 
-
 userSchema.methods.generateAccessToken = function () {
   const payload = { id: this._id, email: this.userEmail };
   const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
@@ -172,6 +174,5 @@ userSchema.methods.generateRefreshToken = function () {
   });
   return refreshToken;
 };
-
 
 export const User = mongoose.model("User", userSchema);

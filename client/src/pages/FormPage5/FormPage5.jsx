@@ -4,6 +4,8 @@ import image from "../../assets/free-photo-of-couple-in-green-grass-field.jpeg";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../features/slice";
 
 function FormPage5() {
   const { id } = useSelector((state) => state.user);
@@ -11,7 +13,7 @@ function FormPage5() {
   const [residentStatus, setResidentStatus] = useState("");
   const [form,setForm]=useState({})
   const navigate = useNavigate();
-  
+  const dispatch = useDispatch();
  const  handleChange=(e)=>{
   setForm({
     ...form,
@@ -33,6 +35,7 @@ function FormPage5() {
     const response=await axios.patch(`http://localhost:8000/api/v1/user/edit/${id}`,
       formData)
       if (response.status === 200) {
+        dispatch(setUser({ id: id }));
         navigate(`/dashboard`);
         console.log(response);
         
