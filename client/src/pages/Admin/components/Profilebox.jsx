@@ -1,12 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import "./profilebox.css"
 
 function Profilebox({ data }) {
 
   if (!data) return <p>No user data available</p>;
 
   return (
-    <div className="profiles">  
+    <div className="main-container-profiles">
+      <div className="profiles">  
       <div className="profile-names">
         <p>Name: {data.firstName || "N/A"}</p>
       </div>
@@ -18,6 +20,7 @@ function Profilebox({ data }) {
           View
         </Link>
       </div>
+    </div>
     </div>
   );
 }

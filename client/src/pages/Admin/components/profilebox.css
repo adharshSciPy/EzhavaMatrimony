@@ -1,0 +1,27 @@
+.main-container-profiles{
+    width: 90%;
+}
+.main-container-profiles .profiles{
+    width: 100%;
+    background-color: white;
+    margin-bottom: 20px;
+    display: flex;
+    align-items:center;
+    justify-content: space-around;
+    padding: 30px 0px;
+    border-radius: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+
+}
+.main-container-profiles .profiles{
+    color: #F8CB58;
+}
+    .main-container-profiles .profiles .custom-link{
+    text-decoration: none;
+    color: #F8CB58;
+}
+.custom-link{
+    text-decoration: none;
+    color: #F8CB58;
+
+}
