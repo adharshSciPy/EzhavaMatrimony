@@ -62,6 +62,10 @@ function FormPage5() {
 
   return (
     <div className={styles.mainContainer}>
+       <div className={styles.progressDiv}>
+              <div className={styles.progressHeading}>You have completed</div>
+              <div className={styles.progressHeading2}>80%</div>
+            </div>
       <div className={styles.container}>
         {/* Progress Bar */}
 

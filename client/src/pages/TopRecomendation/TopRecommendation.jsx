@@ -166,7 +166,7 @@ function TopRecommendation() {
             </div>
 
             <div className={DashStyles.penIconDiv}>
-              <Pencil size={20} weight="duotone" />
+              <Pencil size={16} weight="duotone" />
             </div>
           </div>
           <div className={DashStyles.LocationDetailsMainDiv}>
@@ -181,21 +181,28 @@ function TopRecommendation() {
             </div>
 
             <div className={DashStyles.penIconDiv}>
-              <Pencil size={20} weight="duotone" />
+              <Pencil size={16} weight="duotone" />
             </div>
           </div>
           <div className={DashStyles.LocationDetailsMainDiv}>
             <div className={DashStyles.textBox}>
               <h6 className={DashStyles.textBoxSubPara}>
-                Matches near your location
+                Eating Habits
               </h6>
-              <h6 className={DashStyles.textBox}>Location Details</h6>
 
             </div>
 
             <div className={DashStyles.penIconDiv}>
-              <Pencil size={20} weight="duotone" />
+              <Pencil size={16} weight="duotone" />
             </div>
+          </div>
+          <div className={DashStyles.FilterDivButtonsMain}>
+            <button className={DashStyles.FilterDivButtonOne}>
+              Apply
+            </button>
+            <button className={DashStyles.FilterDivButtonOne}>
+              Reset
+            </button>
           </div>
         </div>
         {/* filter div end */}
@@ -296,47 +303,55 @@ function TopRecommendation() {
               </div>
 
               <div className={DashStyles.LocationDetailsMainDiv}>
-                <div className={DashStyles.textBox}>
-                  <h6 className={DashStyles.textBoxHead}>Location Details</h6>
-                  <h6 className={DashStyles.textBoxPara}>
-                    Matches near your location
-                  </h6>
-                </div>
+            <div className={DashStyles.textBox}>
+              <h6 className={DashStyles.textBoxHead}>Location Details</h6>
+              <h6 className={DashStyles.textBoxPara}>
+                Nearby Profiles
+              </h6>
+              <h6 className={DashStyles.textBoxSubPara}>
+              Matches near your location
+              </h6>
+            </div>
 
-                <div className={DashStyles.penIconDiv}>
-                  <Pencil size={20} weight="duotone" />
-                </div>
+            <div className={DashStyles.penIconDiv}>
+              <Pencil size={16} weight="duotone" />
+            </div>
+          </div>
+          <div className={DashStyles.LocationDetailsMainDiv}>
+            <div className={DashStyles.textBox}>
+              <h6 className={DashStyles.textBoxHead}>Life Style</h6>
+              <h6 className={DashStyles.textBoxPara}>
+                Mutual Hobbies
+              </h6>
+              <h6 className={DashStyles.textBoxSubPara}>
+                Matches who has similar hobbies as
+              </h6>
+            </div>
 
-               
-              </div>
-              <div className={DashStyles.LocationDetailsMainDiv}>
-                <div className={DashStyles.textBox}>
-                  <h6 className={DashStyles.textBoxHead}>Location Details</h6>
-                  <h6 className={DashStyles.textBoxPara}>
-                    Matches near your location
-                  </h6>
-                </div>
+            <div className={DashStyles.penIconDiv}>
+              <Pencil size={16} weight="duotone" />
+            </div>
+          </div>
+          <div className={DashStyles.LocationDetailsMainDiv}>
+            <div className={DashStyles.textBox}>
+              <h6 className={DashStyles.textBoxSubPara}>
+                Eating Habits
+              </h6>
 
-                <div className={DashStyles.penIconDiv}>
-                  <Pencil size={20} weight="duotone" />
-                </div>
+            </div>
 
-               
-              </div>
-              <div className={DashStyles.LocationDetailsMainDiv}>
-                <div className={DashStyles.textBox}>
-                  <h6 className={DashStyles.textBoxHead}>Location Details</h6>
-                  <h6 className={DashStyles.textBoxPara}>
-                    Matches near your location
-                  </h6>
-                </div>
-
-                <div className={DashStyles.penIconDiv}>
-                  <Pencil size={20} weight="duotone" />
-                </div>
-
-               
-              </div>
+            <div className={DashStyles.penIconDiv}>
+              <Pencil size={16} weight="duotone" />
+            </div>
+          </div>
+          <div className={DashStyles.FilterDivButtonsMain}>
+            <button className={DashStyles.FilterDivButtonOne}>
+              Apply
+            </button>
+            <button className={DashStyles.FilterDivButtonOne}>
+              Reset
+            </button>
+          </div>
             </div>
           </div>
         </div>
