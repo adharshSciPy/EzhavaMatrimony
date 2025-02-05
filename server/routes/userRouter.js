@@ -1,12 +1,13 @@
 import { editUser, registerUser, verifyOtp, resetPassword, forgotPassword, getUser, userLogin, getUserById, topMatch, resendOtp, profileLiked, userdetails, likedprofiles } from "../controller/userController.js";
 import { Router } from 'express'
+import upload from '../multer/multer.js';
 
 
 const userRouter = Router()
 
 
 userRouter.route('/register').post(registerUser)
-userRouter.route('/edit/:id').patch(editUser)
+userRouter.route('/edit/:id').patch(upload.single("image"),editUser)
 userRouter.route('/userdetails').get(userdetails)
 userRouter.route('/verifyOtp/:userEmail').post(verifyOtp);
 userRouter.route('/getUserById/:id').get(getUser)

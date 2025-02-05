@@ -11,8 +11,12 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import OtpPage from "./pages/Otppage/OtpPage"
 import AdminProfile from "./pages/Admin/adminDashboard/Adimindashboard"
 import Report from "./pages/Admin/Reports/Report"
+import TopRecommendation from "./pages/TopRecomendation/TopRecommendation";
 import Settings from "./pages/Admin/settings/Settings";
 import AdminUserProfileView from "./pages/Admin/adminprofile/Adminprofile"
+import GetFullUser from "./pages/Admin/userPage/GetFullUser"
+import AllMatches from "./pages/AllMatches/AllMatches";
+
 import Report1 from "./pages/ReportViolation/Report1";
 import UserMain from "./pages/UserMain/UserMain";
 
@@ -33,9 +37,15 @@ function App() {
           <Route path="/OtpPage" element={<OtpPage />} />
           <Route path="/Admindashboard" element={<AdminProfile />} />
           <Route path="/Adminreport" element={<Report />} />
+          <Route path="/toprecommendations" element={<TopRecommendation />} />
+          <Route path="/allmatches" element={< AllMatches/>} />
+
+
           <Route path="/Adminreport" element={<Report />} />
           <Route path="/Adminsettings" element={<Settings />} />
-          <Route path="/Adminusersview" element={<AdminUserProfileView />} />
+          <Route path="/Adminusersview/:id" element={<AdminUserProfileView />} />
+          <Route path="/getFullUser" element={<GetFullUser />} />
+
           <Route path="/report" element={<Report1 />} />
           <Route path="/mainuser" element={<UserMain/>} />
         </Routes>

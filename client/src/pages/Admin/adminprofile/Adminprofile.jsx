@@ -1,26 +1,46 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Nav from "../../../component/AdminNav/Adminnav";
 import padam from "../../../assets/bridde.jpg";
 import "./adminuserprofile.css";
+import { useParams } from "react-router-dom";
 import { Link } from "react-router";
 import Footer from "../../../component/Footer/Footer";
+import axios from "axios";
 function Adminprofile() {
+  const [data,setData]=useState(null);
+  const {id}=useParams()
+  console.log("thk",id);
+  
+  console.log(data);
+  
+  const userData = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8000/api/v1/user/usercarddetails/${id}`);
+        setData(response.data.data);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+useEffect(()=>{
+  userData()
+},[id])
+if(!data){
+  return<div>Loading</div>
+}
   return (
+
     <div>
       <Nav />
-      <h2 className="all-match">All Matches 14/112</h2>
       <div className="profile-view-main-container">
         <div className="profile-cards">
           <div className="image-container">
-            <img src={padam} alt="Profile" className="profile-image" />
-            
+            <img src={data.sorce || padam} alt="Profile" className="profile-image" />
           </div>
 
           <div className="details-sections">
             <div className="profile-name-container">
-            
               <div className="heading-text">
-                <h2 className="profile-name-container">Gopika Krishnan</h2>
+                <h2 className="profile-name-container">{data.firstName}</h2>
               </div>
               <div className="option">
                 <i>
@@ -37,7 +57,7 @@ function Adminprofile() {
               </div>
             </div>
             <div className="profile-age-container">
-              <p className="">25 Yrs, 5'7"</p>
+              <p className="">{data.age}</p>
               <div className="media">
                 <div className="watsapp"></div>
                 <div className="call-icon"></div>
@@ -54,20 +74,19 @@ function Adminprofile() {
               <span>Kerala, India</span>
             </div>
             <div className="premium-container">
-            <h3>Premium</h3>
-          </div>
+              <h3>Premium</h3>
+            </div>
           </div>
           <div className="verify-container">
             <h3>Verify Profile</h3>
           </div>
-          
         </div>
         <div className="about-similar">
           <div className="about-card">
             <div className="about-card-container">
               <div className="user-description">
                 <div className="about-user-container">
-                  <h3>About Gopika Krishnan</h3>
+                  <h3>About {data.firstName}</h3>
                 </div>
                 <div className="description-container">
                   <p>
@@ -100,7 +119,7 @@ function Adminprofile() {
                       <p>Degree</p>
                     </div>
                     <div className="prof-detail same1">
-                      Other Bachelor Degree in Medicine,Student
+                      <p>Other Bachelor Degree in Medicine,Student</p>
                     </div>
                   </div>
                   <div className="location-container details-main">
@@ -110,7 +129,7 @@ function Adminprofile() {
                       </span>
                       <p>Location</p>
                     </div>
-                    <div className="prof-detail same1">Kerala,India</div>
+                    <div className="prof-detail same1"><p>{data.location || "Kerala,India"}</p></div>
                   </div>
                   <div className="spoken-language-container details-main">
                     <div className="prof-detail same">
@@ -236,7 +255,7 @@ function Adminprofile() {
                     <span className="material-icons profiles-icon">school</span>
                     <p>Occupation</p>
                   </div>
-                  <div className="prof-detail same1">Demo</div>
+                  <div className="prof-detail same1">{data.occupation || "Occupation"}</div>
                 </div>
               </div>
               <div className="basic-details-container">
@@ -255,172 +274,13 @@ function Adminprofile() {
                     <span className="material-icons profiles-icon">work</span>
                     <p>Occupation</p>
                   </div>
-                  <div className="prof-detail same1">Demo</div>
+                  <div className="prof-detail same1">{ "Occupation"}</div>
                 </div>
               </div>
+
              
-              <div className="profile-like-container">
-                <div className="profile-like-main">
-                  <div className="heading">
-                    <h3>Profiles You May Like</h3>
-                  </div>
-                  <div className="list-all">
-                    <Link className="custom-link">
-                      See All{" "}
-                      <span className="material-icons profiles-icon">
-                        chevron_right
-                      </span>{" "}
-                    </Link>
-                  </div>
-                  <div className="like-card-container">
-                    <div className="like-card">
-                      <div className="image-container">
-                        <img src={padam} alt="" />
-                      </div>
-                      <div className="description-container">
-                        <div className="name">
-                          <h5>Gopika Krishnan</h5>
-                        </div>
-                        <div className="age">
-                          <p>25 Yrs</p>
-                        </div>
-                        <div className="location">
-                          <p>kerala,India</p>
-                        </div>
-                        <div className="view-button">
-                          <button>View Profile</button>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="like-card">
-                      <div className="image-container">
-                        <img src={padam} alt="" />
-                      </div>
-                      <div className="description-container">
-                        <div className="name">
-                          <h5>Gopika Krishnan</h5>
-                        </div>
-                        <div className="age">
-                          <p>25 Yrs</p>
-                        </div>
-                        <div className="location">
-                          <p>kerala,India</p>
-                        </div>
-                        <div className="view-button">
-                          <button>View Profile</button>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="like-card">
-                      <div className="image-container">
-                        <img src={padam} alt="" />
-                      </div>
-                      <div className="description-container">
-                        <div className="name">
-                          <h5>Gopika Krishnan</h5>
-                        </div>
-                        <div className="age">
-                          <p>25 Yrs</p>
-                        </div>
-                        <div className="location">
-                          <p>kerala,India</p>
-                        </div>
-                        <div className="view-button">
-                          <button>View Profile</button>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="like-card">
-                      <div className="image-container">
-                        <img src={padam} alt="" />
-                      </div>
-                      <div className="description-container">
-                        <div className="name">
-                          <h5>Gopika Krishnan</h5>
-                        </div>
-                        <div className="age">
-                          <p>25 Yrs</p>
-                        </div>
-                        <div className="location">
-                          <p>kerala,India</p>
-                        </div>
-                        <div className="view-button">
-                          <button>View Profile</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
-          </div>
-          <div className="similar-profile-container">
-            <div className="main-similar-profile">
-              <div className="container-similar">
-                <h3>Similar Profile</h3>
-              </div>
-              
-            </div>
-            <div className="like-card-container">
-                <div className="like-card">
-                  <div className="image-container">
-                    <img src={padam} alt="" />
-                  </div>
-                  <div className="description-container">
-                    <div className="name">
-                      <h5>Gopika Krishnan</h5>
-                    </div>
-                    <div className="age">
-                      <p>25 Yrs</p>
-                    </div>
-                    <div className="location">
-                      <p>kerala,India</p>
-                    </div>
-                    <div className="view-button">
-                      <button>View Profile</button>
-                    </div>
-                  </div>
-                </div>
-                <div className="like-card">
-                  <div className="image-container">
-                    <img src={padam} alt="" />
-                  </div>
-                  <div className="description-container">
-                    <div className="name">
-                      <h5>Gopika Krishnan</h5>
-                    </div>
-                    <div className="age">
-                      <p>25 Yrs</p>
-                    </div>
-                    <div className="location">
-                      <p>kerala,India</p>
-                    </div>
-                    <div className="view-button">
-                      <button>View Profile</button>
-                    </div>
-                  </div>
-                </div>
-                <div className="like-card">
-                  <div className="image-container">
-                    <img src={padam} alt="" />
-                  </div>
-                  <div className="description-container">
-                    <div className="name">
-                      <h5>Gopika Krishnan</h5>
-                    </div>
-                    <div className="age">
-                      <p>25 Yrs</p>
-                    </div>
-                    <div className="location">
-                      <p>kerala,India</p>
-                    </div>
-                    <div className="view-button">
-                      <button>View Profile</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-          </div>
+          </div>                         
         </div>
         <hr className="separator"></hr>
       </div>

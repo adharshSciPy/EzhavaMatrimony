@@ -1,13 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./admindashboard.css";
 import verification from "../../../assets/circle-check-regular.svg";
 import Sidebar from "../../../component/sidebar/Sidebar.jsx";
+import axios from "axios";
+import Profilebox from "../components/Profilebox.jsx";
 
 function Adimindashboard() {
-  const collaborators = [1, 2, 3, 4];
+  const [userData, setUserData] = useState([]);
+  const showData=userData.slice(0,4)
+  
+  useEffect(() => {
+    fetchUserData();
+  }, []);
+  const fetchUserData = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8000/api/v1/user/userdetails"
+      );
+      setUserData(response.data.data);
+    } catch (error) {
+      console.error("Error fetching user details:", error);
+    }
+  };
+
   return (
-      <div>
+    <div>
       <div className="admin-dashboard">
         <div className="container-main">
           <div className="nav">
@@ -50,24 +68,18 @@ function Adimindashboard() {
               <div className="profiles-container">
                 <div className="main-container-profiles">
                   <div className="profile-container">
-                    {collaborators.map((item) => (
-                      <div className="profiles" key={item}>
-                        <div className="profiles-names">
-                          <p>Name:Gopika Krishna</p>
-                        </div>
-                        <div className="profiles-age">
-                          <p>Age:25Yrs</p>
-                        </div>
-                        <div className="profile-view">
-                          <Link className="custom-link">View</Link>
-                        </div>
-                      </div>
-                    ))}
+                    {showData.length > 0 ? (
+                      showData.map((user) => {
+                        return <Profilebox key={user._id} data={user} />;
+                      })
+                    ) : (
+                      <p>No profiles available</p>
+                    )}
                   </div>
                 </div>
               </div>
               <div className="see-all-link">
-                <Link className="custom-link">See all</Link>
+                <Link className="custom-link" to={'/getFullUser'}>See all</Link>
               </div>
             </div>
             <div className="third-part">
@@ -79,20 +91,7 @@ function Adimindashboard() {
               <div className="profiles-container">
                 <div className="main-container-profiles">
                   <div className="profile-container">
-                    {collaborators.map((item) => (
-                      <div className="profiles" key={item}>
-                       
-                        <div className="profiles-names">
-                          <p>Name:Gopika Krishna</p>
-                        </div>
-                        <div className="profiles-age">
-                          <p>Age:25Yrs</p>
-                        </div>
-                        <div className="profile-view">
-                          <Link className="custom-link">View</Link>
-                        </div>
-                      </div>
-                    ))}
+                    <Profilebox></Profilebox>
                   </div>
                 </div>
               </div>

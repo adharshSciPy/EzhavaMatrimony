@@ -22,7 +22,7 @@ const registerUser = async (req, res) => {
     if (!relation || !firstName || !userEmail) {
       return res.status(400).json({ message: "All fields are required" });
     }
-
+ 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(userEmail)) {
       return res.status(400).json({ message: "Invalid email format" });
@@ -92,6 +92,8 @@ const registerUser = async (req, res) => {
 
 const editUser = async (req, res) => {
   const { id } = req.params;
+  const file = req.file;
+
   console.log(id);
 
   const {
@@ -129,7 +131,7 @@ const editUser = async (req, res) => {
 
   } = req.body;
   console.log(id);
-
+ 
   try {
     let updatedData = {
       dateOfBirth,
@@ -162,10 +164,12 @@ const editUser = async (req, res) => {
       citizenship,
       residentStatus,
       educationDetails,
-      state
-    };
-    console.log(id);
+      state,
 
+    };
+    if(file){
+      updatedData.image=`/uploads/${file.filename}`
+    }
     if (password) {
       const hashedPassword = await bcrypt.hash(password, 10);
       updatedData.password = hashedPassword;
@@ -177,7 +181,6 @@ const editUser = async (req, res) => {
     if (!editedUser) {
       return res.status(404).json({ message: "User not found" });
     }
-
     return res.status(200).json({
       message: "User edited successfully",
       data: editedUser,
@@ -497,9 +500,6 @@ const topMatch = async (req, res) => {
       ? user.hobbies.split(',').map(hobby => escapeRegex(hobby.trim())).join('|')
       : null;
 
-
-    // Determine opposite gender
-    // Ensure gender comparison is case-insensitive
     const oppositeGender = user.gender.toLowerCase() === 'male' ? 'female' : 'male';
 
     const matchQuery = {

@@ -31,20 +31,22 @@ function FormPage1() {
     e.preventDefault();
 
     try {
-
-      const response = await axios.patch(`http://localhost:8000/api/v1/user/edit/${id}`, form);
+      const response = await axios.patch(
+        `http://localhost:8000/api/v1/user/edit/${id}`,
+        form
+      );
       console.log(response);
 
       if (response.status === 200) {
-        notifySuccess(response.data.data.message || "Successfully Submitted.")
-        navigate(`/formpage2`)
+        notifySuccess(response.data.data.message || "Successfully Submitted.");
+        navigate(`/formpage2`);
       }
     } catch (error) {
-      setErrorMessage(
-        error.response?.data?.message || "Please try again."
+      setErrorMessage(error.response?.data?.message || "Please try again.");
+      notifyError(
+        error.response?.data?.message ||
+          "Something went wrong. Please try again."
       );
-      notifyError(error.response?.data?.message || "Something went wrong. Please try again.");
-
     }
   };
   return (
@@ -204,6 +206,7 @@ function FormPage1() {
                   Continue
                 </button>
               </div>
+              <div className={styles.mandatoryField}>* Mandatory fields</div>
             </form>
           </div>
         </div>

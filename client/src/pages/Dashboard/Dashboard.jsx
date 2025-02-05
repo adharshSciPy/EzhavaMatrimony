@@ -17,47 +17,52 @@ import { Link } from "react-router-dom";
 import image from "../../assets/free-photo-of-couple-in-green-grass-field.jpeg";
 import Nav from "../../component/Navbar/Nav";
 import Footer from "../../component/Footer/Footer"
+import { useSelector ,useDispatch} from "react-redux";
 
-function Dashboard() {
-  const [liked, setLiked] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  function Dashboard() {
+    const dispatch = useDispatch();
+    const { id } = useSelector((state) => state.user);
+    console.log("hey kitty",  id);
+    
+    const [liked, setLiked] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
 
-  // const[showHamburger,setShowHamburger]=useState(true);
+    // const[showHamburger,setShowHamburger]=useState(true);
 
-  const likedProfile = () => {
-    setLiked(!liked);
-  };
-
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
-
-  useEffect(() => {
-    const handleScrollHam = () => {
-      document
-        .querySelectorAll(
-          `.${DashStyles.ham1}, .${DashStyles.ham2}, .${DashStyles.ham3}`
-        )
-        .forEach((el) => {
-          if (
-            window.scrollY > 159 &&
-            !el.classList.contains(DashStyles.open1) &&
-            !el.classList.contains(DashStyles.open2) &&
-            !el.classList.contains(DashStyles.open3)
-          ) {
-            el.style.display = "none";
-          } else {
-            el.style.display = "block";
-          }
-        });
+    const likedProfile = () => {
+      setLiked(!liked);
     };
 
-    window.addEventListener("scroll", handleScrollHam);
-    return () => {
-      window.removeEventListener("scroll", handleScrollHam);
+    const toggleMenu = () => {
+      setIsOpen(!isOpen);
     };
-  }, []);
 
+    useEffect(() => {
+      const handleScrollHam = () => {
+        document
+          .querySelectorAll(
+            `.${DashStyles.ham1}, .${DashStyles.ham2}, .${DashStyles.ham3}`
+          )
+          .forEach((el) => {
+            if (
+              window.scrollY > 159 &&
+              !el.classList.contains(DashStyles.open1) &&
+              !el.classList.contains(DashStyles.open2) &&
+              !el.classList.contains(DashStyles.open3)
+            ) {
+              el.style.display = "none";
+            } else {
+              el.style.display = "block";
+            }
+          });
+      };
+
+      window.addEventListener("scroll", handleScrollHam);
+      return () => {
+        window.removeEventListener("scroll", handleScrollHam);
+      };
+    }, []);
+  
   return (
     <div>
       <div className={DashStyles.mainContainer}>
@@ -89,7 +94,7 @@ function Dashboard() {
                   />
                 </div>
                 <div className={DashStyles.link}>
-                  <Link to="/">Edit Profile</Link>
+                  <Link to="/formpage1">Edit Profile</Link>
                 </div>
               </div>
               <div className={DashStyles.LinkIcon}>
@@ -236,7 +241,7 @@ function Dashboard() {
                       />
                     </div>
                     <div className={DashStyles.link}>
-                      <Link to="/">Edit Profile</Link>
+                      <Link to="/formpage1">Edit Profile</Link>
                     </div>
                   </div>
                   <div className={DashStyles.LinkIcon}>
@@ -481,7 +486,7 @@ function Dashboard() {
               </div>
               <div className={DashStyles.SeeAll}>
                 {/* <h4 className={DashStyles.saHead}>See All</h4> */}
-                <Link to="/">
+                <Link to="/toprecommendations">
                   See All <span className={DashStyles.SpanArrow}>{">"}</span>
                 </Link>
               </div>
@@ -634,7 +639,7 @@ function Dashboard() {
               </div>
               <div className={DashStyles.SeeAll}>
                 {/* <h4 className={DashStyles.saHead}>See All</h4> */}
-                <Link to="/">
+                <Link to="/allmatches">
                   See All <span className={DashStyles.SpanArrow}>{">"}</span>
                 </Link>
               </div>
