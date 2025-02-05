@@ -585,20 +585,33 @@ const profileLiked = async (req, res) => {
   const { likedUserId } = req.body;
 
   try {
-    // Save the like to the database
-    const like = new likedByProfile({ likedByUserId, likedUserId });
-    await like.save();
+    // Check if the like already exists in the database
+    const existingLike = await likedByProfile.findOne({ likedByUserId, likedUserId });
 
-    // Notify the liked user via Socket.io
-    req.io.to(likedUserId).emit('profile_liked', { likedByUserId, likedUserId });
+    if (existingLike) {
+      // If already liked, remove the like (unlike)
+      await likedByProfile.deleteOne({ likedByUserId, likedUserId });
 
-    // Send success response
-    res.status(200).json({ message: 'Profile liked successfully' });
+      // Notify the liked user via Socket.io (optional)
+      req.io.to(likedUserId).emit('profile_unliked', { likedByUserId, likedUserId });
+
+      return res.status(200).json({ message: 'Profile unliked successfully' });
+    } else {
+      // If not liked, save the like to the database
+      const like = new likedByProfile({ likedByUserId, likedUserId });
+      await like.save();
+
+      // Notify the liked user via Socket.io
+      req.io.to(likedUserId).emit('profile_liked', { likedByUserId, likedUserId });
+
+      return res.status(200).json({ message: 'Profile liked successfully' });
+    }
   } catch (error) {
-    console.error('Error liking profile:', error.message);
-    res.status(500).json({ error: 'An error occurred while liking the profile' });
+    console.error('Error handling like action:', error.message);
+    res.status(500).json({ error: 'An error occurred while processing the like action' });
   }
 };
+
 
 const likedprofiles = async (req, res) => {
   const { likedByUserId } = req.params;

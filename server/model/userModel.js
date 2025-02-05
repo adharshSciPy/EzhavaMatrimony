@@ -141,6 +141,7 @@ const userSchema = new Schema({
   state: {
     type: String,
   },
+  
 });
 
 userSchema.pre("save", async function (next) {
