@@ -22,7 +22,7 @@ const registerUser = async (req, res) => {
     if (!relation || !firstName || !userEmail) {
       return res.status(400).json({ message: "All fields are required" });
     }
- 
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(userEmail)) {
       return res.status(400).json({ message: "Invalid email format" });
@@ -131,7 +131,7 @@ const editUser = async (req, res) => {
 
   } = req.body;
   console.log(id);
- 
+
   try {
     let updatedData = {
       dateOfBirth,
@@ -167,8 +167,8 @@ const editUser = async (req, res) => {
       state,
 
     };
-    if(file){
-      updatedData.image=`/uploads/${file.filename}`
+    if (file) {
+      updatedData.image = `/uploads/${file.filename}`
     }
     if (password) {
       const hashedPassword = await bcrypt.hash(password, 10);
@@ -404,7 +404,7 @@ const userLogin = async (req, res) => {
     res.json({
       success: true,
       userId: user._id, // Send MongoDB _id
-      token:accessToken,
+      token: accessToken,
     });
   } catch (err) {
     console.error("Error during login:", err);
@@ -597,7 +597,7 @@ const profileLiked = async (req, res) => {
       // Notify the liked user via Socket.io (optional)
       req.io.to(likedUserId).emit('profile_unliked', { likedByUserId, likedUserId });
 
-      return res.status(200).json({ message: 'Profile unliked successfully' });
+      return res.status(200).json({ message: 'Profile unliked successfully', liked: false });
     } else {
       // If not liked, save the like to the database
       const like = new likedByProfile({ likedByUserId, likedUserId });
@@ -606,7 +606,7 @@ const profileLiked = async (req, res) => {
       // Notify the liked user via Socket.io
       req.io.to(likedUserId).emit('profile_liked', { likedByUserId, likedUserId });
 
-      return res.status(200).json({ message: 'Profile liked successfully' });
+      return res.status(200).json({ message: 'Profile liked successfully', liked: true });
     }
   } catch (error) {
     console.error('Error handling like action:', error.message);
@@ -634,6 +634,19 @@ const likedprofiles = async (req, res) => {
   }
 }
 
+const userReport = async (req, res) => {
+  const { id } = req.params;
+  const { abuseCategory, subject, complaint, complainstAgainst } = req.body;
+  try {
+    const reportData = await User.findByIdAndUpdate(id, {
+      abuseCategory, subject, complaint, complainstAgainst
+    }, { new: true })
+    res.status(200).json({ message: "User report created", data: reportData })
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error", error: error })
+  }
+}
+
 
 
 
@@ -651,6 +664,6 @@ export {
   topMatch,
   profileLiked,
   userdetails,
-  likedprofiles,
+  likedprofiles, userReport
 
 };

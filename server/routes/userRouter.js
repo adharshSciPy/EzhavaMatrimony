@@ -1,4 +1,4 @@
-import { editUser, registerUser, verifyOtp, resetPassword, forgotPassword, getUser, userLogin, getUserById, topMatch, resendOtp, profileLiked, userdetails, likedprofiles } from "../controller/userController.js";
+import { editUser, registerUser, verifyOtp, resetPassword, forgotPassword, getUser, userLogin, getUserById, topMatch, resendOtp, profileLiked, userdetails, likedprofiles, userReport } from "../controller/userController.js";
 import { Router } from 'express'
 import upload from '../multer/multer.js';
 
@@ -19,6 +19,7 @@ userRouter.route('/topmatch/:id').get(topMatch);
 userRouter.route('/resendOtp/:userEmail').post(resendOtp);
 userRouter.route('/profileLiked/:likedByUserId').post(profileLiked);
 userRouter.route('/likedProfiles/:likedByUserId').get(likedprofiles);
+userRouter.route('/userReport/:id').patch(userReport);
 
 
 

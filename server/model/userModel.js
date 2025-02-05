@@ -141,6 +141,18 @@ const userSchema = new Schema({
   state: {
     type: String,
   },
+  abuseCategory:{
+    type: String,
+  },
+  subject:{
+    type: String,
+  },
+  complaint:{
+    type: String,
+  },
+  complainstAgainst:{
+    type: String,
+  }
   
 });
 
