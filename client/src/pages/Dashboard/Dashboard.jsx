@@ -21,8 +21,8 @@ import { useSelector ,useDispatch} from "react-redux";
 
   function Dashboard() {
     const dispatch = useDispatch();
-    const { id } = useSelector((state) => state.user);
-    console.log("hey kitty",  id);
+    const userId = useSelector((state) => state.user.id);
+    console.log("hey kitty",  userId);
     
     const [liked, setLiked] = useState(false);
     const [isOpen, setIsOpen] = useState(false);

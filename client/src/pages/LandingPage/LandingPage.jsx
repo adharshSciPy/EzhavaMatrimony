@@ -4,6 +4,8 @@ import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../features/slice";
 
 function LandingPage() {
   let field = {
@@ -15,7 +17,8 @@ function LandingPage() {
   const notifyError = (message) => toast.error(message);
 
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
+  
   const handleSignin = async (e) => {
     e.preventDefault(); 
     try {
@@ -23,11 +26,16 @@ function LandingPage() {
         `http://localhost:8000/api/v1/user/login`,
         form
       );
-      console.log("Token:", response?.data?.token);
-
-      // Navigate to /formpage1 on successful login
-      if (response.status === 200) {
-        navigate(`/dashboard`);
+      if(response){
+        navigate(`./dashboard`)
+        console.log(response.data);
+        dispatch(setUser({ id: response.data.userId })); // Dispatch Redux action
+        console.log("Dispatched ID:", response.data.userId); // Debug Redux action
+        localStorage.setItem("userId", response.data.userId); 
+        console.log("Token:", response?.data?.token)
+        console.log(response.data.userId);
+        
+        
       }
     } catch (error) {
       setErrorMessage(

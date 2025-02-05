@@ -401,9 +401,11 @@ const userLogin = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    return res
-      .status(200)
-      .json({ message: "Login successful", token: accessToken });
+    res.json({
+      success: true,
+      userId: user._id, // Send MongoDB _id
+      token:accessToken,
+    });
   } catch (err) {
     console.error("Error during login:", err);
     return res
