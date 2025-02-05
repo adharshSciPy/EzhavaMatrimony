@@ -1,8 +1,8 @@
 import mongoose, { Schema } from "mongoose";
 
 const likedProfile = new Schema({
-    likedByUserId: { type: String, required: true },
-    likedUserId: { type: String, required: true },
+    likedByUserId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    likedUserId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     timestamp: { type: Date, default: Date.now },
 })
 

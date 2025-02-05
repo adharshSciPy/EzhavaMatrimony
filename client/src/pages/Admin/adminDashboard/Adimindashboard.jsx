@@ -1,13 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./admindashboard.css";
-import verification from "../../assets/circle-check-regular.svg";
-import Sidebar from "../../component/sidebar/Sidebar.jsx";
+import verification from "../../../assets/circle-check-regular.svg";
+import Sidebar from "../../../component/sidebar/Sidebar.jsx";
 
 function Adimindashboard() {
   const collaborators = [1, 2, 3, 4];
   return (
-    <div>
+      <div>
       <div className="admin-dashboard">
         <div className="container-main">
           <div className="nav">
@@ -81,9 +81,7 @@ function Adimindashboard() {
                   <div className="profile-container">
                     {collaborators.map((item) => (
                       <div className="profiles" key={item}>
-                        <div className="profiles-id">
-                          <p>UserId:SBE34567</p>
-                        </div>
+                       
                         <div className="profiles-names">
                           <p>Name:Gopika Krishna</p>
                         </div>

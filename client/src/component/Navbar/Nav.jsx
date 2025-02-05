@@ -23,13 +23,6 @@ function Nav() {
            <span className="matches-text"><h6>Notification</h6></span>
          </button>
        </div>
-      
-       <div className="image-upload-icon">
-         <label htmlFor="upload-image" className="icon-upload-label">
-           <span className="material-symbols-outlined">add_a_photo</span>
-         </label>
-         <input id="upload-image" type="file" className="upload-input" />
-       </div>
      </header>
      <hr className="divider" />
      

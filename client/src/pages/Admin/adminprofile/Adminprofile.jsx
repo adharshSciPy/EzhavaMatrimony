@@ -1,15 +1,14 @@
-import React from 'react'
-import "./usermain.css"
-import Nav from "../../component/Navbar/Nav"
-import padam from "../../assets/bridde.jpg"
-import { Link } from 'react-router-dom'
-import Footer from '../../component/Footer/Footer'
-
-function UserMain() {
+import React from "react";
+import Nav from "../../../component/AdminNav/Adminnav";
+import padam from "../../../assets/bridde.jpg";
+import "./adminuserprofile.css";
+import { Link } from "react-router";
+import Footer from "../../../component/Footer/Footer";
+function Adminprofile() {
   return (
-<div>
-<Nav />
- <h2 className="all-match">All Matches 14/112</h2>
+    <div>
+      <Nav />
+      <h2 className="all-match">All Matches 14/112</h2>
       <div className="profile-view-main-container">
         <div className="profile-cards">
           <div className="image-container">
@@ -429,9 +428,9 @@ function UserMain() {
         href="https://fonts.googleapis.com/icon?family=Material+Icons"
         rel="stylesheet"
       />
-<Footer />
-</div>
-)
+      <Footer />
+    </div>
+  );
 }
 
-export default UserMain
+export default Adminprofile;
