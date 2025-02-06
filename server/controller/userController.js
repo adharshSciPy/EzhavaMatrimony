@@ -167,8 +167,8 @@ const editUser = async (req, res) => {
       state,
 
     };
-    if(files && files.length>0){
-      updatedData.image=files.map((file)=>`/uploads/${file.filename}`)
+    if (files && files.length>0) {
+      updatedData.image = files.map((file)=>`/uploads/${file.filename}`)
     }
     if (password) {
       const hashedPassword = await bcrypt.hash(password, 10);
