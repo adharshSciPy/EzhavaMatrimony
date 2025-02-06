@@ -446,4 +446,17 @@
     .profile-cards .verify-container {
         display: none;
     }
+    .profile-cards{
+      flex-direction: column;
+    } 
+    .profile-cards .premium-container {
+      display: none;
+
+  }
+  .profile-cards .verify-container {
+   display: none;
+  }
+  .profile-cards .image-container {
+    width: 100%;
+  }
 }

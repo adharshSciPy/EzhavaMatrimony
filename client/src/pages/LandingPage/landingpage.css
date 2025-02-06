@@ -53,7 +53,7 @@ body {
     border-radius: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     overflow: hidden;
-    height: 370px;
+    height: 420px;
   }
   
   /* Header div for Create a Matrimony Profile */
@@ -154,6 +154,15 @@ body {
     display: flex ;
     align-items: flex-end;
     justify-content: center;
+  }
+  .adminLogin{
+    display: flex ;
+    align-items: flex-end;
+    justify-content: center;
+  }
+  .adminLogin p{
+    margin: 0;
+    padding-right: 10px;
   }
   .signin p{
     margin: 0;
