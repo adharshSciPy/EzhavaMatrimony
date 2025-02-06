@@ -621,6 +621,19 @@ const likedprofiles = async (req, res) => {
   }
 }
 
+const userReport = async (req, res) => {
+  const { id } = req.params;
+  const { abuseCategory, subject, complaint, complainstAgainst } = req.body;
+  try {
+    const reportData = await User.findByIdAndUpdate(id, {
+      abuseCategory, subject, complaint, complainstAgainst
+    }, { new: true })
+    res.status(200).json({ message: "User report created", data: reportData })
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error", error: error })
+  }
+}
+
 
 
 
@@ -639,5 +652,6 @@ export {
   profileLiked,
   userdetails,
   likedprofiles,
+  userReport
 
 };

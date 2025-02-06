@@ -5,7 +5,7 @@ import upload from '../multer/multer.js';
 
 const userRouter = Router()
 userRouter.route('/register').post(registerUser)
-userRouter.route('/edit/:id').patch(upload.array("image",5),editUser)
+userRouter.route('/edit/:id').patch(upload.array("image", 5), editUser)
 userRouter.route('/userdetails').get(userdetails)
 userRouter.route('/verifyOtp/:userEmail').post(verifyOtp);
 userRouter.route('/getUserById/:id').get(getUser)
