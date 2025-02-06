@@ -20,6 +20,7 @@ import AdminLanding from "./pages/Admin/adminLoginPage/AdminLogin"
 import Report1 from "./pages/ReportViolation/Report1";
 import UserMain from "./pages/UserMain/UserMain";
 import UserSettings from "./pages/UserSettings/UserSettings";
+import LikedProfiles from "./pages/LikedProfiles/LikedProfiles";
 
 
 function App() {
@@ -34,12 +35,12 @@ function App() {
           <Route path="/formpage3" element={<FormPage3/>} />
           <Route path="/formpage5" element={<Formpage5/>} />
           <Route path="/formpage4" element={<FormPage4 />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard/:userId" element={<Dashboard />} />
           <Route path="/OtpPage" element={<OtpPage />} />
           <Route path="/Admindashboard" element={<AdminProfile />} />
           <Route path="/Adminreport" element={<Report />} />
           <Route path="/toprecommendations" element={<TopRecommendation />} />
-          <Route path="/allmatches" element={< AllMatches/>} />
+          <Route path="/allmatches/:id" element={< AllMatches/>} />
           <Route path="/Adminsettings" element={<Settings />} />
           <Route path="/Adminusersview/:id" element={<AdminUserProfileView />} />
           <Route path="/getFullUser" element={<GetFullUser />} />
@@ -47,6 +48,8 @@ function App() {
           <Route path="/report" element={<Report1 />} />
           <Route path="/mainuser" element={<UserMain/>} />
           <Route path="/Usettings" element={<UserSettings />} />
+          <Route path="/likedprofiles/:id" element={<LikedProfiles/>} />
+
         </Routes>
       </BrowserRouter>
     </div>

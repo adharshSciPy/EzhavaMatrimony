@@ -13,56 +13,136 @@ import {
   Crown,
   User,
 } from "phosphor-react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import image from "../../assets/free-photo-of-couple-in-green-grass-field.jpeg";
 import Nav from "../../component/Navbar/Nav";
-import Footer from "../../component/Footer/Footer"
-import { useSelector ,useDispatch} from "react-redux";
+import Footer from "../../component/Footer/Footer";
+import { useSelector, useDispatch } from "react-redux";
+import axios from "axios";
 
-  function Dashboard() {
-    const dispatch = useDispatch();
-    const userId = useSelector((state) => state.user.id);
-    console.log("hey kitty",  userId);
-    
-    const [liked, setLiked] = useState(false);
-    const [isOpen, setIsOpen] = useState(false);
+function Dashboard() {
+  const dispatch = useDispatch();
+  const userId = useSelector((state) => state.user.id);
+  console.log("hey kitty", userId);
 
-    // const[showHamburger,setShowHamburger]=useState(true);
+  const [liked, setLiked] = useState({});
+  const [isOpen, setIsOpen] = useState(false);
+  const [userProfie, setUserProfile] = useState("");
+  const [allMatches, setAllMatches] = useState([]);
+  const [topMatches, setTopMatches] = useState([]);
 
-    const likedProfile = () => {
-      setLiked(!liked);
-    };
 
-    const toggleMenu = () => {
-      setIsOpen(!isOpen);
-    };
-
-    useEffect(() => {
-      const handleScrollHam = () => {
-        document
-          .querySelectorAll(
-            `.${DashStyles.ham1}, .${DashStyles.ham2}, .${DashStyles.ham3}`
-          )
-          .forEach((el) => {
-            if (
-              window.scrollY > 159 &&
-              !el.classList.contains(DashStyles.open1) &&
-              !el.classList.contains(DashStyles.open2) &&
-              !el.classList.contains(DashStyles.open3)
-            ) {
-              el.style.display = "none";
-            } else {
-              el.style.display = "block";
-            }
-          });
-      };
-
-      window.addEventListener("scroll", handleScrollHam);
-      return () => {
-        window.removeEventListener("scroll", handleScrollHam);
-      };
-    }, []);
+  // const[showHamburger,setShowHamburger]=useState(true);
+  // const { userId } = useParams();
+  const likedProfile = async (id) => {
+    if (!userId) {
+      console.error("User ID is undefined");
+      return;
+    }
   
+    // Optimistically update UI
+    setLiked((prev) => {
+      return { ...prev, [id]: !prev[id] };
+    });
+  
+    try {
+      const response = await axios.post(
+        `http://localhost:8000/api/v1/user/profileLiked/${userId}`,
+        { id }
+      );
+  
+      console.log("Response:", response.data);
+    } catch (error) {
+      console.error("Error liking profile:", error);
+  
+      // Revert state if API fails
+      setLiked((prev) => {
+        return { ...prev, [id]: !prev[id] };
+      });
+    }
+  };
+  
+
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
+  // userdetails
+  const userDetails = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/api/v1/user/usercarddetails/${userId}`
+      );
+      console.log("response", response.data.data);
+      setUserProfile(response.data.data);
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+  //top recomendations
+  const TopMatch = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/api/v1/user/topmatch/${userId}`
+      );
+      let user=response.data.matches;
+      const shuffledUsers = user.sort(() => 0.5 - Math.random()).slice(0, 5);
+
+
+      console.log("topMatch", response.data.matches);
+      setTopMatches(shuffledUsers)
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+  // all matches
+  const AllMatches = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/api/v1/user/getUserById/${userId}`
+      );
+      let users = response.data.user;
+
+      
+      const shuffledUsers = users.sort(() => 0.5 - Math.random()).slice(0, 5);
+      console.log("all match", response.data.user);
+      setAllMatches(shuffledUsers);
+    } catch (error) {
+      console.log("Error fetching all matches", error);
+    }
+  };
+
+  useEffect(() => {
+    userDetails();
+    TopMatch();
+    AllMatches();
+  }, [userId]);
+
+  useEffect(() => {
+    const handleScrollHam = () => {
+      document
+        .querySelectorAll(
+          `.${DashStyles.ham1}, .${DashStyles.ham2}, .${DashStyles.ham3}`
+        )
+        .forEach((el) => {
+          if (
+            window.scrollY > 159 &&
+            !el.classList.contains(DashStyles.open1) &&
+            !el.classList.contains(DashStyles.open2) &&
+            !el.classList.contains(DashStyles.open3)
+          ) {
+            el.style.display = "none";
+          } else {
+            el.style.display = "block";
+          }
+        });
+    };
+
+    window.addEventListener("scroll", handleScrollHam);
+    return () => {
+      window.removeEventListener("scroll", handleScrollHam);
+    };
+  }, []);
+
   return (
     <div>
       <div className={DashStyles.mainContainer}>
@@ -73,9 +153,9 @@ import { useSelector ,useDispatch} from "react-redux";
               <div className={DashStyles.ProfileImage}></div>
               <div className={DashStyles.ProfileDetails}>
                 <p className={DashStyles.Greeting}>Good Morning!</p>
-                <h2 className={DashStyles.UserName}>Sanju</h2>
+                <h2 className={DashStyles.UserName}>{userProfie.firstName}</h2>
                 {/* <p className={DashStyles.UserId}>Sanju@007</p> */}
-                <p className={DashStyles.MemberId}>IDB 6142154</p>
+                <p className={DashStyles.MemberId}>{userProfie.userId}</p>
                 <p className={DashStyles.MembershipStatus}>Membership: Free</p>
                 <button className={DashStyles.UpgradeButton}>Upgrade</button>
               </div>
@@ -102,7 +182,7 @@ import { useSelector ,useDispatch} from "react-redux";
                   <Heart size={20} weight="duotone" />
                 </div>
                 <div className={DashStyles.link}>
-                  <Link to="/">Liked Profiles</Link>
+                  <Link to={`/likedprofiles/${userId}`}>Liked Profiles</Link>
                 </div>
               </div>
               <div className={DashStyles.LinkIcon}>
@@ -133,8 +213,6 @@ import { useSelector ,useDispatch} from "react-redux";
                           style={{ display: "none" }}
                         />
                       </div>
-                      
-                      
                     </div>
                   </div>
                 </div>
@@ -216,9 +294,11 @@ import { useSelector ,useDispatch} from "react-redux";
                   <div className={DashStyles.ProfileImage}></div>
                   <div className={DashStyles.ProfileDetails}>
                     <p className={DashStyles.Greeting}>Good Morning!</p>
-                    <h2 className={DashStyles.UserName}>Sanju</h2>
+                    <h2 className={DashStyles.UserName}>
+                      {userProfie.firstName}
+                    </h2>
                     {/* <p className={DashStyles.UserId}>Sanju@007</p> */}
-                    <p className={DashStyles.MemberId}>IDB 6142154</p>
+                    <p className={DashStyles.MemberId}>{userProfie.userId}</p>
                     <p className={DashStyles.MembershipStatus}>
                       Membership: Free
                     </p>
@@ -249,7 +329,7 @@ import { useSelector ,useDispatch} from "react-redux";
                       <Heart size={20} weight="duotone" />
                     </div>
                     <div className={DashStyles.link}>
-                      <Link to="/">Liked Profiles</Link>
+                      <Link to={`/likedprofiles/${userId}`}>Liked Profiles</Link>
                     </div>
                   </div>
                   <div className={DashStyles.LinkIcon}>
@@ -348,141 +428,40 @@ import { useSelector ,useDispatch} from "react-redux";
                 </h4>
               </div>
               <div className={DashStyles.trContentDisplay}>
-                <div className={DashStyles.trCard}>
-                  <div className={DashStyles.trCardImg}>
-                    <img
-                      src={image}
-                      alt="Crad imgae"
-                      className={DashStyles.cardImage}
-                    />
-                  </div>
-                  <div className={DashStyles.trCardDetails}>
-                    <div className={DashStyles.trCardDetailSub}>
-                      <h5 className={DashStyles.trUserName}>Gopika Krishnan</h5>
-                      <h6 className={DashStyles.trUserDetails}>25 Yrs ,5'7"</h6>
-                    </div>
-                    <div
-                      className={DashStyles.LikeButton}
-                      onClick={() => likedProfile()}
-                    >
-                      <HeartStraight
-                        size={20}
-                        weight={liked ? "fill" : "light"}
-                        className={`${DashStyles.likedHeartBefore} ${
-                          liked ? DashStyles.likedHeart : ""
-                        }`}
+                {topMatches &&topMatches.length>0?(topMatches.map((item,index)=>(
+                    <div key={index} className={DashStyles.trCard}>
+                    <div className={DashStyles.trCardImg}>
+                      <img
+                        src={image}
+                        alt="Crad imgae"
+                        className={DashStyles.cardImage}
                       />
                     </div>
-                  </div>
-                </div>
-                <div className={DashStyles.trCard}>
-                  <div className={DashStyles.trCardImg}>
-                    <img
-                      src={image}
-                      alt="Crad imgae"
-                      className={DashStyles.cardImage}
-                    />
-                  </div>
-                  <div className={DashStyles.trCardDetails}>
-                    <div className={DashStyles.trCardDetailSub}>
-                      <h5 className={DashStyles.trUserName}>Gopika Krishnan</h5>
-                      <h6 className={DashStyles.trUserDetails}>25 Yrs ,5'7"</h6>
-                    </div>
-                    <div
-                      className={DashStyles.LikeButton}
-                      onClick={() => likedProfile()}
-                    >
-                      <HeartStraight
-                        size={20}
-                        weight={liked ? "fill" : "light"}
-                        className={`${DashStyles.likedHeartBefore} ${
-                          liked ? DashStyles.likedHeart : ""
-                        }`}
-                      />
+                    <div className={DashStyles.trCardDetails}>
+                      <div className={DashStyles.trCardDetailSub}>
+                        <h5 className={DashStyles.trUserName} >{item.name}</h5>
+                        <h6 className={DashStyles.trUserDetails}>{item.age} Yrs ,{item.height}</h6>
+                      </div>
+                      <div
+                        className={DashStyles.LikeButton}
+                        onClick={() => likedProfile(item.id)}
+                      >
+                         <HeartStraight
+                            size={20}
+                            weight={liked[item.id] ? "fill" : "light"}
+                            className={`${DashStyles.likedHeartBefore} ${
+                              liked[item.id] ? DashStyles.likedHeart : ""
+                            }`}
+                          />
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className={DashStyles.trCard}>
-                  <div className={DashStyles.trCardImg}>
-                    <img
-                      src={image}
-                      alt="Crad imgae"
-                      className={DashStyles.cardImage}
-                    />
-                  </div>
-                  <div className={DashStyles.trCardDetails}>
-                    <div className={DashStyles.trCardDetailSub}>
-                      <h5 className={DashStyles.trUserName}>Gopika Krishnan</h5>
-                      <h6 className={DashStyles.trUserDetails}>25 Yrs ,5'7"</h6>
-                    </div>
-                    <div
-                      className={DashStyles.LikeButton}
-                      onClick={() => likedProfile()}
-                    >
-                      <HeartStraight
-                        size={20}
-                        weight={liked ? "fill" : "light"}
-                        className={`${DashStyles.likedHeartBefore} ${
-                          liked ? DashStyles.likedHeart : ""
-                        }`}
-                      />
-                    </div>
-                  </div>
-                </div>
-                {/* <div className={DashStyles.trCard}>
-                  <div className={DashStyles.trCardImg}>
-                    <img
-                      src={image}
-                      alt="Crad imgae"
-                      className={DashStyles.cardImage}
-                    />
-                  </div>
-                  <div className={DashStyles.trCardDetails}>
-                    <div className={DashStyles.trCardDetailSub}>
-                      <h5 className={DashStyles.trUserName}>Gopika Krishnan</h5>
-                      <h6 className={DashStyles.trUserDetails}>25 Yrs ,5'7"</h6>
-                    </div>
-                    <div
-                      className={DashStyles.LikeButton}
-                      onClick={() => likedProfile()}
-                    >
-                      <HeartStraight
-                        size={20}
-                        weight={liked ? "fill" : "light"}
-                        className={`${DashStyles.likedHeartBefore} ${
-                          liked ? DashStyles.likedHeart : ""
-                        }`}
-                      />
-                    </div>
-                  </div>
-                </div> */}
-                <div className={DashStyles.trCard}>
-                  <div className={DashStyles.trCardImg}>
-                    <img
-                      src={image}
-                      alt="Crad imgae"
-                      className={DashStyles.cardImage}
-                    />
-                  </div>
-                  <div className={DashStyles.trCardDetails}>
-                    <div className={DashStyles.trCardDetailSub}>
-                      <h5 className={DashStyles.trUserName}>Gopika Krishnan</h5>
-                      <h6 className={DashStyles.trUserDetails}>25 Yrs ,5'7"</h6>
-                    </div>
-                    <div
-                      className={DashStyles.LikeButton}
-                      onClick={() => likedProfile()}
-                    >
-                      <HeartStraight
-                        size={20}
-                        weight={liked ? "fill" : "light"}
-                        className={`${DashStyles.likedHeartBefore} ${
-                          liked ? DashStyles.likedHeart : ""
-                        }`}
-                      />
-                    </div>
-                  </div>
-                </div>
+                ))):(
+                  <p>No Top recomendations found </p>
+
+                )}
+              
+               
               </div>
               <div className={DashStyles.SeeAll}>
                 {/* <h4 className={DashStyles.saHead}>See All</h4> */}
@@ -496,150 +475,51 @@ import { useSelector ,useDispatch} from "react-redux";
             <div className={DashStyles.TopRecommendation}>
               <div className={DashStyles.trHeading}>
                 <h2 className={DashStyles.TrHead}>All Matches (1309)</h2>
-                {/* <h4 className={DashStyles.TrContent}>
-                  Members who match your partner preference
-                </h4> */}
               </div>
+
               <div className={DashStyles.trContentDisplay}>
-                <div className={DashStyles.trCard}>
-                  <div className={DashStyles.trCardImg}>
-                    <img
-                      src={image}
-                      alt="Crad imgae"
-                      className={DashStyles.cardImage}
-                    />
-                  </div>
-                  <div className={DashStyles.trCardDetails}>
-                    <div className={DashStyles.trCardDetailSub}>
-                      <h5 className={DashStyles.trUserName}>Gopika Krishnan</h5>
-                      <h6 className={DashStyles.trUserDetails}>25 Yrs ,5'7"</h6>
+                {allMatches && allMatches.length > 0 ? (
+                  allMatches.map((item, index) => (
+                    <div key={index} className={DashStyles.trCard}>
+                      <div className={DashStyles.trCardImg}>
+                        {/* image from backend */}
+                        <img
+          src={item.profileImage || image}
+          alt="Profile Image"
+          className={DashStyles.cardImage}
+        />
+                      </div>
+                      <div className={DashStyles.trCardDetails}>
+                        <div className={DashStyles.trCardDetailSub}>
+                          <h5 className={DashStyles.trUserName}>
+                            {item.firstName}
+                          </h5>
+                          <h6 className={DashStyles.trUserDetails}>
+                            {item.age} Yrs, {item.height} cms
+                          </h6>
+                        </div>
+                        <div
+                          className={DashStyles.LikeButton}
+                          onClick={() => likedProfile(item._id)}
+                        >
+                          <HeartStraight
+                            size={20}
+                            weight={liked[item._id] ? "fill" : "light"}
+                            className={`${DashStyles.likedHeartBefore} ${
+                              liked[item._id] ? DashStyles.likedHeart : ""
+                            }`}
+                          />
+                        </div>
+                      </div>
                     </div>
-                    <div
-                      className={DashStyles.LikeButton}
-                      onClick={() => likedProfile()}
-                    >
-                      <HeartStraight
-                        size={20}
-                        weight={liked ? "fill" : "light"}
-                        className={`${DashStyles.likedHeartBefore} ${
-                          liked ? DashStyles.likedHeart : ""
-                        }`}
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className={DashStyles.trCard}>
-                  <div className={DashStyles.trCardImg}>
-                    <img
-                      src={image}
-                      alt="Crad imgae"
-                      className={DashStyles.cardImage}
-                    />
-                  </div>
-                  <div className={DashStyles.trCardDetails}>
-                    <div className={DashStyles.trCardDetailSub}>
-                      <h5 className={DashStyles.trUserName}>Gopika Krishnan</h5>
-                      <h6 className={DashStyles.trUserDetails}>25 Yrs ,5'7"</h6>
-                    </div>
-                    <div
-                      className={DashStyles.LikeButton}
-                      onClick={() => likedProfile()}
-                    >
-                      <HeartStraight
-                        size={20}
-                        weight={liked ? "fill" : "light"}
-                        className={`${DashStyles.likedHeartBefore} ${
-                          liked ? DashStyles.likedHeart : ""
-                        }`}
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className={DashStyles.trCard}>
-                  <div className={DashStyles.trCardImg}>
-                    <img
-                      src={image}
-                      alt="Crad imgae"
-                      className={DashStyles.cardImage}
-                    />
-                  </div>
-                  <div className={DashStyles.trCardDetails}>
-                    <div className={DashStyles.trCardDetailSub}>
-                      <h5 className={DashStyles.trUserName}>Gopika Krishnan</h5>
-                      <h6 className={DashStyles.trUserDetails}>25 Yrs ,5'7"</h6>
-                    </div>
-                    <div
-                      className={DashStyles.LikeButton}
-                      onClick={() => likedProfile()}
-                    >
-                      <HeartStraight
-                        size={20}
-                        weight={liked ? "fill" : "light"}
-                        className={`${DashStyles.likedHeartBefore} ${
-                          liked ? DashStyles.likedHeart : ""
-                        }`}
-                      />
-                    </div>
-                  </div>
-                </div>
-                {/* <div className={DashStyles.trCard}>
-                  <div className={DashStyles.trCardImg}>
-                    <img
-                      src={image}
-                      alt="Crad imgae"
-                      className={DashStyles.cardImage}
-                    />
-                  </div>
-                  <div className={DashStyles.trCardDetails}>
-                    <div className={DashStyles.trCardDetailSub}>
-                      <h5 className={DashStyles.trUserName}>Gopika Krishnan</h5>
-                      <h6 className={DashStyles.trUserDetails}>25 Yrs ,5'7"</h6>
-                    </div>
-                    <div
-                      className={DashStyles.LikeButton}
-                      onClick={() => likedProfile()}
-                    >
-                      <HeartStraight
-                        size={20}
-                        weight={liked ? "fill" : "light"}
-                        className={`${DashStyles.likedHeartBefore} ${
-                          liked ? DashStyles.likedHeart : ""
-                        }`}
-                      />
-                    </div>
-                  </div>
-                </div> */}
-                <div className={DashStyles.trCard}>
-                  <div className={DashStyles.trCardImg}>
-                    <img
-                      src={image}
-                      alt="Crad imgae"
-                      className={DashStyles.cardImage}
-                    />
-                  </div>
-                  <div className={DashStyles.trCardDetails}>
-                    <div className={DashStyles.trCardDetailSub}>
-                      <h5 className={DashStyles.trUserName}>Gopika Krishnan</h5>
-                      <h6 className={DashStyles.trUserDetails}>25 Yrs ,5'7"</h6>
-                    </div>
-                    <div
-                      className={DashStyles.LikeButton}
-                      onClick={() => likedProfile()}
-                    >
-                      <HeartStraight
-                        size={20}
-                        weight={liked ? "fill" : "light"}
-                        className={`${DashStyles.likedHeartBefore} ${
-                          liked ? DashStyles.likedHeart : ""
-                        }`}
-                      />
-                    </div>
-                  </div>
-                </div>
+                  ))
+                ) : (
+                  <p>No matches found</p>
+                )}
               </div>
               <div className={DashStyles.SeeAll}>
                 {/* <h4 className={DashStyles.saHead}>See All</h4> */}
-                <Link to="/allmatches">
+                <Link to={`/allmatches/${userId}`}>
                   See All <span className={DashStyles.SpanArrow}>{">"}</span>
                 </Link>
               </div>
@@ -681,7 +561,7 @@ import { useSelector ,useDispatch} from "react-redux";
             </div>
             {/* Discover Matches end */}
             {/* Nearby Matches start*/}
-            <div className={DashStyles.TopRecommendation}>
+            {/* <div className={DashStyles.TopRecommendation}>
               <div className={DashStyles.trHeading}>
                 <h2 className={DashStyles.TrHead}>Nearby Matches (20)</h2>
                 <h4 className={DashStyles.TrContent}>
@@ -800,12 +680,12 @@ import { useSelector ,useDispatch} from "react-redux";
                 </div>
               </div>
               <div className={DashStyles.SeeAll}>
-                {/* <h4 className={DashStyles.saHead}>See All</h4> */}
+                
                 <Link to="/">
                   See All <span className={DashStyles.SpanArrow}>{">"}</span>
                 </Link>
               </div>
-            </div>
+            </div> */}
             {/* Nearby Matches end*/}
             {/* Explore Matrimony start */}
             <div className={DashStyles.ExploreMatrimonyDiv}>
@@ -840,7 +720,7 @@ import { useSelector ,useDispatch} from "react-redux";
             {/* Explore Matrimony end */}
           </div>
         </div>
-        <Footer/>
+        <Footer />
       </div>
     </div>
   );

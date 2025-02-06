@@ -10,17 +10,48 @@ import { Link } from "react-router-dom";
 import image from "../../assets/free-photo-of-couple-in-green-grass-field.jpeg";
 import Nav from "../../component/Navbar/Nav";
 import Footer from "../../component/Footer/Footer";
+import { useSelector, useDispatch } from "react-redux";
+import axios from "axios";
+
 
 function AllMatches() {
+  const dispatch = useDispatch();
+  const userId = useSelector((state) => state.user.id);
+  console.log("hey kitty", userId);
      const [liked, setLiked] = useState(false);
       const [isOpen, setIsOpen] = useState(false);
       const [activeTab, setActiveTab] = useState("top");
+      const [allMatches,setAllMatches]=useState([]);
     
       // const[showHamburger,setShowHamburger]=useState(true);
-    
-      const likedProfile = () => {
-        setLiked(!liked);
+      const likedProfile = async (id) => {
+        if (!userId) {
+          console.error("User ID is undefined");
+          return;
+        }
+      
+        // Optimistically update UI
+        setLiked((prev) => {
+          return { ...prev, [id]: !prev[id] };
+        });
+      
+        try {
+          const response = await axios.post(
+            `http://localhost:8000/api/v1/user/profileLiked/${userId}`,
+            { id }
+          );
+      
+          console.log("Response:", response.data);
+        } catch (error) {
+          console.error("Error liking profile:", error);
+      
+          // Revert state if API fails
+          setLiked((prev) => {
+            return { ...prev, [id]: !prev[id] };
+          });
+        }
       };
+      
     
       const toggleMenu = () => {
         setIsOpen((prev)=>!prev);
@@ -51,6 +82,22 @@ function AllMatches() {
           window.removeEventListener("scroll", handleScrollHam);
         };
       }, []);
+      const getAllMatches=async()=>{
+        try {
+          const response=await axios.get(`http://localhost:8000/api/v1/user/getUserById/${userId}`)
+          let matchedProfiles=response.data.user; 
+          console.log("response",response.data.user);
+          // let matchedLength=matchedProfiles.length;
+          // console.log("length",matchedLength);
+          setAllMatches(matchedProfiles);
+        } catch (error) {
+          console.log("Error",error);
+          
+        }
+      }
+      useEffect(()=>{
+        getAllMatches();
+      },[userId])
       return (
         <div className={DashStyles.mainContainer}>
           <Nav />
@@ -66,7 +113,7 @@ function AllMatches() {
             </Link>
     
             <Link
-              to="/allmatches"
+              to={`/allmatches/${userId}`}
               className={`${DashStyles.heading} ${
                 activeTab === "top" ? DashStyles.tabSelected : ""
               }`}
@@ -368,201 +415,52 @@ function AllMatches() {
               {/* Top recommendation start */}
               <div className={DashStyles.TopRecommendation}>
                 <div className={DashStyles.trHeading}>
-                  <h2 className={DashStyles.TrHead}>All Matches(1390)</h2>
+                  <h2 className={DashStyles.TrHead}>All Matches({allMatches.length})</h2>
                   {/* <h4 className={DashStyles.TrContent}>
                     Members who match your partner preference
                   </h4> */}
                 </div>
                 <div className={DashStyles.trContentDisplay}>
-                  <div className={DashStyles.trCard}>
-                    <div className={DashStyles.trCardImg}>
-                      <img
-                        src={image}
-                        alt="Crad imgae"
+
+                {allMatches && allMatches.length > 0 ? (
+                                allMatches.map((item, index) => (
+                                  <div key={index} className={DashStyles.trCard}>
+                                    <div className={DashStyles.trCardImg}>
+                                      {/* image from backend */}
+                                      <img
+                        src={item.profileImage || image}
+                        alt="Profile Image"
                         className={DashStyles.cardImage}
                       />
-                    </div>
-                    <div className={DashStyles.trCardDetails}>
-                      <div className={DashStyles.trCardDetailSub}>
-                        <h5 className={DashStyles.trUserName}>Gopika Krishnan</h5>
-                        <h6 className={DashStyles.trUserDetails}>25 Yrs ,5'7"</h6>
-                      </div>
-                      <div
-                        className={DashStyles.LikeButton}
-                        onClick={() => likedProfile()}
-                      >
-                        <HeartStraight
-                          size={20}
-                          weight={liked ? "fill" : "light"}
-                          className={`${DashStyles.likedHeartBefore} ${
-                            liked ? DashStyles.likedHeart : ""
-                          }`}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div className={DashStyles.trCard}>
-                    <div className={DashStyles.trCardImg}>
-                      <img
-                        src={image}
-                        alt="Crad imgae"
-                        className={DashStyles.cardImage}
-                      />
-                    </div>
-                    <div className={DashStyles.trCardDetails}>
-                      <div className={DashStyles.trCardDetailSub}>
-                        <h5 className={DashStyles.trUserName}>Gopika Krishnan</h5>
-                        <h6 className={DashStyles.trUserDetails}>25 Yrs ,5'7"</h6>
-                      </div>
-                      <div
-                        className={DashStyles.LikeButton}
-                        onClick={() => likedProfile()}
-                      >
-                        <HeartStraight
-                          size={20}
-                          weight={liked ? "fill" : "light"}
-                          className={`${DashStyles.likedHeartBefore} ${
-                            liked ? DashStyles.likedHeart : ""
-                          }`}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div className={DashStyles.trCard}>
-                    <div className={DashStyles.trCardImg}>
-                      <img
-                        src={image}
-                        alt="Crad imgae"
-                        className={DashStyles.cardImage}
-                      />
-                    </div>
-                    <div className={DashStyles.trCardDetails}>
-                      <div className={DashStyles.trCardDetailSub}>
-                        <h5 className={DashStyles.trUserName}>Gopika Krishnan</h5>
-                        <h6 className={DashStyles.trUserDetails}>25 Yrs ,5'7"</h6>
-                      </div>
-                      <div
-                        className={DashStyles.LikeButton}
-                        onClick={() => likedProfile()}
-                      >
-                        <HeartStraight
-                          size={20}
-                          weight={liked ? "fill" : "light"}
-                          className={`${DashStyles.likedHeartBefore} ${
-                            liked ? DashStyles.likedHeart : ""
-                          }`}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div className={DashStyles.trCard}>
-                    <div className={DashStyles.trCardImg}>
-                      <img
-                        src={image}
-                        alt="Crad imgae"
-                        className={DashStyles.cardImage}
-                      />
-                    </div>
-                    <div className={DashStyles.trCardDetails}>
-                      <div className={DashStyles.trCardDetailSub}>
-                        <h5 className={DashStyles.trUserName}>Gopika Krishnan</h5>
-                        <h6 className={DashStyles.trUserDetails}>25 Yrs ,5'7"</h6>
-                      </div>
-                      <div
-                        className={DashStyles.LikeButton}
-                        onClick={() => likedProfile()}
-                      >
-                        <HeartStraight
-                          size={20}
-                          weight={liked ? "fill" : "light"}
-                          className={`${DashStyles.likedHeartBefore} ${
-                            liked ? DashStyles.likedHeart : ""
-                          }`}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div className={DashStyles.trCard}>
-                    <div className={DashStyles.trCardImg}>
-                      <img
-                        src={image}
-                        alt="Crad imgae"
-                        className={DashStyles.cardImage}
-                      />
-                    </div>
-                    <div className={DashStyles.trCardDetails}>
-                      <div className={DashStyles.trCardDetailSub}>
-                        <h5 className={DashStyles.trUserName}>Gopika Krishnan</h5>
-                        <h6 className={DashStyles.trUserDetails}>25 Yrs ,5'7"</h6>
-                      </div>
-                      <div
-                        className={DashStyles.LikeButton}
-                        onClick={() => likedProfile()}
-                      >
-                        <HeartStraight
-                          size={20}
-                          weight={liked ? "fill" : "light"}
-                          className={`${DashStyles.likedHeartBefore} ${
-                            liked ? DashStyles.likedHeart : ""
-                          }`}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  {/* <div className={DashStyles.trCard}>
-                      <div className={DashStyles.trCardImg}>
-                        <img
-                          src={image}
-                          alt="Crad imgae"
-                          className={DashStyles.cardImage}
-                        />
-                      </div>
-                      <div className={DashStyles.trCardDetails}>
-                        <div className={DashStyles.trCardDetailSub}>
-                          <h5 className={DashStyles.trUserName}>Gopika Krishnan</h5>
-                          <h6 className={DashStyles.trUserDetails}>25 Yrs ,5'7"</h6>
-                        </div>
-                        <div
-                          className={DashStyles.LikeButton}
-                          onClick={() => likedProfile()}
-                        >
-                          <HeartStraight
-                            size={20}
-                            weight={liked ? "fill" : "light"}
-                            className={`${DashStyles.likedHeartBefore} ${
-                              liked ? DashStyles.likedHeart : ""
-                            }`}
-                          />
-                        </div>
-                      </div>
-                    </div> */}
-                  <div className={DashStyles.trCard}>
-                    <div className={DashStyles.trCardImg}>
-                      <img
-                        src={image}
-                        alt="Crad imgae"
-                        className={DashStyles.cardImage}
-                      />
-                    </div>
-                    <div className={DashStyles.trCardDetails}>
-                      <div className={DashStyles.trCardDetailSub}>
-                        <h5 className={DashStyles.trUserName}>Gopika Krishnan</h5>
-                        <h6 className={DashStyles.trUserDetails}>25 Yrs ,5'7"</h6>
-                      </div>
-                      <div
-                        className={DashStyles.LikeButton}
-                        onClick={() => likedProfile()}
-                      >
-                        <HeartStraight
-                          size={20}
-                          weight={liked ? "fill" : "light"}
-                          className={`${DashStyles.likedHeartBefore} ${
-                            liked ? DashStyles.likedHeart : ""
-                          }`}
-                        />
-                      </div>
-                    </div>
-                  </div>
+                                    </div>
+                                    <div className={DashStyles.trCardDetails}>
+                                      <div className={DashStyles.trCardDetailSub}>
+                                        <h5 className={DashStyles.trUserName}>
+                                          {item.firstName}
+                                        </h5>
+                                        <h6 className={DashStyles.trUserDetails}>
+                                          {item.age} Yrs, {item.height} cms
+                                        </h6>
+                                      </div>
+                                      <div
+                                        className={DashStyles.LikeButton}
+                                        onClick={() => likedProfile(item._id)}
+                                      >
+                                        <HeartStraight
+                                          size={20}
+                                          weight={liked[item._id] ? "fill" : "light"}
+                                          className={`${DashStyles.likedHeartBefore} ${
+                                            liked[item._id] ? DashStyles.likedHeart : ""
+                                          }`}
+                                        />
+                                      </div>
+                                    </div>
+                                  </div>
+                                ))
+                              ) : (
+                                <p>No matches found</p>
+                              )}
+                
                 </div>
                 <div className={DashStyles.SeeAll}>
                   {/* <h4 className={DashStyles.saHead}>See All</h4> */}
