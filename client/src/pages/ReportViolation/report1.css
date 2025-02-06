@@ -40,7 +40,7 @@
   margin-left: 80px;
   padding: 20px;
   border-radius: 12px;
-  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+ 
 }
 .form-container5_1 {
   display: flex;
@@ -51,7 +51,7 @@
   margin-left: 80px;
   padding: 20px;
   border-radius: 12px;
-  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+ 
 }
 .form-container5_1 label{
   display: block;
@@ -114,7 +114,7 @@ textarea {
   /* background-color: white; */
   padding: 20px;
   border-radius: 12px;
-  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 .form-container5_2 textarea{
   width: 400px;
@@ -144,9 +144,11 @@ textarea {
 @media (max-width: 768px) {
   .firstheader h1, 
   .ViolationHeader {
-    margin-left: 20px;
+    text-align: left;
   }
-
+  .firstTextContainer p{
+    margin-right: 50px;
+  }
   .form-container5, 
   .form-container5_1, 
   .form-container5_2 {
@@ -177,6 +179,7 @@ textarea {
   .firstheader h1, 
   .ViolationHeader h1 {
     font-size: 28px;
+    
   }
 
   .form-container5, 
@@ -198,6 +201,7 @@ textarea {
 
   .btncontainer {
     justify-content: center;
+    
     margin: 0;
   }
 }

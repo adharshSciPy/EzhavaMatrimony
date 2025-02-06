@@ -4,12 +4,12 @@ import path from "path";
 // Configure storage settings
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads/"); // Set the destination folder
+    cb(null, "uploads/"); // Set destination folder
   },
   filename: (req, file, cb) => {
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
     const fileExtension = path.extname(file.originalname);
-    cb(null, `${file.fieldname}-${uniqueSuffix}${fileExtension}`); // Create a unique file name
+    cb(null, `${file.fieldname}-${uniqueSuffix}${fileExtension}`); // Create unique file name
   },
 });
 
@@ -23,7 +23,7 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
-// Initialize multer
+// Initialize Multer
 const upload = multer({
   storage: storage,
   limits: { fileSize: 5 * 1024 * 1024 }, // 5MB size limit

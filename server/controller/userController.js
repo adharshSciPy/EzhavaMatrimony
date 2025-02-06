@@ -16,7 +16,7 @@ const generateShortId = () => {
 };
 
 const registerUser = async (req, res) => {
-  const { relation, firstName, userEmail } = req.body;
+  const { relation, firstName, userEmail } = req.body;  
 
   try {
     if (!relation || !firstName || !userEmail) {
@@ -92,7 +92,7 @@ const registerUser = async (req, res) => {
 
 const editUser = async (req, res) => {
   const { id } = req.params;
-  const file = req.file;
+  const files = req.files;
 
   console.log(id);
 
@@ -167,8 +167,8 @@ const editUser = async (req, res) => {
       state,
 
     };
-    if(file){
-      updatedData.image=`/uploads/${file.filename}`
+    if (files && files.length>0) {
+      updatedData.image = files.map((file)=>`/uploads/${file.filename}`)
     }
     if (password) {
       const hashedPassword = await bcrypt.hash(password, 10);
@@ -621,6 +621,19 @@ const likedprofiles = async (req, res) => {
   }
 }
 
+const userReport = async (req, res) => {
+  const { id } = req.params;
+  const { abuseCategory, subject, complaint, complainstAgainst } = req.body;
+  try {
+    const reportData = await User.findByIdAndUpdate(id, {
+      abuseCategory, subject, complaint, complainstAgainst
+    }, { new: true })
+    res.status(200).json({ message: "User report created", data: reportData })
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error", error: error })
+  }
+}
+
 
 
 
@@ -639,5 +652,6 @@ export {
   profileLiked,
   userdetails,
   likedprofiles,
+  userReport
 
 };
