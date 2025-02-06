@@ -1,81 +1,113 @@
-import React from 'react'
-import "./usermain.css"
-import Nav from "../../component/Navbar/Nav"
-import padam from "../../assets/bridde.jpg"
-import { Link } from 'react-router-dom'
-import Footer from '../../component/Footer/Footer'
+import React, { useState, useEffect } from "react";
+import "./usermain.css";
+import Nav from "../../component/Navbar/Nav";
+import padam from "../../assets/bridde.jpg";
+import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
+import Footer from "../../component/Footer/Footer";
+import axios from "axios"; // Import axios
 
 function UserMain() {
+  const {id}=useParams()
+  const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const fetchUserData = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8000/api/v1/user/usercarddetails/${id}`); // Replace with your API endpoint
+      setUserData(response.data); 
+      setLoading(false);
+    } catch (error) {
+      setError("Failed to fetch user data. Please try again later.");
+      setLoading(false);
+      console.error("Error fetching user data:", error);
+    }
+  };
+  // Fetch user data from the backend
+  useEffect(() => {
+    fetchUserData();
+  }, []);
+
+  // Display loading or error messages
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
+
   return (
-<div>
-<Nav />
- <h2 className="all-match">All Matches 14/112</h2>
+    <div>
+      <Nav />
+      <h2 className="all-match">All Matches 14/112</h2>
       <div className="profile-view-main-container">
         <div className="profile-cards">
           <div className="image-container">
             <img src={padam} alt="Profile" className="profile-image" />
-            
           </div>
 
           <div className="details-sections">
             <div className="profile-name-container">
-            
               <div className="heading-text">
-                <h2 className="profile-name-container">Gopika Krishnan</h2>
+                <h2 className="profile-name-container">
+                  {userData ? userData.name : "Gopika Krishnan"}
+                </h2>
               </div>
-              <div className="option">
-                <i>
-                  {" "}
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox=""
-                    fill="currentColor"
-                    className="w-6 h-6 text-gray-600 cursor-pointer"
-                  >
-                    <path d="M12 8.5a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm0 5a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm0 5a1.5 1.5 0 110-3 1.5 1.5 0 010 3z" />
-                  </svg>
-                </i>
+              <div className="option-container">
+                <div className="option">
+                  <i>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      className="w-6 h-6 text-gray-600 cursor-pointer"
+                    >
+                      <path d="M12 8.5a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm0 5a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm0 5a1.5 1.5 0 110-3 1.5 1.5 0 010 3z" />
+                    </svg>
+                  </i>
+                  <div className="dropdown-menu">
+                    <div className="dropdown-item">Report This Profile</div>
+                  </div>
+                </div>
               </div>
             </div>
             <div className="profile-age-container">
-              <p className="">25 Yrs, 5'7"</p>
-              <div className="media">
-                <div className="watsapp"></div>
-                <div className="call-icon"></div>
-              </div>
+              <p className="">
+                {userData ? `${userData.age} Yrs, ${userData.height}` : "25 Yrs, 5'7\""}
+              </p>
             </div>
 
             <div className="profile-info-container">
               <span className="profile-degree-container">
-                Other Bachelor Degree in Medicine, Student
+                {userData ? userData.education : "Other Bachelor Degree in Medicine, Student"}
               </span>
             </div>
 
             <div className="profile-location-container">
-              <span>Kerala, India</span>
+              <span>{userData ? userData.location : "Kerala, India"}</span>
             </div>
             <div className="premium-container">
-            <h3>Premium</h3>
-          </div>
+              <h3>Premium</h3>
+            </div>
           </div>
           <div className="verify-container">
             <h3>Verify Profile</h3>
           </div>
-          
         </div>
+
         <div className="about-similar">
           <div className="about-card">
             <div className="about-card-container">
               <div className="user-description">
                 <div className="about-user-container">
-                  <h3>About Gopika Krishnan</h3>
+                  <h3>About {userData ? userData.name : "Gopika Krishnan"}</h3>
                 </div>
                 <div className="description-container">
                   <p>
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                    Tenetur voluptates itaque excepturi expedita adipisci
-                    molestiae vel. Consectetur nisi maiores non nemo quisquam,
-                    voluptatem, veritatis qui velit sit delectus commodi quas?
+                    {userData
+                      ? userData.about
+                      : "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tenetur voluptates itaque excepturi expedita adipisci molestiae vel. Consectetur nisi maiores non nemo quisquam, voluptatem, veritatis qui velit sit delectus commodi quas?"}
                   </p>
                 </div>
               </div>
@@ -86,68 +118,66 @@ function UserMain() {
                   </div>
                   <div className="age-container details-main">
                     <div className="prof-detail same">
-                      <span className="material-icons profiles-icon">
-                        person
-                      </span>
+                      <span className="material-icons profiles-icon">person</span>
                       <p>Age</p>
                     </div>
-                    <div className="prof-detail same1">25Yrs</div>
+                    <div className="prof-detail same1">
+                      {userData ? `${userData.age} Yrs` : "25 Yrs"}
+                    </div>
                   </div>
                   <div className="degree-container details-main">
                     <div className="prof-detail same">
-                      <span className="material-icons profiles-icon">
-                        school
-                      </span>
+                      <span className="material-icons profiles-icon">school</span>
                       <p>Degree</p>
                     </div>
                     <div className="prof-detail same1">
-                      Other Bachelor Degree in Medicine,Student
+                      {userData ? userData.education : "Other Bachelor Degree in Medicine, Student"}
                     </div>
                   </div>
                   <div className="location-container details-main">
                     <div className="prof-detail same">
-                      <span className="material-icons profiles-icon">
-                        location_on
-                      </span>
+                      <span className="material-icons profiles-icon">location_on</span>
                       <p>Location</p>
                     </div>
-                    <div className="prof-detail same1">Kerala,India</div>
+                    <div className="prof-detail same1">
+                      {userData ? userData.location : "Kerala, India"}
+                    </div>
                   </div>
                   <div className="spoken-language-container details-main">
                     <div className="prof-detail same">
-                      <span className="material-icons profiles-icon">
-                        language
-                      </span>
+                      <span className="material-icons profiles-icon">language</span>
                       <p>Spoken Language</p>
                     </div>
                     <div className="prof-detail same1">
-                      Malyalam,English,Hindi
+                      {userData ? userData.languages : "Malayalam, English, Hindi"}
                     </div>
                   </div>
                   <div className="profile-created-container details-main">
                     <div className="prof-detail same">
-                      <span className="material-icons profiles-icon">
-                        account_circle
-                      </span>
+                      <span className="material-icons profiles-icon">account_circle</span>
                       <p>Profile Created By</p>
                     </div>
-                    <div className="prof-detail same1">Friend</div>
+                    <div className="prof-detail same1">
+                      {userData ? userData.profileCreatedBy : "Friend"}
+                    </div>
                   </div>
                   <div className="maritial-status-container details-main">
                     <div className="prof-detail same">
-                      <span className="material-icons profiles-icon">
-                        favorite
-                      </span>
+                      <span className="material-icons profiles-icon">favorite</span>
                       <p>Maritial Status</p>
                     </div>
-                    <div className="prof-detail same1">Never Married</div>
+                    <div className="prof-detail same1">
+                      {userData ? userData.maritalStatus : "Never Married"}
+                    </div>
                   </div>
                   <div className="citizenship-container details-main">
                     <div className="prof-detail same">
                       <span className="material-icons profiles-icon">flag</span>
                       <p>Citizenship</p>
                     </div>
-                    <div className="prof-detail same1">India</div>
+                    <div className="prof-detail same1">
+                      {userData ? userData.citizenship : "India"}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -155,12 +185,12 @@ function UserMain() {
                 <div className="verfication-container">
                   <div className="letter-container">
                     <div className="letter-main same">
-                      <span className="material-icons ">phone</span>
+                      <span className="material-icons">phone</span>
                       <h3>PHONE NUMBER</h3>
                       <div className="hr">
                         <hr />
                       </div>
-                      <span className="material-icons ">check_circle</span>
+                      <span className="material-icons">check_circle</span>
                       <h3>Verified</h3>
                     </div>
                   </div>
@@ -168,7 +198,7 @@ function UserMain() {
                     <div className="digit-main">
                       <h3>+91 65*********</h3>
                       <div className="call-now">
-                        <span className="material-icons ">phone</span>
+                        <span className="material-icons">phone</span>
                         <h4>Call Now</h4>
                       </div>
                     </div>
@@ -190,18 +220,22 @@ function UserMain() {
                         fill="#5f6368"
                       >
                         <path d="M80-80v-440h80v80h80l119-395v-85h80v80h81v-80h80v80l120 400h80v-80h80v440H520v-200h-80v200H80Zm268-440h264l-24-80H372l-24 80Zm48-160h168l-24-80H420l-24 80ZM160-160h200v-200h240v200h200v-200H660l-24-80H324l-24 80H160v200Zm320-300Z" />
-                      </svg>{" "}
+                      </svg>
                     </span>
-                    <p>subcaste</p>
+                    <p>Subcaste</p>
                   </div>
-                  <div className="prof-detail same1">DEMo</div>
+                  <div className="prof-detail same1">
+                    {userData ? userData.subcaste : "Demo"}
+                  </div>
                 </div>
                 <div className="location-container details-main">
                   <div className="prof-detail same">
                     <span className="material-icons profiles-icon">school</span>
                     <p>Gothram</p>
                   </div>
-                  <div className="prof-detail same1">Demo</div>
+                  <div className="prof-detail same1">
+                    {userData ? userData.gothram : "Demo"}
+                  </div>
                 </div>
                 <div className="spoken-language-container details-main">
                   <div className="prof-detail same">
@@ -218,7 +252,9 @@ function UserMain() {
                     </span>
                     <p>Dosham</p>
                   </div>
-                  <div className="prof-detail same1">demo</div>
+                  <div className="prof-detail same1">
+                    {userData ? userData.dosham : "Demo"}
+                  </div>
                 </div>
               </div>
               <div className="basic-details-container">
@@ -230,14 +266,18 @@ function UserMain() {
                     <span className="material-icons profiles-icon">school</span>
                     <p>Education</p>
                   </div>
-                  <div className="prof-detail same1">DEMo</div>
+                  <div className="prof-detail same1">
+                    {userData ? userData.education : "Demo"}
+                  </div>
                 </div>
                 <div className="location-container details-main">
                   <div className="prof-detail same">
                     <span className="material-icons profiles-icon">school</span>
                     <p>Occupation</p>
                   </div>
-                  <div className="prof-detail same1">Demo</div>
+                  <div className="prof-detail same1">
+                    {userData ? userData.occupation : "Demo"}
+                  </div>
                 </div>
               </div>
               <div className="basic-details-container">
@@ -246,102 +286,53 @@ function UserMain() {
                 </div>
                 <div className="degree-container details-main">
                   <div className="prof-detail same">
-                    <span className="material-icons profiles-icon">home </span>
-                    <p>subcaste</p>
+                    <span className="material-icons profiles-icon">home</span>
+                    <p>Subcaste</p>
                   </div>
-                  <div className="prof-detail same1">DEMo</div>
+                  <div className="prof-detail same1">
+                    {userData ? userData.familySubcaste : "Demo"}
+                  </div>
                 </div>
                 <div className="location-container details-main">
                   <div className="prof-detail same">
                     <span className="material-icons profiles-icon">work</span>
                     <p>Occupation</p>
                   </div>
-                  <div className="prof-detail same1">Demo</div>
+                  <div className="prof-detail same1">
+                    {userData ? userData.familyOccupation : "Demo"}
+                  </div>
                 </div>
               </div>
-             
+
               <div className="profile-like-container">
                 <div className="profile-like-main">
                   <div className="heading">
                     <h3>Profiles You May Like</h3>
                   </div>
                   <div className="like-card-container">
-                    <div className="like-card">
-                      <div className="image-container">
-                        <img src={padam} alt="" />
-                      </div>
-                      <div className="description-container">
-                        <div className="name">
-                          <h5>Gopika Krishnan</h5>
+                    {userData &&
+                      userData.similarProfiles &&
+                      userData.similarProfiles.map((profile, index) => (
+                        <div className="like-card" key={index}>
+                          <div className="image-container">
+                            <img src={profile.image || padam} alt="Profile" />
+                          </div>
+                          <div className="description-container">
+                            <div className="name">
+                              <h5>{profile.name}</h5>
+                            </div>
+                            <div className="age">
+                              <p>{profile.age} Yrs</p>
+                            </div>
+                            <div className="location">
+                              <p>{profile.location}</p>
+                            </div>
+                            <div className="view-button">
+                              <button>View Profile</button>
+                            </div>
+                          </div>
                         </div>
-                        <div className="age">
-                          <p>25 Yrs</p>
-                        </div>
-                        <div className="location">
-                          <p>kerala,India</p>
-                        </div>
-                        <div className="view-button">
-                          <button>View Profile</button>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="like-card">
-                      <div className="image-container">
-                        <img src={padam} alt="" />
-                      </div>
-                      <div className="description-container">
-                        <div className="name">
-                          <h5>Gopika Krishnan</h5>
-                        </div>
-                        <div className="age">
-                          <p>25 Yrs</p>
-                        </div>
-                        <div className="location">
-                          <p>kerala,India</p>
-                        </div>
-                        <div className="view-button">
-                          <button>View Profile</button>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="like-card">
-                      <div className="image-container">
-                        <img src={padam} alt="" />
-                      </div>
-                      <div className="description-container">
-                        <div className="name">
-                          <h5>Gopika Krishnan</h5>
-                        </div>
-                        <div className="age">
-                          <p>25 Yrs</p>
-                        </div>
-                        <div className="location">
-                          <p>kerala,India</p>
-                        </div>
-                        <div className="view-button">
-                          <button>View Profile</button>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="like-card">
-                      <div className="image-container">
-                        <img src={padam} alt="" />
-                      </div>
-                      <div className="description-container">
-                        <div className="name">
-                          <h5>Gopika Krishnan</h5>
-                        </div>
-                        <div className="age">
-                          <p>25 Yrs</p>
-                        </div>
-                        <div className="location">
-                          <p>kerala,India</p>
-                        </div>
-                        <div className="view-button">
-                          <button>View Profile</button>
-                        </div>
-                      </div>
-                    </div>
+                      ))}
                   </div>
                 </div>
               </div>
@@ -352,67 +343,32 @@ function UserMain() {
               <div className="container-similar">
                 <h3>Similar Profile</h3>
               </div>
-              
-            </div>
-            <div className="like-card-container">
-                <div className="like-card">
-                  <div className="image-container">
-                    <img src={padam} alt="" />
-                  </div>
-                  <div className="description-container">
-                    <div className="name">
-                      <h5>Gopika Krishnan</h5>
+              <div className="like-card-container">
+                {userData &&
+                  userData.similarProfiles &&
+                  userData.similarProfiles.map((profile, index) => (
+                    <div className="like-card" key={index}>
+                      <div className="image-container">
+                        <img src={profile.image || padam} alt="Profile" />
+                      </div>
+                      <div className="description-container">
+                        <div className="name">
+                          <h5>{profile.name}</h5>
+                        </div>
+                        <div className="age">
+                          <p>{profile.age} Yrs</p>
+                        </div>
+                        <div className="location">
+                          <p>{profile.location}</p>
+                        </div>
+                        <div className="view-button">
+                          <button>View Profile</button>
+                        </div>
+                      </div>
                     </div>
-                    <div className="age">
-                      <p>25 Yrs</p>
-                    </div>
-                    <div className="location">
-                      <p>kerala,India</p>
-                    </div>
-                    <div className="view-button">
-                      <button>View Profile</button>
-                    </div>
-                  </div>
-                </div>
-                <div className="like-card">
-                  <div className="image-container">
-                    <img src={padam} alt="" />
-                  </div>
-                  <div className="description-container">
-                    <div className="name">
-                      <h5>Gopika Krishnan</h5>
-                    </div>
-                    <div className="age">
-                      <p>25 Yrs</p>
-                    </div>
-                    <div className="location">
-                      <p>kerala,India</p>
-                    </div>
-                    <div className="view-button">
-                      <button>View Profile</button>
-                    </div>
-                  </div>
-                </div>
-                <div className="like-card">
-                  <div className="image-container">
-                    <img src={padam} alt="" />
-                  </div>
-                  <div className="description-container">
-                    <div className="name">
-                      <h5>Gopika Krishnan</h5>
-                    </div>
-                    <div className="age">
-                      <p>25 Yrs</p>
-                    </div>
-                    <div className="location">
-                      <p>kerala,India</p>
-                    </div>
-                    <div className="view-button">
-                      <button>View Profile</button>
-                    </div>
-                  </div>
-                </div>
+                  ))}
               </div>
+            </div>
           </div>
         </div>
         <hr className="separator"></hr>
@@ -421,9 +377,9 @@ function UserMain() {
         href="https://fonts.googleapis.com/icon?family=Material+Icons"
         rel="stylesheet"
       />
-<Footer />
-</div>
-)
+      <Footer />
+    </div>
+  );
 }
 
-export default UserMain
+export default UserMain;

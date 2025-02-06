@@ -785,7 +785,7 @@ padding: 10px 0 10px 0;
   color: #fff;
 }
 }
-@media (max-width:500px) {
+@media (max-width:503px) {
   .SubContainer{
     margin: 10px;
   }
@@ -831,6 +831,10 @@ width: 90%;
 }
 .ExploreContentIcons{
   width: 95%;
+}
+.trHeading{
+  /* border: 2px solid black; */
+text-align: center;
 }
 
 }

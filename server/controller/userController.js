@@ -4,6 +4,7 @@ import crypto from "crypto";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { likedByProfile } from "../model/likedProfileModel.js";
+import { Notification } from "../model/notificationModel.js"
 
 const generateShortId = () => {
   const timestamp = Date.now(); // Get current time in milliseconds
@@ -16,13 +17,13 @@ const generateShortId = () => {
 };
 
 const registerUser = async (req, res) => {
-  const { relation, firstName, userEmail } = req.body;  
+  const { relation, firstName, userEmail } = req.body;
 
   try {
     if (!relation || !firstName || !userEmail) {
       return res.status(400).json({ message: "All fields are required" });
     }
- 
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(userEmail)) {
       return res.status(400).json({ message: "Invalid email format" });
@@ -131,7 +132,7 @@ const editUser = async (req, res) => {
 
   } = req.body;
   console.log(id);
- 
+
   try {
     let updatedData = {
       dateOfBirth,
@@ -167,8 +168,8 @@ const editUser = async (req, res) => {
       state,
 
     };
-    if (files && files.length>0) {
-      updatedData.image = files.map((file)=>`/uploads/${file.filename}`)
+    if (files && files.length > 0) {
+      updatedData.image = files.map((file) => `/uploads/${file.filename}`)
     }
     if (password) {
       const hashedPassword = await bcrypt.hash(password, 10);
@@ -247,10 +248,10 @@ const getUser = async (req, res) => {
     let userDetails;
     const user = await User.findById(id)
     const gender = user.gender
-    if (gender === "Male" || gender === "male") {
-      userDetails = await User.find({ gender: "Female", gender: "female" });
+    if (gender.toLowerCase() === "male") {
+      userDetails = await User.find({ gender: { $in: ["Female", "female"] } });
     } else {
-      userDetails = await User.find({ gender: "Male", gender: "male" });
+      userDetails = await User.find({ gender: { $in: ["Male", "male"] } });
     }
     return res.status(200).json({ user: userDetails });
   } catch (error) {
@@ -404,7 +405,7 @@ const userLogin = async (req, res) => {
     res.json({
       success: true,
       userId: user._id, // Send MongoDB _id
-      token:accessToken,
+      token: accessToken,
     });
   } catch (err) {
     console.error("Error during login:", err);
@@ -586,19 +587,35 @@ const profileLiked = async (req, res) => {
   const { likedByUserId } = req.params;
   const { likedUserId } = req.body;
 
+  console.log("liked by user", likedByUserId);
+  console.log("likedUser", likedUserId)
+
   try {
-    // Save the like to the database
+    // Save the like to the database (optional, but for tracking)
     const like = new likedByProfile({ likedByUserId, likedUserId });
     await like.save();
 
-    // Notify the liked user via Socket.io
-    req.io.to(likedUserId).emit('profile_liked', { likedByUserId, likedUserId });
+    // Create the notification
+    const message = "Someone liked your profile!";
+    const newNotification = new Notification({
+      senderId: likedByUserId,
+      receiverId: likedUserId,
+      message
+    });
+
+    // Save the notification to the database
+    await newNotification.save();
+
+    // Notify the woman (receiver) via Socket.io if she's online
+    if (req.io.sockets.connected[likedUserId]) {
+      req.io.to(likedUserId).emit('newNotification', newNotification);
+    }
 
     // Send success response
-    res.status(200).json({ message: 'Profile liked successfully' });
+    res.status(200).json({ message: 'Profile liked and notification sent successfully' });
   } catch (error) {
     console.error('Error liking profile:', error.message);
-    res.status(500).json({ error: 'An error occurred while liking the profile' });
+    res.status(500).json({ error: 'An error occurred while liking the profile', message: error.message });
   }
 };
 
@@ -634,6 +651,18 @@ const userReport = async (req, res) => {
   }
 }
 
+// Get notifications for a user
+const getNotifications = async (req, res) => {
+  const { userId } = req.body;
+  try {
+    const notifications = await Notification.find({ receiverId: userId }).sort({ createdAt: -1 })
+    console.log("notifications", notifications)
+    res.status(200).json({ message: "Notification fetched sucessfully", notifications })
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error", error: error })
+  }
+}
+
 
 
 
@@ -652,6 +681,6 @@ export {
   profileLiked,
   userdetails,
   likedprofiles,
-  userReport
+  userReport, getNotifications
 
 };
