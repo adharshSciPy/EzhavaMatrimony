@@ -107,6 +107,12 @@ function LandingPage() {
                 Forgot Password
               </Link>
             </div>
+            <div className="adminLogin">
+              <p> Login as Admin</p>
+              <Link className="signup-link" to="/adminLanding">
+                Sign up
+              </Link>
+            </div>
             <div className="signin">
               <p> Create your account</p>
               <Link className="signup-link" to="/register">

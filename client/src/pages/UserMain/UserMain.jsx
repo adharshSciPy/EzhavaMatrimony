@@ -265,14 +265,6 @@ function UserMain() {
                   <div className="heading">
                     <h3>Profiles You May Like</h3>
                   </div>
-                  <div className="list-all">
-                    <Link className="custom-link">
-                      See All{" "}
-                      <span className="material-icons profiles-icon">
-                        chevron_right
-                      </span>{" "}
-                    </Link>
-                  </div>
                   <div className="like-card-container">
                     <div className="like-card">
                       <div className="image-container">
