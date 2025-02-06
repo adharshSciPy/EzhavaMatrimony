@@ -10,8 +10,13 @@ import { Link } from "react-router-dom";
 import image from "../../assets/free-photo-of-couple-in-green-grass-field.jpeg";
 import Nav from "../../component/Navbar/Nav";
 import Footer from "../../component/Footer/Footer";
+import { useSelector, useDispatch } from "react-redux";
+
 
 function TopRecommendation() {
+  const dispatch = useDispatch();
+  const userId = useSelector((state) => state.user.id);
+  console.log("hey kitty", userId);
   const [liked, setLiked] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("top");
@@ -66,7 +71,7 @@ function TopRecommendation() {
         </Link>
 
         <Link
-          to="/allmatches"
+          to={`/allmatches/${userId}`}
           className={`${DashStyles.heading} ${
             activeTab === "all" ? DashStyles.tabSelected : ""
           }`}
