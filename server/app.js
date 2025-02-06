@@ -7,6 +7,8 @@ import http from 'http';
 import { Server } from "socket.io";
 import { fileURLToPath } from "url";
 import path from "path";
+import adminRouter from "./routes/adminRouter.js"
+
 
 
 dotenv.config()
@@ -43,6 +45,6 @@ io.on('connection', (socket) => {
 });
 app.use("/uploads", express.static(path.join(__dirname, "uploads")))
 app.use("/api/v1/user", userRouter);
-
+app.use("/api/v1/admin",adminRouter)
 
 export { app }

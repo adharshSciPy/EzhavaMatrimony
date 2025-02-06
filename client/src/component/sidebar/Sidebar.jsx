@@ -1,6 +1,7 @@
 import { React, useState, useEffect, useMemo } from "react";
 import "./sidebar.css";
 import { Menu, Button } from "antd";
+import { clearUser } from "../../features/slice";
 import {
   HomeOutlined,
   UserOutlined,
@@ -10,9 +11,12 @@ import {
   PushpinOutlined,
   PushpinFilled,
 } from "@ant-design/icons";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation,useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 function Sidebar() {
+  const dispatch = useDispatch();
+const navigate = useNavigate();
   const [isPinned, setIsPinned] = useState(window.innerWidth > 768);
   const location = useLocation();
 
@@ -22,7 +26,10 @@ function Sidebar() {
       { key: "profile", label: "Profile Verification", icon: <UserOutlined />, path: "/profile" },
       { key: "Report", label: "Reports & Complaints", icon: <ContainerOutlined />, path: "/Adminreport" },
       { key: "settings", label: "Settings", icon: <SettingOutlined />, path: "/Adminsettings" },
-      { key: "signout", label: "Signout", icon: <LogoutOutlined />, path: "/" },
+      { key: "signout", label: "Signout", icon: <LogoutOutlined />, path: "/" ,onClick:()=>{
+        dispatch(clearUser())
+        navigate("/");
+      } },
     ],
     []
   );

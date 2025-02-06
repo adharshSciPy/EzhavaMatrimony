@@ -16,6 +16,7 @@ import Settings from "./pages/Admin/settings/Settings";
 import AdminUserProfileView from "./pages/Admin/adminprofile/Adminprofile"
 import GetFullUser from "./pages/Admin/userPage/GetFullUser"
 import AllMatches from "./pages/AllMatches/AllMatches";
+import AdminLanding from "./pages/Admin/adminLoginPage/AdminLogin"
 import Report1 from "./pages/ReportViolation/Report1";
 import UserMain from "./pages/UserMain/UserMain";
 import UserSettings from "./pages/UserSettings/UserSettings";
@@ -39,13 +40,10 @@ function App() {
           <Route path="/Adminreport" element={<Report />} />
           <Route path="/toprecommendations" element={<TopRecommendation />} />
           <Route path="/allmatches" element={< AllMatches/>} />
-
-
-          <Route path="/Adminreport" element={<Report />} />
           <Route path="/Adminsettings" element={<Settings />} />
           <Route path="/Adminusersview/:id" element={<AdminUserProfileView />} />
           <Route path="/getFullUser" element={<GetFullUser />} />
-
+          <Route path="/adminlanding" element={<AdminLanding />} />
           <Route path="/report" element={<Report1 />} />
           <Route path="/mainuser" element={<UserMain/>} />
           <Route path="/Usettings" element={<UserSettings />} />

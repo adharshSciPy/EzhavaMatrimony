@@ -1,58 +1,47 @@
-import React, { useState } from "react";
-import "../LandingPage/landingpage.css";
-import axios from "axios";
-import { useNavigate, Link } from "react-router-dom";
+import React, { useState } from 'react'
+import "./adminlogin.css"
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate, Link } from "react-router-dom";
+import axios from 'axios';
 import { useDispatch } from "react-redux";
-import { setUser } from "../../features/slice";
+import { setUser } from "../../../features/slice";
 
-function LandingPage() {
-  let field = {
-    userEmail: "",
-    password: "",
+
+function AdminLogin() {
+  let field={
+    userEmail:"",
+    password:""
   };
-  const [form, setForm] = useState(field);
+  const[form,setForm]=useState(field)
   const [errorMessage, setErrorMessage] = useState(""); 
   const notifyError = (message) => toast.error(message);
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  
-  const handleSignin = async (e) => {
-    e.preventDefault(); 
-    try {
-      const response = await axios.post(
-        `http://localhost:8000/api/v1/user/login`,
-        form
-      );
-      if(response){
-        navigate(`./dashboard`)
-        console.log(response.data);
-        dispatch(setUser({ id: response.data.userId })); // Dispatch Redux action
-        console.log("Dispatched ID:", response.data.userId); // Debug Redux action
-        localStorage.setItem("userId", response.data.userId); 
-        console.log("Token:", response?.data?.token)
-        console.log(response.data.userId);
-        
-        
-      }
-    } catch (error) {
-      setErrorMessage(
-        error.response?.data?.message ||
-          "Invalid email or password. Please try again."
-      );
-      notifyError(error.response?.data?.message);
-    }
-  };
-
-  const handleChange = (e) => {
+  const handleChange=(e)=>{
     setForm({
       ...form,
-      [e.target.name]: e.target.value,
-    });
-  };
-
+    [e.target.name]:e.target.value
+    })
+  }
+  const handleSignin=async (e)=>{
+    e.preventDefault();
+try {
+  const response = await axios.post(`http://localhost:8000/api/v1/admin/login`,form);
+  if (response){
+    navigate(`/Admindashboard`)
+    console.log(response.data);
+    dispatch(setUser({ id: response.data.userId })); // Dispatch Redux action
+    
+  }
+} catch (error) {
+  setErrorMessage(
+    error.response?.data?.message ||
+      "Invalid email or password. Please try again."
+  );
+  notifyError(error.response?.data?.message);
+}  }
   return (
     <div>
       <div className="landing-main-container">
@@ -78,7 +67,7 @@ function LandingPage() {
             <h3>Login to your Profile</h3>
           </div>
           <div className="landing-form-subheader">
-            <h4>Find Your Perfect Soulmate</h4>
+            <h4>Admin Login</h4>
           </div>
           <form onSubmit={handleSignin}>
             <label>
@@ -86,9 +75,9 @@ function LandingPage() {
                 type="email"
                 name="userEmail"
                 placeholder="Email"
-                required
-                onChange={handleChange}
                 value={form.userEmail}
+                onChange={handleChange}
+                required
               />
             </label>
             <label>
@@ -97,8 +86,9 @@ function LandingPage() {
                 name="password"
                 placeholder="password"
                 required
+                value={form.Password}
                 onChange={handleChange}
-                value={form.password}
+
               />
             </label>
             <button type="submit">Sign In</button>
@@ -107,23 +97,12 @@ function LandingPage() {
                 Forgot Password
               </Link>
             </div>
-            <div className="adminLogin">
-              <p> Login as Admin</p>
-              <Link className="signup-link" to="/adminLanding">
-                Sign up
-              </Link>
-            </div>
-            <div className="signin">
-              <p> Create your account</p>
-              <Link className="signup-link" to="/register">
-                Sign up
-              </Link>
-            </div>
+            
           </form>
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default LandingPage;
+export default AdminLogin

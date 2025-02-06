@@ -1,13 +1,11 @@
-import { editUser, registerUser, verifyOtp, resetPassword, forgotPassword, getUser, userLogin, getUserById, topMatch, resendOtp, profileLiked, userdetails, likedprofiles } from "../controller/userController.js";
+import { editUser, registerUser, verifyOtp, resetPassword, forgotPassword, getUser, userLogin, getUserById, topMatch, resendOtp, profileLiked, userdetails, likedprofiles, userReport } from "../controller/userController.js";
 import { Router } from 'express'
 import upload from '../multer/multer.js';
 
 
 const userRouter = Router()
-
-
 userRouter.route('/register').post(registerUser)
-userRouter.route('/edit/:id').patch(upload.single("image"),editUser)
+userRouter.route('/edit/:id').patch(upload.array("image",5),editUser)
 userRouter.route('/userdetails').get(userdetails)
 userRouter.route('/verifyOtp/:userEmail').post(verifyOtp);
 userRouter.route('/getUserById/:id').get(getUser)
@@ -19,6 +17,7 @@ userRouter.route('/topmatch/:id').get(topMatch);
 userRouter.route('/resendOtp/:userEmail').post(resendOtp);
 userRouter.route('/profileLiked/:likedByUserId').post(profileLiked);
 userRouter.route('/likedProfiles/:likedByUserId').get(likedprofiles);
+userRouter.route('/userReport/:id').patch(userReport);
 
 
 

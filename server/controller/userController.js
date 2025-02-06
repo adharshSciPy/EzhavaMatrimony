@@ -16,7 +16,7 @@ const generateShortId = () => {
 };
 
 const registerUser = async (req, res) => {
-  const { relation, firstName, userEmail } = req.body;
+  const { relation, firstName, userEmail } = req.body;  
 
   try {
     if (!relation || !firstName || !userEmail) {
@@ -92,7 +92,7 @@ const registerUser = async (req, res) => {
 
 const editUser = async (req, res) => {
   const { id } = req.params;
-  const file = req.file;
+  const files = req.files;
 
   console.log(id);
 
@@ -167,8 +167,8 @@ const editUser = async (req, res) => {
       state,
 
     };
-    if(file){
-      updatedData.image=`/uploads/${file.filename}`
+    if (files && files.length>0) {
+      updatedData.image = files.map((file)=>`/uploads/${file.filename}`)
     }
     if (password) {
       const hashedPassword = await bcrypt.hash(password, 10);
@@ -401,9 +401,11 @@ const userLogin = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    return res
-      .status(200)
-      .json({ message: "Login successful", token: accessToken });
+    res.json({
+      success: true,
+      userId: user._id, // Send MongoDB _id
+      token:accessToken,
+    });
   } catch (err) {
     console.error("Error during login:", err);
     return res
