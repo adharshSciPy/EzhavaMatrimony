@@ -3,16 +3,20 @@ import "./report1.css";
 import Nav from "../../component/Navbar/Nav";
 import Footer from "../../component/Footer/Footer";
 import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
 
 function Report1() {
-  
+
   const [abuseCategory, setAbuseCategory] = useState("");
   const [subject, setSubject] = useState("");
   const [complaintDetails, setComplaintDetails] = useState("");
   const [complaintAgainstId, setComplaintAgainstId] = useState("");
-  const [submissionStatus, setSubmissionStatus] = useState(null); 
+  const [submissionStatus, setSubmissionStatus] = useState(null);
 
- 
+  const dispatch = useDispatch();
+  const userId = useSelector((state) => state.user.id);
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -24,12 +28,12 @@ function Report1() {
     };
 
     try {
-      const response = await axios.post("", formData, {
+      const response = await axios.post(`http://localhost:8000/api/v1/user/userReport/${userId}`, formData, {
         headers: {
           "Content-Type": "application/json",
         },
       });
-  
+
       if (response.status === 200 || response.status === 201) {
         setSubmissionStatus("success");
         console.log("Report submitted successfully!");
@@ -43,7 +47,7 @@ function Report1() {
     }
   };
 
-  
+
   const handleReset = () => {
     setAbuseCategory("");
     setSubject("");
@@ -52,7 +56,7 @@ function Report1() {
     setSubmissionStatus(null);
   };
 
-  
+
   useEffect(() => {
     if (submissionStatus === "success") {
       alert("Report submitted successfully!");
