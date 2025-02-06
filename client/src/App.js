@@ -20,12 +20,14 @@ import AdminLanding from "./pages/Admin/adminLoginPage/AdminLogin"
 import Report1 from "./pages/ReportViolation/Report1";
 import UserMain from "./pages/UserMain/UserMain";
 import UserSettings from "./pages/UserSettings/UserSettings";
-
+import ResetPassword from "./pages/Admin/Passwordreset/PasswordReset"
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
+      
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/register" element={<LoginPAge />} />
@@ -47,7 +49,10 @@ function App() {
           <Route path="/report" element={<Report1 />} />
           <Route path="/mainuser" element={<UserMain/>} />
           <Route path="/Usettings" element={<UserSettings />} />
+          <Route path="/resetPassword/:token" element={<ResetPassword />} />
+
         </Routes>
+        <ToastContainer />  
       </BrowserRouter>
     </div>
   );

@@ -120,7 +120,7 @@ const forgotPassword = async (req, res) => {
 
     const token = jwt.sign({ id: admin._id }, ACCESS_TOKEN_SECRET, { expiresIn: "1d" });
 
-    const resetLink = `${CLIENT_URL}/resetpasswordadmin/${token}`;
+    const resetLink = `${CLIENT_URL}/resetPassword/${token}`;
 
     const transporter = nodemailer.createTransport({
       service: "gmail",
@@ -154,18 +154,12 @@ const forgotPassword = async (req, res) => {
 
 
 const resetPassword=async(req,res)=>{
-  const { id, token } = req.params;
+  const {token } = req.params;
   const { password } = req.body;
   const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
   try {
-      const decoded = jwt.verify(token, ACCESS_TOKEN_SECRET);
-      if (decoded.id !== id) {
-        return res
-          .status(400)
-          .json({ message: "Invalid token or mismatched user ID." });
-      }
-  
-      const admin = await Admin.findById(id);
+      const decoded = jwt.verify(token, ACCESS_TOKEN_SECRET);  
+      const admin = await Admin.findById(decoded.id);
       if (!admin) {
         return res.status(404).json({ message: "Admin not found." });
       }
