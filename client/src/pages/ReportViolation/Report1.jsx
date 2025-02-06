@@ -106,6 +106,7 @@ function Report1() {
             <label htmlFor="abuse-category">Abuse Category</label>
             <select
               id="abuse-category"
+              name="abuseCategory"
               value={abuseCategory}
               onChange={(e) => setAbuseCategory(e.target.value)}
               required
@@ -126,6 +127,7 @@ function Report1() {
             <label htmlFor="subject">Subject</label>
             <input
               id="subject"
+              name="subject"
               type="text"
               placeholder="Enter subject"
               value={subject}
@@ -138,6 +140,7 @@ function Report1() {
           <label htmlFor="complaint-details">Complaint and Details</label>
           <textarea
             id="complaint-details"
+            name="complaint"
             rows="4"
             placeholder="Enter complaint details"
             value={complaintDetails}
@@ -151,6 +154,7 @@ function Report1() {
           </label>
           <textarea
             id="complaint-details"
+            name="complainstAgainst"
             rows="4"
             placeholder="Enter User name"
             value={complaintAgainstId}
