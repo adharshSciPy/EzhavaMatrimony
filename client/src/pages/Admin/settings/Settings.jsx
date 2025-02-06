@@ -29,9 +29,6 @@ function Settings() {
                     <p>alex@gmail.com</p>
                   </div>
                 </div>
-                <div className="edit-button">
-                  <button>Edit</button>
-                </div>
               </div>
               <div className="part-two">
                 <form>
