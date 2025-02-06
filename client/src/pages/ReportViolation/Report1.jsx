@@ -15,6 +15,8 @@ function Report1() {
 
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.user.id);
+  console.log("hellochimp",userId);
+  
 
 
   const handleSubmit = async (e) => {
