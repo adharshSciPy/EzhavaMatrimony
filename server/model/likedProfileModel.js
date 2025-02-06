@@ -1,5 +1,4 @@
 import mongoose, { Schema } from "mongoose";
-import { type } from "os";
 
 const likedProfile = new Schema({
     likedByUserId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
