@@ -152,7 +152,8 @@ const userSchema = new Schema({
   },
   complainstAgainst:{
     type: String,
-  }
+  },
+  like:[{type: mongoose.Schema.Types.ObjectId, ref: "User"}]
   
 });
 
