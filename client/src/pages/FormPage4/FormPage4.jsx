@@ -7,15 +7,24 @@ import { useNavigate } from "react-router-dom";
 
 function FormPage4() {
   const [form, setForm] = useState({});
+  const [selectedImage, setSelectedImage] = useState(null);
   const navigate = useNavigate();
   const { id } = useSelector((state) => state.user);
 
   const handleChange = (e) => {
     setForm({
       ...form,
-      [e.target.name]:e.target.value
+      [e.target.name]: e.target.value,
     });
   };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setSelectedImage(URL.createObjectURL(file));
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -32,40 +41,43 @@ function FormPage4() {
       alert("An error occurred while submitting the form.");
     }
   };
+
   return (
     <div className={styles.mainContainer}>
       <div className={styles.progressDiv}>
         <div className={styles.progressHeading}>You have completed</div>
         <div className={styles.progressHeading2}>90%</div>
       </div>
-      
-  <div className={styles.container}>
-        {/* Progress Bar */}
 
-        {/* Main Content */}
+      <div className={styles.container}>
         <div className={styles.contentDiv}>
-          {/* Image Section */}
           <div className={styles.imageDisplayDiv}>
             <img src={image} alt="Couple" className={styles.image} />
           </div>
 
-          {/* Form Section */}
           <div className={styles.formContainer}>
             <h3 className={styles.formHeading}>About your Friend's life</h3>
-
-            {/* New Div with Text Area */}
-
             <form className={styles.form} onSubmit={handleSubmit}>
-              <div className={styles.textAreaDiv}>
-                <label className={styles.leftLabel}>About your friend</label>
-                <textarea
-                  className={styles.textArea}
-                  placeholder="Type here..."
-                  value={form.value}
-                  onChange={handleChange}
-                  name="about"
-                ></textarea>
+              
+              {/* Image Upload Section */}
+              <div className={styles.imageUploadDiv}>
+                <label className={styles.imageUploadLabel}>
+                  <span className="material-icons">Upload Image</span>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className={styles.imageUploadInput}
+                    onChange={handleImageChange}
+                  />
+                </label>
+                {selectedImage && (
+                  <div className={styles.imagePreviewDiv}>
+                    <img src={selectedImage} alt="Uploaded" className={styles.imagePreview} />
+                  </div>
+                )}
               </div>
+
+              {/* Age Input Section */}
               <div className={styles.formGroup}>
                 <div className={styles.fieldGroup}>
                   <div className={styles.labelGroup}>
@@ -77,12 +89,11 @@ function FormPage4() {
                       type="number"
                       className={styles.input}
                       placeholder=""
-                      value={form.value}
+                      value={form.age || ""}
                       onChange={handleChange}
                       name="age"
                     />
                   </div>
-                  <div className={styles.helperTextDiv}></div>
                 </div>
               </div>
 
@@ -97,30 +108,31 @@ function FormPage4() {
                       type="text"
                       className={styles.input}
                       placeholder=""
-                      value={form.value}
+                      value={form.hobbies || ""}
                       onChange={handleChange}
                       name="hobbies"
                     />
                   </div>
-                  <div className={styles.helperTextDiv}></div>
                 </div>
               </div>
-              <div className={styles.btnDiv}>
-              <button type="submit" className={styles.submitButton}>
-                Complete
-              </button>
-            </div>
-            </form>
 
-           
+              <div className={styles.btnDiv}>
+                <button type="submit" className={styles.submitButton}>
+                  Complete
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
 
-      {/* Footer */}
       <div className={styles.footer}>
         <p>Copyright © 2025. All rights reserved</p>
       </div>
+      <link
+       rel="stylesheet"
+       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+     />
     </div>
   );
 }

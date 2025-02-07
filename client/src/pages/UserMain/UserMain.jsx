@@ -14,7 +14,7 @@ function UserMain() {
   const [error, setError] = useState(null);
   const fetchUserData = async () => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/v1/user/usercarddetails/${id}`); // Replace with your API endpoint
+      const response = await axios.get(`http://localhost:8000/api/v1/user/usercarddetails/${id}`); 
       setUserData(response.data); 
       setLoading(false);
     } catch (error) {
@@ -23,12 +23,12 @@ function UserMain() {
       console.error("Error fetching user data:", error);
     }
   };
-  // Fetch user data from the backend
+
   useEffect(() => {
     fetchUserData();
   }, []);
 
-  // Display loading or error messages
+  
   if (loading) {
     return <div>Loading...</div>;
   }
