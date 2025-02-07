@@ -110,9 +110,8 @@ function LandingPage() {
               </Link>
             </div>
             <div className="adminLogin">
-              <p> Login as Admin</p>
               <Link className="signup-link" to="/adminLanding">
-                Sign up
+              Login as Admin
               </Link>
             </div>
             <div className="signin">
