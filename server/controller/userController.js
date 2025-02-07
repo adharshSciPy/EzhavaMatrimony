@@ -5,6 +5,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { likedByProfile } from "../model/likedProfileModel.js";
 import { Notification } from "../model/notificationModel.js"
+import mongoose from 'mongoose';
 
 const generateShortId = () => {
   const timestamp = Date.now(); // Get current time in milliseconds
@@ -583,60 +584,60 @@ const userdetails = async (req, res) => {
   }
 }
 
-const profileLiked = async (req, res) => {
-  const { likedByUserId } = req.params;
-  const { likedUserId } = req.body;
+// const profileLiked = async (req, res) => {
+//   const { likedByUserId } = req.params;
+//   const { likedUserId } = req.body;
 
-  console.log("liked by user", likedByUserId);
-  console.log("likedUser", likedUserId)
+//   console.log("liked by user", likedByUserId);
+//   console.log("likedUser", likedUserId)
 
-  try {
-    // Save the like to the database (optional, but for tracking)
-    const like = new likedByProfile({ likedByUserId, likedUserId });
-    await like.save();
+//   try {
+//     // Save the like to the database (optional, but for tracking)
+//     const like = new likedByProfile({ likedByUserId, likedUserId });
+//     await like.save();
 
-    // Create the notification
-    const message = "Someone liked your profile!";
-    const newNotification = new Notification({
-      senderId: likedByUserId,
-      receiverId: likedUserId,
-      message
-    });
+//     // Create the notification
+//     const message = "Someone liked your profile!";
+//     const newNotification = new Notification({
+//       senderId: likedByUserId,
+//       receiverId: likedUserId,
+//       message
+//     });
 
-    // Save the notification to the database
-    await newNotification.save();
+//     // Save the notification to the database
+//     await newNotification.save();
 
-    // Notify the woman (receiver) via Socket.io if she's online
-    if (req.io.sockets.connected[likedUserId]) {
-      req.io.to(likedUserId).emit('newNotification', newNotification);
-    }
+//     // Notify the woman (receiver) via Socket.io if she's online
+//     if (req.io.sockets.connected[likedUserId]) {
+//       req.io.to(likedUserId).emit('newNotification', newNotification);
+//     }
 
-    // Send success response
-    res.status(200).json({ message: 'Profile liked and notification sent successfully' });
-  } catch (error) {
-    console.error('Error liking profile:', error.message);
-    res.status(500).json({ error: 'An error occurred while liking the profile', message: error.message });
-  }
-};
+//     // Send success response
+//     res.status(200).json({ message: 'Profile liked and notification sent successfully' });
+//   } catch (error) {
+//     console.error('Error liking profile:', error.message);
+//     res.status(500).json({ error: 'An error occurred while liking the profile', message: error.message });
+//   }
+// };
 
-const likedprofiles = async (req, res) => {
-  const { likedByUserId } = req.params;
+// const likedprofiles = async (req, res) => {
+//   const { likedByUserId } = req.params;
 
-  try {
-    // Find all liked profiles and populate likedUserId to get full user details
-    const likedData = await likedByProfile.find({ likedByUserId })
-      .populate('likedUserId', 'firstName age height location profilePicture') // Fetch selected details
+//   try {
+//     // Find all liked profiles and populate likedUserId to get full user details
+//     const likedData = await likedByProfile.find({ likedByUserId })
+//       .populate('likedUserId', 'firstName age height location profilePicture') // Fetch selected details
 
-    if (!likedData || likedData.length === 0) {
-      return res.status(200).json({ message: "No liked profiles found", data: [] });
-    }
+//     if (!likedData || likedData.length === 0) {
+//       return res.status(200).json({ message: "No liked profiles found", data: [] });
+//     }
 
-    return res.status(200).json({ message: "Successfully fetched liked profiles", data: likedData });
-  } catch (error) {
-    console.error("Error fetching liked profiles:", error);
-    return res.status(500).json({ message: "Internal server error", error: error.message });
-  }
-}
+//     return res.status(200).json({ message: "Successfully fetched liked profiles", data: likedData });
+//   } catch (error) {
+//     console.error("Error fetching liked profiles:", error);
+//     return res.status(500).json({ message: "Internal server error", error: error.message });
+//   }
+// }
 
 const userReport = async (req, res) => {
   const { id } = req.params;
@@ -666,6 +667,76 @@ const getNotifications = async (req, res) => {
 
 
 
+
+const likeProfile = async (req, res) => {
+  try {
+    const { likerId } = req.params;
+    const { likedId } = req.body;
+
+    console.log("Liker ID:", likerId);
+    console.log("Liked ID:", likedId);
+
+    if (!mongoose.Types.ObjectId.isValid(likerId) || !mongoose.Types.ObjectId.isValid(likedId)) {
+      return res.status(400).json({ message: "Invalid User ID" });
+    }
+
+    const liker = await User.findById(likerId);
+    const likedUser = await User.findById(likedId);
+
+    if (!liker || !likedUser) {
+      return res.status(404).json({ message: "User Not Found" });
+    }
+
+    if (liker.like.includes(likedUser._id)) {
+      liker.like = liker.like.filter(id => id.toString() !== likedUser._id.toString());
+      await liker.save();
+
+      await Notification.findOneAndDelete({ senderId: likerId, receiverId: likedId });
+
+      return res.status(200).json({ message: "User Unliked Successfully" });
+    }
+
+    liker.like.push(likedUser._id);
+    await liker.save();
+
+    const message = `${liker.firstName} liked your profile`;
+    const newNotification = new Notification({ senderId: likerId, receiverId: likedId, message });
+    await newNotification.save();
+
+    req.io.to(likedId).emit('newNotification', newNotification);
+
+    res.status(200).json({ message: "Profile liked and notification sent successfully" });
+
+  } catch (error) {
+    console.error("Error in likeProfile:", error);
+    res.status(500).json({ message: "Server Error", error });
+  }
+};
+
+const likedProfiles = async (req, res) => {
+  try {
+    const { likerId } = req.params;
+
+    // Find user and populate the "like" array with fullName field
+    const user = await User.findById(likerId).populate("like", "fullName");
+
+    if (!user) {
+      return res.status(404).json({ message: "User Not Found" });
+    }
+
+    res.status(200).json({ likedUsers: user.like });
+
+  } catch (error) {
+    console.error("Error fetching liked profiles:", error);
+    res.status(500).json({ message: "Server Error", error });
+  }
+};
+
+export default likedProfiles;
+
+
+
+
 export {
   registerUser,
   editUser,
@@ -678,9 +749,9 @@ export {
   refreshAccessToken,
   getUserById,
   topMatch,
-  profileLiked,
   userdetails,
-  likedprofiles,
-  userReport, getNotifications
-
+  likedProfiles,
+  userReport, 
+  getNotifications,
+  likeProfile
 };
