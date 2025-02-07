@@ -718,7 +718,7 @@ const likedProfiles = async (req, res) => {
     const { likerId } = req.params;
 
     // Find user and populate the "like" array with fullName field
-    const user = await User.findById(likerId).populate("like", "fullName");
+    const user = await User.findById(likerId).populate("like", "firstName age height location profilePicture");
 
     if (!user) {
       return res.status(404).json({ message: "User Not Found" });
