@@ -1,6 +1,7 @@
 import {
-    editUser, registerUser, verifyOtp, resetPassword, forgotPassword, getUser, userLogin, getUserById, topMatch, resendOtp, profileLiked, userdetails, likedprofiles, userReport,
-    getNotifications
+    editUser, registerUser, verifyOtp, resetPassword, forgotPassword, getUser, userLogin, getUserById, topMatch, resendOtp, userdetails, userReport,
+    getNotifications,
+    likeProfile,likedProfiles
 } from "../controller/userController.js";
 import { Router } from 'express'
 import upload from '../multer/multer.js';
@@ -18,10 +19,14 @@ userRouter.route('/usercarddetails/:id').get(getUserById)//dashboard api
 userRouter.route('/login').post(userLogin)
 userRouter.route('/topmatch/:id').get(topMatch);
 userRouter.route('/resendOtp/:userEmail').post(resendOtp);
-userRouter.route('/profileLiked/:likedByUserId').post(profileLiked);
-userRouter.route('/likedProfiles/:likedByUserId').get(likedprofiles);
+// userRouter.route('/profileLiked/:likedByUserId').post(profileLiked);
+// userRouter.route('/likedProfiles/:likedByUserId').get(likedprofiles);
 userRouter.route('/userReport/:id').patch(userReport);
 userRouter.route('/getNotifications').get(getNotifications)
+userRouter.route('/likeProfile/:likerId').post(likeProfile)
+userRouter.route('/likedProfiles/:likerId').get(likedProfiles)
+
+
 
 
 

@@ -11,49 +11,48 @@ function FormPage5() {
   const { id } = useSelector((state) => state.user);
   const [employmentStatus, setEmploymentStatus] = useState("");
   const [residentStatus, setResidentStatus] = useState("");
-  const [form,setForm]=useState({})
+  const [form, setForm] = useState({})
   const navigate = useNavigate();
   const dispatch = useDispatch();
- const  handleChange=(e)=>{
-  setForm({
-    ...form,
-    [e.target.name]:e.target.value
-  })
- }
- const handleSubmit=async(e)=>{
-  e.preventDefault()
-  const formData={
-    ...form,
-    employmentStatus,
-    residentStatus
-    
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value
+    })
   }
-  try {
-    console.log(id);
-    console.log(employmentStatus);
-    
-    const response=await axios.patch(`http://localhost:8000/api/v1/user/edit/${id}`,
-      formData)
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    const formData = {
+      ...form,
+      employmentStatus,
+      residentStatus
+
+    }
+    try {
+      console.log(id);
+      console.log(employmentStatus);
+
+      const response = await axios.patch(`http://localhost:8000/api/v1/user/edit/${id}`,
+        formData)
       if (response.status === 200) {
         dispatch(setUser({ id: id }));
-        navigate(`/dashboard`);
+        navigate(`/dashboard/${id}`);
         console.log(response);
-        
+
       }
-  } catch (error) {
-    console.error(error);
+    } catch (error) {
+      console.error(error);
       alert("An error occurred while submitting the form.");
     }
   }
- 
+
   const renderOptionButtons = (options, selectedOption, setSelectedOption) =>
     options.map((option) => (
       <button
         key={option}
         type="button"
-        className={`${styles.optionSingleButton} ${
-          selectedOption === option ? styles.selected : ""
-        }`}
+        className={`${styles.optionSingleButton} ${selectedOption === option ? styles.selected : ""
+          }`}
         onClick={() => setSelectedOption(option)}
       >
         {option}
@@ -62,10 +61,10 @@ function FormPage5() {
 
   return (
     <div className={styles.mainContainer}>
-       <div className={styles.progressDiv}>
-              <div className={styles.progressHeading}>You have completed</div>
-              <div className={styles.progressHeading2}>80%</div>
-            </div>
+      <div className={styles.progressDiv}>
+        <div className={styles.progressHeading}>You have completed</div>
+        <div className={styles.progressHeading2}>80%</div>
+      </div>
       <div className={styles.container}>
         {/* Progress Bar */}
 
