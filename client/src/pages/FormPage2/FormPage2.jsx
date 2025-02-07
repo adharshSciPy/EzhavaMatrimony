@@ -187,7 +187,7 @@ function FormPage2() {
                       onChange={handleChange}
                       name="caste"
                     >
-                      {/* <option value=""></option> */}
+                      <option >Select your caste</option>
                       <option value="Ezhava">Ezhava</option>
                     </select>
                   </div>

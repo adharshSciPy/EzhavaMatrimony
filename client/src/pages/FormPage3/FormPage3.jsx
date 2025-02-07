@@ -150,29 +150,15 @@ function FormPage3() {
                     <p className={styles.starHead}>*</p>
                   </div>
                   <div className={styles.inputGroup}>
-                    <select
+                    <input
+                      type="number"
                       className={styles.input}
-                      name="height"
-                      value={form.value}
+                      placeholder=""
+                      value={form.height || ""}
                       onChange={handleChange}
-                    >
-                      <option value="below_150cm">Below 150 cm (4'11")</option>
-                      <option value="150cm_to_160cm">
-                        150 cm - 160 cm (4'11" - 5'3")
-                      </option>
-                      <option value="160cm_to_170cm">
-                        160 cm - 170 cm (5'3" - 5'7")
-                      </option>
-                      <option value="170cm_to_180cm">
-                        170 cm - 180 cm (5'7" - 5'11")
-                      </option>
-                      <option value="180cm_to_190cm">
-                        180 cm - 190 cm (5'11" - 6'3")
-                      </option>
-                      <option value="above_190cm">Above 190 cm (6'3")</option>
-                    </select>
+                      name="height"
+                    />
                   </div>
-                  <div className={styles.helperTextDiv}></div>
                 </div>
               </div>
 
