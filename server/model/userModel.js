@@ -112,8 +112,9 @@ const userSchema = new Schema({
   otpExpiry: {
     type: Date,
   },
-  // profileViews:
-  //   [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+  profilePicture:{
+    type:String
+  },
   isEnabled: {
     type: Boolean,
     default: true,

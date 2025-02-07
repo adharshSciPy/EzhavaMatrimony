@@ -58,16 +58,7 @@ function LandingPage() {
   return (
     <div>
       <div className="landing-main-container">
-        <ToastContainer
-          position="bottom-right"
-          autoClose={2000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          pauseOnHover
-        />
+        
         {/* Left section text */}
         <div className="landing-text-container">
           <h1>Ezhava Matrimony</h1>

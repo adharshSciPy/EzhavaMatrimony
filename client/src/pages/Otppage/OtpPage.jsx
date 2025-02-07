@@ -15,7 +15,7 @@ const OtpPage = () => {
   const dispatch = useDispatch();
   const { id, userEmail } = useSelector((state) => state.user);
   console.log("hai",id);
-  console.log("hai",userEmail);
+  console.log("hai",form);
   
   const handleChange = (e) => {
     setForm({
@@ -70,31 +70,56 @@ const OtpPage = () => {
   };
 
   return (
-    <div className="verify-otp-container">
-      <h2>Verify OTP</h2>
-      <form onSubmit={handleVerifyOtp}>
-        <div className="form-group">
-          <label htmlFor="otp">OTP:</label>
-          <input
-            type="text"
+    // <div className="verify-otp-container">
+    //   <h2>Verify OTP</h2>
+    //   <form onSubmit={handleVerifyOtp}>
+    //     <div className="form-group">
+    //       <label htmlFor="otp">OTP:</label>
+    //       <input
+    //         type="text"
+            // id="otp"
+            // name="otp" // Add this to bind to form state
+            // value={form.otp}
+            // onChange={handleChange}
+            // placeholder="Enter the OTP"
+        //   />
+        // </div>
+
+    //     {error && <p className="error-message">{error}</p>}
+    //     {message && <p className="success-message">{message}</p>}
+
+    //     <button type="submit" className="verify-btn" disabled={isLoading}>
+    //       {isLoading ? "Verifying..." : "Verify OTP"}
+    //     </button>
+    //     <button type="button" className="resend-btn" onClick={handleResendOtp}>
+    //       Resend OTP
+    //     </button>
+    //   </form>
+    // </div>
+    <div className="otp-container-main">
+      <div class="container">
+        <h2>OTP Verification</h2>
+        <p>Enter the 6-digit code sent to your email</p>
+        
+        <form onSubmit={handleVerifyOtp}>
+        <div class="otp-container">
+            <input  class="otp-input" maxlength="6" type="text"
             id="otp"
-            name="otp" // Add this to bind to form state
+            name="otp" 
             value={form.otp}
-            onChange={handleChange}
-            placeholder="Enter the OTP"
-          />
+            onChange={handleChange}autofocus/>
+            
         </div>
 
-        {error && <p className="error-message">{error}</p>}
-        {message && <p className="success-message">{message}</p>}
+        <button class="verify-btn">Verify OTP</button>
 
-        <button type="submit" className="verify-btn" disabled={isLoading}>
-          {isLoading ? "Verifying..." : "Verify OTP"}
-        </button>
-        <button type="button" className="resend-btn" onClick={handleResendOtp}>
-          Resend OTP
-        </button>
-      </form>
+        
+        </form>
+        <div class="resend" onClick={handleResendOtp}>
+            Didn't receive code? 
+            
+        </div>
+    </div>
     </div>
   );
 };
