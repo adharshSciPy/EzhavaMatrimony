@@ -504,12 +504,7 @@ function AllMatches() {
   setCurrentPage={setCurrentPage}
 />
 
-            <div className={DashStyles.SeeAll}>
-              {/* <h4 className={DashStyles.saHead}>See All</h4> */}
-              <Link to="/">
-                See All <span className={DashStyles.SpanArrow}>{">"}</span>
-              </Link>
-            </div>
+          
           </div>
         </div>
       </div>

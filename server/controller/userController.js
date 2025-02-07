@@ -380,7 +380,9 @@ const userLogin = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "Email doesn't exist" });
     }
-
+    if (!user.password) {
+      return res.status(500).json({ message: "Not Registered User" });
+    }
     // Verify password
     const isPasswordCorrect = await user.isPasswordCorrect(password);
     if (!isPasswordCorrect) {
