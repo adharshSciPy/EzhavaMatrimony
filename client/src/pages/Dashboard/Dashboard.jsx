@@ -465,7 +465,7 @@ function Dashboard() {
               </div>
               <div className={DashStyles.SeeAll}>
                 {/* <h4 className={DashStyles.saHead}>See All</h4> */}
-                <Link to="/toprecommendations">
+                <Link to={`/toprecommendations/${userId}`}>
                   See All <span className={DashStyles.SpanArrow}>{">"}</span>
                 </Link>
               </div>
@@ -474,7 +474,7 @@ function Dashboard() {
             {/* All Matches start */}
             <div className={DashStyles.TopRecommendation}>
               <div className={DashStyles.trHeading}>
-                <h2 className={DashStyles.TrHead}>All Matches (1309)</h2>
+                <h2 className={DashStyles.TrHead}>All Matches </h2>
               </div>
 
               <div className={DashStyles.trContentDisplay}>

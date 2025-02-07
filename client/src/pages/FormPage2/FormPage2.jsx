@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../FormPage1/formpage1.module.css";
 import image from "../../assets/free-photo-of-couple-in-green-grass-field.jpeg";
 import { useSelector } from "react-redux";
@@ -11,32 +11,28 @@ import "react-toastify/dist/ReactToastify.css";
 
 function FormPage2() {
   const [errorMessage, setErrorMessage] = useState("");
-    const notifyError = (message) => toast.error(message);
-    const navigate = useNavigate();
+  const notifyError = (message) => toast.error(message);
+  const navigate = useNavigate();
   const [selected, setSelected] = useState("");
   const [selectedJathakam, setSelectedJathakam] = useState("");
+  const [userProfie, setUserProfile] = useState([]);
   const btnSelected = (button) => {
     setSelected(button);
   };
-    const { id } = useSelector((state) => state.user);
-  
-  
-  
+  const { id } = useSelector((state) => state.user);
+
   const btnSelectedJathakam = (button) => {
     setSelectedJathakam(button);
-
   };
-  
-  const [form,setForm]=useState({
-    
-  })
-  const handleChange=(e)=>{
+
+  const [form, setForm] = useState({});
+  const handleChange = (e) => {
     setForm({
       ...form,
-      [e.target.name]:e.target.value
+      [e.target.name]: e.target.value,
     });
-  }
-  const handleSubmit= async(e)=>{
+  };
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const updatedForm = {
       ...form,
@@ -44,20 +40,23 @@ function FormPage2() {
       dosham: selectedJathakam,
     };
     try {
-      const response= await axios.patch(`http://localhost:8000/api/v1/user/edit/${id}`, updatedForm)
+      const response = await axios.patch(
+        `http://localhost:8000/api/v1/user/edit/${id}`,
+        updatedForm
+      );
       console.log(response);
       if (response.status === 200) {
-        navigate(`/formpage3`)
+        navigate(`/formpage3`);
       }
     } catch (error) {
-      setErrorMessage(
-        error.response?.data?.message || "Please try again."
+      setErrorMessage(error.response?.data?.message || "Please try again.");
+      notifyError(
+        error.response?.data?.message ||
+          "Something went wrong. Please try again."
       );
-      notifyError(error.response?.data?.message || "Something went wrong. Please try again.");
+    }
+  };
 
-    }
-    }
-  
   const renderOptionButtons = (options, selectedOption, setSelectedOption) =>
     options.map((option) => (
       <button
@@ -71,6 +70,36 @@ function FormPage2() {
         {option}
       </button>
     ));
+  const dataBinding = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/api/v1/user/usercarddetails/${id}`
+      );
+      console.log("he hee heee", response.data.data);
+      setUserProfile(response.data.data);
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+  useEffect(() => {
+    dataBinding();
+  }, [id]);
+  useEffect(() => {
+    if (userProfie) {
+      setForm((prevForm) => ({
+        ...prevForm,
+        religion: userProfie.religion || "",
+        caste: userProfie.caste || "",
+        subCaste: userProfie.subCaste || "",
+        gothram: userProfie.gothram || "",
+        suddhaJathakam: userProfie.suddhaJathakam ||"",
+        
+        
+      }));
+      setSelected(userProfie.suddhaJathakam || ""); 
+      setSelectedJathakam(userProfie.dosham || "");
+    }
+  }, [userProfie]);
   return (
     <div className={styles.mainContainer}>
       <div className={styles.progressDiv}>
@@ -127,8 +156,14 @@ function FormPage2() {
                     <p className={styles.starHead}>*</p>
                   </div>
                   <div className={styles.inputGroup}>
-                    <select className={styles.input} required value={form.religion} onChange={handleChange} name="religion">
-                      <option  >Select Religion</option>
+                    <select
+                      className={styles.input}
+                      required
+                      value={form.religion}
+                      onChange={handleChange}
+                      name="religion"
+                    >
+                      <option>Select Religion</option>
                       <option value="Hindu">Hindu</option>
 
                       <option value="Others">Others</option>
@@ -145,7 +180,13 @@ function FormPage2() {
                     <p className={styles.starHead}>*</p>
                   </div>
                   <div className={styles.inputGroup}>
-                    <select className={styles.input} required value={form.value} onChange={handleChange} name="caste"> 
+                    <select
+                      className={styles.input}
+                      required
+                      value={form.caste}
+                      onChange={handleChange}
+                      name="caste"
+                    >
                       {/* <option value=""></option> */}
                       <option value="Ezhava">Ezhava</option>
                     </select>
@@ -161,7 +202,13 @@ function FormPage2() {
                     <p className={styles.starHead}>*</p>
                   </div>
                   <div className={styles.inputGroup}>
-                    <select className={styles.input} required value={form.value} onChange={handleChange} name="subCaste">
+                    <select
+                      className={styles.input}
+                      required
+                      value={form.subCaste}
+                      onChange={handleChange}
+                      name="subCaste"
+                    >
                       <option value="">Select SubCaste</option>
                       <option value="Thiyya">Thiyya</option>
                       <option value="Chekavars">Chekavars</option>
@@ -183,7 +230,12 @@ function FormPage2() {
                     <p className={styles.starHead}></p>
                   </div>
                   <div className={styles.inputGroup}>
-                    <select className={styles.input}  value={form.value} onChange={handleChange} name="gothram">
+                    <select
+                      className={styles.input}
+                      value={form.gothram}
+                      onChange={handleChange}
+                      name="gothram"
+                    >
                       <option value="">Gothram</option>
                       <option value="Kashyapa">Kashyapa</option>
                       <option value="Vishwamitra">Vishwamitra</option>
@@ -210,7 +262,11 @@ function FormPage2() {
                       placeholder="Enter email"
                     /> */}
                     <div className={styles.optionButtonOuterDiv}>
-                    {renderOptionButtons(["Yes", "No", "Don't Know"], selected, setSelected)}
+                      {renderOptionButtons(
+                        ["Yes", "No", "Don't Know"],
+                        selected,
+                        setSelected
+                      )}
                     </div>
                   </div>
                   <div className={styles.helperTextDiv}>
@@ -228,11 +284,11 @@ function FormPage2() {
                   </div>
                   <div className={styles.inputGroup}>
                     <div className={styles.optionButtonOuterDiv}>
-                    {renderOptionButtons(
-                    ["Yes", "No", "Don't Know"],
-                    selectedJathakam,
-                    setSelectedJathakam
-                  )}
+                      {renderOptionButtons(
+                        ["Yes", "No", "Don't Know"],
+                        selectedJathakam,
+                        setSelectedJathakam
+                      )}
                     </div>
                   </div>
                   <div className={styles.helperTextDiv}>

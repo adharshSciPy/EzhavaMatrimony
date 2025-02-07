@@ -165,7 +165,8 @@
   .fieldGroup {
     width: 100%;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: start;
+    
     /* flex-direction: column; */
     padding: 10px;
   }
@@ -287,6 +288,39 @@
     /* border:  2px solid black; */
 
   }
+  /* form4 image */
+  .imageUploadDiv {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .imageUploadLabel {
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    background-color: #f3f4f6;
+    padding: 0.5rem 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    gap: 0.5rem;
+  }
+  
+  .imageUploadInput {
+    display: none;
+  }
+  
+  .imagePreviewDiv {
+    margin-top: 10px;
+  }
+  
+  .imagePreview {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+  
   .submitButton {
     width: 60%;
     background-color: #f8cb58;

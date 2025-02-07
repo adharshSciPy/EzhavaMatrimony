@@ -41,7 +41,7 @@ function App() {
           <Route path="/OtpPage" element={<OtpPage />} />
           <Route path="/Admindashboard" element={<AdminProfile />} />
           <Route path="/Adminreport" element={<Report />} />
-          <Route path="/toprecommendations" element={<TopRecommendation />} />
+          <Route path="/toprecommendations/:id" element={<TopRecommendation />} />
           <Route path="/allmatches/:id" element={< AllMatches/>} />
           <Route path="/Adminsettings" element={<Settings />} />
           <Route path="/Adminusersview/:id" element={<AdminUserProfileView />} />

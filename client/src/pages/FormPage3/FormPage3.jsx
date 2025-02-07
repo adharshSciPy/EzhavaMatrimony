@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import styles from "./formpage3.module.css";
 import image from "../../assets/free-photo-of-couple-in-green-grass-field.jpeg";
 import { useSelector } from "react-redux";
@@ -13,6 +13,8 @@ function FormPage3() {
   const [familyValues, setFamilyValues] = useState("");
   const [physicallyChallenged, setPhysicallyChallenged] = useState("");
   const [form, setForm] = useState({});
+    const [userProfie, setUserProfile] = useState([]);
+  
   const navigate = useNavigate();
   const handleChange = (e) => {
     setForm({
@@ -58,6 +60,36 @@ function FormPage3() {
         {option}
       </button>
     ));
+
+    const dataBinding = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8000/api/v1/user/usercarddetails/${id}`
+        );
+        console.log("he hee heee", response.data.data);
+        setUserProfile(response.data.data);
+      } catch (error) {
+        console.log("error", error);
+      }
+    };
+    useEffect(() => {
+      dataBinding();
+    }, [id]);
+    useEffect(() => {
+      if (userProfie) {
+        setForm((prevForm) => ({
+          ...prevForm,
+          
+          height: userProfie.height || "",
+        }));
+        setMaritalStatus(userProfie.maritalStatus || ""); 
+        setFamilyStatus(userProfie.familyStatus||"");
+        setFamilyType(userProfie.familyType||"");
+        setFamilyValues(userProfie.familyValues||"");
+        setPhysicallyChallenged(userProfie.physicallyChallenged||"")
+        // setSelectedJathakam(userProfie.dosham || "");
+      }
+    }, [userProfie]);
   return (
     <div className={styles.mainContainer}>
       <div className={styles.progressDiv}>

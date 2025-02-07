@@ -72,7 +72,7 @@ label {
 }
 
 /* Select Box Styling */
-select {
+.form-container5 select {
   width: 100%;
   padding: 10px;
   border: 1px solid #ccc;

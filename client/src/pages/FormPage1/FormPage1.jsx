@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./formpage1.module.css";
 import image from "../../assets/free-photo-of-couple-in-green-grass-field.jpeg";
 import axios from "axios";
@@ -16,10 +16,12 @@ function FormPage1() {
     password: "",
   });
   const [errorMessage, setErrorMessage] = useState("");
+  const[userProfie,setUserProfile]=useState([])
   const notifyError = (message) => toast.error(message);
   const notifySuccess = (message) => toast.success(message);
   const navigate = useNavigate();
   const { id, userEmail } = useSelector((state) => state.user);
+  console.log("id kitti",id)
 
   const handleChange = (e) => {
     setForm({
@@ -49,6 +51,32 @@ function FormPage1() {
       );
     }
   };
+  const dataBinding=async()=>{
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/api/v1/user/usercarddetails/${id}`
+      );
+      console.log("response", response.data.data);
+      setUserProfile(response.data.data);
+    } catch (error) {
+      console.log("error", error);
+    }
+  }
+  useEffect(()=>{
+    dataBinding()
+  },[id])
+  useEffect(() => {
+    if (userProfie) {
+      setForm((prevForm) => ({
+        ...prevForm,
+        dateOfBirth: userProfie.dateOfBirth || "",
+        gender: userProfie.gender || "",
+        motherTongue: userProfie.motherTongue || "",
+        email: userProfie.email || "",
+        password: "", 
+      }));
+    }
+  }, [userProfie]);
   return (
     <div className={styles.mainContainer}>
       <ToastContainer position="bottom-right" />

@@ -11,48 +11,49 @@ function FormPage5() {
   const { id } = useSelector((state) => state.user);
   const [employmentStatus, setEmploymentStatus] = useState("");
   const [residentStatus, setResidentStatus] = useState("");
-  const [form, setForm] = useState({})
+  const [form, setForm] = useState({});
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleChange = (e) => {
     setForm({
       ...form,
-      [e.target.name]: e.target.value
-    })
-  }
+      [e.target.name]: e.target.value,
+    });
+  };
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     const formData = {
       ...form,
       employmentStatus,
-      residentStatus
-
-    }
+      residentStatus,
+    };
     try {
       console.log(id);
       console.log(employmentStatus);
 
-      const response = await axios.patch(`http://localhost:8000/api/v1/user/edit/${id}`,
-        formData)
+      const response = await axios.patch(
+        `http://localhost:8000/api/v1/user/edit/${id}`,
+        formData
+      );
       if (response.status === 200) {
         dispatch(setUser({ id: id }));
         navigate(`/dashboard/${id}`);
         console.log(response);
-
       }
     } catch (error) {
       console.error(error);
       alert("An error occurred while submitting the form.");
     }
-  }
+  };
 
   const renderOptionButtons = (options, selectedOption, setSelectedOption) =>
     options.map((option) => (
       <button
         key={option}
         type="button"
-        className={`${styles.optionSingleButton} ${selectedOption === option ? styles.selected : ""
-          }`}
+        className={`${styles.optionSingleButton} ${
+          selectedOption === option ? styles.selected : ""
+        }`}
         onClick={() => setSelectedOption(option)}
       >
         {option}
@@ -95,14 +96,64 @@ function FormPage5() {
                     <p className={styles.starHead}>*</p>
                   </div>
                   <div className={styles.inputGroup}>
-                    <input
-                      type="text"
+                    <select
                       className={styles.input}
-                      placeholder="Education"
-                      name="education"
-                      onChange={handleChange}
+                      required
                       value={form.value}
-                    />
+                      onChange={handleChange}
+                      name="education"
+                    >
+                      <option value="">Select Your Highest Education</option>
+                      <option value="below_10">Below 10th</option>
+                      <option value="10th">10th (SSLC/Matriculation)</option>
+                      <option value="12th_science">12th - Science</option>
+                      <option value="12th_humanities">12th - Humanities</option>
+                      <option value="12th_commerce">12th - Commerce</option>
+                      <option value="diploma">Diploma</option>
+                      <option value="bsc">BSc (Bachelor of Science)</option>
+                      <option value="ba">BA (Bachelor of Arts)</option>
+                      <option value="bcom">BCom (Bachelor of Commerce)</option>
+                      <option value="btech">
+                        BTech (Bachelor of Technology)
+                      </option>
+                      <option value="be">BE (Bachelor of Engineering)</option>
+                      <option value="bba">
+                        BBA (Bachelor of Business Administration)
+                      </option>
+                      <option value="bca">
+                        BCA (Bachelor of Computer Applications)
+                      </option>
+                      <option value="llb">LLB (Bachelor of Law)</option>
+                      <option value="mbbs">
+                        MBBS (Bachelor of Medicine & Surgery)
+                      </option>
+                      <option value="bpharm">
+                        BPharm (Bachelor of Pharmacy)
+                      </option>
+                      <option value="bds">
+                        BDS (Bachelor of Dental Surgery)
+                      </option>
+                      <option value="msc">MSc (Master of Science)</option>
+                      <option value="ma">MA (Master of Arts)</option>
+                      <option value="mcom">MCom (Master of Commerce)</option>
+                      <option value="mtech">
+                        MTech (Master of Technology)
+                      </option>
+                      <option value="me">ME (Master of Engineering)</option>
+                      <option value="mba">
+                        MBA (Master of Business Administration)
+                      </option>
+                      <option value="mca">
+                        MCA (Master of Computer Applications)
+                      </option>
+                      <option value="llm">LLM (Master of Law)</option>
+                      <option value="md">MD (Doctor of Medicine)</option>
+                      <option value="ms">MS (Master of Surgery)</option>
+                      <option value="mphil">
+                        MPhil (Master of Philosophy)
+                      </option>
+                      <option value="phd">PhD (Doctorate)</option>
+                    </select>
                   </div>
                   <div className={styles.helperTextDiv}></div>
                 </div>
@@ -161,14 +212,24 @@ function FormPage5() {
                     <p className={styles.starHead}>*</p>
                   </div>
                   <div className={styles.inputGroup}>
-                    <input
-                      type="text"
+                    <select
                       className={styles.input}
-                      placeholder="Your Income"
+                      required
                       value={form.value}
                       onChange={handleChange}
-                      name="annualIncome"
-                    />
+                      name="annual_income"
+                    >
+                      <option value="">Select Your Annual Income</option>
+                      <option value="under_15000">Under £15,000</option>
+                      <option value="15000_25000">£15,000 - £25,000</option>
+                      <option value="25000_35000">£25,000 - £35,000</option>
+                      <option value="35000_50000">£35,000 - £50,000</option>
+                      <option value="50000_75000">£50,000 - £75,000</option>
+                      <option value="75000_100000">£75,000 - £100,000</option>
+                      <option value="100000_150000">£100,000 - £150,000</option>
+                      <option value="150000_250000">£150,000 - £250,000</option>
+                      <option value="over_250000">Over £250,000</option>
+                    </select>
                   </div>
                   <div className={styles.helperTextDiv}></div>
                 </div>
@@ -181,14 +242,81 @@ function FormPage5() {
                     <p className={styles.starHead}>*</p>
                   </div>
                   <div className={styles.inputGroup}>
-                    <input
-                      type="text"
+                    <select
                       className={styles.input}
-                      placeholder="Occupation"
+                      required
                       value={form.value}
                       onChange={handleChange}
                       name="occupation"
-                    />
+                    >
+                      <option value="">Select Your Occupation</option>
+
+                      <option value="doctor">Doctor</option>
+                      <option value="nurse">Nurse</option>
+                      <option value="pharmacist">Pharmacist</option>
+                      <option value="dentist">Dentist</option>
+                      <option value="paramedic">Paramedic</option>
+                      <option value="physiotherapist">Physiotherapist</option>
+                      <option value="care_worker">Care Worker</option>
+
+                      <option value="software_engineer">
+                        Software Engineer
+                      </option>
+                      <option value="civil_engineer">Civil Engineer</option>
+                      <option value="mechanical_engineer">
+                        Mechanical Engineer
+                      </option>
+                      <option value="electrical_engineer">
+                        Electrical Engineer
+                      </option>
+                      <option value="data_scientist">Data Scientist</option>
+                      <option value="it_consultant">IT Consultant</option>
+
+                      <option value="teacher">Teacher</option>
+                      <option value="lecturer">University Lecturer</option>
+                      <option value="teaching_assistant">
+                        Teaching Assistant
+                      </option>
+
+                      <option value="accountant">Accountant</option>
+                      <option value="banker">Banker</option>
+                      <option value="financial_analyst">
+                        Financial Analyst
+                      </option>
+                      <option value="solicitor">Solicitor</option>
+                      <option value="barrister">Barrister</option>
+
+                      <option value="electrician">Electrician</option>
+                      <option value="plumber">Plumber</option>
+                      <option value="carpenter">Carpenter</option>
+                      <option value="mechanic">Mechanic</option>
+
+                      <option value="police_officer">Police Officer</option>
+                      <option value="firefighter">Firefighter</option>
+                      <option value="armed_forces">Armed Forces</option>
+                      <option value="social_worker">Social Worker</option>
+
+                      <option value="chef">Chef</option>
+                      <option value="hotel_manager">Hotel Manager</option>
+                      <option value="retail_manager">Retail Manager</option>
+                      <option value="customer_service">
+                        Customer Service Representative
+                      </option>
+
+                      <option value="journalist">Journalist</option>
+                      <option value="graphic_designer">Graphic Designer</option>
+                      <option value="actor">Actor</option>
+                      <option value="musician">Musician</option>
+
+                      <option value="truck_driver">Truck Driver</option>
+                      <option value="delivery_driver">Delivery Driver</option>
+                      <option value="airline_pilot">Airline Pilot</option>
+
+                      <option value="self_employed">Self-Employed</option>
+                      <option value="unemployed">Unemployed</option>
+                      <option value="student">Student</option>
+                      <option value="retired">Retired</option>
+                    </select>
                   </div>
                   <div className={styles.helperTextDiv}></div>
                 </div>
@@ -201,7 +329,13 @@ function FormPage5() {
                     <p className={styles.starHead}>*</p>
                   </div>
                   <div className={styles.inputGroup}>
-                    <select className={styles.input} required value={form.value} onChange={handleChange} name="state"  >
+                    <select
+                      className={styles.input}
+                      required
+                      value={form.value}
+                      onChange={handleChange}
+                      name="state"
+                    >
                       <option value="">Select Your State</option>
                       <option value="Andhra Pradesh">Andhra Pradesh</option>
                       <option value="Arunachal Pradesh">
