@@ -13,7 +13,7 @@ function Profilebox({ data }) {
         <p>Name: {data.firstName || "N/A"}</p>
       </div>
       <div className="profiles-age">
-        <p>email: {data.email  || "Unknown"}</p>
+        <p>ID: {data.userId  || "Unknown"}</p>
       </div>
       <div className="profile-view">
         <Link to={`/Adminusersview/${data._id}`} className="custom-link">
