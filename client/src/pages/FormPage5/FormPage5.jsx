@@ -316,6 +316,7 @@ function FormPage5() {
                       <option value="unemployed">Unemployed</option>
                       <option value="student">Student</option>
                       <option value="retired">Retired</option>
+                      <option value="others">Others</option>
                     </select>
                   </div>
                   <div className={styles.helperTextDiv}></div>
