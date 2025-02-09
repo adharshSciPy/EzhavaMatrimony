@@ -43,7 +43,7 @@ function App() {
           <Route path="/Adminreport" element={<Report />} />
           <Route path="/toprecommendations/:id" element={<TopRecommendation />} />
           <Route path="/allmatches/:id" element={< AllMatches/>} />
-          <Route path="/Adminsettings" element={<Settings />} />
+          <Route path="/Adminsettings/:token" element={<Settings />} />
           <Route path="/Adminusersview/:id" element={<AdminUserProfileView />} />
           <Route path="/getFullUser" element={<GetFullUser />} />
           <Route path="/adminlanding" element={<AdminLanding />} />

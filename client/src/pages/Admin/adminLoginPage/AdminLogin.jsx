@@ -57,7 +57,7 @@ function AdminLogin() {
       if (response) {
         navigate(`/Admindashboard`);
         console.log(response.data);
-        dispatch(setUser({ id: response.data.userId })); // Dispatch Redux action
+        dispatch(setUser({ id: response.data.userId ,token:response.data.token})); // Dispatch Redux action
       }
     } catch (error) {
       console.log(error);
