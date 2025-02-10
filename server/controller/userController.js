@@ -679,6 +679,10 @@ const likeProfile = async (req, res) => {
     console.log("Liker ID:", likerId);
     console.log("Liked ID:", likedId);
 
+    if (likedId === likerId) {
+      return res.status(400).json({ message: "You cannot like your own profile." });
+    }
+
     if (!mongoose.Types.ObjectId.isValid(likerId) || !mongoose.Types.ObjectId.isValid(likedId)) {
       return res.status(400).json({ message: "Invalid User ID" });
     }
