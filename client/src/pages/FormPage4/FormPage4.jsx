@@ -1,4 +1,4 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import styles from "../FormPage1/formpage1.module.css";
 import image from "../../assets/free-photo-of-couple-in-green-grass-field.jpeg";
 import { useSelector } from "react-redux";
@@ -7,31 +7,46 @@ import { useNavigate } from "react-router-dom";
 
 function FormPage4() {
   const [form, setForm] = useState({});
-  const [selectedImage, setSelectedImage] = useState(null);
 
   const navigate = useNavigate();
+  const [imageFile, setImageFile] = useState(null);
   const { id } = useSelector((state) => state.user);
 
   const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+    setForm((prevForm) => ({
+      ...prevForm,
+      [name]: value,
+    }));
   };
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setSelectedImage(URL.createObjectURL(file));
+      setImageFile(file);
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const formData = new FormData();
+    if (imageFile) {
+      formData.append("image", imageFile);
+    }
+    formData.append("about", form.about || "");
+    formData.append("age", form.age || "");
+    formData.append("hobbies", form.hobbies || "");
+
     try {
       const response = await axios.patch(
-        `http://localhost:8000/api/v1/user/edit/${id}`,
-        form
+        `http://localhost:8000/api/v1/user/uploads/edit/${id}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
       if (response.status === 200) {
         navigate(`/formpage5`);
@@ -51,19 +66,31 @@ function FormPage4() {
       </div>
 
       <div className={styles.container}>
+        {/* Main Content */}
         <div className={styles.contentDiv}>
+          {/* Image Section */}
           <div className={styles.imageDisplayDiv}>
             <img src={image} alt="Couple" className={styles.image} />
           </div>
 
           <div className={styles.formContainer}>
             <h3 className={styles.formHeading}>About your Friend's life</h3>
+
             <form className={styles.form} onSubmit={handleSubmit}>
-              
-              {/* Image Upload Section */}
+              <div className={styles.textAreaDiv}>
+                <label className={styles.leftLabel}>About your friend</label>
+                <textarea
+                  className={styles.textArea}
+                  placeholder="Type here..."
+                  value={form.about || ""}
+                  onChange={handleChange}
+                  name="about"
+                ></textarea>
+              </div>
+
               <div className={styles.imageUploadDiv}>
                 <label className={styles.imageUploadLabel}>
-                  <span className="material-icons">Upload Image</span>
+                  <span className="material-icons">Upload Your Profile Image</span>
                   <input
                     type="file"
                     accept="image/*"
@@ -71,14 +98,8 @@ function FormPage4() {
                     onChange={handleImageChange}
                   />
                 </label>
-                {selectedImage && (
-                  <div className={styles.imagePreviewDiv}>
-                    <img src={selectedImage} alt="Uploaded" className={styles.imagePreview} />
-                  </div>
-                )}
               </div>
 
-              {/* Age Input Section */}
               <div className={styles.formGroup}>
                 <div className={styles.fieldGroup}>
                   <div className={styles.labelGroup}>
@@ -86,13 +107,13 @@ function FormPage4() {
                     <p className={styles.starHead}>*</p>
                   </div>
                   <div className={styles.inputGroup}>
-                    <input
-                      type="number"
+                  <input
+                      type="text"
                       className={styles.input}
                       placeholder=""
-                      value={form.age || ""}
+                      value={form.hobbies || ""}
                       onChange={handleChange}
-                      name="age"
+                      name="hobbies"
                     />
                   </div>
                 </div>
@@ -127,14 +148,12 @@ function FormPage4() {
         </div>
       </div>
 
+      {/* Footer */}
       <div className={styles.footer}>
         <p>Copyright © 2025. All rights reserved</p>
       </div>
-      <link
-       rel="stylesheet"
-       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
-     />
     </div>
   );
 }
+
 export default FormPage4;

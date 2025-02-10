@@ -10,7 +10,7 @@ import Formpage5 from "./pages/FormPage5/FormPage5";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import OtpPage from "./pages/Otppage/OtpPage"
 import AdminProfile from "./pages/Admin/adminDashboard/Adimindashboard"
-import Report from "./pages/Admin/Reports/Report"
+import Report from "./pages/Admin/AdminReportPage/AdminReportPage"
 import TopRecommendation from "./pages/TopRecomendation/TopRecommendation";
 import Settings from "./pages/Admin/settings/Settings";
 import AdminUserProfileView from "./pages/Admin/adminprofile/Adminprofile"

@@ -1,4 +1,4 @@
-.Prof-header {
+.Prof-header7 {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -8,13 +8,13 @@
     height: 50px;
   }
   
-  .Prof-header-left {
+  .Prof-header-left7 {
     display: flex;
     align-items: center;
     gap: 20px;
   }
   
-  .icon-button {
+  .icon-button7 {
     display: flex;
     align-items: center;
     background: none;
@@ -23,11 +23,11 @@
     gap: 8px;
   }
   
-  .icon-button span {
+  .icon-button7 span {
     font-size: 24px; /* Icon size */
   }
  
-  .content {
+  .content7 {
     padding: 10px;
     display: flex;
     justify-content: center;
@@ -55,7 +55,7 @@
     cursor: pointer;
   }
 
-.divider {
+.divider7 {
     border: none;
     height: 1px;
     background-color: #ccc; /* Light gray color */
@@ -81,6 +81,35 @@
   .btn.outlined:hover {
     background: yellow;
     color: black;
+  }
+  .notification-dropdown {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ddd;
+    max-height: 200px;
+    overflow-y: auto;
+    width: 250px;
+    z-index: 10;
+    top: 60px;
+    right: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    border-radius: 8px;
+  }
+  .notification-item {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+  }
+  
+  .notification-item:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .no-notifications {
+    text-align: center;
+    padding: 10px;
+    color: gray;
   }
   /* General Styles (Already Defined) */
 
