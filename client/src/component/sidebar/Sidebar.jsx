@@ -2,6 +2,8 @@ import { React, useState, useEffect, useMemo } from "react";
 import "./sidebar.css";
 import { Menu, Button } from "antd";
 import { clearUser } from "../../features/slice";
+import { useSelector } from "react-redux";
+
 import {
   HomeOutlined,
   UserOutlined,
@@ -19,13 +21,15 @@ function Sidebar() {
 const navigate = useNavigate();
   const [isPinned, setIsPinned] = useState(window.innerWidth > 768);
   const location = useLocation();
+  const { token } = useSelector((state) => state.user);
+  
 
   const menuItems = useMemo(
     () => [
       { key: "admin", label: "Dashboard", icon: <HomeOutlined />, path: "/Admindashboard" },
       { key: "profile", label: "Profile Verification", icon: <UserOutlined />, path: "/profile" },
       { key: "Report", label: "Reports & Complaints", icon: <ContainerOutlined />, path: "/Adminreport" },
-      { key: "settings", label: "Settings", icon: <SettingOutlined />, path: "/Adminsettings" },
+      { key: "settings", label: "Settings", icon: <SettingOutlined />, path: `/Adminsettings/${token}` },
       { key: "signout", label: "Signout", icon: <LogoutOutlined />, path: "/" ,onClick:()=>{
         dispatch(clearUser())
         navigate("/");

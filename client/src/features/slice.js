@@ -4,6 +4,7 @@ const initialState = {
   id: null,
   userEmail: null,
   isVerified: false,
+  token:null
 };
 
 const userSlice = createSlice({
@@ -13,6 +14,8 @@ const userSlice = createSlice({
     setUser(state, action) {
       state.id = action.payload.id;
       state.userEmail = action.payload.userEmail;
+      state.token = action.payload.token;
+
     },
     setVerified(state, action) {
       state.isVerified = action.payload.isVerified;
