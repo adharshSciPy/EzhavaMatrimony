@@ -5,11 +5,14 @@ import {
 } from "../controller/userController.js";
 import { Router } from 'express'
 import upload from '../multer/multer.js';
+import uploads from "../multer/usermulter.js";
+
 
 
 const userRouter = Router()
 userRouter.route('/register').post(registerUser)
-userRouter.route('/edit/:id').patch(upload.array("image", 5), editUser)
+userRouter.route('/edit/:id').patch(upload.array("image", 2), editUser)
+userRouter.route("/uploads/edit/:id").patch(uploads.single("profilePicture"), editUser);
 userRouter.route('/userdetails').get(userdetails)
 userRouter.route('/verifyOtp/:userEmail').post(verifyOtp);
 userRouter.route('/getUserById/:id').get(getUser)//all matches

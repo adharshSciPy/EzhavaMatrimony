@@ -1,4 +1,4 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import styles from "../FormPage1/formpage1.module.css";
 import image from "../../assets/free-photo-of-couple-in-green-grass-field.jpeg";
 import { useSelector } from "react-redux";
@@ -12,29 +12,34 @@ function FormPage4() {
   const { id } = useSelector((state) => state.user);
 
   const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]:e.target.value
-    });
+    const { name, value } = e.target;
+    setForm((prevForm) => ({
+      ...prevForm,
+      [name]: value,
+    }));
   };
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       setImageFile(file);
     }
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const formData = new FormData();
     if (imageFile) {
-      formData.append("profileImage", imageFile); 
+      formData.append("image", imageFile);
     }
+    formData.append("about", form.about || "");
     formData.append("age", form.age || "");
     formData.append("hobbies", form.hobbies || "");
+
     try {
       const response = await axios.patch(
         `http://localhost:8000/api/v1/user/uploads/edit/${id}`,
-        form,
         formData,
         {
           headers: {
@@ -51,16 +56,15 @@ function FormPage4() {
       alert("An error occurred while submitting the form.");
     }
   };
+
   return (
     <div className={styles.mainContainer}>
       <div className={styles.progressDiv}>
         <div className={styles.progressHeading}>You have completed</div>
         <div className={styles.progressHeading2}>90%</div>
       </div>
-      
-  <div className={styles.container}>
-        {/* Progress Bar */}
 
+      <div className={styles.container}>
         {/* Main Content */}
         <div className={styles.contentDiv}>
           {/* Image Section */}
@@ -68,11 +72,8 @@ function FormPage4() {
             <img src={image} alt="Couple" className={styles.image} />
           </div>
 
-          {/* Form Section */}
           <div className={styles.formContainer}>
             <h3 className={styles.formHeading}>About your Friend's life</h3>
-
-            {/* New Div with Text Area */}
 
             <form className={styles.form} onSubmit={handleSubmit}>
               <div className={styles.textAreaDiv}>
@@ -80,23 +81,24 @@ function FormPage4() {
                 <textarea
                   className={styles.textArea}
                   placeholder="Type here..."
-                  value={form.value}
+                  value={form.about || ""}
                   onChange={handleChange}
                   name="about"
                 ></textarea>
               </div>
-              {/* Image Upload Section */}
+
               <div className={styles.imageUploadDiv}>
-          <label className={styles.imageUploadLabel}>
-            <span className="material-icons">Upload Your Profile Image</span>
-            <input
-              type="file"
-              accept="image/*"
-              className={styles.imageUploadInput}
-              onChange={handleImageChange}
-            />
-          </label>
-        </div>  
+                <label className={styles.imageUploadLabel}>
+                  <span className="material-icons">Upload Your Profile Image</span>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className={styles.imageUploadInput}
+                    onChange={handleImageChange}
+                  />
+                </label>
+              </div>
+
               <div className={styles.formGroup}>
                 <div className={styles.fieldGroup}>
                   <div className={styles.labelGroup}>
@@ -104,17 +106,15 @@ function FormPage4() {
                     <p className={styles.starHead}>*</p>
                   </div>
                   <div className={styles.inputGroup}>
-                    <input
-                      type="number"
+                  <input
+                      type="text"
                       className={styles.input}
                       placeholder=""
-                      value={form.age || ""}
-                      onChange={(e) => setForm({ ...form, age: e.target.value })}
-                     
-                      name="age"
+                      value={form.hobbies || ""}
+                      onChange={handleChange}
+                      name="hobbies"
                     />
                   </div>
-                  <div className={styles.helperTextDiv}></div>
                 </div>
               </div>
 
@@ -129,22 +129,20 @@ function FormPage4() {
                       type="text"
                       className={styles.input}
                       placeholder=""
-                      value={form.value}
+                      value={form.hobbies || ""}
                       onChange={handleChange}
                       name="hobbies"
                     />
                   </div>
-                  <div className={styles.helperTextDiv}></div>
                 </div>
               </div>
-              <div className={styles.btnDiv}>
-              <button type="submit" className={styles.submitButton}>
-                Complete
-              </button>
-            </div>
-            </form>
 
-           
+              <div className={styles.btnDiv}>
+                <button type="submit" className={styles.submitButton}>
+                  Complete
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
@@ -156,4 +154,5 @@ function FormPage4() {
     </div>
   );
 }
+
 export default FormPage4;
