@@ -10,7 +10,7 @@ import Formpage5 from "./pages/FormPage5/FormPage5";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import OtpPage from "./pages/Otppage/OtpPage"
 import AdminProfile from "./pages/Admin/adminDashboard/Adimindashboard"
-import Report from "./pages/Admin/Reports/Report"
+import Report from "./pages/Admin/AdminReportPage/AdminReportPage"
 import TopRecommendation from "./pages/TopRecomendation/TopRecommendation";
 import Settings from "./pages/Admin/settings/Settings";
 import AdminUserProfileView from "./pages/Admin/adminprofile/Adminprofile"
@@ -43,12 +43,12 @@ function App() {
           <Route path="/Adminreport" element={<Report />} />
           <Route path="/toprecommendations/:id" element={<TopRecommendation />} />
           <Route path="/allmatches/:id" element={< AllMatches/>} />
-          <Route path="/Adminsettings" element={<Settings />} />
+          <Route path="/Adminsettings/:token" element={<Settings />} />
           <Route path="/Adminusersview/:id" element={<AdminUserProfileView />} />
           <Route path="/getFullUser" element={<GetFullUser />} />
           <Route path="/adminlanding" element={<AdminLanding />} />
           <Route path="/report" element={<Report1 />} />
-          <Route path="/mainuser" element={<UserMain/>} />
+          <Route path="/mainuser/:id" element={<UserMain/>} />
           <Route path="/Usettings" element={<UserSettings />} />
           <Route path="/resetPassword" element={<ResetPassword />} />
           <Route path="/likedprofiles/:id" element={<LikedProfiles />} />

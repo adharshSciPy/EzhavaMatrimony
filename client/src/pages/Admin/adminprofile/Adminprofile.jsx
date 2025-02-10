@@ -7,34 +7,36 @@ import { Link } from "react-router";
 import Footer from "../../../component/Footer/Footer";
 import axios from "axios";
 function Adminprofile() {
-  const [data,setData]=useState(null);
-  const {id}=useParams()
-  console.log("thk",id);
-  
+  const [data, setData] = useState(null);
+  const { id } = useParams();
+  console.log("thk", id);
+
   console.log(data);
-  
+
   const userData = async () => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/v1/user/usercarddetails/${id}`);
-        setData(response.data.data);
+      const response = await axios.get(
+        `http://localhost:8000/api/v1/user/usercarddetails/${id}`
+      );
+      setData(response.data.data);
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
   };
-useEffect(()=>{
-  userData()
-},[id])
-if(!data){
-  return<div>Loading</div>
-}
+  useEffect(() => {
+    userData();
+  }, [id]);
+  if (!data) {
+    return <div>Loading</div>;
+  }
+  
   return (
-
     <div>
       <Nav />
       <div className="profile-view-main-container">
         <div className="profile-cards">
           <div className="image-container">
-            <img src={data.sorce || padam} alt="Profile" className="profile-image" />
+            
           </div>
 
           <div className="details-sections">
@@ -129,7 +131,9 @@ if(!data){
                       </span>
                       <p>Location</p>
                     </div>
-                    <div className="prof-detail same1"><p>{data.location || "Kerala,India"}</p></div>
+                    <div className="prof-detail same1">
+                      <p>{data.location || "Kerala,India"}</p>
+                    </div>
                   </div>
                   <div className="spoken-language-container details-main">
                     <div className="prof-detail same">
@@ -255,7 +259,9 @@ if(!data){
                     <span className="material-icons profiles-icon">school</span>
                     <p>Occupation</p>
                   </div>
-                  <div className="prof-detail same1">{data.occupation || "Occupation"}</div>
+                  <div className="prof-detail same1">
+                    {data.occupation || "Occupation"}
+                  </div>
                 </div>
               </div>
               <div className="basic-details-container">
@@ -274,13 +280,11 @@ if(!data){
                     <span className="material-icons profiles-icon">work</span>
                     <p>Occupation</p>
                   </div>
-                  <div className="prof-detail same1">{ "Occupation"}</div>
+                  <div className="prof-detail same1">{"Occupation"}</div>
                 </div>
               </div>
-
-             
             </div>
-          </div>                         
+          </div>
         </div>
         <hr className="separator"></hr>
       </div>

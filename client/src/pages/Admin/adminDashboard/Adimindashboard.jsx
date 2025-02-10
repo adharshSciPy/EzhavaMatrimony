@@ -82,23 +82,6 @@ function Adimindashboard() {
                 <Link className="custom-link" to={'/getFullUser'}>See all</Link>
               </div>
             </div>
-            <div className="third-part">
-              <div className="heading-container">
-                <div className="heading">
-                  <h1>Reports & Complaints</h1>
-                </div>
-              </div>
-              <div className="profiles-container">
-                <div className="main-container-profiles">
-                  <div className="profile-container">
-                    <Profilebox></Profilebox>
-                  </div>
-                </div>
-              </div>
-              <div className="see-all-link">
-                <Link className="custom-link">See all</Link>
-              </div>
-            </div>
           </div>
         </div>
       </div>

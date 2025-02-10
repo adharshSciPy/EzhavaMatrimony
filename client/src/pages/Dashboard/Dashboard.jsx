@@ -13,7 +13,7 @@ import {
   Crown,
   User,
 } from "phosphor-react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import image from "../../assets/free-photo-of-couple-in-green-grass-field.jpeg";
 import Nav from "../../component/Navbar/Nav";
 import Footer from "../../component/Footer/Footer";
@@ -24,45 +24,68 @@ function Dashboard() {
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.user.id);
   console.log("hey kitty", userId);
+  const navigate = useNavigate();
 
   const [liked, setLiked] = useState({});
+  const [getLike, setGetLike] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [userProfie, setUserProfile] = useState("");
   const [allMatches, setAllMatches] = useState([]);
   const [topMatches, setTopMatches] = useState([]);
 
-
   // const[showHamburger,setShowHamburger]=useState(true);
   // const { userId } = useParams();
-  const likedProfile = async (id) => {
-    if (!userId) {
-      console.error("User ID is undefined");
-      return;
-    }
+   
+    const getLikedProfiles = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8000/api/v1/user/likedProfiles/${userId}`
+        );
+        console.log("liked profiles:", response.data.likedUsers);
   
-    // Optimistically update UI
-    setLiked((prev) => {
-      return { ...prev, [id]: !prev[id] };
-    });
+        // Convert the array into an object for easy lookups
+        const likedProfilesMap = response.data.likedUsers.reduce((acc, user) => {
+          acc[user._id] = true;
+          return acc;
+        }, {});
   
-    try {
-      const response = await axios.post(
-        `http://localhost:8000/api/v1/user/profileLiked/${userId}`,
-        { id }
-      );
+        setGetLike(response.data.likedUsers); // Keep original array
+        setLiked(likedProfilesMap); // Update liked state
+      } catch (error) {
+        console.log("Error fetching liked profiles", error);
+      }
+    };
+    useEffect(() => {
+      if (userId) {
+        getLikedProfiles();
+      }
+    }, [userId]);
+    const likedProfile = async (id) => {
+      if (!userId || !id) {
+        console.error("User ID or Profile ID is undefined");
+        return;
+      }
   
-      console.log("Response:", response.data);
-    } catch (error) {
-      console.error("Error liking profile:", error);
+      // Optimistically update UI
+      setLiked((prev) => ({ ...prev, [id]: !prev[id] }));
   
-      // Revert state if API fails
-      setLiked((prev) => {
-        return { ...prev, [id]: !prev[id] };
-      });
-    }
-  };
+      try {
+        const response = await axios.post(
+          `http://localhost:8000/api/v1/user/likeProfile/${userId}`,
+          { likedId: id }
+        );
   
-
+        console.log("Liked profile response:", response.data);
+  
+        // If successfully liked, refresh liked profiles
+        getLikedProfiles();
+      } catch (error) {
+        console.error("Error liking profile:", error);
+  
+        // Revert state if API fails
+        setLiked((prev) => ({ ...prev, [id]: !prev[id] }));
+      }
+    };
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
@@ -84,12 +107,11 @@ function Dashboard() {
       const response = await axios.get(
         `http://localhost:8000/api/v1/user/topmatch/${userId}`
       );
-      let user=response.data.matches;
+      let user = response.data.matches;
       const shuffledUsers = user.sort(() => 0.5 - Math.random()).slice(0, 5);
 
-
       console.log("topMatch", response.data.matches);
-      setTopMatches(shuffledUsers)
+      setTopMatches(shuffledUsers);
     } catch (error) {
       console.log("error", error);
     }
@@ -102,7 +124,6 @@ function Dashboard() {
       );
       let users = response.data.user;
 
-      
       const shuffledUsers = users.sort(() => 0.5 - Math.random()).slice(0, 5);
       console.log("all match", response.data.user);
       setAllMatches(shuffledUsers);
@@ -142,12 +163,28 @@ function Dashboard() {
       window.removeEventListener("scroll", handleScrollHam);
     };
   }, []);
+  const profileView = async (id) => {
+    if (!id) {
+      console.log("Error fetching id");
+      return;
+    }
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/api/v1/user/usercarddetails/${id}`
+      );
+      console.log("single user data", response);
+      navigate(`/mainuser/${id}`);
+    } catch (error) {
+      console.log("Error fetching the data", error);
+    }
+  };
 
   return (
     <div>
       <div className={DashStyles.mainContainer}>
         <Nav />
         <div className={DashStyles.SubContainer}>
+          {/* static details div for larger screens  starts*/}
           <div className={DashStyles.ProfileDiv}>
             <div className={DashStyles.ProfileCard}>
               <div className={DashStyles.ProfileImage}></div>
@@ -256,6 +293,8 @@ function Dashboard() {
               </div>
             </div>
           </div>
+          {/* static details div for larger screens  end*/}
+
           {/* Profile details div for smalle screens start */}
           <div
             className={isOpen ? "overlay overlayActive" : "overlay"}
@@ -329,7 +368,9 @@ function Dashboard() {
                       <Heart size={20} weight="duotone" />
                     </div>
                     <div className={DashStyles.link}>
-                      <Link to={`/likedprofiles/${userId}`}>Liked Profiles</Link>
+                      <Link to={`/likedprofiles/${userId}`}>
+                        Liked Profiles
+                      </Link>
                     </div>
                   </div>
                   <div className={DashStyles.LinkIcon}>
@@ -401,7 +442,7 @@ function Dashboard() {
                       <ShieldCheck size={20} weight="duotone" />
                     </div>
                     <div className={DashStyles.link}>
-                      <Link to="/">Safe Matrimony</Link>
+                      <Link>Safe Matrimony</Link>
                     </div>
                   </div>
                 </div>
@@ -428,40 +469,47 @@ function Dashboard() {
                 </h4>
               </div>
               <div className={DashStyles.trContentDisplay}>
-                {topMatches &&topMatches.length>0?(topMatches.map((item,index)=>(
+                {topMatches && topMatches.length > 0 ? (
+                  topMatches.map((item, index) => (
                     <div key={index} className={DashStyles.trCard}>
-                    <div className={DashStyles.trCardImg}>
-                      <img
-                        src={image}
-                        alt="Crad imgae"
-                        className={DashStyles.cardImage}
-                      />
-                    </div>
-                    <div className={DashStyles.trCardDetails}>
-                      <div className={DashStyles.trCardDetailSub}>
-                        <h5 className={DashStyles.trUserName} >{item.name}</h5>
-                        <h6 className={DashStyles.trUserDetails}>{item.age} Yrs ,{item.height}</h6>
-                      </div>
                       <div
-                        className={DashStyles.LikeButton}
-                        onClick={() => likedProfile(item.id)}
+                        className={DashStyles.trCardImg}
+                        onClick={() => profileView(item.id)}
                       >
-                         <HeartStraight
+                        <img
+                          src={image}
+                          alt="Card image"
+                          className={DashStyles.cardImage}
+                        />
+                      </div>
+                      <div className={DashStyles.trCardDetails}>
+                        <div
+                          className={DashStyles.trCardDetailSub}
+                          onClick={() => profileView(item.id)}
+                        >
+                          <h5 className={DashStyles.trUserName}>{item.name}</h5>
+                          <h6 className={DashStyles.trUserDetails}>
+                            {item.age} Yrs ,{item.height}
+                          </h6>
+                        </div>
+                        <div
+                          className={DashStyles.LikeButton}
+                          onClick={() => likedProfile(item.id)}
+                        >
+                          <HeartStraight
                             size={20}
                             weight={liked[item.id] ? "fill" : "light"}
                             className={`${DashStyles.likedHeartBefore} ${
                               liked[item.id] ? DashStyles.likedHeart : ""
                             }`}
                           />
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))):(
-                  <p>No Top recomendations found </p>
-
+                  ))
+                ) : (
+                  <p>No Top recommendations found</p>
                 )}
-              
-               
               </div>
               <div className={DashStyles.SeeAll}>
                 {/* <h4 className={DashStyles.saHead}>See All</h4> */}
@@ -481,16 +529,22 @@ function Dashboard() {
                 {allMatches && allMatches.length > 0 ? (
                   allMatches.map((item, index) => (
                     <div key={index} className={DashStyles.trCard}>
-                      <div className={DashStyles.trCardImg}>
+                      <div
+                        className={DashStyles.trCardImg}
+                        onClick={() => profileView(item._id)}
+                      >
                         {/* image from backend */}
                         <img
-          src={item.profileImage || image}
-          alt="Profile Image"
-          className={DashStyles.cardImage}
-        />
+                          src={item.profileImage || image}
+                          alt="Profile Image"
+                          className={DashStyles.cardImage}
+                        />
                       </div>
                       <div className={DashStyles.trCardDetails}>
-                        <div className={DashStyles.trCardDetailSub}>
+                        <div
+                          className={DashStyles.trCardDetailSub}
+                          onClick={() => profileView(item._id)}
+                        >
                           <h5 className={DashStyles.trUserName}>
                             {item.firstName}
                           </h5>
@@ -504,10 +558,14 @@ function Dashboard() {
                         >
                           <HeartStraight
                             size={20}
-                            weight={liked[item._id] ? "fill" : "light"}
-                            className={`${DashStyles.likedHeartBefore} ${
-                              liked[item._id] ? DashStyles.likedHeart : ""
-                            }`}
+                            weight={
+                              getLike[item._id] || liked[item._id]
+                                ? "fill"
+                                : "light"
+                            }
+                            className={`${DashStyles.likedHeartBefore} 
+    ${liked[item._id] ? DashStyles.likedHeart : ""}
+    ${getLike[item._id] ? DashStyles.likedHeart : ""}`}
                           />
                         </div>
                       </div>

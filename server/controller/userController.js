@@ -527,7 +527,7 @@ const topMatch = async (req, res) => {
 
 
     // Find matching users
-    const matches = await User.find(matchQuery).select('firstName occupation age location hobbies gender');
+    const matches = await User.find(matchQuery).select('firstName occupation age location hobbies gender height');
 
 
     if (matches.length === 0) {
@@ -542,6 +542,7 @@ const topMatch = async (req, res) => {
       age: match.age,
       location: match.location,
       hobbies: match.hobbies,
+      height:match.height 
     }));
 
     res.status(200).json({ message: 'Matches found', matches: response });
@@ -653,9 +654,9 @@ const userReport = async (req, res) => {
   const { abuseCategory, subject, complaint, complainstAgainst } = req.body;
   try {
     const reportData = await User.findByIdAndUpdate(id, {
-      abuseCategory, subject, complaint, complainstAgainst
+      abuseCategory, subject, complaint, complainstAgainst,
     }, { new: true })
-    res.status(200).json({ message: "User report created", data: reportData })
+    res.status(200).json({ message: "User report created", data: reportData ,complaintRegister:true})
   } catch (error) {
     res.status(500).json({ message: "Internal server error", error: error })
   }
@@ -684,6 +685,10 @@ const likeProfile = async (req, res) => {
 
     console.log("Liker ID:", likerId);
     console.log("Liked ID:", likedId);
+
+    if (likedId === likerId) {
+      return res.status(400).json({ message: "You cannot like your own profile." });
+    }
 
     if (!mongoose.Types.ObjectId.isValid(likerId) || !mongoose.Types.ObjectId.isValid(likedId)) {
       return res.status(400).json({ message: "Invalid User ID" });
@@ -743,7 +748,16 @@ const likedProfiles = async (req, res) => {
 
 export default likedProfiles;
 
+const getComplaint=async(req,res)=>{
+  try {
+    const reportedUser=await User.find({complaintReport:true})
+    res.status(200).json({ likedUsers: user.like });
 
+  } catch (error) {
+    console.error("Error fetching liked profiles:", error);
+    res.status(500).json({ message: "Server Error", error });
+  }
+}
 
 
 export {
@@ -762,5 +776,6 @@ export {
   likedProfiles,
   userReport, 
   getNotifications,
-  likeProfile
+  likeProfile,
+  getComplaint
 };
