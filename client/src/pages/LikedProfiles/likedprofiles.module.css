@@ -236,8 +236,9 @@
     display: grid;
     gap: 15px;
     margin: 20px 0;
-    place-items: center;
     grid-template-columns: repeat(auto-fit, minmax(238px, 1fr));
+    max-width: 1600px;
+    margin-bottom: 5rem;
   }
   /* .trContentDisplay {
     display: grid; 
@@ -785,7 +786,13 @@
     color: #fff;
   }
   }
-  @media (max-width:500px) {
+  @media (max-width:503px) {
+    .trContentDisplay{
+      place-items: center;
+    }
+    .TrHead{
+      text-align: center;
+    }
     .SubContainer{
       margin: 10px;
     }
