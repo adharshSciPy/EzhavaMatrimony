@@ -4,72 +4,71 @@ import Nav from "../../component/Navbar/Nav";
 import Footer from "../../component/Footer/Footer";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Report1() {
+  const [formData, setFormData] = useState({
+    subject: "",
+    complaint: "",
+    abuseCategory: "",
+    complainstAgainst: "",
+  });
+  const notifySuccess = (message) => toast.success(message);
 
-  const [abuseCategory, setAbuseCategory] = useState("");
-  const [subject, setSubject] = useState("");
-  const [complaintDetails, setComplaintDetails] = useState("");
-  const [complaintAgainstId, setComplaintAgainstId] = useState("");
-  const [submissionStatus, setSubmissionStatus] = useState(null);
-
-  const dispatch = useDispatch();
-  const userId = useSelector((state) => state.user.id);
-  console.log("hellochimp",userId);
-  
-
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+  const { userId } = useParams();
+  console.log("hellochimp", userId);
+  console.log("user", userId);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const formData = {
-      abuseCategory,
-      subject,
-      complaintDetails,
-      complaintAgainstId,
-    };
-
     try {
-      const response = await axios.post(`http://localhost:8000/api/v1/user/userReport/${userId}`, formData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      console.log(formData);
+
+      const response = await axios.patch(
+        `http://localhost:8000/api/v1/user/userReport/${userId}`,
+        formData
+      );
 
       if (response.status === 200 || response.status === 201) {
-        setSubmissionStatus("success");
-        console.log("Report submitted successfully!");
+        toast.success("Profile Reported Successfully");
+
+        setFormData({
+          subject: "",
+          complaint: "",
+          abuseCategory: "",
+          complainstAgainst: "",
+          
+        });
       } else {
-        setSubmissionStatus("error");
         console.error("Failed to submit report.");
       }
     } catch (error) {
-      setSubmissionStatus("error");
       console.error("Error submitting report:", error);
     }
   };
 
-
-  const handleReset = () => {
-    setAbuseCategory("");
-    setSubject("");
-    setComplaintDetails("");
-    setComplaintAgainstId("");
-    setSubmissionStatus(null);
-  };
-
-
-  useEffect(() => {
-    if (submissionStatus === "success") {
-      alert("Report submitted successfully!");
-    } else if (submissionStatus === "error") {
-      alert("Failed to submit report. Please try again.");
-    }
-  }, [submissionStatus]);
-
   return (
     <div>
       <Nav />
+      <ToastContainer
+        position="bottom-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        pauseOnHover
+      />
       <div className="firstheader">
         <h1>Report Violation</h1>
       </div>
@@ -105,12 +104,12 @@ function Report1() {
       <form onSubmit={handleSubmit}>
         <div className="form-container5">
           <div>
-            <label htmlFor="abuse-category">Abuse Category</label>
+            <label>Abuse Category</label>
             <select
               id="abuse-category"
               name="abuseCategory"
-              value={abuseCategory}
-              onChange={(e) => setAbuseCategory(e.target.value)}
+              value={formData.abuseCategory}
+              onChange={handleChange}
               required
             >
               <option value="">Select Category</option>
@@ -132,8 +131,8 @@ function Report1() {
               name="subject"
               type="text"
               placeholder="Enter subject"
-              value={subject}
-              onChange={(e) => setSubject(e.target.value)}
+              value={formData.subject}
+              onChange={handleChange}
               required
             />
           </div>
@@ -145,8 +144,8 @@ function Report1() {
             name="complaint"
             rows="4"
             placeholder="Enter complaint details"
-            value={complaintDetails}
-            onChange={(e) => setComplaintDetails(e.target.value)}
+            value={formData.complaint}
+            onChange={handleChange}
             required
           ></textarea>
         </div>
@@ -159,19 +158,15 @@ function Report1() {
             name="complainstAgainst"
             rows="4"
             placeholder="Enter User name"
-            value={complaintAgainstId}
-            onChange={(e) => setComplaintAgainstId(e.target.value)}
+            value={formData.complainstAgainst}
+            onChange={handleChange}
             required
           ></textarea>
           <div className="btncontainer">
             <button type="submit" className="submitButton">
               Submit
             </button>
-            <button
-              type="reset"
-              className="submitButton"
-              onClick={handleReset}
-            >
+            <button type="reset" className="submitButton">
               Reset
             </button>
           </div>

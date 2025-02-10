@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Sidebar from "../../../component/sidebar/Sidebar.jsx";
 import "./report.css";
+import axios from "axios";
 function Report() {
+  
   return (
     <div>
       <div className="report-container">
@@ -79,7 +81,7 @@ function Report() {
                   <h3>Complaint aginst ID / User name </h3>
                 </div>
                 <div className="description">
-                    <p>ID 13216564165</p>
+                  <p>ID 13216564165</p>
                 </div>
               </div>
             </div>
