@@ -171,5 +171,27 @@ const resetPassword=async(req,res)=>{
       return res.status(500).json({ message: "Internal server error", error: error.message });
     }
 }
+const resetPasswordAdmin=async(req,res)=>{
+  const {token } = req.params;
+  const { password } = req.body;
+  const {newPassword}=req.body;
 
-export { registerAdmin ,adminlogin,adminlogout,forgotPassword,resetPassword};
+  const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
+  try {
+      const decoded = jwt.verify(token, ACCESS_TOKEN_SECRET);  
+      const admin = await Admin.findById(decoded.id);
+      if (!admin) {
+        return res.status(404).json({ message: "Admin not found." });
+      }
+      const isMatch=await bcrypt.compare(password,admin.password)
+      if (!isMatch) return res.status(400).json({ message: "Incorrect password" });
+      admin.password = newPassword;
+      await admin.save();
+  
+      return res.status(200).json({ message: "Password updated successfully." });
+    } catch (error) {
+      return res.status(500).json({ message: "Internal server error", error: error.message });
+    }
+}
+
+export { registerAdmin ,adminlogin,adminlogout,forgotPassword,resetPassword,resetPasswordAdmin};
