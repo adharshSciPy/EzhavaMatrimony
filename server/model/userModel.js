@@ -104,7 +104,15 @@ const userSchema = new Schema({
   },
   isVerified: {
     type: Boolean,
-    default: false, // Set default to false when the user registers
+    default: false,
+  },
+  documentVerify: {
+    type: Boolean,
+    default: false,
+  },
+  complaintRegister: {
+    type: Boolean,
+    default: false,
   },
   otp: {
     type: String,
