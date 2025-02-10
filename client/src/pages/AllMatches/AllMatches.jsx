@@ -191,7 +191,7 @@ function AllMatches() {
       <Nav />
       <div className={DashStyles.PageSelection}>
         <Link
-          to="/toprecommendations"
+          to={`/toprecommendations/${userId}`}
           className={`${DashStyles.heading} ${
             activeTab === "all" ? DashStyles.tabSelected : ""
           }`}

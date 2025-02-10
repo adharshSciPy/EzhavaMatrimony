@@ -6,6 +6,7 @@ import jwt from "jsonwebtoken";
 import { likedByProfile } from "../model/likedProfileModel.js";
 import { Notification } from "../model/notificationModel.js"
 import mongoose from 'mongoose';
+import { profile } from "console";
 
 const generateShortId = () => {
   const timestamp = Date.now(); // Get current time in milliseconds
@@ -95,8 +96,9 @@ const registerUser = async (req, res) => {
 const editUser = async (req, res) => {
   const { id } = req.params;
   const files = req.files;
+  const profilePicture = req.file 
 
-  console.log(id);
+  console.log(profilePicture);
 
   const {
     dateOfBirth,
@@ -166,11 +168,16 @@ const editUser = async (req, res) => {
       citizenship,
       residentStatus,
       educationDetails,
-      state,
+      state
 
     };
     if (files && files.length > 0) {
       updatedData.image = files.map((file) => `/uploads/${file.filename}`)
+    }
+    if (profilePicture) {      
+      updatedData.profilePicture =`/uploads/${profilePicture.filename}`
+      
+      
     }
     if (password) {
       const hashedPassword = await bcrypt.hash(password, 10);

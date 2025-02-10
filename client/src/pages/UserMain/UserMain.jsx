@@ -8,7 +8,7 @@ import Footer from "../../component/Footer/Footer";
 import axios from "axios"; // Import axios
 
 function UserMain() {
-  const {id}=useParams()
+  const {id}=useParams()                                                                             
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
