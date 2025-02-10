@@ -477,7 +477,7 @@ function Dashboard() {
   ) : (
     <p>No Top recommendations found</p>
   )}
-</div>;
+</div>
               <div className={DashStyles.SeeAll}>
                 {/* <h4 className={DashStyles.saHead}>See All</h4> */}
                 <Link to={`/toprecommendations/${userId}`}>
@@ -496,7 +496,8 @@ function Dashboard() {
                 {allMatches && allMatches.length > 0 ? (
                   allMatches.map((item, index) => (
                     <div key={index} className={DashStyles.trCard}>
-                      <div className={DashStyles.trCardImg}>
+                      <div className={DashStyles.trCardImg}
+                       onClick={() => profileView(item._id)}>
                         {/* image from backend */}
                         <img
           src={item.profileImage || image}
@@ -505,7 +506,7 @@ function Dashboard() {
         />
                       </div>
                       <div className={DashStyles.trCardDetails}>
-                        <div className={DashStyles.trCardDetailSub}>
+                        <div className={DashStyles.trCardDetailSub}  onClick={() => profileView(item._id)}>
                           <h5 className={DashStyles.trUserName}>
                             {item.firstName}
                           </h5>
