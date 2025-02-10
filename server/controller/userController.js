@@ -520,7 +520,7 @@ const topMatch = async (req, res) => {
 
 
     // Find matching users
-    const matches = await User.find(matchQuery).select('firstName occupation age location hobbies gender');
+    const matches = await User.find(matchQuery).select('firstName occupation age location hobbies gender height');
 
 
     if (matches.length === 0) {
@@ -535,6 +535,7 @@ const topMatch = async (req, res) => {
       age: match.age,
       location: match.location,
       hobbies: match.hobbies,
+      height:match.height 
     }));
 
     res.status(200).json({ message: 'Matches found', matches: response });

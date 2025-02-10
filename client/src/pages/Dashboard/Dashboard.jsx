@@ -13,7 +13,7 @@ import {
   Crown,
   User,
 } from "phosphor-react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams,useNavigate } from "react-router-dom";
 import image from "../../assets/free-photo-of-couple-in-green-grass-field.jpeg";
 import Nav from "../../component/Navbar/Nav";
 import Footer from "../../component/Footer/Footer";
@@ -24,6 +24,7 @@ function Dashboard() {
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.user.id);
   console.log("hey kitty", userId);
+  const navigate=useNavigate();
 
   const [liked, setLiked] = useState({});
   const [isOpen, setIsOpen] = useState(false);
@@ -142,6 +143,20 @@ function Dashboard() {
       window.removeEventListener("scroll", handleScrollHam);
     };
   }, []);
+  const profileView=async(id)=>{
+    if(!id){
+      console.log("Error fetching id");
+      return;
+    }
+    try {
+      const response=await axios.get(`http://localhost:8000/api/v1/user/usercarddetails/${id}`);
+      console.log("single user data",response);
+      navigate(`/mainuser/${id}`);
+
+    } catch (error) {
+      console.log("Error fetching the data",error);
+    }
+  }
 
   return (
     <div>
@@ -431,41 +446,38 @@ function Dashboard() {
                 </h4>
               </div>
               <div className={DashStyles.trContentDisplay}>
-                {topMatches &&topMatches.length>0?(topMatches.map((item,index)=>(
-                    <div key={index} className={DashStyles.trCard}>
-                    <div className={DashStyles.trCardImg}>
-                      <img
-                        src={image}
-                        alt="Crad imgae"
-                        className={DashStyles.cardImage}
-                      />
-                    </div>
-                    <div className={DashStyles.trCardDetails}>
-                      <div className={DashStyles.trCardDetailSub}>
-                        <h5 className={DashStyles.trUserName} >{item.name}</h5>
-                        <h6 className={DashStyles.trUserDetails}>{item.age} Yrs ,{item.height}</h6>
-                      </div>
-                      <div
-                        className={DashStyles.LikeButton}
-                        onClick={() => likedProfile(item.id)}
-                      >
-                         <HeartStraight
-                            size={20}
-                            weight={liked[item.id] ? "fill" : "light"}
-                            className={`${DashStyles.likedHeartBefore} ${
-                              liked[item.id] ? DashStyles.likedHeart : ""
-                            }`}
-                          />
-                      </div>
-                    </div>
-                  </div>
-                ))):(
-                  <p>No Top recomendations found </p>
-
-                )}
-              
-               
-              </div>
+  {topMatches && topMatches.length > 0 ? (
+    topMatches.map((item, index) => (
+      <div key={index} className={DashStyles.trCard}>
+        <div className={DashStyles.trCardImg} onClick={() => profileView(item.id)}>
+          <img src={image} alt="Card image" className={DashStyles.cardImage} />
+        </div>
+        <div className={DashStyles.trCardDetails}>
+          <div
+            className={DashStyles.trCardDetailSub}
+            onClick={() => profileView(item.id)}
+          >
+            <h5 className={DashStyles.trUserName}>{item.name}</h5>
+            <h6 className={DashStyles.trUserDetails}>
+              {item.age} Yrs ,{item.height}
+            </h6>
+          </div>
+          <div className={DashStyles.LikeButton} onClick={() => likedProfile(item.id)}>
+            <HeartStraight
+              size={20}
+              weight={liked[item.id] ? "fill" : "light"}
+              className={`${DashStyles.likedHeartBefore} ${
+                liked[item.id] ? DashStyles.likedHeart : ""
+              }`}
+            />
+          </div>
+        </div>
+      </div>
+    ))
+  ) : (
+    <p>No Top recommendations found</p>
+  )}
+</div>
               <div className={DashStyles.SeeAll}>
                 {/* <h4 className={DashStyles.saHead}>See All</h4> */}
                 <Link to={`/toprecommendations/${userId}`}>
@@ -484,7 +496,8 @@ function Dashboard() {
                 {allMatches && allMatches.length > 0 ? (
                   allMatches.map((item, index) => (
                     <div key={index} className={DashStyles.trCard}>
-                      <div className={DashStyles.trCardImg}>
+                      <div className={DashStyles.trCardImg}
+                       onClick={() => profileView(item._id)}>
                         {/* image from backend */}
                         <img
           src={item.profileImage || image}
@@ -493,7 +506,7 @@ function Dashboard() {
         />
                       </div>
                       <div className={DashStyles.trCardDetails}>
-                        <div className={DashStyles.trCardDetailSub}>
+                        <div className={DashStyles.trCardDetailSub}  onClick={() => profileView(item._id)}>
                           <h5 className={DashStyles.trUserName}>
                             {item.firstName}
                           </h5>

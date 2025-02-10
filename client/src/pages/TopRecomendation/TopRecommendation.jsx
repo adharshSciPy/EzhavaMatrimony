@@ -101,13 +101,14 @@ function TopRecommendation() {
       );
 
       console.log("topMatch123", response.data.matches);
+      setTopMatches(response.data.matches);
     } catch (error) {
       console.log("error", error);
     }
   };
  useEffect(() => {
     if (userId) {
-    topMatches();
+    TopMatch();
     }
   }, [userId]);
   const handleFilterChange = (e) => {
@@ -562,7 +563,8 @@ function TopRecommendation() {
               </h4>
             </div>
             <div className={DashStyles.trContentDisplay}>
-              <div className={DashStyles.trCard}>
+              {topMatches.map((item,index)=>(
+                <div className={DashStyles.trCard} key={index}>
                 <div className={DashStyles.trCardImg}>
                   <img
                     src={image}
@@ -572,8 +574,8 @@ function TopRecommendation() {
                 </div>
                 <div className={DashStyles.trCardDetails}>
                   <div className={DashStyles.trCardDetailSub}>
-                    <h5 className={DashStyles.trUserName}>Gopika Krishnan</h5>
-                    <h6 className={DashStyles.trUserDetails}>25 Yrs ,5'7"</h6>
+                    <h5 className={DashStyles.trUserName}>{item.name}</h5>
+                    <h6 className={DashStyles.trUserDetails}>{`${item.age}Yrs,${item.height}`}</h6>
                   </div>
                   <div
                     className={DashStyles.LikeButton}
@@ -589,6 +591,8 @@ function TopRecommendation() {
                   </div>
                 </div>
               </div>
+              ))}
+              
             </div>
           </div>
         </div>
