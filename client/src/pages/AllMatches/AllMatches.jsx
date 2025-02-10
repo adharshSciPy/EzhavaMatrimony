@@ -13,7 +13,7 @@ function AllMatches() {
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.user.id);
   console.log("hey kitty", userId);
-
+  const [getLike, setGetLike] = useState([]);
   const [liked, setLiked] = useState({}); //state to control the likes
   const [isOpen, setIsOpen] = useState(false); //state to control the  opening and closing of filter
   const [activeTab, setActiveTab] = useState("top"); //state to control the active tab on header
@@ -41,31 +41,54 @@ function AllMatches() {
   }, [allMatches, filteredMatches, currentPage]);
 
   // const[showHamburger,setShowHamburger]=useState(true);
+  const getLikedProfiles = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/api/v1/user/likedProfiles/${userId}`
+      );
+      console.log("liked profiles:", response.data.likedUsers);
+
+      // Convert the array into an object for easy lookups
+      const likedProfilesMap = response.data.likedUsers.reduce((acc, user) => {
+        acc[user._id] = true;
+        return acc;
+      }, {});
+
+      setGetLike(response.data.likedUsers); // Keep original array
+      setLiked(likedProfilesMap); // Update liked state
+    } catch (error) {
+      console.log("Error fetching liked profiles", error);
+    }
+  };
+  useEffect(() => {
+    if (userId) {
+      getLikedProfiles();
+    }
+  }, [userId]);
   const likedProfile = async (id) => {
-    if (!userId) {
-      console.error("User ID is undefined");
+    if (!userId || !id) {
+      console.error("User ID or Profile ID is undefined");
       return;
     }
 
     // Optimistically update UI
-    setLiked((prev) => {
-      return { ...prev, [id]: !prev[id] };
-    });
+    setLiked((prev) => ({ ...prev, [id]: !prev[id] }));
 
     try {
       const response = await axios.post(
-        `http://localhost:8000/api/v1/user/profileLiked/${userId}`,
-        { id }
+        `http://localhost:8000/api/v1/user/likeProfile/${userId}`,
+        { likedId: id }
       );
 
-      console.log("Response:", response.data);
+      console.log("Liked profile response:", response.data);
+
+      // If successfully liked, refresh liked profiles
+      getLikedProfiles();
     } catch (error) {
       console.error("Error liking profile:", error);
 
       // Revert state if API fails
-      setLiked((prev) => {
-        return { ...prev, [id]: !prev[id] };
-      });
+      setLiked((prev) => ({ ...prev, [id]: !prev[id] }));
     }
   };
 
