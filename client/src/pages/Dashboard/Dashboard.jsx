@@ -35,7 +35,7 @@ function Dashboard() {
   // const[showHamburger,setShowHamburger]=useState(true);
   // const { userId } = useParams();
   const likedProfile = async (id) => {
-    if (!userId) {
+    if (!userId||!id) {
       console.error("User ID is undefined");
       return;
     }
@@ -47,8 +47,8 @@ function Dashboard() {
   
     try {
       const response = await axios.post(
-        `http://localhost:8000/api/v1/user/profileLiked/${userId}`,
-        { id }
+        `http://localhost:8000/api/v1/user/likeProfile/${userId}`,
+        { likedId:id }
       );
   
       console.log("Response:", response.data);
@@ -148,6 +148,7 @@ function Dashboard() {
       <div className={DashStyles.mainContainer}>
         <Nav />
         <div className={DashStyles.SubContainer}>
+          {/* static details div for larger screens  starts*/}
           <div className={DashStyles.ProfileDiv}>
             <div className={DashStyles.ProfileCard}>
               <div className={DashStyles.ProfileImage}></div>
@@ -256,6 +257,8 @@ function Dashboard() {
               </div>
             </div>
           </div>
+          {/* static details div for larger screens  end*/}
+
           {/* Profile details div for smalle screens start */}
           <div
             className={isOpen ? "overlay overlayActive" : "overlay"}
@@ -401,7 +404,7 @@ function Dashboard() {
                       <ShieldCheck size={20} weight="duotone" />
                     </div>
                     <div className={DashStyles.link}>
-                      <Link to="/">Safe Matrimony</Link>
+                      <Link >Safe Matrimony</Link>
                     </div>
                   </div>
                 </div>
