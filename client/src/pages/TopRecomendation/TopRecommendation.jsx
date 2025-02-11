@@ -21,12 +21,12 @@ function TopRecommendation() {
   const [filteredMatches, setFilteredMatches] = useState([]); // Stores filtered matches
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [filtersApplied, setFiltersApplied] = useState(false);
+
   const [filters, setFilters] = useState({
     age: "",
     height: "",
     maritalStatus: "",
-    motherTongue: "",
-    physicalStatus: "",
     occupation: "",
     annualIncome: "",
     education: "",
@@ -36,7 +36,7 @@ function TopRecommendation() {
   const indexOfFirstItem = lastIndex - itemsPerPage;
 
   const showItems = useMemo(() => {
-    const data = filteredMatches.length > 0 ? filteredMatches : topMatches;
+    const data = filteredMatches.length > 0 ? filteredMatches : "No Matches Available";
     return data.slice(indexOfFirstItem, lastIndex);
   }, [topMatches, filteredMatches, currentPage]);
 
@@ -143,8 +143,11 @@ function TopRecommendation() {
     }));
   };
   const applyFilters = () => {
+    let isFiltersApplied = Object.values(filters).some((val) => val !== "");
+    console.log("applyFilters", isFiltersApplied);
+
     let filteredData = topMatches.filter((item) => {
-      let numericHeight = parseInt(item.height.replace(/\D/g, ""), 10);
+      let numericHeight = item.height ? parseInt(item.height.replace(/\D/g, ""), 10) : null;
 
       let [minHeight, maxHeight] = filters.height
         ? filters.height.split("-").map((num) => parseInt(num, 10))
@@ -152,24 +155,43 @@ function TopRecommendation() {
       let [minAge, maxAge] = filters.age
         ? filters.age.split("-").map((num) => parseInt(num, 10))
         : [null, null];
+
+      console.log("numericHeight", numericHeight)
+      console.log("minHeight", minHeight)
+      console.log("maxHeight", maxHeight)
+
+      // Ensure filters are properly checking values
+      // let ageCheck =
+      //   !filters.age || (item.age >= minAge && item.age <= maxAge);
+      // let heightCheck =
+      //   !filters.height || (numericHeight >= minHeight && numericHeight <= maxHeight);
+      // let maritalStatusCheck =
+      //   !filters.maritalStatus || item.maritalStatus === filters.maritalStatus;
+      // let motherTongueCheck =
+      //   !filters.motherTongue || item.motherTongue === filters.motherTongue;
+      // let physicalStatusCheck =
+      //   !filters.physicalStatus || item.physicalStatus === filters.physicalStatus;
+      // let occupationCheck =
+      //   !filters.occupation || item.occupation === filters.occupation;
+      // let annualIncomeCheck =
+      //   !filters.annualIncome || item.annualIncome === filters.annualIncome;
+      // let educationCheck =
+      //   !filters.education || item.education === filters.education;
       return (
         (filters.age === "" || (item.age >= minAge && item.age <= maxAge)) &&
-        (filters.height === "" ||
-          (numericHeight >= minHeight && numericHeight <= maxHeight)) &&
-        (filters.maritalStatus === "" ||
-          item.maritalStatus === filters.maritalStatus) &&
-        (filters.motherTongue === "" ||
-          item.motherTongue === filters.motherTongue) &&
-        (filters.physicalStatus === "" ||
-          item.physicalStatus === filters.physicalStatus) &&
-        (filters.occupation === "" || item.occupation === filters.occupation) &&
-        (filters.annualIncome === "" ||
-          item.annualIncome === filters.annualIncome) &&
-        (filters.education === "" || item.education === filters.education)
+        (filters.height === "" || (numericHeight >= minHeight && numericHeight <= maxHeight)) &&
+        (filters.maritalStatus === "" || item.maritalStatus?.toLowerCase() === filters.maritalStatus?.toLowerCase()) &&
+        (filters.occupation === "" || item.occupation?.toLowerCase() === filters.occupation?.toLowerCase()) &&
+        (filters.annualIncome === "" || item.annualIncome?.toLowerCase() === filters.annualIncome?.toLowerCase()) &&
+        (filters.education === "" || item.education?.toLowerCase() === filters.education?.toLowerCase())
       );
     });
 
+    console.log("filter data vannu", filteredData)
+    console.log("filters data", filters)
+
     setFilteredMatches(filteredData);
+    setFiltersApplied(isFiltersApplied);
     setCurrentPage(1);
   };
 
@@ -182,7 +204,8 @@ function TopRecommendation() {
       annualIncome: "",
       education: "",
     });
-    setFilteredMatches([]);
+    setFilteredMatches(topMatches);
+    setFiltersApplied(false);
     setCurrentPage(1);
   };
   return (
@@ -191,9 +214,8 @@ function TopRecommendation() {
       <div className={DashStyles.PageSelection}>
         <Link
           to={`/toprecommendations/${userId}`}
-          className={`${DashStyles.heading} ${
-            activeTab === "top" ? DashStyles.tabSelected : ""
-          }`}
+          className={`${DashStyles.heading} ${activeTab === "top" ? DashStyles.tabSelected : ""
+            }`}
           onClick={() => setActiveTab("top")}
         >
           Top Recommendations
@@ -201,9 +223,8 @@ function TopRecommendation() {
 
         <Link
           to={`/allmatches/${userId}`}
-          className={`${DashStyles.heading} ${
-            activeTab === "all" ? DashStyles.tabSelected : ""
-          }`}
+          className={`${DashStyles.heading} ${activeTab === "all" ? DashStyles.tabSelected : ""
+            }`}
           onClick={() => setActiveTab("all")}
         >
           All Matches
@@ -254,7 +275,7 @@ function TopRecommendation() {
                 name="maritalStatus"
                 className={DashStyles.bdSelect}
                 onChange={handleFilterChange}
-                value={filters.maritialStatus}
+                value={filters.maritalStatus}
               >
                 <option>Marital Status</option>
                 <option value="Never Married">Never Married</option>
@@ -290,7 +311,7 @@ function TopRecommendation() {
                 onChange={handleFilterChange}
                 value={filters.occupation}
               >
-                <option>Ocuupation</option>
+                <option>Occupation</option>
                 <option value="doctor">Doctor</option>
                 <option value="nurse">Nurse</option>
                 <option value="pharmacist">Pharmacist</option>
@@ -348,7 +369,11 @@ function TopRecommendation() {
                 <option value="retired">Retired</option>
                 <option value="others">Others</option>
               </select>
-              <select name="annualIncome" className={DashStyles.pdSelect}>
+
+
+              <select name="annualIncome" className={DashStyles.pdSelect}
+                value={filters.annualIncome}
+                onChange={handleFilterChange}>
                 <option>Annual Income</option>
                 <option value="under_15000">Under £15,000</option>
                 <option value="15000_25000">£15,000 - £25,000</option>
@@ -360,7 +385,13 @@ function TopRecommendation() {
                 <option value="150000_250000">£150,000 - £250,000</option>
                 <option value="over_250000">Over £250,000</option>
               </select>
-              <select name="education" className={DashStyles.pdSelect}>
+
+
+              <select name="education" className={DashStyles.pdSelect}
+                value={filters.education}
+                onChange={handleFilterChange}
+              >
+
                 <option>Education</option>
                 <option value="below_10">Below 10th</option>
                 <option value="10th">10th (SSLC/Matriculation)</option>
@@ -424,7 +455,7 @@ function TopRecommendation() {
         {/* Profile details div for smalle screens start */}
         <div
           className={isOpen ? "overlay overlayActive" : "overlay"}
-          // onClick={toggleMenu}
+        // onClick={toggleMenu}
         >
           <div className={DashStyles.HamburgerMain}>
             {/* {showHamburger&&( */}
@@ -446,9 +477,8 @@ function TopRecommendation() {
             {/* )} */}
             {/* profile div for smaller screens */}
             <div
-              className={`${DashStyles.drawer} ${
-                isOpen ? DashStyles.drawerOpen : DashStyles.drawerClosed
-              }`}
+              className={`${DashStyles.drawer} ${isOpen ? DashStyles.drawerOpen : DashStyles.drawerClosed
+                }`}
             >
               {/* <div className={DashStyles.FilterDiv}> */}
               <div className={DashStyles.FilterProfiles}>
@@ -569,9 +599,8 @@ function TopRecommendation() {
         </div>
 
         <div
-          className={`${DashStyles.Container} ${
-            isOpen ? DashStyles.contentDimmed : ""
-          }`}
+          className={`${DashStyles.Container} ${isOpen ? DashStyles.contentDimmed : ""
+            }`}
         >
           <div className={DashStyles.OuterBox}>
             <div className={DashStyles.BigBox}></div>
@@ -586,7 +615,7 @@ function TopRecommendation() {
               </h4>
             </div>
             <div className={DashStyles.trContentDisplay}>
-              {topMatches.map((item, index) => (
+              {filteredMatches.length > 0 ? (filteredMatches.map((item, index) => (
                 <div className={DashStyles.trCard} key={index}>
                   <div className={DashStyles.trCardImg}>
                     <img
@@ -609,14 +638,38 @@ function TopRecommendation() {
                       <HeartStraight
                         size={20}
                         weight={liked[item.id] ? "fill" : "light"}
-                        className={`${DashStyles.likedHeartBefore} ${
-                          liked[item.id] ? DashStyles.likedHeart : ""
-                        }`}
+                        className={`${DashStyles.likedHeartBefore} ${liked[item.id] ? DashStyles.likedHeart : ""
+                          }`}
                       />
                     </div>
                   </div>
                 </div>
-              ))}
+              ))) : filtersApplied ? (
+                <p>No matches found</p>
+              ) : (
+                topMatches.map((item, index) => (
+                  <div className={DashStyles.trCard} key={index}>
+                    <div className={DashStyles.trCardImg}>
+                      <img src={image} alt="Card image" className={DashStyles.cardImage} />
+                    </div>
+                    <div className={DashStyles.trCardDetails}>
+                      <div className={DashStyles.trCardDetailSub}>
+                        <h5 className={DashStyles.trUserName}>{item.name}</h5>
+                        <h6 className={DashStyles.trUserDetails}>
+                          {`${item.age} Yrs, ${item.height}`}
+                        </h6>
+                      </div>
+                      <div className={DashStyles.LikeButton} onClick={() => likedProfile(item.id)}>
+                        <HeartStraight
+                          size={20}
+                          weight={liked[item.id] ? "fill" : "light"}
+                          className={`${DashStyles.likedHeartBefore} ${liked[item.id] ? DashStyles.likedHeart : ""
+                            }`}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )))}
             </div>
             <PaginationAdmin
               itemsPerPage={itemsPerPage}
