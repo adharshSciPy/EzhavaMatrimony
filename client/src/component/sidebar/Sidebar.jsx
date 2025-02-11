@@ -41,7 +41,7 @@ const navigate = useNavigate();
   const pathKey = useMemo(() => {
     const currentPath = location.pathname;
     const matchingItem = menuItems.find(item => item.path === currentPath);
-    return matchingItem ? matchingItem.key : 'admin'; // Default to 'admin' if no match
+    return matchingItem ? matchingItem.key : ''; // Default to 'admin' if no match
   }, [location, menuItems]);
 
   // Effect to handle screen resize

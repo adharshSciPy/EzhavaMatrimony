@@ -6,14 +6,32 @@ import {
 } from "../controller/userController.js";
 import { Router } from 'express'
 import upload from '../multer/multer.js';
-import uploads from "../multer/usermulter.js";
+import multer from "multer";
+
 
 
 
 const userRouter = Router()
 userRouter.route('/register').post(registerUser)
-userRouter.route('/edit/:id').patch(upload.array("image", 2), editUser)
-userRouter.route("/uploads/edit/:id").patch(uploads.single("profilePicture"), editUser);
+// userRouter.route('/edit/:id').patch(upload.array("image", 2), editUser)
+// userRouter.route("/edit/:id").patch(uploads.single("profilePicture"), upload.array("image", 2),editUser);
+userRouter.route("/edit/:id").patch(
+    upload.fields([
+      { name: "profilePicture", maxCount: 1 },
+      { name: "image", maxCount: 2 },           
+    ]),
+    (err, req, res, next) => {
+      if (err instanceof multer.MulterError) {
+        if (err.code === "LIMIT_UNEXPECTED_FILE") {
+          return res.status(400).json({ message: "Image Limit" });
+        } else if (err.code === "LIMIT_FILE_SIZE") {
+          return res.status(400).json({ message: "File size should not exceed 5MB!" });
+        }
+      }
+      next();
+    },
+    editUser
+  );
 userRouter.route('/userdetails').get(userdetails)
 userRouter.route('/verifyOtp/:userEmail').post(verifyOtp);
 userRouter.route('/getUserById/:id').get(getUser)//all matches
