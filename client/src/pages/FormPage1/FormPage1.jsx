@@ -31,6 +31,9 @@ function FormPage1() {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (form.password === "********") {
+      delete form.password;
+    }
 
     try {
       const response = await axios.patch(
@@ -40,7 +43,9 @@ function FormPage1() {
       console.log(response);
 
       if (response.status === 200) {
-        notifySuccess(response.data.data.message || "Successfully Submitted.");
+        if (!userProfie || Object.keys(userProfie).length === 0) {
+          notifySuccess(response.data.data.message || "Successfully Submitted.");
+        }
         navigate(`/formpage2`);
       }
     } catch (error) {
@@ -73,7 +78,7 @@ function FormPage1() {
         gender: userProfie.gender || "",
         motherTongue: userProfie.motherTongue || "",
         email: userProfie.email || "",
-        password: "", 
+        password:userProfie.password?"*********": "", 
       }));
     }
   }, [userProfie]);
@@ -216,7 +221,8 @@ function FormPage1() {
                       type="password"
                       className={styles.input}
                       placeholder="Enter password"
-                      required
+                      required={!userProfie.password} 
+                      disabled={!!userProfie.password}
                       value={form.password}
                       onChange={handleChange}
                       name="password"
