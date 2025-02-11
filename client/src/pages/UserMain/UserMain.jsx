@@ -69,7 +69,7 @@ function UserMain() {
                     </svg>
                   </i>
                   <div className="dropdown-menu">
-                    <div className="dropdown-item">Report This Profile</div>
+                    <Link to={`/report/${id}`}> <div className="dropdown-item">Report This Profile</div></Link>
                   </div>
                 </div>
               </div>

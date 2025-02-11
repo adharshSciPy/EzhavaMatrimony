@@ -654,9 +654,9 @@ const userReport = async (req, res) => {
   const { abuseCategory, subject, complaint, complainstAgainst } = req.body;
   try {
     const reportData = await User.findByIdAndUpdate(id, {
-      abuseCategory, subject, complaint, complainstAgainst,
+      abuseCategory, subject, complaint, complainstAgainst,complaintRegister:true
     }, { new: true })
-    res.status(200).json({ message: "User report created", data: reportData ,complaintRegister:true})
+    res.status(200).json({ message: "User report created", data: reportData })
   } catch (error) {
     res.status(500).json({ message: "Internal server error", error: error })
   }
@@ -746,12 +746,11 @@ const likedProfiles = async (req, res) => {
   }
 };
 
-export default likedProfiles;
 
 const getComplaint=async(req,res)=>{
   try {
-    const reportedUser=await User.find({complaintReport:true})
-    res.status(200).json({ likedUsers: user.like });
+    const reportedUser=await User.find({complaintRegister:true})
+    res.status(200).json({ reportedUser });
 
   } catch (error) {
     console.error("Error fetching liked profiles:", error);
