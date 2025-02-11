@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import styles from "../FormPage1/formpage1.module.css";
 import image from "../../assets/free-photo-of-couple-in-green-grass-field.jpeg";
 import { useSelector } from "react-redux";
@@ -10,6 +10,10 @@ function FormPage4() {
 
   const navigate = useNavigate();
   const [imageFile, setImageFile] = useState(null);
+  const [preview, setPreview] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [userProfie, setUserProfile] = useState([]);
+
   const { id } = useSelector((state) => state.user);
 
   const handleChange = (e) => {
@@ -24,16 +28,37 @@ function FormPage4() {
     const file = e.target.files[0];
     if (file) {
       setImageFile(file);
+      setPreview(URL.createObjectURL(file));
+      setShowModal(true);
     }
+  };
+  const handleUpload = async () => {
+    if (!imageFile) return;
+    const formData = new FormData();
+    formData.append("profilePicture", imageFile);
+
+    try {
+      const response = await axios.patch(
+        `http://localhost:8000/api/v1/user/edit/${id}`,
+        formData
+      );
+      console.log("Upload successful:", response);
+    } catch (error) {
+      console.log("Upload error:", error);
+    }
+    // Close modal after upload
+    setShowModal(false);
+    setImageFile(null);
+    setPreview(null);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const formData = new FormData();
-    if (imageFile) {
-      formData.append("image", imageFile);
-    }
+    // if (imageFile) {
+    //   formData.append("profilePicture", imageFile);
+    // }
     formData.append("about", form.about || "");
     formData.append("age", form.age || "");
     formData.append("hobbies", form.hobbies || "");
@@ -57,7 +82,35 @@ function FormPage4() {
       console.error(error);
       alert("An error occurred while submitting the form.");
     }
+    // setShowModal(false);
+    // setImageFile(null);
+    // setPreview(null);
   };
+  const dataBinding = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/api/v1/user/usercarddetails/${id}`
+      );
+      console.log("he hee heee", response.data.data);
+      setUserProfile(response.data.data);
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+  useEffect(() => {
+    dataBinding();
+  }, [id]);
+   useEffect(() => {
+        if (userProfie) {
+          setForm((prevForm) => ({
+            ...prevForm,
+            
+            about: userProfie.about || "",
+            age:userProfie.age||"",
+            phoneNumber:userProfie.phoneNumber||"",
+            hobbies:userProfie.hobbies||""
+          }));
+        }},[userProfie])
 
   return (
     <div className={styles.mainContainer}>
@@ -86,20 +139,48 @@ function FormPage4() {
                   value={form.about || ""}
                   onChange={handleChange}
                   name="about"
+                  required
                 ></textarea>
               </div>
 
               <div className={styles.imageUploadDiv}>
                 <label className={styles.imageUploadLabel}>
-                  <span className="material-icons">Upload Your Profile Image</span>
+                  <span className="material-icons">
+                    Upload Your Profile Image
+                  </span>
                   <input
                     type="file"
                     accept="image/*"
                     className={styles.imageUploadInput}
                     onChange={handleImageChange}
+                    
                   />
                 </label>
               </div>
+              {showModal && (
+                <div className={styles.modal}>
+                  <div className={styles.modalContent}>
+                    <h3>Preview</h3>
+                    <img
+                      src={preview}
+                      alt="Selected Preview"
+                      style={{
+                        objectFit: "cover",
+                        borderRadius: "10px",
+                        width: "236px",
+                        height: "398px",
+                        backgroundColor: " #f0c040",
+                        cursor: "pointer",
+                        overflow: "hidden",
+                      }}
+                    />
+                    <div className={styles.modalButtons}>
+                      <button onClick={handleUpload}>Yes</button>
+                      <button onClick={() => setShowModal(false)}>No</button>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               <div className={styles.formGroup}>
                 <div className={styles.fieldGroup}>
@@ -108,13 +189,14 @@ function FormPage4() {
                     <p className={styles.starHead}>*</p>
                   </div>
                   <div className={styles.inputGroup}>
-                  <input
+                    <input
                       type="text"
                       className={styles.input}
                       placeholder=""
                       value={form.age || ""}
                       onChange={handleChange}
                       name="age"
+                      required
                     />
                   </div>
                 </div>
@@ -134,6 +216,7 @@ function FormPage4() {
                       value={form.hobbies || ""}
                       onChange={handleChange}
                       name="hobbies"
+                      required
                     />
                   </div>
                 </div>
@@ -159,7 +242,7 @@ function FormPage4() {
 
               <div className={styles.btnDiv}>
                 <button type="submit" className={styles.submitButton}>
-                  Complete
+                  Continue
                 </button>
               </div>
             </form>

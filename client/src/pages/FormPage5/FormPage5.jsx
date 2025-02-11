@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../FormPage3/formpage3.module.css";
 import image from "../../assets/free-photo-of-couple-in-green-grass-field.jpeg";
 import { useSelector } from "react-redux";
@@ -12,6 +12,8 @@ function FormPage5() {
   const [employmentStatus, setEmploymentStatus] = useState("");
   const [residentStatus, setResidentStatus] = useState("");
   const [form, setForm] = useState({});
+  const [userProfie, setUserProfile] = useState([]);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleChange = (e) => {
@@ -59,7 +61,37 @@ function FormPage5() {
         {option}
       </button>
     ));
+  const dataBinding = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/api/v1/user/usercarddetails/${id}`
+      );
+      console.log("he hee heee", response.data.data);
+      setUserProfile(response.data.data);
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+  useEffect(() => {
+    dataBinding();
+  }, [id]);
+  useEffect(() => {
+    if (userProfie) {
+      setForm((prevForm) => ({
+        ...prevForm,
 
+        education: userProfie.education || "",
+        educationDetails: userProfie.educationDetails || "",
+        annualIncome: userProfie.annualIncome || "",
+        occupation: userProfie.occupation || "",
+        state: userProfie.state || "",
+        city: userProfie.city || "",
+        citizenship: userProfie.citizenship || "",
+      }));
+      setEmploymentStatus(userProfie.employmentStatus || "");
+      setResidentStatus(userProfie.residentStatus || "");
+    }
+  }, [userProfie]);
   return (
     <div className={styles.mainContainer}>
       <div className={styles.progressDiv}>
@@ -99,7 +131,7 @@ function FormPage5() {
                     <select
                       className={styles.input}
                       required
-                      value={form.value}
+                      value={form.education||""}
                       onChange={handleChange}
                       name="education"
                     >
@@ -172,7 +204,7 @@ function FormPage5() {
                       placeholder="Education in Details"
                       name="educationDetails"
                       onChange={handleChange}
-                      value={form.value}
+                      value={form.educationDetails||""}
                     />
                   </div>
                   <div className={styles.helperTextDiv}></div>
@@ -215,9 +247,9 @@ function FormPage5() {
                     <select
                       className={styles.input}
                       required
-                      value={form.value}
+                      value={form.annualIncome||""}
                       onChange={handleChange}
-                      name="annual_income"
+                      name="annualIncome"
                     >
                       <option value="">Select Your Annual Income</option>
                       <option value="under_15000">Under £15,000</option>
@@ -245,7 +277,7 @@ function FormPage5() {
                     <select
                       className={styles.input}
                       required
-                      value={form.value}
+                      value={form.occupation||""}
                       onChange={handleChange}
                       name="occupation"
                     >
@@ -333,7 +365,7 @@ function FormPage5() {
                     <select
                       className={styles.input}
                       required
-                      value={form.value}
+                      value={form.state||""}
                       onChange={handleChange}
                       name="state"
                     >
@@ -398,7 +430,7 @@ function FormPage5() {
                       type="text"
                       className={styles.input}
                       placeholder="city"
-                      value={form.value}
+                      value={form.city||""}
                       name="city"
                       onChange={handleChange}
                     />
@@ -418,7 +450,7 @@ function FormPage5() {
                       className={styles.input}
                       placeholder=""
                       name="citizenship"
-                      value={form.value}
+                      value={form.citizenship||""}
                       onChange={handleChange}
                     />
                   </div>
@@ -451,7 +483,7 @@ function FormPage5() {
 
               <div className={styles.btnDiv}>
                 <button type="submit" className={styles.submitButton}>
-                  Continue
+                  Complete
                 </button>
               </div>
               <div className={styles.mandatoryField}>* Mandatory fields</div>
