@@ -23,6 +23,7 @@ import UserSettings from "./pages/UserSettings/UserSettings";
 import LikedProfiles from "./pages/LikedProfiles/LikedProfiles";
 import ResetPassword from "./pages/Admin/Passwordreset/PasswordReset"
 import { ToastContainer } from "react-toastify";
+import MyProfile from "./pages/MyProfile/MyProfile";
 
 
 function App() {
@@ -54,6 +55,8 @@ function App() {
           <Route path="/Usettings" element={<UserSettings />} />
           <Route path="/resetPassword" element={<ResetPassword />} />
           <Route path="/likedprofiles/:id" element={<LikedProfiles />} />
+          <Route path="/myprofile/:id" element={<MyProfile   />} />
+
           
           
         </Routes>

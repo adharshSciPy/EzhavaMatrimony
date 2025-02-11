@@ -373,7 +373,7 @@ function Dashboard() {
                   <ShieldCheck size={20} weight="duotone" />
                 </div>
                 <div className={DashStyles.link}>
-                  <Link to="/">Safe Matrimony</Link>
+                <Link to={`/myprofile/${userId}`}>My Profile</Link>
                 </div>
               </div>
             </div>
@@ -561,7 +561,7 @@ function Dashboard() {
                       <ShieldCheck size={20} weight="duotone" />
                     </div>
                     <div className={DashStyles.link}>
-                      <Link>Safe Matrimony</Link>
+                      <Link to={`/myprofile/${userId}`}>My Profile</Link>
                     </div>
                   </div>
                 </div>
