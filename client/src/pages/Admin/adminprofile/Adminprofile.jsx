@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import { Link } from "react-router";
 import Footer from "../../../component/Footer/Footer";
 import axios from "axios";
+import ImageCard from "../../Admin/components/ImageCard"
 function Adminprofile() {
   const [data, setData] = useState(null);
   const { id } = useParams();
@@ -29,14 +30,14 @@ function Adminprofile() {
   if (!data) {
     return <div>Loading</div>;
   }
-  
+
   return (
     <div>
       <Nav />
       <div className="profile-view-main-container">
         <div className="profile-cards">
           <div className="image-container">
-            
+            <ImageCard />
           </div>
 
           <div className="details-sections">

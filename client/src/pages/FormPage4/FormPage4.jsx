@@ -40,7 +40,7 @@ function FormPage4() {
 
     try {
       const response = await axios.patch(
-        `http://localhost:8000/api/v1/user/uploads/edit/${id}`,
+        `http://localhost:8000/api/v1/user/edit/${id}`,
         formData,
         {
           headers: {
@@ -111,9 +111,9 @@ function FormPage4() {
                       type="text"
                       className={styles.input}
                       placeholder=""
-                      value={form.hobbies || ""}
+                      value={form.age || ""}
                       onChange={handleChange}
-                      name="hobbies"
+                      name="age"
                     />
                   </div>
                 </div>

@@ -24,6 +24,7 @@ import LikedProfiles from "./pages/LikedProfiles/LikedProfiles";
 import ResetPassword from "./pages/Admin/Passwordreset/PasswordReset"
 import { ToastContainer } from "react-toastify";
 
+
 function App() {
   return (
     <div className="App">
@@ -45,9 +46,10 @@ function App() {
           <Route path="/allmatches/:id" element={< AllMatches/>} />
           <Route path="/Adminsettings/:token" element={<Settings />} />
           <Route path="/Adminusersview/:id" element={<AdminUserProfileView />} />
+          <Route path="/Adminreportview/:id" element={<Report />} />
           <Route path="/getFullUser" element={<GetFullUser />} />
           <Route path="/adminlanding" element={<AdminLanding />} />
-          <Route path="/report" element={<Report1 />} />
+          <Route path="/report/:userId" element={<Report1 />} />
           <Route path="/mainuser/:id" element={<UserMain/>} />
           <Route path="/Usettings" element={<UserSettings />} />
           <Route path="/resetPassword" element={<ResetPassword />} />
