@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo } from "react";
 import DashStyles from "../Dashboard/dashboard.module.css";
 import { HeartStraight, SlidersHorizontal, Pencil, X } from "phosphor-react";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import image from "../../assets/free-photo-of-couple-in-green-grass-field.jpeg";
 import Nav from "../../component/Navbar/Nav";
 import Footer from "../../component/Footer/Footer";
@@ -39,7 +39,7 @@ function TopRecommendation() {
     const data = filteredMatches.length > 0 ? filteredMatches : "No Matches Available";
     return data.slice(indexOfFirstItem, lastIndex);
   }, [topMatches, filteredMatches, currentPage]);
-
+const navigate=useNavigate();
   // const[showHamburger,setShowHamburger]=useState(true);
   const getLikedProfiles = async () => {
     try {
@@ -207,6 +207,22 @@ function TopRecommendation() {
     setFilteredMatches(topMatches);
     setFiltersApplied(false);
     setCurrentPage(1);
+  };
+  // to view individual profiles
+  const profileView = async (id) => {
+    if (!id) {
+      console.log("Error fetching id");
+      return;
+    }
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/api/v1/user/usercarddetails/${id}`
+      );
+      console.log("single user data", response);
+      navigate(`/mainuser/${id}`);
+    } catch (error) {
+      console.log("Error fetching the data", error);
+    }
   };
   return (
     <div className={DashStyles.mainContainer}>
@@ -617,7 +633,9 @@ function TopRecommendation() {
             <div className={DashStyles.trContentDisplay}>
               {filteredMatches.length > 0 ? (filteredMatches.map((item, index) => (
                 <div className={DashStyles.trCard} key={index}>
-                  <div className={DashStyles.trCardImg}>
+                  <div className={DashStyles.trCardImg}
+                    onClick={() => profileView(item.id)}
+                  >
                     <img
                       src={image}
                       alt="Crad imgae"
@@ -625,7 +643,9 @@ function TopRecommendation() {
                     />
                   </div>
                   <div className={DashStyles.trCardDetails}>
-                    <div className={DashStyles.trCardDetailSub}>
+                    <div className={DashStyles.trCardDetailSub}
+                      onClick={() => profileView(item.id)}
+                    >
                       <h5 className={DashStyles.trUserName}>{item.name}</h5>
                       <h6
                         className={DashStyles.trUserDetails}
@@ -649,11 +669,15 @@ function TopRecommendation() {
               ) : (
                 topMatches.map((item, index) => (
                   <div className={DashStyles.trCard} key={index}>
-                    <div className={DashStyles.trCardImg}>
+                    <div className={DashStyles.trCardImg}
+                     onClick={() => profileView(item.id)}
+                    >
                       <img src={image} alt="Card image" className={DashStyles.cardImage} />
                     </div>
                     <div className={DashStyles.trCardDetails}>
-                      <div className={DashStyles.trCardDetailSub}>
+                      <div className={DashStyles.trCardDetailSub}
+                       onClick={() => profileView(item.id)}
+                      >
                         <h5 className={DashStyles.trUserName}>{item.name}</h5>
                         <h6 className={DashStyles.trUserDetails}>
                           {`${item.age} Yrs, ${item.height}`}
