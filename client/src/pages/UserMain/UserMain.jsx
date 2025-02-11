@@ -15,7 +15,9 @@ function UserMain() {
   const fetchUserData = async () => {
     try {
       const response = await axios.get(`http://localhost:8000/api/v1/user/usercarddetails/${id}`); 
-      setUserData(response.data); 
+      setUserData(response.data.data); 
+      console.log(response.data.data,"pwada");
+      
       setLoading(false);
     } catch (error) {
       setError("Failed to fetch user data. Please try again later.");
@@ -51,7 +53,7 @@ function UserMain() {
             <div className="profile-name-container">
               <div className="heading-text">
                 <h2 className="profile-name-container">
-                  {userData ? userData.name : "Gopika Krishnan"}
+                  {userData ? userData.firstName : "Gopika Krishnan"}
                 </h2>
               </div>
               <div className="option-container">
@@ -140,7 +142,7 @@ function UserMain() {
                       <p>Location</p>
                     </div>
                     <div className="prof-detail same1">
-                      {userData ? userData.location : "Kerala, India"}
+                      {userData ? userData.city : "Kerala, India"}
                     </div>
                   </div>
                   <div className="spoken-language-container details-main">
@@ -149,7 +151,7 @@ function UserMain() {
                       <p>Spoken Language</p>
                     </div>
                     <div className="prof-detail same1">
-                      {userData ? userData.languages : "Malayalam, English, Hindi"}
+                      {userData ? userData.motherTongue : "Malayalam, English, Hindi"}
                     </div>
                   </div>
                   <div className="profile-created-container details-main">
@@ -179,6 +181,15 @@ function UserMain() {
                       {userData ? userData.citizenship : "India"}
                     </div>
                   </div>
+                  <div className="location-container details-main">
+                  <div className="prof-detail same">
+                    <span className="material-icons profiles-icon">work</span>
+                    <p>hobbies</p>
+                  </div>
+                  <div className="prof-detail same1">
+                    {userData ? userData.hobbies : "Demo"}
+                  </div>
+                </div>
                 </div>
               </div>
               <div className="verification-main-container">
@@ -225,7 +236,7 @@ function UserMain() {
                     <p>Subcaste</p>
                   </div>
                   <div className="prof-detail same1">
-                    {userData ? userData.subcaste : "Demo"}
+                    {userData ? userData.subCaste : "Demo"}
                   </div>
                 </div>
                 <div className="location-container details-main">
@@ -287,19 +298,19 @@ function UserMain() {
                 <div className="degree-container details-main">
                   <div className="prof-detail same">
                     <span className="material-icons profiles-icon">home</span>
-                    <p>Subcaste</p>
+                    <p>Family Type</p>
                   </div>
                   <div className="prof-detail same1">
-                    {userData ? userData.familySubcaste : "Demo"}
+                    {userData ? userData.familyType : "Demo"}
                   </div>
                 </div>
-                <div className="location-container details-main">
+                <div className="degree-container details-main">
                   <div className="prof-detail same">
-                    <span className="material-icons profiles-icon">work</span>
-                    <p>Occupation</p>
+                    <span className="material-icons profiles-icon">home</span>
+                    <p>Family Values</p>
                   </div>
                   <div className="prof-detail same1">
-                    {userData ? userData.familyOccupation : "Demo"}
+                    {userData ? userData.familyValues : "Demo"}
                   </div>
                 </div>
               </div>
