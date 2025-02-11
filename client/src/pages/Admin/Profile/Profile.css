@@ -28,9 +28,29 @@
     
 }
 .report-container .container-main .first-part{
-    margin-top: 80px;
+    margin-top: 40px;
 }
 .report-container .report-main .heading h1{
     font-weight: 100;
 }
 
+.report-container .main-second-part-report{
+    width: 100%;
+    margin-top: 30px;
+
+}
+.report-container .main-second-part-report .second-part-report{
+    width: 90%;
+
+}
+.report-container .see-all-link{
+    width: 90%;
+    display: flex;
+    justify-content: end;
+    padding-bottom: 20px;
+}
+.report-container .see-all-link .custom-link{
+    text-decoration: none;
+    color: #F8CB58;
+
+}

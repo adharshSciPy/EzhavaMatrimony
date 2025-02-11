@@ -847,6 +847,18 @@ const getComplaint = async (req, res) => {
   }
 };
 
+const unVerifiedUser=async(req,res)=>{
+try {
+  const unverfiedUser=await User.find({isVerified:false})
+  if(!unverfiedUser.length===0){
+    res.status(400).json({message:"no unverfiedUser found" })
+  }
+  return res.status(200).json({unverfiedUser})
+} catch (error) {
+  res.status(500).json({message:"server-error"})
+}
+}
+
 export {
   registerUser,
   editUser,
@@ -865,4 +877,5 @@ export {
   getNotifications,
   likeProfile,
   getComplaint,
+  unVerifiedUser
 };

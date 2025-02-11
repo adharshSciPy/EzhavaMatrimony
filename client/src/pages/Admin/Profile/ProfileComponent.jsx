@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from "react-router-dom";
-import "../components/profilebox.css"
+import "./ProfileComponent"
 
 function ReportComponent({data} ) {
     
@@ -9,7 +9,7 @@ function ReportComponent({data} ) {
 
   return (
     
-    <div className="profile-main-C">
+    <div className="main-container-profiles">
       <div className="profiles">
         <div className="profile-content">
           <div className="profile-names">
