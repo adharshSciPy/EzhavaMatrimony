@@ -37,6 +37,7 @@ function FormPage4() {
     formData.append("about", form.about || "");
     formData.append("age", form.age || "");
     formData.append("hobbies", form.hobbies || "");
+    formData.append("phoneNumber", form.phoneNumber || "");
 
     try {
       const response = await axios.patch(
@@ -133,6 +134,24 @@ function FormPage4() {
                       value={form.hobbies || ""}
                       onChange={handleChange}
                       name="hobbies"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className={styles.formGroup}>
+                <div className={styles.fieldGroup}>
+                  <div className={styles.labelGroup}>
+                    <label>Phone Number</label>
+                    <p className={styles.starHead}>*</p>
+                  </div>
+                  <div className={styles.inputGroup}>
+                    <input
+                      type="text"
+                      className={styles.input}
+                      placeholder=""
+                      value={form.phoneNumber || ""}
+                      onChange={handleChange}
+                      name="phoneNumber"
                     />
                   </div>
                 </div>

@@ -476,6 +476,16 @@
   color: #f8cb58;
   font-size: 20px;
 }
+.my-profile-image23{
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+}
+.my-profile-image23-single{
+  width: 100%;
+  height: 100%;
+  
+}
 
 @media (max-width: 1150px) {
   .profile-view-main-container .about-card .about-card-container {

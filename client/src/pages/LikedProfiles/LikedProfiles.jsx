@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import DashStyles from "./likedprofiles.module.css";
 import { HeartStraight } from "phosphor-react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams,useNavigate } from "react-router-dom";
 import image from "../../assets/free-photo-of-couple-in-green-grass-field.jpeg";
 import Nav from "../../component/Navbar/Nav";
 import Footer from "../../component/Footer/Footer";
@@ -24,7 +24,7 @@ function LikedProfiles() {
   const lastIndex = currentPage * itemsPerPage;
   const indexOfFirstItem = lastIndex - itemsPerPage;
   const currentLikedProfiles = likedProfiles.slice(indexOfFirstItem, lastIndex);
-
+const navigate=useNavigate();
   // const[showHamburger,setShowHamburger]=useState(true);
   const { id } = useParams();
   console.log("iddddd", id);
@@ -122,6 +122,21 @@ function LikedProfiles() {
   useEffect(() => {
     fetchLikedUsers();
   }, [id]);
+  const profileView = async (id) => {
+    if (!id) {
+      console.log("Error fetching id");
+      return;
+    }
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/api/v1/user/usercarddetails/${id}`
+      );
+      console.log("single user data", response);
+      navigate(`/mainuser/${id}`);
+    } catch (error) {
+      console.log("Error fetching the data", error);
+    }
+  };
   return (
     <div className={DashStyles.mainContainer}>
       <Nav />
@@ -168,7 +183,9 @@ function LikedProfiles() {
             <div className={DashStyles.trContentDisplay}>
               {currentLikedProfiles.map((item, index) => (
                 <div className={DashStyles.trCard} key={index}>
-                  <div className={DashStyles.trCardImg}>
+                  <div className={DashStyles.trCardImg}
+                    onClick={() => profileView(item._id)}
+                  >
                     <img
                       src={image}
                       alt="Crad imgae"
@@ -176,7 +193,9 @@ function LikedProfiles() {
                     />
                   </div>
                   <div className={DashStyles.trCardDetails}>
-                    <div className={DashStyles.trCardDetailSub}>
+                    <div className={DashStyles.trCardDetailSub}
+                      onClick={() => profileView(item._id)}
+                    >
                       <h5 className={DashStyles.trUserName}>
                         {item.firstName}
                       </h5>
