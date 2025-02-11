@@ -4,8 +4,8 @@ import crypto from "crypto";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { likedByProfile } from "../model/likedProfileModel.js";
-import { Notification } from "../model/notificationModel.js"
-import mongoose from 'mongoose';
+import { Notification } from "../model/notificationModel.js";
+import mongoose from "mongoose";
 import { profile } from "console";
 
 const generateShortId = () => {
@@ -92,13 +92,13 @@ const registerUser = async (req, res) => {
   }
 };
 
-
 const editUser = async (req, res) => {
   const { id } = req.params;
-  const files = req.files;
-  const profilePicture = req.file 
+  console.log("User ID:", id);
 
-  console.log(profilePicture);
+  const files = req.files;
+  const profilePicture = files?.profilePicture ? files.profilePicture[0] : null;
+  const images = files?.image || [];
 
   const {
     dateOfBirth,
@@ -131,10 +131,9 @@ const editUser = async (req, res) => {
     citizenship,
     residentStatus,
     educationDetails,
-    state
-
+    state,
+    phoneNumber,
   } = req.body;
-  console.log(id);
 
   try {
     let updatedData = {
@@ -168,21 +167,25 @@ const editUser = async (req, res) => {
       citizenship,
       residentStatus,
       educationDetails,
-      state
-
+      state,
+      phoneNumber,
     };
-    if (files && files.length > 0) {
-      updatedData.image = files.map((file) => `/uploads/${file.filename}`)
+    if (images.length > 2) {
+      return res.status(400).json({ message: "You can upload a maximum of 2 images!" });
+    }  
+    if (images.length > 0) {
+      updatedData.image = images.map((file) => `/uploads/${file.filename}`);
     }
-    if (profilePicture) {      
-      updatedData.profilePicture =`/uploads/${profilePicture.filename}`
-      
-      
+
+    if (profilePicture) {
+      updatedData.profilePicture = `/uploads/${profilePicture.filename}`;
     }
+
     if (password) {
       const hashedPassword = await bcrypt.hash(password, 10);
       updatedData.password = hashedPassword;
     }
+
     const editedUser = await User.findByIdAndUpdate(id, updatedData, {
       new: true,
     });
@@ -190,17 +193,18 @@ const editUser = async (req, res) => {
     if (!editedUser) {
       return res.status(404).json({ message: "User not found" });
     }
+
     return res.status(200).json({
       message: "User edited successfully",
       data: editedUser,
     });
+
   } catch (error) {
     console.error("Error editing user:", error);
     return res.status(500).json({ message: "Internal server error" });
-    console.log(id);
-
   }
 };
+
 const resendOtp = async (req, res) => {
   const { userEmail } = req.params;
 
@@ -211,7 +215,6 @@ const resendOtp = async (req, res) => {
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
-
     }
 
     if (user.isVerified) {
@@ -254,8 +257,8 @@ const getUser = async (req, res) => {
   const { id } = req.params;
   try {
     let userDetails;
-    const user = await User.findById(id)
-    const gender = user.gender
+    const user = await User.findById(id);
+    const gender = user.gender;
     if (gender.toLowerCase() === "male") {
       userDetails = await User.find({ gender: { $in: ["Female", "female"] } });
     } else {
@@ -366,12 +369,12 @@ const resetPassword = async (req, res) => {
 const getUserById = async (req, res) => {
   const { id } = req.params;
   try {
-    const userdata = await User.findById(id)
-    return res.status(200).json({ data: userdata })
+    const userdata = await User.findById(id);
+    return res.status(200).json({ data: userdata });
   } catch (error) {
-    return res.status(400).json({ message: error.message })
+    return res.status(400).json({ message: error.message });
   }
-}
+};
 
 const userLogin = async (req, res) => {
   const { userEmail, password } = req.body;
@@ -424,8 +427,6 @@ const userLogin = async (req, res) => {
       .json({ message: `Internal Server Error: ${err.message}` });
   }
 };
-
-
 
 const refreshAccessToken = async (req, res) => {
   const { refreshToken } = req.cookies;
@@ -496,58 +497,65 @@ const topMatch = async (req, res) => {
   const { id } = req.params;
 
   if (!id) {
-    return res.status(400).json({ message: 'User ID is required' });
+    return res.status(400).json({ message: "User ID is required" });
   }
 
   try {
     // Find the user by ID
     const user = await User.findById(id);
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: "User not found" });
     }
 
-
     // Prepare regex for hobbies
-    const escapeRegex = str => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
     const hobbiesRegex = user.hobbies
-      ? user.hobbies.split(',').map(hobby => escapeRegex(hobby.trim())).join('|')
+      ? user.hobbies
+          .split(",")
+          .map((hobby) => escapeRegex(hobby.trim()))
+          .join("|")
       : null;
 
-    const oppositeGender = user.gender.toLowerCase() === 'male' ? 'female' : 'male';
+    const oppositeGender =
+      user.gender.toLowerCase() === "male" ? "female" : "male";
 
     const matchQuery = {
       $or: [
-        { location: { $regex: new RegExp(`^${user.location}$`, 'i') } },
-        ...(hobbiesRegex ? [{ hobbies: { $regex: hobbiesRegex, $options: 'i' } }] : []),
-        { occupation: { $regex: new RegExp(`^${user.occupation}$`, 'i') } }
+        { location: { $regex: new RegExp(`^${user.location}$`, "i") } },
+        ...(hobbiesRegex
+          ? [{ hobbies: { $regex: hobbiesRegex, $options: "i" } }]
+          : []),
+        { occupation: { $regex: new RegExp(`^${user.occupation}$`, "i") } },
       ],
       gender: oppositeGender, // Opposite gender
-      _id: { $ne: user._id }  // Exclude the current user
+      _id: { $ne: user._id }, // Exclude the current user
     };
 
-
     // Find matching users
-    const matches = await User.find(matchQuery).select('firstName occupation age location hobbies gender height');
-
+    const matches = await User.find(matchQuery).select(
+      "firstName occupation age location hobbies gender height"
+    );
 
     if (matches.length === 0) {
-      return res.status(200).json({ message: 'No matches found', matches: [] });
+      return res.status(200).json({ message: "No matches found", matches: [] });
     }
 
     // Format the response with matched users
-    const response = matches.map(match => ({
+    const response = matches.map((match) => ({
       name: match.firstName,
       id: match._id,
       occupation: match.occupation,
       age: match.age,
       location: match.location,
       hobbies: match.hobbies,
-      height:match.height 
+      height: match.height,
     }));
 
-    res.status(200).json({ message: 'Matches found', matches: response });
+    res.status(200).json({ message: "Matches found", matches: response });
   } catch (err) {
-    res.status(500).json({ message: 'Error fetching matches', error: err.message });
+    res
+      .status(500)
+      .json({ message: "Error fetching matches", error: err.message });
   }
 };
 const verifyOtp = async (req, res) => {
@@ -581,18 +589,24 @@ const verifyOtp = async (req, res) => {
     return res.status(200).json({ message: "Email verified successfully" });
   } catch (err) {
     console.error("Error during OTP verification:", err);
-    return res.status(500).json({ message: `Internal Server Error: ${err.message}` });
+    return res
+      .status(500)
+      .json({ message: `Internal Server Error: ${err.message}` });
   }
 };
 
 const userdetails = async (req, res) => {
   try {
-    const userdetails = await User.find()
-    return res.status(200).json({ message: "User details successfully", data: userdetails })
+    const userdetails = await User.find();
+    return res
+      .status(200)
+      .json({ message: "User details successfully", data: userdetails });
   } catch (error) {
-    return res.status(400).json({ message: "Internal server error due to", error: error.message })
+    return res
+      .status(400)
+      .json({ message: "Internal server error due to", error: error.message });
   }
-}
+};
 
 // const profileLiked = async (req, res) => {
 //   const { likedByUserId } = req.params;
@@ -653,30 +667,38 @@ const userReport = async (req, res) => {
   const { id } = req.params;
   const { abuseCategory, subject, complaint, complainstAgainst } = req.body;
   try {
-    const reportData = await User.findByIdAndUpdate(id, {
-      abuseCategory, subject, complaint, complainstAgainst,complaintRegister:true
-    }, { new: true })
-    res.status(200).json({ message: "User report created", data: reportData })
+    const reportData = await User.findByIdAndUpdate(
+      id,
+      {
+        abuseCategory,
+        subject,
+        complaint,
+        complainstAgainst,
+        complaintRegister: true,
+      },
+      { new: true }
+    );
+    res.status(200).json({ message: "User report created", data: reportData });
   } catch (error) {
-    res.status(500).json({ message: "Internal server error", error: error })
+    res.status(500).json({ message: "Internal server error", error: error });
   }
-}
+};
 
 // Get notifications for a user
 const getNotifications = async (req, res) => {
   const { userId } = req.body;
   try {
-    const notifications = await Notification.find({ receiverId: userId }).sort({ createdAt: -1 })
-    console.log("notifications", notifications)
-    res.status(200).json({ message: "Notification fetched sucessfully", notifications })
+    const notifications = await Notification.find({ receiverId: userId }).sort({
+      createdAt: -1,
+    });
+    console.log("notifications", notifications);
+    res
+      .status(200)
+      .json({ message: "Notification fetched sucessfully", notifications });
   } catch (error) {
-    res.status(500).json({ message: "Internal server error", error: error })
+    res.status(500).json({ message: "Internal server error", error: error });
   }
-}
-
-
-
-
+};
 
 const likeProfile = async (req, res) => {
   try {
@@ -687,10 +709,15 @@ const likeProfile = async (req, res) => {
     console.log("Liked ID:", likedId);
 
     if (likedId === likerId) {
-      return res.status(400).json({ message: "You cannot like your own profile." });
+      return res
+        .status(400)
+        .json({ message: "You cannot like your own profile." });
     }
 
-    if (!mongoose.Types.ObjectId.isValid(likerId) || !mongoose.Types.ObjectId.isValid(likedId)) {
+    if (
+      !mongoose.Types.ObjectId.isValid(likerId) ||
+      !mongoose.Types.ObjectId.isValid(likedId)
+    ) {
       return res.status(400).json({ message: "Invalid User ID" });
     }
 
@@ -702,10 +729,15 @@ const likeProfile = async (req, res) => {
     }
 
     if (liker.like.includes(likedUser._id)) {
-      liker.like = liker.like.filter(id => id.toString() !== likedUser._id.toString());
+      liker.like = liker.like.filter(
+        (id) => id.toString() !== likedUser._id.toString()
+      );
       await liker.save();
 
-      await Notification.findOneAndDelete({ senderId: likerId, receiverId: likedId });
+      await Notification.findOneAndDelete({
+        senderId: likerId,
+        receiverId: likedId,
+      });
 
       return res.status(200).json({ message: "User Unliked Successfully" });
     }
@@ -714,13 +746,18 @@ const likeProfile = async (req, res) => {
     await liker.save();
 
     const message = `${liker.firstName} liked your profile`;
-    const newNotification = new Notification({ senderId: likerId, receiverId: likedId, message });
+    const newNotification = new Notification({
+      senderId: likerId,
+      receiverId: likedId,
+      message,
+    });
     await newNotification.save();
 
-    req.io.to(likedId).emit('newNotification', newNotification);
+    req.io.to(likedId).emit("newNotification", newNotification);
 
-    res.status(200).json({ message: "Profile liked and notification sent successfully" });
-
+    res
+      .status(200)
+      .json({ message: "Profile liked and notification sent successfully" });
   } catch (error) {
     console.error("Error in likeProfile:", error);
     res.status(500).json({ message: "Server Error", error });
@@ -732,32 +769,31 @@ const likedProfiles = async (req, res) => {
     const { likerId } = req.params;
 
     // Find user and populate the "like" array with fullName field
-    const user = await User.findById(likerId).populate("like", "firstName age height location profilePicture");
+    const user = await User.findById(likerId).populate(
+      "like",
+      "firstName age height location profilePicture"
+    );
 
     if (!user) {
       return res.status(404).json({ message: "User Not Found" });
     }
 
     res.status(200).json({ likedUsers: user.like });
-
   } catch (error) {
     console.error("Error fetching liked profiles:", error);
     res.status(500).json({ message: "Server Error", error });
   }
 };
 
-
-const getComplaint=async(req,res)=>{
+const getComplaint = async (req, res) => {
   try {
-    const reportedUser=await User.find({complaintRegister:true})
+    const reportedUser = await User.find({ complaintRegister: true });
     res.status(200).json({ reportedUser });
-
   } catch (error) {
     console.error("Error fetching liked profiles:", error);
     res.status(500).json({ message: "Server Error", error });
   }
-}
-
+};
 
 export {
   registerUser,
@@ -773,8 +809,8 @@ export {
   topMatch,
   userdetails,
   likedProfiles,
-  userReport, 
+  userReport,
   getNotifications,
   likeProfile,
-  getComplaint
+  getComplaint,
 };

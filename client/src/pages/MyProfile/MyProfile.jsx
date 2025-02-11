@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef } from "react";
 import { Link, useParams } from "react-router-dom";
 import Nav from "../../component/Navbar/Nav";
 import Footer from "../../component/Footer/Footer";
@@ -9,7 +9,8 @@ import { useSelector, useDispatch } from "react-redux";
 
 function MyProfile() {
   const [userData, setUserData] = useState({});
-  const[file,setFile]=useState([]);
+  const [file, setFile] = useState([]);
+  const fileInputRef = useRef(null);
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.user.id);
   console.log("hey kitty", userId);
@@ -27,7 +28,31 @@ function MyProfile() {
   useEffect(() => {
     fetchUserData();
   }, []);
-   
+  const handleFileChange = async(e) => {
+    const selectedFile = Array.from(e.target.files);
+    if (selectedFile.length>0) {
+      setFile((prevFiles)=>[...prevFiles,...selectedFile]);
+      await handleUpload(selectedFile)
+    }
+  };
+  const handleUpload = async (selectedFile) => {
+    if (selectedFile.length===0) return;
+    const formData = new FormData();
+    selectedFile.forEach((file)=>formData.append("image",file))
+    // formData.append("image", selectedFile);
+
+    try {
+      const response = await axios.patch(
+        `http://localhost:8000/api/v1/user/edit/${userId}`,
+        formData
+      );
+      console.log("Upload successful:", response);
+    } catch (error) {
+      console.log("Upload error:", error);
+    }
+    setFile([]);
+    
+  };
   return (
     <div>
       <Nav />
@@ -66,9 +91,16 @@ function MyProfile() {
                     </svg>
                   </i>
                   <div className="dropdown-menu">
-                    
-                      <div className="dropdown-item">Upload Images</div>
-                  
+                    <div className="dropdown-item"   onClick={() => fileInputRef.current.click()}
+                  style={{ cursor: "pointer" }}>Upload Images</div>
+                         <input
+                type="file"
+                ref={fileInputRef}
+                multiple
+                style={{ display: "none" }}
+                onChange={handleFileChange}
+                accept="image/*"
+              />
                   </div>
                 </div>
               </div>
@@ -264,14 +296,18 @@ function MyProfile() {
                     </span>
                     <p>Subcaste</p>
                   </div>
-                  <div className="prof-detail same1">{userData.subCaste?userData.subCaste:"Optional"}</div>
+                  <div className="prof-detail same1">
+                    {userData.subCaste ? userData.subCaste : "Optional"}
+                  </div>
                 </div>
                 <div className="location-container details-main">
                   <div className="prof-detail same">
                     <span className="material-icons profiles-icon">school</span>
                     <p>Gothram</p>
                   </div>
-                  <div className="prof-detail same1">{userData.gothram?userData.gothram:"Optional"}</div>
+                  <div className="prof-detail same1">
+                    {userData.gothram ? userData.gothram : "Optional"}
+                  </div>
                 </div>
                 <div className="spoken-language-container details-main">
                   <div className="prof-detail same">
@@ -288,7 +324,9 @@ function MyProfile() {
                     </span>
                     <p>Dosham</p>
                   </div>
-                  <div className="prof-detail same1">{userData.dosham?userData.dosham:"Optional"}</div>
+                  <div className="prof-detail same1">
+                    {userData.dosham ? userData.dosham : "Optional"}
+                  </div>
                 </div>
               </div>
               <div className="basic-details-container">
@@ -300,14 +338,18 @@ function MyProfile() {
                     <span className="material-icons profiles-icon">school</span>
                     <p>Education</p>
                   </div>
-                  <div className="prof-detail same1">{userData.education?userData.education:""}</div>
+                  <div className="prof-detail same1">
+                    {userData.education ? userData.education : ""}
+                  </div>
                 </div>
                 <div className="location-container details-main">
                   <div className="prof-detail same">
                     <span className="material-icons profiles-icon">school</span>
                     <p>Occupation</p>
                   </div>
-                  <div className="prof-detail same1">{userData.occupation?userData.occupation:""}</div>
+                  <div className="prof-detail same1">
+                    {userData.occupation ? userData.occupation : ""}
+                  </div>
                 </div>
               </div>
               <div className="basic-details-container">
@@ -319,14 +361,22 @@ function MyProfile() {
                     <span className="material-icons profiles-icon">home</span>
                     <p>Family Type</p>
                   </div>
-                  <div className="prof-detail same1">{userData.familyType?userData.familyType:"No Data Found"}</div>
+                  <div className="prof-detail same1">
+                    {userData.familyType
+                      ? userData.familyType
+                      : "No Data Found"}
+                  </div>
                 </div>
                 <div className="degree-container details-main">
                   <div className="prof-detail same">
                     <span className="material-icons profiles-icon">home</span>
                     <p>Family Values</p>
                   </div>
-                  <div className="prof-detail same1">{userData.familyValues?userData.familyValues:"No Data Found"}</div>
+                  <div className="prof-detail same1">
+                    {userData.familyValues
+                      ? userData.familyValues
+                      : "No Data Found"}
+                  </div>
                 </div>
               </div>
               {/* 
@@ -368,10 +418,16 @@ function MyProfile() {
                 <h3>Uploaded Images</h3>
               </div>
               <div className="like-card-container">
-                <div className="my-profile-image23">
-                 
-                  <img className="my-profile-image23-single" src={image} alt="" />
-                </div>
+              <div className="my-profile-image23">
+  {userData.image?.map((imgSrc, index) => (
+    <img
+      key={index}
+      className="my-profile-image23-single"
+      src={`http://localhost:8000${imgSrc}`}
+      alt={`User Image ${index + 1}`}
+    />
+  ))}
+</div>
               </div>
             </div>
           </div>
