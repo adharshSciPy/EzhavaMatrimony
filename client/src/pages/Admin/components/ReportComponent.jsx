@@ -3,9 +3,6 @@ import { Link } from "react-router-dom";
 import "./profilebox.css"
 
 function ReportComponent({data}) {
-    console.log(data);
-    
-    console.log("ths",data.location);
     
   if (!data) return <p>No user data available</p>;
   

@@ -130,6 +130,9 @@ const userSchema = new Schema({
   age: {
     type: Number,
   },
+  phoneNumber:{
+    type:String
+  },
   location: {
     type: String,
   },

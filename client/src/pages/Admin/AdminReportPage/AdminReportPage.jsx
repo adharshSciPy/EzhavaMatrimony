@@ -63,7 +63,7 @@ function AdminReportPage() {
                 </div>
               </div>
               <div className="see-all-link">
-                <Link className="custom-link" to={"/getFullUser"}>
+                <Link className="custom-link" to={"/getFullReport"}>
                   See all
                 </Link>
               </div>
