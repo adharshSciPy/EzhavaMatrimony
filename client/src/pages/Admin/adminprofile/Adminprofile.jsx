@@ -74,7 +74,7 @@ function Adminprofile() {
             </div>
 
             <div className="profile-location-container">
-              <span>Kerala, India</span>
+              <span>{data?.city|| "Nil"}</span>
             </div>
             <div className="premium-container">
               <h3>Premium</h3>
@@ -109,7 +109,7 @@ function Adminprofile() {
                       </span>
                       <p>Age</p>
                     </div>
-                    <div className="prof-detail same1">25Yrs</div>
+                    <div className="prof-detail same1">{data?.age||"Nil"} </div>
                   </div>
                   <div className="degree-container details-main">
                     <div className="prof-detail same">
@@ -119,7 +119,7 @@ function Adminprofile() {
                       <p>Degree</p>
                     </div>
                     <div className="prof-detail same1">
-                      <p>Other Bachelor Degree in Medicine,Student</p>
+                      <p>{data?.educationDetails||"Nil"}</p>
                     </div>
                   </div>
                   <div className="location-container details-main">
@@ -130,7 +130,7 @@ function Adminprofile() {
                       <p>Location</p>
                     </div>
                     <div className="prof-detail same1">
-                      <p>{data.location || "Kerala,India"}</p>
+                      <p>{data.state || "Nil"}</p>
                     </div>
                   </div>
                   <div className="spoken-language-container details-main">
@@ -138,10 +138,10 @@ function Adminprofile() {
                       <span className="material-icons profiles-icon">
                         language
                       </span>
-                      <p>Spoken Language</p>
+                      <p>Mother Toungue</p>
                     </div>
                     <div className="prof-detail same1">
-                      Malyalam,English,Hindi
+                      {data?.motherTongue||"Nil"}
                     </div>
                   </div>
                   <div className="profile-created-container details-main">
@@ -151,7 +151,7 @@ function Adminprofile() {
                       </span>
                       <p>Profile Created By</p>
                     </div>
-                    <div className="prof-detail same1">Friend</div>
+                    <div className="prof-detail same1">{data?.relation||"Nil"}</div>
                   </div>
                   <div className="maritial-status-container details-main">
                     <div className="prof-detail same">
@@ -160,14 +160,14 @@ function Adminprofile() {
                       </span>
                       <p>Maritial Status</p>
                     </div>
-                    <div className="prof-detail same1">Never Married</div>
+                    <div className="prof-detail same1">{data?.maritalStatus||"Nil"}</div>
                   </div>
                   <div className="citizenship-container details-main">
                     <div className="prof-detail same">
                       <span className="material-icons profiles-icon">flag</span>
                       <p>Citizenship</p>
                     </div>
-                    <div className="prof-detail same1">India</div>
+                    <div className="prof-detail same1">{data?.citizenship||"Nil"}</div>
                   </div>
                 </div>
               </div>
@@ -214,14 +214,14 @@ function Adminprofile() {
                     </span>
                     <p>subcaste</p>
                   </div>
-                  <div className="prof-detail same1">DEMo</div>
+                  <div className="prof-detail same1">{data?.subCaste||"Nil"}</div>
                 </div>
                 <div className="location-container details-main">
                   <div className="prof-detail same">
                     <span className="material-icons profiles-icon">school</span>
                     <p>Gothram</p>
                   </div>
-                  <div className="prof-detail same1">Demo</div>
+                  <div className="prof-detail same1">{data?.gothram||"Nil"}</div>
                 </div>
                 <div className="spoken-language-container details-main">
                   <div className="prof-detail same">
@@ -238,7 +238,7 @@ function Adminprofile() {
                     </span>
                     <p>Dosham</p>
                   </div>
-                  <div className="prof-detail same1">demo</div>
+                  <div className="prof-detail same1">{data?.dosham||"Nil"}</div>
                 </div>
               </div>
               <div className="basic-details-container">
@@ -250,7 +250,7 @@ function Adminprofile() {
                     <span className="material-icons profiles-icon">school</span>
                     <p>Education</p>
                   </div>
-                  <div className="prof-detail same1">DEMo</div>
+                  <div className="prof-detail same1">{data?.educationDetails||"Nil"}</div>
                 </div>
                 <div className="location-container details-main">
                   <div className="prof-detail same">
@@ -258,7 +258,7 @@ function Adminprofile() {
                     <p>Occupation</p>
                   </div>
                   <div className="prof-detail same1">
-                    {data.occupation || "Occupation"}
+                    {data.occupation || "Nil"}
                   </div>
                 </div>
               </div>
@@ -269,16 +269,16 @@ function Adminprofile() {
                 <div className="degree-container details-main">
                   <div className="prof-detail same">
                     <span className="material-icons profiles-icon">home </span>
-                    <p>subcaste</p>
+                    <p>Family Type</p>
                   </div>
-                  <div className="prof-detail same1">DEMo</div>
+                  <div className="prof-detail same1">{data.familyType || "Nil"}</div>
                 </div>
                 <div className="location-container details-main">
                   <div className="prof-detail same">
-                    <span className="material-icons profiles-icon">work</span>
-                    <p>Occupation</p>
+                    <span className="material-icons profiles-icon">group</span>
+                    <p>Family Values</p>
                   </div>
-                  <div className="prof-detail same1">{"Occupation"}</div>
+                  <div className="prof-detail same1">{data?.familyValues||"NIL"}</div>
                 </div>
               </div>
             </div>

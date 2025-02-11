@@ -26,6 +26,8 @@ import { ToastContainer } from "react-toastify";
 import MyProfile from "./pages/MyProfile/MyProfile";
 import AdminFullReport from "./pages/Admin/Reports/GetFullReport"
 import AdminSideUserReport from "./pages/Admin/Reports/Report"
+import ProfileVerification from "./pages/Admin/Profile/Profile"
+
 function App() {
   return (
     <div className="App">
@@ -57,6 +59,7 @@ function App() {
           <Route path="/likedprofiles/:id" element={<LikedProfiles />} />
           <Route path="/getFullReport" element={<AdminFullReport />} />
           <Route path="/myprofile/:id" element={<MyProfile   />} />
+          <Route path="/profileVerification" element={<ProfileVerification />} />
 
           
           
