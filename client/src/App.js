@@ -23,8 +23,9 @@ import UserSettings from "./pages/UserSettings/UserSettings";
 import LikedProfiles from "./pages/LikedProfiles/LikedProfiles";
 import ResetPassword from "./pages/Admin/Passwordreset/PasswordReset"
 import { ToastContainer } from "react-toastify";
-
-
+import MyProfile from "./pages/MyProfile/MyProfile";
+import AdminFullReport from "./pages/Admin/Reports/GetFullReport"
+import AdminSideUserReport from "./pages/Admin/Reports/Report"
 function App() {
   return (
     <div className="App">
@@ -46,7 +47,7 @@ function App() {
           <Route path="/allmatches/:id" element={< AllMatches/>} />
           <Route path="/Adminsettings/:token" element={<Settings />} />
           <Route path="/Adminusersview/:id" element={<AdminUserProfileView />} />
-          <Route path="/Adminreportview/:id" element={<Report />} />
+          <Route path="/Adminreportview/:id" element={<AdminSideUserReport />} />
           <Route path="/getFullUser" element={<GetFullUser />} />
           <Route path="/adminlanding" element={<AdminLanding />} />
           <Route path="/report/:userId" element={<Report1 />} />
@@ -54,6 +55,9 @@ function App() {
           <Route path="/Usettings" element={<UserSettings />} />
           <Route path="/resetPassword" element={<ResetPassword />} />
           <Route path="/likedprofiles/:id" element={<LikedProfiles />} />
+          <Route path="/getFullReport" element={<AdminFullReport />} />
+          <Route path="/myprofile/:id" element={<MyProfile   />} />
+
           
           
         </Routes>

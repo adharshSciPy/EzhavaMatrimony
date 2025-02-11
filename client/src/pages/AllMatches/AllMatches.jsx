@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo } from "react";
 import DashStyles from "../Dashboard/dashboard.module.css";
 import { HeartStraight, SlidersHorizontal, Pencil, X } from "phosphor-react";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import image from "../../assets/free-photo-of-couple-in-green-grass-field.jpeg";
 import Nav from "../../component/Navbar/Nav";
 import Footer from "../../component/Footer/Footer";
@@ -32,6 +32,7 @@ function AllMatches() {
     education: "",
   });
 
+
   const lastIndex = currentPage * itemsPerPage;
   const indexOfFirstItem = lastIndex - itemsPerPage;
 
@@ -39,6 +40,8 @@ function AllMatches() {
     const data = filteredMatches.length > 0 ? filteredMatches : allMatches;
     return data.slice(indexOfFirstItem, lastIndex);
   }, [allMatches, filteredMatches, currentPage]);
+
+  const navigate = useNavigate();
 
   // const[showHamburger,setShowHamburger]=useState(true);
   const getLikedProfiles = async () => {
@@ -185,6 +188,21 @@ function AllMatches() {
     });
     setFilteredMatches([]);
     setCurrentPage(1);
+  };
+  const profileView = async (id) => {
+    if (!id) {
+      console.log("Error fetching id");
+      return;
+    }
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/api/v1/user/usercarddetails/${id}`
+      );
+      console.log("single user data", response);
+      navigate(`/mainuser/${id}`);
+    } catch (error) {
+      console.log("Error fetching the data", error);
+    }
   };
   return (
     <div className={DashStyles.mainContainer}>
@@ -699,7 +717,9 @@ function AllMatches() {
               {showItems.length > 0 ? (
                 showItems.map((item, index) => (
                   <div key={index} className={DashStyles.trCard}>
-                    <div className={DashStyles.trCardImg}>
+                    <div className={DashStyles.trCardImg}
+                    onClick={() => profileView(item._id)}
+                    >
                       <img
                         src={item.profileImage || image}
                         alt="Profile Image"
@@ -707,7 +727,8 @@ function AllMatches() {
                       />
                     </div>
                     <div className={DashStyles.trCardDetails}>
-                      <div className={DashStyles.trCardDetailSub}>
+                      <div className={DashStyles.trCardDetailSub}
+                      onClick={() => profileView(item._id)}>
                         <h5 className={DashStyles.trUserName}>
                           {item.firstName}
                         </h5>

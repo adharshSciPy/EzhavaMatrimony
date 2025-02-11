@@ -1,15 +1,30 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "../../../component/sidebar/Sidebar.jsx";
 import "./report.css";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 function Report() {
+  const{id}=useParams()  
+  const [userData,setUserData]=useState({});  
   
+  useEffect(()=>{
+    fetchUserData()
+  },[])
+  const fetchUserData=async()=>{
+    try {
+      const response=await axios.get (`http://localhost:8000/api/v1/user/usercarddetails/${id}`)
+      setUserData(response.data);
+      
+    } catch (error) {
+      
+    }
+  }
   return (
     <div>
       <div className="report-container">
         <div className="container-main">
           <div className="nav">
-            <Sidebar />
+            <Sidebar /> 
           </div>
           <div className="contents">
             <div className="first-part">
@@ -27,7 +42,7 @@ function Report() {
                       <h3>Abuse Category</h3>
                     </div>
                     <div className="description">
-                      <p>Hai this is a complaint</p>
+                      <p>{userData.data?.abuseCategory||"nil"}</p>
                     </div>
                   </div>
                   <div className="right-content">
@@ -35,7 +50,7 @@ function Report() {
                       <h3>Subject</h3>
                     </div>
                     <div className="description">
-                      <p>Hai this is a complaint</p>
+                      <p>{userData.data?.subject||"nil"}</p>
                     </div>
                   </div>
                 </div>
@@ -46,15 +61,7 @@ function Report() {
                 </div>
                 <div className="description">
                   <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                    Quibusdam voluptatem libero quam blanditiis iste praesentium
-                    error et! Atque possimus nulla exercitationem odit
-                    consequuntur, dicta, voluptatibus veniam, suscipit ex
-                    expedita mollitia? Voluptatem delectus quasi temporibus hic
-                    amet consequatur eius, ex voluptatum nisi! Repudiandae atque
-                    mollitia, accusamus amet quidem, quae aliquam, labore culpa
-                    et nostrum accusantium. Ad sint quod possimus accusamus
-                    iste!
+                  {userData.data?.subject||"nil"}
                   </p>
                 </div>
               </div>
@@ -64,15 +71,7 @@ function Report() {
                 </div>
                 <div className="description">
                   <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                    Quibusdam voluptatem libero quam blanditiis iste praesentium
-                    error et! Atque possimus nulla exercitationem odit
-                    consequuntur, dicta, voluptatibus veniam, suscipit ex
-                    expedita mollitia? Voluptatem delectus quasi temporibus hic
-                    amet consequatur eius, ex voluptatum nisi! Repudiandae atque
-                    mollitia, accusamus amet quidem, quae aliquam, labore culpa
-                    et nostrum accusantium. Ad sint quod possimus accusamus
-                    iste!
+                  {userData.data?.complaint|| "nil"}
                   </p>
                 </div>
               </div>
@@ -81,7 +80,7 @@ function Report() {
                   <h3>Complaint aginst ID / User name </h3>
                 </div>
                 <div className="description">
-                  <p>ID 13216564165</p>
+                  <p>{userData.data?.complainstAgainst}</p>
                 </div>
               </div>
             </div>

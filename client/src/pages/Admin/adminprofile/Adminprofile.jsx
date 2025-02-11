@@ -60,7 +60,7 @@ function Adminprofile() {
               </div>
             </div>
             <div className="profile-age-container">
-              <p className="">{data.age}</p>
+              <p className="">{data?.age||"Nil"}</p>
               <div className="media">
                 <div className="watsapp"></div>
                 <div className="call-icon"></div>
@@ -69,7 +69,7 @@ function Adminprofile() {
 
             <div className="profile-info-container">
               <span className="profile-degree-container">
-                Other Bachelor Degree in Medicine, Student
+               {data?.education|| "Nil"}   
               </span>
             </div>
 
@@ -89,14 +89,11 @@ function Adminprofile() {
             <div className="about-card-container">
               <div className="user-description">
                 <div className="about-user-container">
-                  <h3>About {data.firstName}</h3>
+                  <h3>About {data?.firstName||"user"}</h3>
                 </div>
                 <div className="description-container">
                   <p>
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                    Tenetur voluptates itaque excepturi expedita adipisci
-                    molestiae vel. Consectetur nisi maiores non nemo quisquam,
-                    voluptatem, veritatis qui velit sit delectus commodi quas?
+                  {data?.about||"Nil"}
                   </p>
                 </div>
               </div>

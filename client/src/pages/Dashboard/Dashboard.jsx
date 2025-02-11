@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import DashStyles from "./dashboard.module.css";
 import {
   Pen,
@@ -32,60 +32,65 @@ function Dashboard() {
   const [userProfie, setUserProfile] = useState("");
   const [allMatches, setAllMatches] = useState([]);
   const [topMatches, setTopMatches] = useState([]);
+  const [greeting, setGreeting] = useState("");
+  const [file, setFile] = useState(null);
+  const [preview, setPreview] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const fileInputRef = useRef(null);
 
-  // const[showHamburger,setShowHamburger]=useState(true);
-  // const { userId } = useParams();
-   
-    const getLikedProfiles = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:8000/api/v1/user/likedProfiles/${userId}`
-        );
-        console.log("liked profiles:", response.data.likedUsers);
-  
-        // Convert the array into an object for easy lookups
-        const likedProfilesMap = response.data.likedUsers.reduce((acc, user) => {
-          acc[user._id] = true;
-          return acc;
-        }, {});
-  
-        setGetLike(response.data.likedUsers); // Keep original array
-        setLiked(likedProfilesMap); // Update liked state
-      } catch (error) {
-        console.log("Error fetching liked profiles", error);
-      }
-    };
-    useEffect(() => {
-      if (userId) {
-        getLikedProfiles();
-      }
-    }, [userId]);
-    const likedProfile = async (id) => {
-      if (!userId || !id) {
-        console.error("User ID or Profile ID is undefined");
-        return;
-      }
-  
-      // Optimistically update UI
+  // to fetch the liked users
+  const getLikedProfiles = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/api/v1/user/likedProfiles/${userId}`
+      );
+      console.log("liked profiles:", response.data.likedUsers);
+
+      // Convert the array into an object for easy lookups
+      const likedProfilesMap = response.data.likedUsers.reduce((acc, user) => {
+        acc[user._id] = true;
+        return acc;
+      }, {});
+
+      setGetLike(response.data.likedUsers); // Keep original array
+      setLiked(likedProfilesMap); // Update liked state
+    } catch (error) {
+      console.log("Error fetching liked profiles", error);
+    }
+  };
+  useEffect(() => {
+    if (userId) {
+      getLikedProfiles();
+    }
+  }, [userId]);
+  // To like users
+  const likedProfile = async (id) => {
+    if (!userId || !id) {
+      console.error("User ID or Profile ID is undefined");
+      return;
+    }
+
+    // Optimistically update UI
+    setLiked((prev) => ({ ...prev, [id]: !prev[id] }));
+
+    try {
+      const response = await axios.post(
+        `http://localhost:8000/api/v1/user/likeProfile/${userId}`,
+        { likedId: id }
+      );
+
+      console.log("Liked profile response:", response.data);
+
+      // If successfully liked, refresh liked profiles
+      getLikedProfiles();
+    } catch (error) {
+      console.error("Error liking profile:", error);
+
+      // Revert state if API fails
       setLiked((prev) => ({ ...prev, [id]: !prev[id] }));
-  
-      try {
-        const response = await axios.post(
-          `http://localhost:8000/api/v1/user/likeProfile/${userId}`,
-          { likedId: id }
-        );
-  
-        console.log("Liked profile response:", response.data);
-  
-        // If successfully liked, refresh liked profiles
-        getLikedProfiles();
-      } catch (error) {
-        console.error("Error liking profile:", error);
-  
-        // Revert state if API fails
-        setLiked((prev) => ({ ...prev, [id]: !prev[id] }));
-      }
-    };
+    }
+  };
+  // opening of the hamburger
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
@@ -137,7 +142,7 @@ function Dashboard() {
     TopMatch();
     AllMatches();
   }, [userId]);
-
+  // hamburger scrolling control
   useEffect(() => {
     const handleScrollHam = () => {
       document
@@ -163,6 +168,7 @@ function Dashboard() {
       window.removeEventListener("scroll", handleScrollHam);
     };
   }, []);
+  // to view single profiles
   const profileView = async (id) => {
     if (!id) {
       console.log("Error fetching id");
@@ -178,7 +184,49 @@ function Dashboard() {
       console.log("Error fetching the data", error);
     }
   };
+  // to dynamically render the greetings
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour < 12) {
+      return "Good Morning!";
+    } else if (hour < 18) {
+      return "Good Afternoon!";
+    } else {
+      return "Good Evening!";
+    }
+  };
+  useEffect(() => {
+    setGreeting(getGreeting());
+  }, []);
+  // to upload profile image
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    if (selectedFile) {
+      setFile(selectedFile);
+      setPreview(URL.createObjectURL(selectedFile));
+      setShowModal(true);
+    }
+  };
 
+  const handleUpload = async () => {
+    if (!file) return;
+    const formData = new FormData();
+    formData.append("profilePicture", file);
+
+    try {
+      const response = await axios.patch(
+        `http://localhost:8000/api/v1/user/uploads/edit/${userId}`,
+        formData
+      );
+      console.log("Upload successful:", response);
+    } catch (error) {
+      console.log("Upload error:", error);
+    }
+    // Close modal after upload
+    setShowModal(false);
+    setFile(null);
+    setPreview(null);
+  };
   return (
     <div>
       <div className={DashStyles.mainContainer}>
@@ -187,9 +235,46 @@ function Dashboard() {
           {/* static details div for larger screens  starts*/}
           <div className={DashStyles.ProfileDiv}>
             <div className={DashStyles.ProfileCard}>
-              <div className={DashStyles.ProfileImage}></div>
+              <div
+                className={DashStyles.ProfileImage}
+                onClick={() => fileInputRef.current.click()}
+                style={{ cursor: "pointer" }}
+              >
+                {/* {" "} */}
+              </div>
+              <input
+                type="file"
+                ref={fileInputRef}
+                style={{ display: "none" }}
+                onChange={handleFileChange}
+                accept="image/*"
+              />
+              {showModal && (
+                <div className={DashStyles.modal}>
+                  <div className={DashStyles.modalContent}>
+                    <h3>Preview</h3>
+                    <img
+                      src={preview}
+                      alt="Selected Preview"
+                      style={{
+                        objectFit: "cover",
+                        borderRadius: "10px",
+                        width: "236px",
+                        height: "398px",
+                        backgroundColor: " #f0c040",
+                        cursor: "pointer",
+                        overflow: "hidden",
+                      }}
+                    />
+                    <div className={DashStyles.modalButtons}>
+                      <button onClick={handleUpload}>Yes</button>
+                      <button onClick={() => setShowModal(false)}>No</button>
+                    </div>
+                  </div>
+                </div>
+              )}
               <div className={DashStyles.ProfileDetails}>
-                <p className={DashStyles.Greeting}>Good Morning!</p>
+                <p className={DashStyles.Greeting}>{greeting}</p>
                 <h2 className={DashStyles.UserName}>{userProfie.firstName}</h2>
                 {/* <p className={DashStyles.UserId}>Sanju@007</p> */}
                 <p className={DashStyles.MemberId}>{userProfie.userId}</p>
@@ -288,7 +373,7 @@ function Dashboard() {
                   <ShieldCheck size={20} weight="duotone" />
                 </div>
                 <div className={DashStyles.link}>
-                  <Link to="/">Safe Matrimony</Link>
+                <Link to={`/myprofile/${userId}`}>My Profile</Link>
                 </div>
               </div>
             </div>
@@ -330,9 +415,43 @@ function Dashboard() {
                 }`}
               >
                 <div className={DashStyles.ProfileCard}>
-                  <div className={DashStyles.ProfileImage}></div>
+                  <div className={DashStyles.ProfileImage}
+                  onClick={() => fileInputRef.current.click()}
+                  style={{ cursor: "pointer" }}
+                   ></div>
+                      <input
+                type="file"
+                ref={fileInputRef}
+                style={{ display: "none" }}
+                onChange={handleFileChange}
+                accept="image/*"
+              />
+                {showModal && (
+                <div className={DashStyles.modal}>
+                  <div className={DashStyles.modalContent}>
+                    <h3>Preview</h3>
+                    <img
+                      src={preview}
+                      alt="Selected Preview"
+                      style={{
+                        objectFit: "cover",
+                        borderRadius: "10px",
+                        width: "236px",
+                        height: "398px",
+                        backgroundColor: " #f0c040",
+                        cursor: "pointer",
+                        overflow: "hidden",
+                      }}
+                    />
+                    <div className={DashStyles.modalButtons}>
+                      <button onClick={handleUpload}>Yes</button>
+                      <button onClick={() => setShowModal(false)}>No</button>
+                    </div>
+                  </div>
+                </div>
+              )}
                   <div className={DashStyles.ProfileDetails}>
-                    <p className={DashStyles.Greeting}>Good Morning!</p>
+                    <p className={DashStyles.Greeting}>{greeting}</p>
                     <h2 className={DashStyles.UserName}>
                       {userProfie.firstName}
                     </h2>
@@ -442,7 +561,7 @@ function Dashboard() {
                       <ShieldCheck size={20} weight="duotone" />
                     </div>
                     <div className={DashStyles.link}>
-                      <Link>Safe Matrimony</Link>
+                      <Link to={`/myprofile/${userId}`}>My Profile</Link>
                     </div>
                   </div>
                 </div>
@@ -477,8 +596,12 @@ function Dashboard() {
                         onClick={() => profileView(item.id)}
                       >
                         <img
-                          src={image}
-                          alt="Card image"
+                          src={
+                            item.profilePicture
+                              ? `http://localhost:8000${item.profilePicture}`
+                              : " "
+                          }
+                          alt=""
                           className={DashStyles.cardImage}
                         />
                       </div>
@@ -535,8 +658,12 @@ function Dashboard() {
                       >
                         {/* image from backend */}
                         <img
-                          src={item.profileImage || image}
-                          alt="Profile Image"
+                          src={
+                            item.profilePicture
+                              ? `http://localhost:8000${item.profilePicture}`
+                              : ""
+                          }
+                          alt=""
                           className={DashStyles.cardImage}
                         />
                       </div>
