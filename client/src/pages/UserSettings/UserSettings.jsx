@@ -59,7 +59,7 @@ function UserSettings() {
 
           <button className="add-email-button1">+ Add Email Address</button>
                   </div>
-                  <div className="save-button5">
+                  <div className="save-button5"> 
                     <button>Save</button>
                   </div>
                 </form>

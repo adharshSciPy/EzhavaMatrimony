@@ -28,9 +28,10 @@
   border-right: 1px solid black;
 } */
 .settings-container5 .container-main5 .contents5 {
-  width: 80%;
-  padding-top: 10px;
+  width: 100%;
+  padding: 10px;
 }
+
 .settings-container5 .container-main5 .contents5 {
   margin-bottom: 50px;
   font-size: 25px;
@@ -40,7 +41,7 @@
   margin-top: 10px;
   width: 100%;
   background-color: white;
-  padding: 50px;
+  padding: 20px;
   border-radius: 20px;
   box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px,
     rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px,
@@ -115,6 +116,7 @@
   .form-container-main5 {
   width: 80%;
 }
+
 .settings-container5
   .container-main5
   .contents5
@@ -279,14 +281,23 @@
 /* Default mobile-first approach */
 
 /* Large Devices */
-@media only screen and (min-width: 1200px) {
-    .settings-container5 .container-main5 {
-      flex-direction: row;
-    }
-    .settings-container5 .container-main5 .contents5 {
-      width: 75%;
-    }
+@media (min-width: 1024px) {
+  .settings-container5 .container-main5 {
+    width: 90%;
   }
+
+  .settings-container5 .container-main5 .contents5 {
+    padding: 30px;
+    font-size: 18px;
+  }
+
+  .settings-container5
+    .container-main5
+    .contents5
+    .box-contents5 {
+    padding: 40px;
+  }
+}
   
   /* Medium Devices (Tablets) */
   @media only screen and (min-width: 768px) and (max-width: 1199px) {
@@ -302,38 +313,133 @@
   }
   
   /* Small Devices (Phones) */
-  @media only screen and (max-width: 767px) {
+  @media (max-width: 600px) {
     .settings-container5 .container-main5 {
-      flex-direction: column;
-    }
-    .settings-container5 .container-main5 .contents5 {
-      width: 100%;
-    }
-    .settings-container5 .container-main5 .contents5 .box-contents5 {
-      padding: 20px;
+      flex-direction: row;
+      width: 95%;
     }
     .settings-container5
+    .container-main5
+    .contents5
+    .box-contents5 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .settings-container5
+    .container-main5
+    .contents5
+    .box-contents5
+    .part-one5,
+  .settings-container5
+    .container-main5
+    .contents5
+    .box-contents5
+    .part-two5
+    .form-container-main5 {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
+  }
+    .settings-container5 .container-main5 .contents5 {
+      width: 85%;
+    }
+    
+  }
+  @media (max-width: 550px) {
+     
+      .settings-container5
+        .container-main5
+        .contents5
+        .box-contents5 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 90%; /* Ensure the box takes up most of the viewport width */
+        max-width: 500px;
+        box-sizing: border-box;
+        overflow: hidden;
+      }
+    
+      .settings-container5
+        .container-main5
+        .contents5
+        .box-contents5
+        .part-one5,
+      .settings-container5
+        .container-main5
+        .contents5
+        .box-contents5
+        .part-two5
+        .form-container-main5 {
+        width: 100%;
+        max-width: 400px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin: 20px 0;
+      }
+    
+      /* Prevent content from overflowing */
+      .settings-container5
+        .container-main5
+        .contents5
+        .box-contents5 {
+        word-wrap: break-word;
+        white-space: normal;
+      }
+    
+      /* Ensure form inputs are full width */
+      .settings-container5
+        .container-main5
+        .contents5
+        .box-contents5
+        .part-two5
+        .form-container-main5
+        input {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+      }
+      .settings-container5
       .container-main5
       .contents5
       .box-contents5
       .part-two5
-      .form-container-main5 {
+      .form-container-main5
+      input {
       width: 100%;
+      padding: 15px;
+      font-size: 16px;
+      box-sizing: border-box;
+      border-radius: 10px;
     }
-    .settings-container5 .container-main5 .contents5 .box-contents5 .part-one5 {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-    .email-item1 {
-      flex-direction: column;
-      gap: 5px;
-    }
+  
+    /* Ensure proper text wrapping inside the box */
     .settings-container5
       .container-main5
       .contents5
-      .box-contents5
-      .save-button5 {
-      justify-content: center;
+      .box-contents5 {
+      word-wrap: break-word;
+      white-space: normal;
     }
+    .settings-container5
+    .container-main5
+    .contents5
+    .box-contents5
+    .part-two5
+    .save-button5 {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 20px;
   }
-  
+
+    }
+    
