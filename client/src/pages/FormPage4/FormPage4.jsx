@@ -111,9 +111,9 @@ function FormPage4() {
                       type="text"
                       className={styles.input}
                       placeholder=""
-                      value={form.hobbies || ""}
+                      value={form.age || ""}
                       onChange={handleChange}
-                      name="hobbies"
+                      name="age"
                     />
                   </div>
                 </div>
