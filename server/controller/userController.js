@@ -6,7 +6,11 @@ import jwt from "jsonwebtoken";
 import { likedByProfile } from "../model/likedProfileModel.js";
 import { Notification } from "../model/notificationModel.js";
 import mongoose from "mongoose";
-import { profile } from "console";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from 'url';
+import  {__dirname}  from '../app.js';
+import { log } from "console";
 
 const generateShortId = () => {
   const timestamp = Date.now(); // Get current time in milliseconds
@@ -92,6 +96,7 @@ const registerUser = async (req, res) => {
   }
 };
 
+
 const editUser = async (req, res) => {
   const { id } = req.params;
   console.log("User ID:", id);
@@ -99,6 +104,7 @@ const editUser = async (req, res) => {
   const files = req.files;
   const profilePicture = files?.profilePicture ? files.profilePicture[0] : null;
   const images = files?.image || [];
+  const pdfFile = files?.pdfFile ? files.pdfFile[0] : null;
 
   const {
     dateOfBirth,
@@ -136,6 +142,12 @@ const editUser = async (req, res) => {
   } = req.body;
 
   try {
+    // Fetch the existing user
+    const existingUser = await User.findById(id);
+    if (!existingUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
     let updatedData = {
       dateOfBirth,
       religion,
@@ -170,26 +182,64 @@ const editUser = async (req, res) => {
       state,
       phoneNumber,
     };
-    if (images.length > 2) {
-      return res.status(400).json({ message: "You can upload a maximum of 2 images!" });
-    }  
+
+    let existingImages = existingUser.image || [];
+
     if (images.length > 0) {
-      updatedData.image = images.map((file) => `/uploads/${file.filename}`);
+      // Handle the image replacement logic
+      if (existingImages.length === 2 && images.length === 1) {
+        // Remove one old image if it's replaced by only one image
+        const baseDir = path.resolve();
+        const imageToRemove = existingImages[0];
+        const fullPath = path.join(baseDir, imageToRemove);
+        console.log('Attempting to remove image at:', fullPath);
+        if (fs.existsSync(fullPath)) {
+          fs.unlinkSync(fullPath);
+          console.log('Image removed successfully');
+        }else{
+          console.log("not found");
+          
+        }
+        existingImages.shift(); // Remove the first image
+      } else if (images.length === 2) {
+        // Remove both old images if two new images are uploaded
+        existingImages.forEach((imgPath) => {
+        const baseDir = path.resolve();
+
+          const fullPath = path.join(baseDir, imgPath);
+          if (fs.existsSync(fullPath)) {
+            fs.unlinkSync(fullPath);
+          }
+        });
+        existingImages = []; // Clear the existing images
+      }
+
+      // Add new images
+      existingImages = [
+        ...existingImages,
+        ...images.map((file) => `/uploads/${file.filename}`),
+      ];
+    }
+
+    // Update the images in updatedData
+    updatedData.image = existingImages;
+
+    if (pdfFile) {
+      updatedData.pdfFile = `/uploads/pdf/${pdfFile.filename}`;
     }
 
     if (profilePicture) {
       updatedData.profilePicture = `/uploads/${profilePicture.filename}`;
     }
 
+    // Hash password if provided
     if (password) {
       const hashedPassword = await bcrypt.hash(password, 10);
       updatedData.password = hashedPassword;
     }
 
-    const editedUser = await User.findByIdAndUpdate(id, updatedData, {
-      new: true,
-    });
-
+    // Update the user data in the database
+    const editedUser = await User.findByIdAndUpdate(id, updatedData, { new: true });
     if (!editedUser) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -198,12 +248,14 @@ const editUser = async (req, res) => {
       message: "User edited successfully",
       data: editedUser,
     });
-
   } catch (error) {
     console.error("Error editing user:", error);
     return res.status(500).json({ message: "Internal server error" });
   }
 };
+
+export default editUser;
+
 
 const resendOtp = async (req, res) => {
   const { userEmail } = req.params;

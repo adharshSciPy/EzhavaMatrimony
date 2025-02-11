@@ -7,7 +7,7 @@ import {
 import { Router } from 'express'
 import upload from '../multer/multer.js';
 import multer from "multer";
-
+import {__dirname}  from '../app.js';
 
 
 
@@ -18,7 +18,8 @@ userRouter.route('/register').post(registerUser)
 userRouter.route("/edit/:id").patch(
     upload.fields([
       { name: "profilePicture", maxCount: 1 },
-      { name: "image", maxCount: 2 },           
+      { name: "image", maxCount: 2 },
+      { name: "pdfFile", maxCount: 1 },         
     ]),
     (err, req, res, next) => {
       if (err instanceof multer.MulterError) {

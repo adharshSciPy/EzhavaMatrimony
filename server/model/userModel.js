@@ -114,6 +114,9 @@ const userSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  pdfFile: {
+    type: String,
+  },
   otp: {
     type: String,
   },

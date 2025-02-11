@@ -25,6 +25,8 @@ import ResetPassword from "./pages/Admin/Passwordreset/PasswordReset"
 import { ToastContainer } from "react-toastify";
 import AdminFullReport from "./pages/Admin/Reports/GetFullReport"
 import AdminSideUserReport from "./pages/Admin/Reports/Report"
+import ProfileVerification from "./pages/Admin/Profile/Profile"
+
 function App() {
   return (
     <div className="App">
@@ -55,6 +57,8 @@ function App() {
           <Route path="/resetPassword" element={<ResetPassword />} />
           <Route path="/likedprofiles/:id" element={<LikedProfiles />} />
           <Route path="/getFullReport" element={<AdminFullReport />} />
+          <Route path="/profileVerification" element={<ProfileVerification />} />
+
           
           
         </Routes>

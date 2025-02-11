@@ -10,7 +10,6 @@ import path from "path";
 import adminRouter from "./routes/adminRouter.js"
 
 
-
 dotenv.config()
 
 const app = express()
@@ -88,4 +87,4 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")))
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/admin", adminRouter)
 
-export { app }
+export { app,__dirname }
