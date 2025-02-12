@@ -168,6 +168,10 @@ const userSchema = new Schema({
   complainstAgainst:{
     type: String,
   },
+  userVerified:{
+    type:Boolean,
+    default:false
+  },
   like:[{type: mongoose.Schema.Types.ObjectId, ref: "User"}]
   
 });

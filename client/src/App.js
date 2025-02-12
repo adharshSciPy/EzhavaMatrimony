@@ -27,7 +27,7 @@ import MyProfile from "./pages/MyProfile/MyProfile";
 import AdminFullReport from "./pages/Admin/Reports/GetFullReport"
 import AdminSideUserReport from "./pages/Admin/Reports/Report"
 import ProfileVerification from "./pages/Admin/Profile/Profile"
-
+import UnverifiedUsers from "./pages/Admin/Profile/GetFullProfile"
 function App() {
   return (
     <div className="App">
@@ -60,6 +60,8 @@ function App() {
           <Route path="/getFullReport" element={<AdminFullReport />} />
           <Route path="/myprofile/:id" element={<MyProfile   />} />
           <Route path="/profileVerification" element={<ProfileVerification />} />
+          <Route path="/unverifieduser" element={<UnverifiedUsers />} />
+
 
           
           

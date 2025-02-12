@@ -2,7 +2,8 @@ import {
     editUser, registerUser, verifyOtp, resetPassword, forgotPassword, getUser, userLogin, getUserById, topMatch, resendOtp, userdetails, userReport,
     getNotifications,
     likeProfile,likedProfiles,
-    getComplaint
+    getComplaint,
+    unVerifiedUser
 } from "../controller/userController.js";
 import { Router } from 'express'
 import upload from '../multer/multer.js';
@@ -49,6 +50,8 @@ userRouter.route('/getNotifications').get(getNotifications)
 userRouter.route('/likeProfile/:likerId').post(likeProfile)
 userRouter.route('/likedProfiles/:likerId').get(likedProfiles)
 userRouter.route('/getComplaint').get(getComplaint)
+userRouter.route('/unverfieduser').get(unVerifiedUser)
+
 
 
 
