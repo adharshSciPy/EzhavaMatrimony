@@ -2,14 +2,14 @@ import React, { useState, useEffect, useCallback } from "react";
 import "./nav.css";
 import axios from "axios";
 import { io } from "socket.io-client";
-import { Link } from "react-router-dom";
-
+import { Link, Navigate, useNavigate } from "react-router-dom";
 const socket = io("http://localhost:8000", {
   transports: ["websocket", "polling"],
   withCredentials: true,
 });
 
 function Nav({ userId }) {
+  const navigate=useNavigate()
   const [notifications, setNotifications] = useState([]);
   const [showNotifications, setShowNotifications] = useState(false);
   console.log("see", notifications);
@@ -85,10 +85,9 @@ function Nav({ userId }) {
               <div className="notification-dropdown">
                 {notifications.length > 0 ? (
                   notifications.map((notification) => (
-                    <div key={notification._id} className="notification-item">
-                      <Link to={`/mainuser/${notification.senderId}`}>
+                    <div key={notification._id} className="notification-item" onClick={()=>{navigate(`/mainuser/${notification.senderId}`)}} >
                         <p>{notification.message}</p>
-                      </Link>
+
                     </div>
                   ))
                 ) : (
