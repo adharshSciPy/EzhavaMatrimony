@@ -21,8 +21,17 @@
     border: none;
     cursor: pointer;
     gap: 8px;
+    position: relative;
   }
-  
+  .notification-alert{
+    position:absolute;
+    top:0px;
+    left:10px;
+    height:10px;
+    width:10px;
+   background-color:red;
+   border-radius: 50px;
+   }
   .icon-button7 span {
     font-size: 24px; /* Icon size */
   }
@@ -90,7 +99,7 @@
     overflow-y: auto;
     width: 250px;
     z-index: 10;
-    top: 60px;
+    top: 30px;
     right: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 10px;
