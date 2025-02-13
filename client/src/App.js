@@ -54,7 +54,7 @@ function App() {
           <Route path="/adminlanding" element={<AdminLanding />} />
           <Route path="/report/:userId" element={<Report1 />} />
           <Route path="/mainuser/:id" element={<UserMain/>} />
-          <Route path="/Usettings" element={<UserSettings />} />
+          <Route path="/Usettings/:id" element={<UserSettings />} />
           <Route path="/resetPassword" element={<ResetPassword />} />
           <Route path="/likedprofiles/:id" element={<LikedProfiles />} />
           <Route path="/getFullReport" element={<AdminFullReport />} />
