@@ -1,61 +1,24 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import axios from "axios"; // Import Axios
+import React, { useState } from "react";
+import { useParams } from "react-router-dom"; // Import useParams to get user ID
 import "./usersettings.css";
 import Nav from "../../component/Navbar/Nav";
-import defaultPic from "../../assets/serious-man-portrait-real-people-high-definition-grey-background-photo.jpg";
+import pic from "../../assets/serious-man-portrait-real-people-high-definition-grey-background-photo.jpg";
 
 function UserSettings() {
-  const { id } = useParams(); 
+  const { id } = useParams(); // Get user ID from URL params
   const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState("hello@gmail.com");
   const [password, setPassword] = useState("");
   const [newUsername, setNewUsername] = useState("");
-  const [profilePic, setProfilePic] = useState(defaultPic);
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [loading, setLoading] = useState(true);
 
- 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await axios.get(`http://localhost:8000/api/v1/user/${id}`);
-        const userData = response.data;
-        setUsername(userData.username);
-        setEmail(userData.email);
-        setProfilePic(userData.profilePic || defaultPic);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-        setLoading(false);
-      }
-    };
-
-    fetchUserData();
-  }, [id]);
-
-  
-  
-  
-  const handleSave = async () => {
-    try {
-      const formData = new FormData();
-      formData.append("username", newUsername || username);
-      if (password) formData.append("password", password);
-      if (selectedFile) formData.append("profilePic", selectedFile); 
-
-      await axios.patch(`http://localhost:8000/api/v1/user/edit/${id}`, formData, {
-        headers: { "Content-Type": "multipart/form-data" }, 
-      });
-
-      alert("Profile updated successfully!");
-    } catch (error) {
-      console.error("Error updating profile:", error);
-      alert("Failed to update profile. Try again.");
-    }
+  const handleSave = () => {
+    console.log("User ID:", id);
+    console.log("Username:", username);
+    console.log("New Username:", newUsername);
+    console.log("Password:", password);
+    console.log("Email:", email);
+    // Call API to update user details (Not included in this code)
   };
-
-  if (loading) return <p>Loading user data...</p>;
 
   return (
     <div>
@@ -74,13 +37,15 @@ function UserSettings() {
               <div className="part-one5">
                 <div className="profile-container5">
                   <div className="profile-icon5">
-                    <img src={profilePic} alt="Profile" />
-                    
+                    <img src={pic} alt="Profile" />
                   </div>
                   <div className="profile-details5">
-                    <p>{username}</p>
+                    <p>{username || "Alex Rawles"}</p>
                     <p>{email}</p>
                   </div>
+                </div>
+                <div className="edit-button5">
+                  <button>Edit</button>
                 </div>
               </div>
               <div className="part-two5">
@@ -88,20 +53,20 @@ function UserSettings() {
                   <div className="form-container-main5">
                     <div className="user-name5">
                       <label>Username</label>
-                      <input
-                        type="text"
-                        value={newUsername}
-                        onChange={(e) => setNewUsername(e.target.value)}
-                        placeholder={username}
+                      <input 
+                        type="text" 
+                        value={username} 
+                        onChange={(e) => setUsername(e.target.value)} 
+                        placeholder="Enter your username"
                       />
                     </div>
                     <div className="pass-username5">
                       <div className="password5">
                         <label>Reset Password</label>
-                        <input
-                          type="password"
-                          value={password}
-                          onChange={(e) => setPassword(e.target.value)}
+                        <input 
+                          type="password" 
+                          value={password} 
+                          onChange={(e) => setPassword(e.target.value)} 
                           placeholder="Enter new password"
                         />
                       </div>
@@ -115,7 +80,14 @@ function UserSettings() {
                         />
                       </div>
                     </div>
-                    
+                    <div className="email-item1">
+                      <i className="mail-icon"></i>
+                      <div className="email-text">
+                        <p>{email}</p>
+                        <span>1 month ago</span>
+                      </div>
+                    </div>
+                    <button className="add-email-button1">+ Add Email Address</button>
                   </div>
                   <div className="save-button5">
                     <button onClick={handleSave}>Save</button>
