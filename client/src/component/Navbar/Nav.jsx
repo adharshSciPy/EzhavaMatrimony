@@ -1,7 +1,8 @@
-import React, { useState, useEffect,useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "./nav.css";
 import axios from "axios";
 import { io } from "socket.io-client";
+import { Link } from "react-router-dom";
 
 const socket = io("http://localhost:8000", {
   transports: ["websocket", "polling"],
@@ -11,7 +12,7 @@ const socket = io("http://localhost:8000", {
 function Nav({ userId }) {
   const [notifications, setNotifications] = useState([]);
   const [showNotifications, setShowNotifications] = useState(false);
-
+  console.log("see", notifications);
   useEffect(() => {
     if (!userId) return;
 
@@ -21,7 +22,9 @@ function Nav({ userId }) {
 
     const fetchNotifications = async () => {
       try {
-        const { data } = await axios.get(`http://localhost:8000/api/v1/user/unread/${userId}`);
+        const { data } = await axios.get(
+          `http://localhost:8000/api/v1/user/unread/${userId}`
+        );
         setNotifications(Array.isArray(data?.response) ? data.response : []);
       } catch (error) {
         console.error("Error fetching notifications:", error);
@@ -49,7 +52,7 @@ function Nav({ userId }) {
       socket.off("receiveNotification", handleNotification);
       clearTimeout(timeoutId); // Clear interval on unmount
     };
-  }, [userId]); 
+  }, [userId]);
 
   return (
     <div>
@@ -83,7 +86,9 @@ function Nav({ userId }) {
                 {notifications.length > 0 ? (
                   notifications.map((notification) => (
                     <div key={notification._id} className="notification-item">
-                      <p>{notification.message}</p>
+                      <Link to={`notifiedProfile/${notification.senderId}`}>
+                        <p>{notification.message}</p>
+                      </Link>
                     </div>
                   ))
                 ) : (
