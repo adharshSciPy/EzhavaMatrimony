@@ -46,7 +46,15 @@ function UserMain() {
       <div className="profile-view-main-container">
         <div className="profile-cards">
           <div className="image-container">
-            <img src={padam} alt="Profile" className="profile-image" />
+          <img
+              src={
+                userData.profilePicture
+                  ? `http://localhost:8000${userData.profilePicture}`
+                  : ""
+              }
+              alt="Profile"
+              className="profile-image"
+            />
           </div>
 
           <div className="details-sections">

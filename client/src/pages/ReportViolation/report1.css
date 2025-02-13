@@ -63,13 +63,13 @@
 }
 
 /* Label Styling */
-label {
+/* label {
   display: block;
   font-size: 14px;
   font-weight: bold;
   color: #333;
   margin-bottom: 8px;
-}
+} */
 
 /* Select Box Styling */
 .form-container5 select {
@@ -94,7 +94,7 @@ label {
 }
 
 /* Textarea Styling */
-textarea {
+.form-container5_1 textarea {
   width: 100%;
   padding: 10px;
   border: 1px solid #ccc;

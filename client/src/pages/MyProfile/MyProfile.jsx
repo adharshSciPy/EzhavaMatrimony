@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import Nav from "../../component/Navbar/Nav";
 import Footer from "../../component/Footer/Footer";
 import image from "../../assets/free-photo-of-couple-in-green-grass-field.jpeg";
-import "../UserMain/usermain.css";
+import "../MyProfile/myprofile.css";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -13,46 +13,55 @@ function MyProfile() {
   const fileInputRef = useRef(null);
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.user.id);
-  console.log("hey kitty", userId);
+  
+  console.log("User ID:", userId);
+
   const fetchUserData = async () => {
     try {
       const response = await axios.get(
         `http://localhost:8000/api/v1/user/usercarddetails/${userId}`
       );
-      console.log("response", response.data.data);
+      console.log("User data:", response.data.data);
       setUserData(response.data.data);
     } catch (error) {
-      console.log("error", error);
+      console.log("Error fetching user data:", error);
     }
   };
+
   useEffect(() => {
     fetchUserData();
   }, []);
-  const handleFileChange = async(e) => {
-    const selectedFile = Array.from(e.target.files);
-    if (selectedFile.length>0) {
-      setFile((prevFiles)=>[...prevFiles,...selectedFile]);
-      await handleUpload(selectedFile)
-    }
-  };
-  const handleUpload = async (selectedFile) => {
-    if (selectedFile.length===0) return;
-    const formData = new FormData();
-    selectedFile.forEach((file)=>formData.append("image",file))
-    // formData.append("image", selectedFile);
 
-    try {
-      const response = await axios.patch(
-        `http://localhost:8000/api/v1/user/edit/${userId}`,
-        formData
-      );
-      console.log("Upload successful:", response);
-    } catch (error) {
-      console.log("Upload error:", error);
+  const handleFileChange = (e) => {
+    const selectedFiles = Array.from(e.target.files);
+    if (selectedFiles.length > 0) {
+      setFile((prevFiles) => [...prevFiles, ...selectedFiles]);
     }
-    setFile([]);
-    
   };
+
+  useEffect(() => {
+    const handleUpload = async () => {
+      if (file.length === 0) return;
+      
+      const formData = new FormData();
+      file.forEach((file) => formData.append("image", file));
+
+      try {
+        const response = await axios.patch(
+          `http://localhost:8000/api/v1/user/edit/${userId}`,
+          formData
+        );
+        console.log("Upload successful:", response);
+        setFile([]); // Clear file after upload
+        fetchUserData(); // Refresh user data to reflect new images
+      } catch (error) {
+        console.log("Upload error:", error);
+      }
+    };
+
+    handleUpload();
+  }, [file]);
+
   return (
     <div>
       <Nav />
@@ -80,16 +89,9 @@ function MyProfile() {
               </div>
               <div className="option-container">
                 <div className="option">
-                  <i>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      className="w-6 h-6 text-gray-600 cursor-pointer"
-                    >
-                      <path d="M12 8.5a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm0 5a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm0 5a1.5 1.5 0 110-3 1.5 1.5 0 010 3z" />
-                    </svg>
-                  </i>
+                <i class="material-icons text-gray-600 cursor-pointer w-6 h-6" style={{ marginLeft: "-50px", fontSize: "40px" }}>add_a_photo</i>
+
+
                   <div className="dropdown-menu">
                     <div className="dropdown-item"   onClick={() => fileInputRef.current.click()}
                   style={{ cursor: "pointer" }}>Upload Images</div>
@@ -253,30 +255,6 @@ function MyProfile() {
                   </div>
                 </div>
               </div>
-              <div className="verification-main-container">
-                <div className="verfication-container">
-                  <div className="letter-container">
-                    <div className="letter-main same">
-                      <span className="material-icons">phone</span>
-                      <h3>PHONE NUMBER</h3>
-                      <div className="hr">
-                        <hr />
-                      </div>
-                      <span className="material-icons">check_circle</span>
-                      <h3>Verified</h3>
-                    </div>
-                  </div>
-                  <div className="digit-container">
-                    <div className="digit-main">
-                      <h3>+91 65*********</h3>
-                      <div className="call-now">
-                        <span className="material-icons">phone</span>
-                        <h4>Call Now</h4>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
               <div className="basic-details-container">
                 <div className="about-user-container">
                   <h3>About Religion</h3>
@@ -424,7 +402,7 @@ function MyProfile() {
       key={index}
       className="my-profile-image23-single"
       src={`http://localhost:8000${imgSrc}`}
-      alt={`User Image ${index + 1}`}
+      alt={`User Image ${index }`}
     />
   ))}
 </div>
