@@ -86,7 +86,7 @@ function Nav({ userId }) {
                 {notifications.length > 0 ? (
                   notifications.map((notification) => (
                     <div key={notification._id} className="notification-item">
-                      <Link to={`notifiedProfile/${notification.senderId}`}>
+                      <Link to={`/mainuser/${notification.senderId}`}>
                         <p>{notification.message}</p>
                       </Link>
                     </div>
