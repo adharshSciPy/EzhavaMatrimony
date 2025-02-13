@@ -13,19 +13,19 @@ import {
   Crown,
   User,
 } from "phosphor-react";
-import { Link, useParams, useNavigate } from "react-router-dom";
-import image from "../../assets/free-photo-of-couple-in-green-grass-field.jpeg";
+import { Link, useNavigate } from "react-router-dom";
+// import image from "../../assets/free-photo-of-couple-in-green-grass-field.jpeg";
 import Nav from "../../component/Navbar/Nav";
 import Footer from "../../component/Footer/Footer";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 
 function Dashboard() {
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.user.id);
   console.log("hey kitty", userId);
   const navigate = useNavigate();
-
   const [liked, setLiked] = useState({});
   const [getLike, setGetLike] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -36,7 +36,21 @@ function Dashboard() {
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [pdfModal, setPdfModal] = useState(false);
+  const [pdfFile, setPdfFile] = useState(null);
   const fileInputRef = useRef(null);
+  const pdfInputRef = useRef(null);
+  const notifyError = (message) =>
+    toast.error(message, {
+      autoClose: 3000,
+      closeOnClick: true,
+    });
+
+  const notifySuccess = (message) =>
+    toast.success(message, {
+      autoClose: 3000,
+      closeOnClick: true,
+    });
 
   // to fetch the liked users
   const getLikedProfiles = async () => {
@@ -215,20 +229,70 @@ function Dashboard() {
 
     try {
       const response = await axios.patch(
-        `http://localhost:8000/api/v1/user/uploads/edit/${userId}`,
+        `http://localhost:8000/api/v1/user/edit/${userId}`,
         formData
       );
       console.log("Upload successful:", response);
     } catch (error) {
       console.log("Upload error:", error);
+    } finally {
+      setShowModal(false);
+      setFile(null);
+      setPreview(null);
     }
-    // Close modal after upload
-    setShowModal(false);
-    setFile(null);
-    setPreview(null);
   };
+  const handlePdfChange = (e) => {
+    const selectedPdfFile = e.target.files[0];
+    if (selectedPdfFile) {
+      setPdfFile(selectedPdfFile);
+      setPreview(URL.createObjectURL(selectedPdfFile));
+      setPdfModal(true);
+      pdfInputRef.current.value = null;
+
+      // Close the dropdown menu to force re-render
+      document
+        .querySelector(`.${DashStyles.DropdownMenuSecondSmall}`)
+        .classList.remove(DashStyles.show2);
+    }
+  };
+
+  const handlePdfUpload = async () => {
+    if (!pdfFile) return;
+    const formData = new FormData();
+    formData.append("pdfFile", pdfFile);
+
+    try {
+      const response = await axios.patch(
+        `http://localhost:8000/api/v1/user/edit/${userId}`,
+        formData
+      );
+      console.log("Upload successful:", response);
+
+      // If upload is successful, show success notification
+      if (response.status === 200) {
+        notifySuccess(response.data.data.message || "Successfully Submitted.");
+        setPdfModal(false); // Close modal after successful upload
+      }
+      const dropdownMenu = document.querySelector(
+        `.${DashStyles.DropdownMenuSecondSmall}`
+      );
+      if (dropdownMenu && dropdownMenu.classList.contains(DashStyles.show2)) {
+        dropdownMenu.classList.remove(DashStyles.show2);
+      }
+    
+    } catch (error) {
+      console.log("Upload error:", error);
+      notifyError(error.response?.data?.message || "Please try again.");
+    } finally {
+      // Clear file input and preview
+      setPdfFile(null);
+      setPreview(null);
+    }
+  };
+
   return (
     <div>
+      {/* <ToastContainer position="bottom-right" /> */}
       <div className={DashStyles.mainContainer}>
         <Nav />
         <div className={DashStyles.SubContainer}>
@@ -332,9 +396,46 @@ function Dashboard() {
                         <input
                           type="file"
                           id="fileUpload"
+                          onChange={handlePdfChange}
+                          accept="application/pdf"
                           style={{ display: "none" }}
+                          ref={pdfInputRef}
                         />
                       </div>
+
+                      {pdfModal && (
+                        <div className={DashStyles.PdfModalOverlay}>
+                          <div className={DashStyles.PdfModalContent}>
+                            <h3>Document Upload</h3>
+                            {preview ? (
+                              <p className={DashStyles.FileName}>
+                                Selected File: {pdfFile.name}
+                              </p>
+                            ) : (
+                              <p>No file selected</p>
+                            )}
+
+                            <div className={DashStyles.PdfModalActions}>
+                              <button
+                                onClick={handlePdfUpload}
+                                className={DashStyles.PdfYesButton}
+                              >
+                                Confirm
+                              </button>
+                              <button
+                                onClick={() => {
+                                  setPdfModal(false);
+                                  setPdfFile(null);
+                                  setPreview(null);
+                                }}
+                                className={DashStyles.PdfNoButton}
+                              >
+                                Cancel
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -373,14 +474,14 @@ function Dashboard() {
                   <ShieldCheck size={20} weight="duotone" />
                 </div>
                 <div className={DashStyles.link}>
-                <Link to={`/myprofile/${userId}`}>My Profile</Link>
+                  <Link to={`/myprofile/${userId}`}>My Profile</Link>
                 </div>
               </div>
             </div>
           </div>
           {/* static details div for larger screens  end*/}
 
-          {/* Profile details div for smalle screens start */}
+          {/* Profile details div for small screens start */}
           <div
             className={isOpen ? "overlay overlayActive" : "overlay"}
             // onClick={toggleMenu}
@@ -415,41 +516,44 @@ function Dashboard() {
                 }`}
               >
                 <div className={DashStyles.ProfileCard}>
-                  <div className={DashStyles.ProfileImage}
-                  onClick={() => fileInputRef.current.click()}
-                  style={{ cursor: "pointer" }}
-                   ></div>
-                      <input
-                type="file"
-                ref={fileInputRef}
-                style={{ display: "none" }}
-                onChange={handleFileChange}
-                accept="image/*"
-              />
-                {showModal && (
-                <div className={DashStyles.modal}>
-                  <div className={DashStyles.modalContent}>
-                    <h3>Preview</h3>
-                    <img
-                      src={preview}
-                      alt="Selected Preview"
-                      style={{
-                        objectFit: "cover",
-                        borderRadius: "10px",
-                        width: "236px",
-                        height: "398px",
-                        backgroundColor: " #f0c040",
-                        cursor: "pointer",
-                        overflow: "hidden",
-                      }}
-                    />
-                    <div className={DashStyles.modalButtons}>
-                      <button onClick={handleUpload}>Yes</button>
-                      <button onClick={() => setShowModal(false)}>No</button>
+                  <div
+                    className={DashStyles.ProfileImage}
+                    onClick={() => fileInputRef.current.click()}
+                    style={{ cursor: "pointer" }}
+                  ></div>
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    style={{ display: "none" }}
+                    onChange={handleFileChange}
+                    accept="image/*"
+                  />
+                  {showModal && (
+                    <div className={DashStyles.modal}>
+                      <div className={DashStyles.modalContent}>
+                        <h3>Preview</h3>
+                        <img
+                          src={preview}
+                          alt="Selected Preview"
+                          style={{
+                            objectFit: "cover",
+                            borderRadius: "10px",
+                            width: "236px",
+                            height: "398px",
+                            backgroundColor: " #f0c040",
+                            cursor: "pointer",
+                            overflow: "hidden",
+                          }}
+                        />
+                        <div className={DashStyles.modalButtons}>
+                          <button onClick={handleUpload}>Yes</button>
+                          <button onClick={() => setShowModal(false)}>
+                            No
+                          </button>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              )}
+                  )}
                   <div className={DashStyles.ProfileDetails}>
                     <p className={DashStyles.Greeting}>{greeting}</p>
                     <h2 className={DashStyles.UserName}>
@@ -520,10 +624,46 @@ function Dashboard() {
                             <input
                               type="file"
                               id="fileUpload"
+                              onChange={handlePdfChange}
+                              accept="application/pdf"
                               style={{ display: "none" }}
+                              ref={pdfInputRef}
                             />
                           </div>
                         </div>
+                        {pdfModal && (
+                        <div className={DashStyles.PdfModalOverlay}>
+                          <div className={DashStyles.PdfModalContent}>
+                            <h3>Document Upload</h3>
+                            {preview ? (
+                              <p className={DashStyles.FileName}>
+                                Selected File: {pdfFile.name}
+                              </p>
+                            ) : (
+                              <p>No file selected</p>
+                            )}
+
+                            <div className={DashStyles.PdfModalActions}>
+                              <button
+                                onClick={handlePdfUpload}
+                                className={DashStyles.PdfYesButton}
+                              >
+                                Confirm
+                              </button>
+                              <button
+                                onClick={() => {
+                                  setPdfModal(false);
+                                  setPdfFile(null);
+                                  setPreview(null);
+                                }}
+                                className={DashStyles.PdfNoButton}
+                              >
+                                Cancel
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      )}
                       </div>
                     </div>
                   </div>
