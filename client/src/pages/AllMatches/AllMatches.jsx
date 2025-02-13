@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo } from "react";
 import DashStyles from "../Dashboard/dashboard.module.css";
 import { HeartStraight, SlidersHorizontal, Pencil, X } from "phosphor-react";
-import { Link,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import image from "../../assets/free-photo-of-couple-in-green-grass-field.jpeg";
 import Nav from "../../component/Navbar/Nav";
 import Footer from "../../component/Footer/Footer";
@@ -21,6 +21,12 @@ function AllMatches() {
   const [filteredMatches, setFilteredMatches] = useState([]); // Stores filtered matches
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [filtersApplied, setFiltersApplied] = useState(false);
+  const currentData = filtersApplied ? filteredMatches : allMatches;
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const paginatedData = currentData.slice(indexOfFirstItem, indexOfLastItem);
+
   const [filters, setFilters] = useState({
     age: "",
     height: "",
@@ -32,14 +38,14 @@ function AllMatches() {
     education: "",
   });
 
+  // const lastIndex = currentPage * itemsPerPage;
+  // const indexOfFirstItem = lastIndex - itemsPerPage;
 
-  const lastIndex = currentPage * itemsPerPage;
-  const indexOfFirstItem = lastIndex - itemsPerPage;
-
-  const showItems = useMemo(() => {
-    const data = filteredMatches.length > 0 ? filteredMatches : allMatches;
-    return data.slice(indexOfFirstItem, lastIndex);
-  }, [allMatches, filteredMatches, currentPage]);
+  // const showItems = useMemo(() => {
+  //   const data =
+  //     filteredMatches.length > 0 ? filteredMatches : "No Matches Available";
+  //   return data.slice(indexOfFirstItem, lastIndex);
+  // }, [allMatches, filteredMatches, currentPage]);
 
   const navigate = useNavigate();
 
@@ -147,46 +153,52 @@ function AllMatches() {
     }));
   };
   const applyFilters = () => {
-    let filteredData = allMatches.filter((item) => {
-      let numericHeight = parseInt(item.height.replace(/\D/g, ""), 10);
-
-      let [minHeight, maxHeight] = filters.height
+    const isFiltersApplied = Object.values(filters).some((val) => val !== "");
+    const filteredData = allMatches.filter((item) => {
+      const numericHeight = item.height
+        ? parseInt(item.height.replace(/[^0-9]/g, ""), 10)
+        : null;
+      const [minHeight, maxHeight] = filters.height
         ? filters.height.split("-").map((num) => parseInt(num, 10))
         : [null, null];
-      let [minAge, maxAge] = filters.age
+      const [minAge, maxAge] = filters.age
         ? filters.age.split("-").map((num) => parseInt(num, 10))
         : [null, null];
+
       return (
         (filters.age === "" || (item.age >= minAge && item.age <= maxAge)) &&
         (filters.height === "" ||
           (numericHeight >= minHeight && numericHeight <= maxHeight)) &&
         (filters.maritalStatus === "" ||
-          item.maritalStatus === filters.maritalStatus) &&
-        (filters.motherTongue === "" ||
-          item.motherTongue === filters.motherTongue) &&
-        (filters.physicalStatus === "" ||
-          item.physicalStatus === filters.physicalStatus) &&
-        (filters.occupation === "" || item.occupation === filters.occupation) &&
+          item.maritalStatus?.toLowerCase() ===
+            filters.maritalStatus?.toLowerCase()) &&
+        (filters.occupation === "" ||
+          item.occupation?.toLowerCase() ===
+            filters.occupation?.toLowerCase()) &&
         (filters.annualIncome === "" ||
-          item.annualIncome === filters.annualIncome) &&
-        (filters.education === "" || item.education === filters.education)
+          item.annualIncome?.toLowerCase() ===
+            filters.annualIncome?.toLowerCase()) &&
+        (filters.education === "" ||
+          item.education?.toLowerCase() === filters.education?.toLowerCase())
       );
     });
 
-    setFilteredMatches(filteredData);
     setCurrentPage(1);
+    setFilteredMatches(filteredData);
+    setFiltersApplied(isFiltersApplied);
   };
 
   const resetFilters = () => {
     setFilters({
       age: "",
       height: "",
-      maritialStatus: "",
+      maritalStatus: "",
       occupation: "",
       annualIncome: "",
       education: "",
     });
-    setFilteredMatches([]);
+    setFilteredMatches(allMatches);
+    setFiltersApplied(false);
     setCurrentPage(1);
   };
   const profileView = async (id) => {
@@ -273,7 +285,7 @@ function AllMatches() {
                 name="maritalStatus"
                 className={DashStyles.bdSelect}
                 onChange={handleFilterChange}
-                value={filters.maritialStatus}
+                value={filters.maritalStatus}
               >
                 <option>Marital Status</option>
                 <option value="Never Married">Never Married</option>
@@ -367,7 +379,12 @@ function AllMatches() {
                 <option value="retired">Retired</option>
                 <option value="others">Others</option>
               </select>
-              <select name="annualIncome" className={DashStyles.pdSelect}>
+              <select
+                name="annualIncome"
+                className={DashStyles.pdSelect}
+                onChange={handleFilterChange}
+                value={filters.annualIncome}
+              >
                 <option>Annual Income</option>
                 <option value="under_15000">Under £15,000</option>
                 <option value="15000_25000">£15,000 - £25,000</option>
@@ -379,7 +396,12 @@ function AllMatches() {
                 <option value="150000_250000">£150,000 - £250,000</option>
                 <option value="over_250000">Over £250,000</option>
               </select>
-              <select name="education" className={DashStyles.pdSelect}>
+              <select
+                name="education"
+                className={DashStyles.pdSelect}
+                onChange={handleFilterChange}
+                value={filters.education}
+              >
                 <option>Education</option>
                 <option value="below_10">Below 10th</option>
                 <option value="10th">10th (SSLC/Matriculation)</option>
@@ -513,7 +535,12 @@ function AllMatches() {
               <div className={DashStyles.BasicDetailsMainDiv}>
                 <h3 className={DashStyles.BasicDetailsHead}>Basic Details</h3>
                 <div className={DashStyles.BasicDetailsDiv}>
-                  <select name="age" className={DashStyles.bdSelect}>
+                  <select
+                    name="age"
+                    className={DashStyles.bdSelect}
+                    value={filters.age}
+                    onChange={handleFilterChange}
+                  >
                     <option>Age</option>
                     <option value="18-25">18-25</option>
                     <option value="26-35">26-35</option>
@@ -521,7 +548,12 @@ function AllMatches() {
                     <option value="46-55">46-55</option>
                     <option value="56-65">56-65</option>
                   </select>
-                  <select name="height" className={DashStyles.bdSelect}>
+                  <select
+                    name="height"
+                    className={DashStyles.bdSelect}
+                    value={filters.height}
+                    onChange={handleFilterChange}
+                  >
                     <option>Height</option>
                     <option value="135-145">135-145</option>
                     <option value="145-155">145-155</option>
@@ -532,27 +564,20 @@ function AllMatches() {
                     <option value="195-200">195-200</option>
                   </select>
 
-                  <select name="maritalStatus" className={DashStyles.bdSelect}>
+                  <select
+                    name="maritalStatus"
+                    className={DashStyles.bdSelect}
+                    onChange={handleFilterChange}
+                    value={filters.maritalStatus}
+                  >
                     <option>Marital Status</option>
                     <option value="Never Married">Never Married</option>
                     <option value="Widowed">Widowed</option>
                     <option value="Divorced">Divorced</option>
                     <option value="Awaiting Divorce">Awaiting Divorce</option>
                   </select>
-                  {/* <select name="motherTongue" className={DashStyles.bdSelect}>
-                    <option value="">Mother Tongue</option>
-                    <option value="malayalam">Malayalam</option>
-                    <option value="english">English</option>
-                    <option value="hindi">Hindi</option>
-                  </select> */}
 
-                  {/* <select name="physicalStatus" className={DashStyles.bdSelect}>
-                    <option value="">Physical Status</option>
-                    <option value="none">None</option>
-                    <option value="physicallyChallenged">
-                      Physically Challenged
-                    </option>
-                  </select> */}
+
                 </div>
               </div>
 
@@ -561,7 +586,7 @@ function AllMatches() {
                   Professional Details
                 </h3>
                 <div className={DashStyles.ProfessionalDetailsDiv}>
-                  <select name="occupation" className={DashStyles.pdSelect}>
+                  <select name="occupation" className={DashStyles.pdSelect} value={filters.occupation} onChange={handleFilterChange}>
                     <option>Ocuupation</option>
                     <option value="doctor">Doctor</option>
                     <option value="nurse">Nurse</option>
@@ -626,7 +651,7 @@ function AllMatches() {
                     <option value="retired">Retired</option>
                     <option value="others">Others</option>
                   </select>
-                  <select name="annualIncome" className={DashStyles.pdSelect}>
+                  <select name="annualIncome" className={DashStyles.pdSelect} value={filters.annualIncome} onChange={handleFilterChange}>
                     <option>Annual Income</option>
                     <option value="15000_25000">£15,000 - £25,000</option>
                     <option value="25000_35000">£25,000 - £35,000</option>
@@ -637,7 +662,7 @@ function AllMatches() {
                     <option value="150000_250000">£150,000 - £250,000</option>
                     <option value="over_250000">Over £250,000</option>
                   </select>
-                  <select name="education" className={DashStyles.pdSelect}>
+                  <select name="education" className={DashStyles.pdSelect} value={filters.education} onChange={handleFilterChange}>
                     <option>Education</option>
                     <option value="below_10">Below 10th</option>
                     <option value="10th">10th (SSLC/Matriculation)</option>
@@ -687,10 +712,10 @@ function AllMatches() {
                   </select>
                 </div>
               </div>
-             
+
               <div className={DashStyles.FilterDivButtonsMain}>
-                <button className={DashStyles.FilterDivButtonOne}>Apply</button>
-                <button className={DashStyles.FilterDivButtonOne}>Reset</button>
+                <button className={DashStyles.FilterDivButtonOne} onClick={applyFilters}>Apply</button>
+                <button className={DashStyles.FilterDivButtonOne} onClick={resetFilters}>Reset</button>
               </div>
             </div>
           </div>
@@ -705,35 +730,41 @@ function AllMatches() {
             <div className={DashStyles.BigBox}></div>
           </div>
 
-          {/* Top recommendation start */}
+          {/*  start */}
           <div className={DashStyles.TopRecommendation}>
             <div className={DashStyles.trHeading}>
               <h2 className={DashStyles.TrHead}>
                 All Matches({allMatches.length})
               </h2>
-           
             </div>
             <div className={DashStyles.trContentDisplay}>
-              {showItems.length > 0 ? (
-                showItems.map((item, index) => (
-                  <div key={index} className={DashStyles.trCard}>
-                    <div className={DashStyles.trCardImg}
-                    onClick={() => profileView(item._id)}
+              {paginatedData.length > 0 ? (
+                paginatedData.map((item, index) => (
+                  <div className={DashStyles.trCard} key={index}>
+                    <div
+                      className={DashStyles.trCardImg}
+                      onClick={() => profileView(item._id)}
                     >
                       <img
-                        src={item.profileImage || image}
-                        alt="Profile Image"
+                        src={
+                          item.profilePicture
+                            ? `http://localhost:8000${item.profilePicture}`
+                            : " "
+                        }
+                        alt="CardImage"
                         className={DashStyles.cardImage}
                       />
                     </div>
                     <div className={DashStyles.trCardDetails}>
-                      <div className={DashStyles.trCardDetailSub}
-                      onClick={() => profileView(item._id)}>
+                      <div
+                        className={DashStyles.trCardDetailSub}
+                        onClick={() => profileView(item._id)}
+                      >
                         <h5 className={DashStyles.trUserName}>
                           {item.firstName}
                         </h5>
                         <h6 className={DashStyles.trUserDetails}>
-                          {item.age} Yrs, {item.height} cms
+                          {`${item.age} Yrs, ${item.height}`}
                         </h6>
                       </div>
                       <div
@@ -758,15 +789,13 @@ function AllMatches() {
 
             <PaginationAdmin
               itemsPerPage={itemsPerPage}
-              userData={
-                filteredMatches.length > 0 ? filteredMatches : allMatches
-              }
+              userData={currentData}
               setCurrentPage={setCurrentPage}
             />
           </div>
+          <Footer />
         </div>
       </div>
-      <Footer />
     </div>
   );
 }

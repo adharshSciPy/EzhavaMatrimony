@@ -637,7 +637,7 @@ const navigate=useNavigate();
                     onClick={() => profileView(item.id)}
                   >
                     <img
-                      src={image}
+                      src={item.profilePicture}
                       alt="Crad imgae"
                       className={DashStyles.cardImage}
                     />
@@ -672,7 +672,7 @@ const navigate=useNavigate();
                     <div className={DashStyles.trCardImg}
                      onClick={() => profileView(item.id)}
                     >
-                      <img src={image} alt="Card image" className={DashStyles.cardImage} />
+                      <img src={item.profilePicture} alt="CardImage" className={DashStyles.cardImage} />
                     </div>
                     <div className={DashStyles.trCardDetails}>
                       <div className={DashStyles.trCardDetailSub}
