@@ -3,14 +3,12 @@ import nodemailer from "nodemailer";
 import crypto from "crypto";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { likedByProfile } from "../model/likedProfileModel.js";
 import { Notification } from "../model/notificationModel.js";
 import mongoose from "mongoose";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from 'url';
 import  {__dirname}  from '../app.js';
-import { log } from "console";
 
 const generateShortId = () => {
   const timestamp = Date.now(); // Get current time in milliseconds
@@ -754,6 +752,7 @@ const getNotifications = async (req, res) => {
 
 const likeProfile = async (req, res) => {
   try {
+    const io = req.app.get("io"); 
     const { likerId } = req.params;
     const { likedId } = req.body;
 
@@ -805,7 +804,7 @@ const likeProfile = async (req, res) => {
     });
     await newNotification.save();
 
-    req.io.to(likedId).emit("newNotification", newNotification);
+    io.to(likedId).emit("receiveNotification", newNotification);
 
     res
       .status(200)
@@ -815,6 +814,7 @@ const likeProfile = async (req, res) => {
     res.status(500).json({ message: "Server Error", error });
   }
 };
+
 
 const likedProfiles = async (req, res) => {
   try {
@@ -858,6 +858,27 @@ try {
   res.status(500).json({message:"server-error"})
 }
 }
+const notificationTrigger = async (req, res) => {
+  const { id } = req.params; 
+  try {
+    const response = await Notification.find({ receiverId: id })
+      .sort({ createdAt: -1 })
+      .populate("senderId", "name profilePicture"); 
+
+    res.json(response);
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+};
+const unreadNotification=async (req,res) => {
+  const {id}=req.params;
+  try {
+    const notifications=await Notification.find({receiverId:id,isRead:false});
+    res.json({response:notifications})
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+}
 
 export {
   registerUser,
@@ -877,5 +898,7 @@ export {
   getNotifications,
   likeProfile,
   getComplaint,
-  unVerifiedUser
+  unVerifiedUser,
+  notificationTrigger,
+  unreadNotification
 };
