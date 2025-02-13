@@ -4,6 +4,7 @@ import image from "../../assets/free-photo-of-couple-in-green-grass-field.jpeg";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 
 function FormPage4() {
   const [form, setForm] = useState({});
@@ -15,7 +16,17 @@ function FormPage4() {
   const [userProfie, setUserProfile] = useState([]);
 
   const { id } = useSelector((state) => state.user);
+ const notifyError = (message) =>
+    toast.error(message, {
+      autoClose: 3000,
+      closeOnClick: true,
+    });
 
+  const notifySuccess = (message) =>
+    toast.success(message, {
+      autoClose: 3000,
+      closeOnClick: true,
+    });
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prevForm) => ({
@@ -43,6 +54,10 @@ function FormPage4() {
         formData
       );
       console.log("Upload successful:", response);
+      if (response.status === 200) {
+        notifySuccess(response.data.data.message || "Successfully Submitted.");
+        setShowModal(false); // Close modal after successful upload
+      }
     } catch (error) {
       console.log("Upload error:", error);
     }
@@ -75,6 +90,9 @@ function FormPage4() {
         }
       );
       if (response.status === 200) {
+          notifySuccess(response.data.data.message || "Successfully Submitted.");
+          setShowModal(false); // Close modal after successful upload
+        
         navigate(`/formpage5`);
         console.log(response);
       }
@@ -116,7 +134,7 @@ function FormPage4() {
     <div className={styles.mainContainer}>
       <div className={styles.progressDiv}>
         <div className={styles.progressHeading}>You have completed</div>
-        <div className={styles.progressHeading2}>90%</div>
+        <div className={styles.progressHeading2}>80%</div>
       </div>
 
       <div className={styles.container}>
