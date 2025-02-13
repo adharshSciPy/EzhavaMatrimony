@@ -13,44 +13,55 @@ function MyProfile() {
   const fileInputRef = useRef(null);
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.user.id);
-  console.log("hey kitty", userId);
+  
+  console.log("User ID:", userId);
+
   const fetchUserData = async () => {
     try {
       const response = await axios.get(
         `http://localhost:8000/api/v1/user/usercarddetails/${userId}`
       );
-      console.log("response", response.data.data);
+      console.log("User data:", response.data.data);
       setUserData(response.data.data);
     } catch (error) {
-      console.log("error", error);
+      console.log("Error fetching user data:", error);
     }
   };
+
   useEffect(() => {
     fetchUserData();
   }, []);
-  const handleFileChange = async(e) => {
-    const selectedFile = Array.from(e.target.files);
-    if (selectedFile.length>0) {
-      setFile((prevFiles)=>[...prevFiles,...selectedFile]);
+
+  const handleFileChange = (e) => {
+    const selectedFiles = Array.from(e.target.files);
+    if (selectedFiles.length > 0) {
+      setFile((prevFiles) => [...prevFiles, ...selectedFiles]);
     }
   };
-  useEffect(() => {
-    if (file.length === 0) return;
 
+  useEffect(() => {
     const handleUpload = async () => {
+      if (file.length === 0) return;
+      
       const formData = new FormData();
-      file.forEach((image) => formData.append("image", image));
+      file.forEach((file) => formData.append("image", file));
 
       try {
-        await axios.patch(`http://localhost:8000/api/v1/user/edit/${userId}`, formData);
-        setFile([]); // Clear file state after upload
+        const response = await axios.patch(
+          `http://localhost:8000/api/v1/user/edit/${userId}`,
+          formData
+        );
+        console.log("Upload successful:", response);
+        setFile([]); // Clear file after upload
+        fetchUserData(); // Refresh user data to reflect new images
       } catch (error) {
-        console.error("Upload error:", error);
+        console.log("Upload error:", error);
       }
     };
 
     handleUpload();
-  }, [file, userId]);
+  }, [file]);
+
   return (
     <div>
       <Nav />
@@ -244,30 +255,6 @@ function MyProfile() {
                   </div>
                 </div>
               </div>
-              <div className="verification-main-container">
-                <div className="verfication-container">
-                  <div className="letter-container">
-                    <div className="letter-main same">
-                      <span className="material-icons">phone</span>
-                      <h3>PHONE NUMBER</h3>
-                      <div className="hr">
-                        <hr />
-                      </div>
-                      <span className="material-icons">check_circle</span>
-                      <h3>Verified</h3>
-                    </div>
-                  </div>
-                  <div className="digit-container">
-                    <div className="digit-main">
-                      <h3>+91 65*********</h3>
-                      <div className="call-now">
-                        <span className="material-icons">phone</span>
-                        <h4>Call Now</h4>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
               <div className="basic-details-container">
                 <div className="about-user-container">
                   <h3>About Religion</h3>
@@ -415,7 +402,7 @@ function MyProfile() {
       key={index}
       className="my-profile-image23-single"
       src={`http://localhost:8000${imgSrc}`}
-      alt={`User Image ${index + 1}`}
+      alt={`User Image ${index }`}
     />
   ))}
 </div>
