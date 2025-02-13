@@ -447,7 +447,7 @@ function Dashboard() {
                   <Gear size={20} weight="duotone" />
                 </div>
                 <div className={DashStyles.link}>
-                  <Link to="/">Settings</Link>
+                  <Link to={`/Usettings/${userId}`}>Settings</Link>
                 </div>
               </div>
               <div className={DashStyles.LinkIcon}>
@@ -674,7 +674,7 @@ function Dashboard() {
                       <Gear size={20} weight="duotone" />
                     </div>
                     <div className={DashStyles.link}>
-                      <Link to="/">Settings</Link>
+                      <Link to={`/Usettings/${userId}`}>Settings</Link>
                     </div>
                   </div>
                   <div className={DashStyles.LinkIcon}>

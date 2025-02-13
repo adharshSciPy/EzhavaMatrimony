@@ -8,16 +8,21 @@ import Footer from "../../component/Footer/Footer";
 import axios from "axios"; // Import axios
 
 function UserMain() {
-  const {id}=useParams()                                                                             
+  const { id } = useParams();
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showNumber, setShowNumber] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState("");
   const fetchUserData = async () => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/v1/user/usercarddetails/${id}`); 
-      setUserData(response.data.data); 
-      console.log(response.data.data,"pwada");
-      
+      const response = await axios.get(
+        `http://localhost:8000/api/v1/user/usercarddetails/${id}`
+      );
+      setUserData(response.data.data);
+      console.log(response.data.data, "pwada");
+      setPhoneNumber(response.data.data.phoneNumber);
+
       setLoading(false);
     } catch (error) {
       setError("Failed to fetch user data. Please try again later.");
@@ -29,8 +34,21 @@ function UserMain() {
   useEffect(() => {
     fetchUserData();
   }, []);
+  // useEffect(() => {
+  //   const fetchPhoneNumber = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         `http://localhost:8000/api/v1/user/${id}`
+  //       );
+  //       setPhoneNumber(response.data.phoneNumber); // Assuming phoneNumber exists in backend response
+  //     } catch (error) {
+  //       console.error("Error fetching phone number:", error);
+  //     }
+  //   };
 
-  
+  //   fetchPhoneNumber();
+  // }, [id]);
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -46,7 +64,7 @@ function UserMain() {
       <div className="profile-view-main-container">
         <div className="profile-cards">
           <div className="image-container">
-          <img
+            <img
               src={
                 userData.profilePicture
                   ? `http://localhost:8000${userData.profilePicture}`
@@ -77,20 +95,27 @@ function UserMain() {
                     </svg>
                   </i>
                   <div className="dropdown-menu">
-                    <Link to={`/report/${id}`}> <div className="dropdown-item">Report This Profile</div></Link>
+                    <Link to={`/report/${id}`}>
+                      {" "}
+                      <div className="dropdown-item">Report This Profile</div>
+                    </Link>
                   </div>
                 </div>
               </div>
             </div>
             <div className="profile-age-container">
               <p className="">
-                {userData ? `${userData.age} Yrs, ${userData.height}` : "25 Yrs, 5'7\""}
+                {userData
+                  ? `${userData.age} Yrs, ${userData.height}`
+                  : "25 Yrs, 5'7\""}
               </p>
             </div>
 
             <div className="profile-info-container">
               <span className="profile-degree-container">
-                {userData ? userData.education : "Other Bachelor Degree in Medicine, Student"}
+                {userData
+                  ? userData.education
+                  : "Other Bachelor Degree in Medicine, Student"}
               </span>
             </div>
 
@@ -128,7 +153,9 @@ function UserMain() {
                   </div>
                   <div className="age-container details-main">
                     <div className="prof-detail same">
-                      <span className="material-icons profiles-icon">person</span>
+                      <span className="material-icons profiles-icon">
+                        person
+                      </span>
                       <p>Age</p>
                     </div>
                     <div className="prof-detail same1">
@@ -137,16 +164,22 @@ function UserMain() {
                   </div>
                   <div className="degree-container details-main">
                     <div className="prof-detail same">
-                      <span className="material-icons profiles-icon">school</span>
+                      <span className="material-icons profiles-icon">
+                        school
+                      </span>
                       <p>Degree</p>
                     </div>
                     <div className="prof-detail same1">
-                      {userData ? userData.education : "Other Bachelor Degree in Medicine, Student"}
+                      {userData
+                        ? userData.education
+                        : "Other Bachelor Degree in Medicine, Student"}
                     </div>
                   </div>
                   <div className="location-container details-main">
                     <div className="prof-detail same">
-                      <span className="material-icons profiles-icon">location_on</span>
+                      <span className="material-icons profiles-icon">
+                        location_on
+                      </span>
                       <p>Location</p>
                     </div>
                     <div className="prof-detail same1">
@@ -155,16 +188,22 @@ function UserMain() {
                   </div>
                   <div className="spoken-language-container details-main">
                     <div className="prof-detail same">
-                      <span className="material-icons profiles-icon">language</span>
+                      <span className="material-icons profiles-icon">
+                        language
+                      </span>
                       <p>Spoken Language</p>
                     </div>
                     <div className="prof-detail same1">
-                      {userData ? userData.motherTongue : "Malayalam, English, Hindi"}
+                      {userData
+                        ? userData.motherTongue
+                        : "Malayalam, English, Hindi"}
                     </div>
                   </div>
                   <div className="profile-created-container details-main">
                     <div className="prof-detail same">
-                      <span className="material-icons profiles-icon">account_circle</span>
+                      <span className="material-icons profiles-icon">
+                        account_circle
+                      </span>
                       <p>Profile Created By</p>
                     </div>
                     <div className="prof-detail same1">
@@ -173,7 +212,9 @@ function UserMain() {
                   </div>
                   <div className="maritial-status-container details-main">
                     <div className="prof-detail same">
-                      <span className="material-icons profiles-icon">favorite</span>
+                      <span className="material-icons profiles-icon">
+                        favorite
+                      </span>
                       <p>Maritial Status</p>
                     </div>
                     <div className="prof-detail same1">
@@ -190,14 +231,14 @@ function UserMain() {
                     </div>
                   </div>
                   <div className="location-container details-main">
-                  <div className="prof-detail same">
-                    <span className="material-icons profiles-icon">work</span>
-                    <p>hobbies</p>
+                    <div className="prof-detail same">
+                      <span className="material-icons profiles-icon">work</span>
+                      <p>hobbies</p>
+                    </div>
+                    <div className="prof-detail same1">
+                      {userData ? userData.hobbies : "Demo"}
+                    </div>
                   </div>
-                  <div className="prof-detail same1">
-                    {userData ? userData.hobbies : "Demo"}
-                  </div>
-                </div>
                 </div>
               </div>
               <div className="verification-main-container">
@@ -215,7 +256,7 @@ function UserMain() {
                   </div>
                   <div className="digit-container">
                     <div className="digit-main">
-                      <h3>+91 65*********</h3>
+                      <h3>{showNumber ? phoneNumber : "**********"}</h3>
                       <div className="call-now">
                         <span className="material-icons">phone</span>
                         <h4>Call Now</h4>
