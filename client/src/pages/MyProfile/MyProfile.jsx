@@ -89,7 +89,9 @@ function MyProfile() {
               </div>
               <div className="option-container">
                 <div className="option">
-                <i class="material-icons text-gray-600 cursor-pointer w-6 h-6" style={{ marginLeft: "-50px", fontSize: "40px" }}>add_a_photo</i>
+                <i class="material-icons text-gray-600 cursor-pointer w-6 h-6" style={{ marginLeft: "-50px", fontSize: "40px" }}
+                >add_a_photo
+                </i>
 
 
                   <div className="dropdown-menu">
