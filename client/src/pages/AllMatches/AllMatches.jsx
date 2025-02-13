@@ -31,8 +31,6 @@ function AllMatches() {
     age: "",
     height: "",
     maritalStatus: "",
-    motherTongue: "",
-    physicalStatus: "",
     occupation: "",
     annualIncome: "",
     education: "",
@@ -321,7 +319,7 @@ function AllMatches() {
                 onChange={handleFilterChange}
                 value={filters.occupation}
               >
-                <option>Ocuupation</option>
+                <option>Occupation</option>
                 <option value="doctor">Doctor</option>
                 <option value="nurse">Nurse</option>
                 <option value="pharmacist">Pharmacist</option>
@@ -587,7 +585,7 @@ function AllMatches() {
                 </h3>
                 <div className={DashStyles.ProfessionalDetailsDiv}>
                   <select name="occupation" className={DashStyles.pdSelect} value={filters.occupation} onChange={handleFilterChange}>
-                    <option>Ocuupation</option>
+                    <option>Occupation</option>
                     <option value="doctor">Doctor</option>
                     <option value="nurse">Nurse</option>
                     <option value="pharmacist">Pharmacist</option>
@@ -764,7 +762,7 @@ function AllMatches() {
                           {item.firstName}
                         </h5>
                         <h6 className={DashStyles.trUserDetails}>
-                          {`${item.age} Yrs, ${item.height}`}
+                          {`${item.age} Yrs, ${item.height}cms`}
                         </h6>
                       </div>
                       <div

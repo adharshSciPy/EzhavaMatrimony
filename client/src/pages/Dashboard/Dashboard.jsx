@@ -294,7 +294,7 @@ function Dashboard() {
     <div>
       {/* <ToastContainer position="bottom-right" /> */}
       <div className={DashStyles.mainContainer}>
-        <Nav />
+        <Nav userId={userId}/>
         <div className={DashStyles.SubContainer}>
           {/* static details div for larger screens  starts*/}
           <div className={DashStyles.ProfileDiv}>
