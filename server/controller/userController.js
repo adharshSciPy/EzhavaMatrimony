@@ -137,6 +137,7 @@ const editUser = async (req, res) => {
     educationDetails,
     state,
     phoneNumber,
+    firstName
   } = req.body;
 
   try {
@@ -147,6 +148,7 @@ const editUser = async (req, res) => {
     }
 
     let updatedData = {
+      firstName,
       dateOfBirth,
       religion,
       motherTongue,
@@ -569,21 +571,25 @@ const topMatch = async (req, res) => {
     const oppositeGender =
       user.gender.toLowerCase() === "male" ? "female" : "male";
 
+    // Use 'city' instead of 'location' and case-insensitive gender check
+    const userCity = user.city ? user.city.trim() : '';
+    const userOccupation = user.occupation ? user.occupation.trim() : '';
+
     const matchQuery = {
       $or: [
-        { location: { $regex: new RegExp(`^${user.location}$`, "i") } },
+        ...(userCity ? [{ city: { $regex: new RegExp(`^${escapeRegex(userCity)}$`, "i") } }] : []),
         ...(hobbiesRegex
           ? [{ hobbies: { $regex: hobbiesRegex, $options: "i" } }]
           : []),
-        { occupation: { $regex: new RegExp(`^${user.occupation}$`, "i") } },
+        ...(userOccupation ? [{ occupation: { $regex: new RegExp(`^${escapeRegex(userOccupation)}$`, "i") } }] : []),
       ],
-      gender: oppositeGender, // Opposite gender
+      gender: { $regex: new RegExp(`^${oppositeGender}$`, 'i') }, // Case-insensitive gender check
       _id: { $ne: user._id }, // Exclude the current user
     };
 
     // Find matching users
     const matches = await User.find(matchQuery).select(
-      "firstName occupation age location hobbies gender height"
+      "firstName occupation age city hobbies gender height profilePicture"
     );
 
     if (matches.length === 0) {
@@ -596,9 +602,10 @@ const topMatch = async (req, res) => {
       id: match._id,
       occupation: match.occupation,
       age: match.age,
-      location: match.location,
+      city: match.city,
       hobbies: match.hobbies,
       height: match.height,
+      profilePicture:match.profilePicture
     }));
 
     res.status(200).json({ message: "Matches found", matches: response });

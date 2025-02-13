@@ -135,56 +135,56 @@ function FormPage5() {
                       onChange={handleChange}
                       name="education"
                     >
-                      <option value="">Select Your Highest Education</option>
-                      <option value="below_10">Below 10th</option>
+                      <option >Select Your Highest Education</option>
+                      <option value="Below 10">Below 10th</option>
                       <option value="10th">10th (SSLC/Matriculation)</option>
-                      <option value="12th_science">12th - Science</option>
-                      <option value="12th_humanities">12th - Humanities</option>
-                      <option value="12th_commerce">12th - Commerce</option>
-                      <option value="diploma">Diploma</option>
-                      <option value="bsc">BSc (Bachelor of Science)</option>
-                      <option value="ba">BA (Bachelor of Arts)</option>
-                      <option value="bcom">BCom (Bachelor of Commerce)</option>
-                      <option value="btech">
+                      <option value="12th Science">12th - Science</option>
+                      <option value="12th Humanities">12th - Humanities</option>
+                      <option value="12th Commerce">12th - Commerce</option>
+                      <option value="Diploma">Diploma</option>
+                      <option value="BSc">BSc (Bachelor of Science)</option>
+                      <option value="BA">BA (Bachelor of Arts)</option>
+                      <option value="BCom">BCom (Bachelor of Commerce)</option>
+                      <option value="BTech">
                         BTech (Bachelor of Technology)
                       </option>
-                      <option value="be">BE (Bachelor of Engineering)</option>
-                      <option value="bba">
+                      <option value="BE">BE (Bachelor of Engineering)</option>
+                      <option value="BBA">
                         BBA (Bachelor of Business Administration)
                       </option>
-                      <option value="bca">
+                      <option value="BCA">
                         BCA (Bachelor of Computer Applications)
                       </option>
-                      <option value="llb">LLB (Bachelor of Law)</option>
-                      <option value="mbbs">
+                      <option value="LLB">LLB (Bachelor of Law)</option>
+                      <option value="MBBS">
                         MBBS (Bachelor of Medicine & Surgery)
                       </option>
-                      <option value="bpharm">
+                      <option value="BPharm">
                         BPharm (Bachelor of Pharmacy)
                       </option>
-                      <option value="bds">
+                      <option value="BDS">
                         BDS (Bachelor of Dental Surgery)
                       </option>
-                      <option value="msc">MSc (Master of Science)</option>
-                      <option value="ma">MA (Master of Arts)</option>
-                      <option value="mcom">MCom (Master of Commerce)</option>
-                      <option value="mtech">
+                      <option value="MSC">MSc (Master of Science)</option>
+                      <option value="MA">MA (Master of Arts)</option>
+                      <option value="MCom">MCom (Master of Commerce)</option>
+                      <option value="MTech">
                         MTech (Master of Technology)
                       </option>
-                      <option value="me">ME (Master of Engineering)</option>
-                      <option value="mba">
+                      <option value="ME">ME (Master of Engineering)</option>
+                      <option value="MBA">
                         MBA (Master of Business Administration)
                       </option>
-                      <option value="mca">
+                      <option value="MCA">
                         MCA (Master of Computer Applications)
                       </option>
-                      <option value="llm">LLM (Master of Law)</option>
-                      <option value="md">MD (Doctor of Medicine)</option>
-                      <option value="ms">MS (Master of Surgery)</option>
-                      <option value="mphil">
+                      <option value="LLM">LLM (Master of Law)</option>
+                      <option value="MD">MD (Doctor of Medicine)</option>
+                      <option value="MS">MS (Master of Surgery)</option>
+                      <option value="MPhil">
                         MPhil (Master of Philosophy)
                       </option>
-                      <option value="phd">PhD (Doctorate)</option>
+                      <option value="PhD">PhD (Doctorate)</option>
                     </select>
                   </div>
                   <div className={styles.helperTextDiv}></div>
@@ -283,72 +283,72 @@ function FormPage5() {
                     >
                       <option >Select Your Occupation</option>
 
-                      <option value="doctor">Doctor</option>
-                      <option value="nurse">Nurse</option>
-                      <option value="pharmacist">Pharmacist</option>
-                      <option value="dentist">Dentist</option>
-                      <option value="paramedic">Paramedic</option>
-                      <option value="physiotherapist">Physiotherapist</option>
-                      <option value="care_worker">Care Worker</option>
+                      <option value="Doctor">Doctor</option>
+                      <option value="Nurse">Nurse</option>
+                      <option value="Pharmacist">Pharmacist</option>
+                      <option value="Dentist">Dentist</option>
+                      <option value="Paramedic">Paramedic</option>
+                      <option value="Physiotherapist">Physiotherapist</option>
+                      <option value="Care Worker">Care Worker</option>
 
-                      <option value="software_engineer">
+                      <option value="Software Engineer">
                         Software Engineer
                       </option>
-                      <option value="civil_engineer">Civil Engineer</option>
-                      <option value="mechanical_engineer">
+                      <option value="Civil Engineer">Civil Engineer</option>
+                      <option value="Mechanical Engineer">
                         Mechanical Engineer
                       </option>
-                      <option value="electrical_engineer">
+                      <option value="Electrical Engineer">
                         Electrical Engineer
                       </option>
-                      <option value="data_scientist">Data Scientist</option>
-                      <option value="it_consultant">IT Consultant</option>
+                      <option value="Data Scientist">Data Scientist</option>
+                      <option value="It Consultant">IT Consultant</option>
 
-                      <option value="teacher">Teacher</option>
-                      <option value="lecturer">University Lecturer</option>
-                      <option value="teaching_assistant">
+                      <option value="Teacher">Teacher</option>
+                      <option value="Lecturer">University Lecturer</option>
+                      <option value="Teaching Assistant">
                         Teaching Assistant
                       </option>
 
-                      <option value="accountant">Accountant</option>
-                      <option value="banker">Banker</option>
-                      <option value="financial_analyst">
+                      <option value="Accountant">Accountant</option>
+                      <option value="Banker">Banker</option>
+                      <option value="Financial Analyst">
                         Financial Analyst
                       </option>
-                      <option value="solicitor">Solicitor</option>
-                      <option value="barrister">Barrister</option>
+                      <option value="Solicitor">Solicitor</option>
+                      <option value="Barrister">Barrister</option>
 
-                      <option value="electrician">Electrician</option>
-                      <option value="plumber">Plumber</option>
-                      <option value="carpenter">Carpenter</option>
-                      <option value="mechanic">Mechanic</option>
+                      <option value="Electrician">Electrician</option>
+                      <option value="Plumber">Plumber</option>
+                      <option value="Carpenter">Carpenter</option>
+                      <option value="Mechanic">Mechanic</option>
 
-                      <option value="police_officer">Police Officer</option>
-                      <option value="firefighter">Firefighter</option>
-                      <option value="armed_forces">Armed Forces</option>
-                      <option value="social_worker">Social Worker</option>
+                      <option value="Police Officer">Police Officer</option>
+                      <option value="Firefighter">Firefighter</option>
+                      <option value="Armed Forces">Armed Forces</option>
+                      <option value="Social Worker">Social Worker</option>
 
-                      <option value="chef">Chef</option>
-                      <option value="hotel_manager">Hotel Manager</option>
-                      <option value="retail_manager">Retail Manager</option>
-                      <option value="customer_service">
+                      <option value="Chef">Chef</option>
+                      <option value="Hotel Manager">Hotel Manager</option>
+                      <option value="Retail Manager">Retail Manager</option>
+                      <option value="Customer Service">
                         Customer Service Representative
                       </option>
 
-                      <option value="journalist">Journalist</option>
-                      <option value="graphic_designer">Graphic Designer</option>
-                      <option value="actor">Actor</option>
-                      <option value="musician">Musician</option>
+                      <option value="Journalist">Journalist</option>
+                      <option value="Graphic Designer">Graphic Designer</option>
+                      <option value="Actor">Actor</option>
+                      <option value="Musician">Musician</option>
 
-                      <option value="truck_driver">Truck Driver</option>
-                      <option value="delivery_driver">Delivery Driver</option>
-                      <option value="airline_pilot">Airline Pilot</option>
+                      <option value="Truck Driver">Truck Driver</option>
+                      <option value="Delivery Driver">Delivery Driver</option>
+                      <option value="Airline Pilot">Airline Pilot</option>
 
-                      <option value="self_employed">Self-Employed</option>
-                      <option value="unemployed">Unemployed</option>
-                      <option value="student">Student</option>
-                      <option value="retired">Retired</option>
-                      <option value="others">Others</option>
+                      <option value="Self Employed">Self-Employed</option>
+                      <option value="Unemployed">Unemployed</option>
+                      <option value="Student">Student</option>
+                      <option value="Retired">Retired</option>
+                      <option value="Others">Others</option>
                     </select>
                   </div>
                   <div className={styles.helperTextDiv}></div>
