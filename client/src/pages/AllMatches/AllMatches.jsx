@@ -105,7 +105,7 @@ function AllMatches() {
 
   useEffect(() => {
     const handleScrollHam = () => {
-      const filterIcons = document.querySelectorAll(`.${DashStyles.FilterIcon}`);
+      const filterIcons = document.querySelectorAll(`[class*="${DashStyles.FilterIcon}"]`);
       filterIcons.forEach((el) => {
         if (
           window.scrollY > 10 &&
@@ -123,6 +123,7 @@ function AllMatches() {
       window.removeEventListener("scroll", handleScrollHam);
     };
   }, []);
+  
   
 
 
