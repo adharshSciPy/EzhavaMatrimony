@@ -369,7 +369,7 @@ function FormPage5() {
                       onChange={handleChange}
                       name="state"
                     >
-                      <option value="">Select Your State</option>
+                      <option >Select Your State</option>
                       <option value="Andhra Pradesh">Andhra Pradesh</option>
                       <option value="Arunachal Pradesh">
                         Arunachal Pradesh
