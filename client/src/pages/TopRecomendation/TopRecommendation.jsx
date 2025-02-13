@@ -101,26 +101,25 @@ function TopRecommendation() {
   };
 
   useEffect(() => {
-    const handleScrollHam = () => {
-      document.querySelectorAll(`.${DashStyles.FilterIcon}`).forEach((el) => {
-        if (
-          window.scrollY > 10 &&
-          !el.classList.contains(DashStyles.open1) &&
-          !el.classList.contains(DashStyles.open2) &&
-          !el.classList.contains(DashStyles.open3)
-        ) {
-          el.style.display = "none";
-        } else {
-          el.style.display = "block";
-        }
-      });
-    };
-
-    window.addEventListener("scroll", handleScrollHam);
-    return () => {
-      window.removeEventListener("scroll", handleScrollHam);
-    };
-  }, []);
+     const handleScrollHam = () => {
+       const filterIcons = document.querySelectorAll(`[class*="${DashStyles.FilterIcon}"]`);
+       filterIcons.forEach((el) => {
+         if (
+           window.scrollY > 10 &&
+           !el.classList.contains(DashStyles.FilterCloseIcon)
+         ) {
+           el.style.display = "none";
+         } else {
+           el.style.display = "block";
+         }
+       });
+     };
+   
+     window.addEventListener("scroll", handleScrollHam);
+     return () => {
+       window.removeEventListener("scroll", handleScrollHam);
+     };
+   }, []);
 
   const TopMatch = async () => {
     try {
