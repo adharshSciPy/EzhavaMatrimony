@@ -6,6 +6,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../features/slice";
+import Modal from "react-modal";
+
 
 function LandingPage() {
   let field = {
@@ -13,12 +15,34 @@ function LandingPage() {
     password: "",
   };
   const [form, setForm] = useState(field);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+  
   const [errorMessage, setErrorMessage] = useState(""); 
+    const [email, setEmail] = useState("");
+  
   const notifyError = (message) => toast.error(message);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  
+  const handleEmail = (e) => {
+    setEmail(e.target.value);
+  };
+  const submitEmail = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(
+        `http://localhost:8000/api/v1/user/forgotpassworduser`,{ userEmail: email }
+      );
+      if (response.status === 200) {
+        toast.success("Password reset link sent to registered mail ID", {
+          onClose: () => setIsModalOpen(false),
+        });
+      }
+    } catch (error) {
+      
+      notifyError(error.response?.data?.message);
+    }
+  };
   const handleSignin = async (e) => {
     e.preventDefault(); 
     try {
@@ -96,10 +120,32 @@ function LandingPage() {
             </label>
             <button type="submit">Sign In</button>
             <div className="fp">
-              <Link className="signup-link" to="/forgotpassworduser">
+              <p className="signup-link" 
+              onClick={() => setIsModalOpen(true)}
+              >
                 Forgot Password
-              </Link>
+              </p>
             </div>
+             <Modal
+                          isOpen={isModalOpen}
+                          onRequestClose={() => setIsModalOpen(false)}
+                          className="modal-content"
+                          overlayClassName="modal-overlay"
+                        >
+                          <h2>Forgot Password</h2>
+                          <p>Enter your email to receive a reset link.</p>
+            
+                          <input
+                            type="email"
+                            placeholder="Enter your email"
+                            required
+                            value={email}
+                            onChange={handleEmail}
+                          />
+            
+                          <button onClick={submitEmail}>Submit</button>
+                          <button onClick={() => setIsModalOpen(false)}>Close</button>
+                        </Modal>
             <div className="adminLogin">
               <Link className="signup-link" to="/adminLanding">
               Login as Admin
