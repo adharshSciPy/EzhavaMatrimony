@@ -104,26 +104,35 @@ function AllMatches() {
   };
 
   useEffect(() => {
+    let timeoutId;
     const handleScrollHam = () => {
-      document.querySelectorAll(`.${DashStyles.FilterIcon}`).forEach((el) => {
-        if (
-          window.scrollY > 10 &&
-          !el.classList.contains(DashStyles.open1) &&
-          !el.classList.contains(DashStyles.open2) &&
-          !el.classList.contains(DashStyles.open3)
-        ) {
-          el.style.display = "none";
-        } else {
-          el.style.display = "block";
+      if (timeoutId) return;
+  
+      timeoutId = setTimeout(() => {
+        const filterIcon = document.querySelector(`.${DashStyles.FilterIcon}`);
+        if (filterIcon) {
+          if (
+            window.scrollY > 10 &&
+            !filterIcon.classList.contains(DashStyles.open1) &&
+            !filterIcon.classList.contains(DashStyles.open2) &&
+            !filterIcon.classList.contains(DashStyles.open3)
+          ) {
+            filterIcon.style.display = "none";
+          } else {
+            filterIcon.style.display = "block";
+          }
         }
-      });
+        timeoutId = null;
+      }, 100); // Adjust delay as needed
     };
-
+  
     window.addEventListener("scroll", handleScrollHam);
     return () => {
       window.removeEventListener("scroll", handleScrollHam);
     };
   }, []);
+  
+
   const getAllMatches = async () => {
     try {
       const response = await axios.get(
@@ -184,6 +193,7 @@ function AllMatches() {
     setCurrentPage(1);
     setFilteredMatches(filteredData);
     setFiltersApplied(isFiltersApplied);
+    isOpen?setIsOpen(false):setIsOpen(true)
   };
 
   const resetFilters = () => {
@@ -483,6 +493,7 @@ function AllMatches() {
             <button
               className={DashStyles.FilterDivButtonOne}
               onClick={applyFilters}
+            
             >
               Apply
             </button>
