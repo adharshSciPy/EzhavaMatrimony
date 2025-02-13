@@ -1,4 +1,4 @@
-import React, { useEffect, useState,useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link, useParams } from "react-router-dom";
 import Nav from "../../component/Navbar/Nav";
 import Footer from "../../component/Footer/Footer";
@@ -13,7 +13,7 @@ function MyProfile() {
   const fileInputRef = useRef(null);
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.user.id);
-  
+
   console.log("User ID:", userId);
 
   const fetchUserData = async () => {
@@ -42,7 +42,7 @@ function MyProfile() {
   useEffect(() => {
     const handleUpload = async () => {
       if (file.length === 0) return;
-      
+
       const formData = new FormData();
       file.forEach((file) => formData.append("image", file));
 
@@ -65,7 +65,7 @@ function MyProfile() {
   return (
     <div>
       <Nav />
-      <h2 className="all-match">All Matches 14/112</h2>
+      <h2 className="all-match">My Profile</h2>
       <div className="profile-view-main-container">
         <div className="profile-cards">
           <div className="image-container">
@@ -89,22 +89,31 @@ function MyProfile() {
               </div>
               <div className="option-container">
                 <div className="option">
-                <i class="material-icons text-gray-600 cursor-pointer w-6 h-6" style={{ marginLeft: "-50px", fontSize: "40px" }}
-                >add_a_photo
+                  <i
+                    class="material-icons text-gray-600 cursor-pointer w-6 h-6"
+                    style={{ marginLeft: "-50px", fontSize: "40px" }}
+                
+                  >
+                    add_a_photo
+                  
                 </i>
 
-
                   <div className="dropdown-menu">
-                    <div className="dropdown-item"   onClick={() => fileInputRef.current.click()}
-                  style={{ cursor: "pointer" }}>Upload Images</div>
-                         <input
-                type="file"
-                ref={fileInputRef}
-                multiple
-                style={{ display: "none" }}
-                onChange={handleFileChange}
-                accept="image/*"
-              />
+                    <div
+                      className="dropdown-item"
+                      onClick={() => fileInputRef.current.click()}
+                      style={{ cursor: "pointer" }}
+                    >
+                      Upload Images
+                    </div>
+                    <input
+                      type="file"
+                      ref={fileInputRef}
+                      multiple
+                      style={{ display: "none" }}
+                      onChange={handleFileChange}
+                      accept="image/*"
+                    />
                   </div>
                 </div>
               </div>
@@ -120,13 +129,24 @@ function MyProfile() {
 
             <div className="profile-info-container">
               <span className="profile-degree-container">
-                {userData.education ? userData.education : "No data Found"}
+              {userData.education
+                      ? userData.education
+                          .split("_")
+                          .map(
+                            (education) =>
+                              education.trim().charAt(0).toUpperCase() +
+                              education.trim().slice(1)
+                          )
+                          .join(" ")
+                      : ""}
               </span>
             </div>
 
             <div className="profile-location-container">
               <span>
-                {userData.location ? userData.location : "No data Found"}
+                {userData.location || userData.state
+                  ? `${userData.location}  ${userData.state}`
+                  : "No data Found"}
               </span>
             </div>
             <div className="premium-container">
@@ -183,7 +203,16 @@ function MyProfile() {
                       <p>Degree</p>
                     </div>
                     <div className="prof-detail same1">
-                      {userData.education ? `${userData.education} ` : ""}
+                    {userData.education
+                      ? userData.education
+                          .split("_")
+                          .map(
+                            (education) =>
+                              education.trim().charAt(0).toUpperCase() +
+                              education.trim().slice(1)
+                          )
+                          .join(" ")
+                      : ""}
                     </div>
                   </div>
                   <div className="location-container details-main">
@@ -194,7 +223,9 @@ function MyProfile() {
                       <p>Location</p>
                     </div>
                     <div className="prof-detail same1">
-                      {userData.location ? `${userData.location} ` : ""}
+                      {userData.location || userData.state
+                        ? `${userData.location}  ${userData.state}`
+                        : "No data Found"}
                     </div>
                   </div>
                   <div className="spoken-language-container details-main">
@@ -319,7 +350,16 @@ function MyProfile() {
                     <p>Education</p>
                   </div>
                   <div className="prof-detail same1">
-                    {userData.education ? userData.education : ""}
+                  {userData.education
+                      ? userData.education
+                          .split("_")
+                          .map(
+                            (education) =>
+                              education.trim().charAt(0).toUpperCase() +
+                              education.trim().slice(1)
+                          )
+                          .join(" ")
+                      : ""}
                   </div>
                 </div>
                 <div className="location-container details-main">
@@ -328,7 +368,16 @@ function MyProfile() {
                     <p>Occupation</p>
                   </div>
                   <div className="prof-detail same1">
-                    {userData.occupation ? userData.occupation : ""}
+                    {userData.occupation
+                      ? userData.occupation
+                          .split("_")
+                          .map(
+                            (occupation) =>
+                              occupation.trim().charAt(0).toUpperCase() +
+                              occupation.trim().slice(1)
+                          )
+                          .join(" ")
+                      : ""}
                   </div>
                 </div>
               </div>
@@ -398,16 +447,16 @@ function MyProfile() {
                 <h3>Uploaded Images</h3>
               </div>
               <div className="like-card-container">
-              <div className="my-profile-image23">
-  {userData.image?.map((imgSrc, index) => (
-    <img
-      key={index}
-      className="my-profile-image23-single"
-      src={`http://localhost:8000${imgSrc}`}
-      alt={`User Image ${index }`}
-    />
-  ))}
-</div>
+                <div className="my-profile-image23">
+                  {userData.image?.map((imgSrc, index) => (
+                    <img
+                      key={index}
+                      className="my-profile-image23-single"
+                      src={`http://localhost:8000${imgSrc}`}
+                      alt={`User Image ${index}`}
+                    />
+                  ))}
+                </div>
               </div>
             </div>
           </div>

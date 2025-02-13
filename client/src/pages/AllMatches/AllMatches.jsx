@@ -31,8 +31,6 @@ function AllMatches() {
     age: "",
     height: "",
     maritalStatus: "",
-    motherTongue: "",
-    physicalStatus: "",
     occupation: "",
     annualIncome: "",
     education: "",
@@ -107,12 +105,11 @@ function AllMatches() {
 
   useEffect(() => {
     const handleScrollHam = () => {
-      document.querySelectorAll(`.${DashStyles.FilterIcon}`).forEach((el) => {
+      const filterIcons = document.querySelectorAll(`[class*="${DashStyles.FilterIcon}"]`);
+      filterIcons.forEach((el) => {
         if (
           window.scrollY > 10 &&
-          !el.classList.contains(DashStyles.open1) &&
-          !el.classList.contains(DashStyles.open2) &&
-          !el.classList.contains(DashStyles.open3)
+          !el.classList.contains(DashStyles.FilterCloseIcon)
         ) {
           el.style.display = "none";
         } else {
@@ -120,12 +117,16 @@ function AllMatches() {
         }
       });
     };
-
+  
     window.addEventListener("scroll", handleScrollHam);
     return () => {
       window.removeEventListener("scroll", handleScrollHam);
     };
   }, []);
+  
+  
+
+
   const getAllMatches = async () => {
     try {
       const response = await axios.get(
@@ -186,6 +187,7 @@ function AllMatches() {
     setCurrentPage(1);
     setFilteredMatches(filteredData);
     setFiltersApplied(isFiltersApplied);
+    isOpen?setIsOpen(false):setIsOpen(true)
   };
 
   const resetFilters = () => {
@@ -321,7 +323,7 @@ function AllMatches() {
                 onChange={handleFilterChange}
                 value={filters.occupation}
               >
-                <option>Ocuupation</option>
+                <option>Occupation</option>
                 <option value="doctor">Doctor</option>
                 <option value="nurse">Nurse</option>
                 <option value="pharmacist">Pharmacist</option>
@@ -485,6 +487,7 @@ function AllMatches() {
             <button
               className={DashStyles.FilterDivButtonOne}
               onClick={applyFilters}
+            
             >
               Apply
             </button>
@@ -587,7 +590,7 @@ function AllMatches() {
                 </h3>
                 <div className={DashStyles.ProfessionalDetailsDiv}>
                   <select name="occupation" className={DashStyles.pdSelect} value={filters.occupation} onChange={handleFilterChange}>
-                    <option>Ocuupation</option>
+                    <option>Occupation</option>
                     <option value="doctor">Doctor</option>
                     <option value="nurse">Nurse</option>
                     <option value="pharmacist">Pharmacist</option>
@@ -764,7 +767,7 @@ function AllMatches() {
                           {item.firstName}
                         </h5>
                         <h6 className={DashStyles.trUserDetails}>
-                          {`${item.age} Yrs, ${item.height}`}
+                          {`${item.age} Yrs, ${item.height}cms`}
                         </h6>
                       </div>
                       <div

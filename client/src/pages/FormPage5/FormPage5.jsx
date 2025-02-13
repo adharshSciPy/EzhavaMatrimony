@@ -85,7 +85,7 @@ function FormPage5() {
         annualIncome: userProfie.annualIncome || "",
         occupation: userProfie.occupation || "",
         state: userProfie.state || "",
-        city: userProfie.city || "",
+        location: userProfie.location || "",
         citizenship: userProfie.citizenship || "",
       }));
       setEmploymentStatus(userProfie.employmentStatus || "");
@@ -281,7 +281,7 @@ function FormPage5() {
                       onChange={handleChange}
                       name="occupation"
                     >
-                      <option value="">Select Your Occupation</option>
+                      <option >Select Your Occupation</option>
 
                       <option value="doctor">Doctor</option>
                       <option value="nurse">Nurse</option>
@@ -369,7 +369,7 @@ function FormPage5() {
                       onChange={handleChange}
                       name="state"
                     >
-                      <option value="">Select Your State</option>
+                      <option >Select Your State</option>
                       <option value="Andhra Pradesh">Andhra Pradesh</option>
                       <option value="Arunachal Pradesh">
                         Arunachal Pradesh
@@ -430,8 +430,8 @@ function FormPage5() {
                       type="text"
                       className={styles.input}
                       placeholder="city"
-                      value={form.city||""}
-                      name="city"
+                      value={form.location||""}
+                      name="location"
                       onChange={handleChange}
                     />
                   </div>
