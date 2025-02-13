@@ -143,44 +143,7 @@ function FormPage4() {
                 ></textarea>
               </div>
 
-              <div className={styles.imageUploadDiv}>
-                <label className={styles.imageUploadLabel}>
-                  <span className="material-icons">
-                    Upload Your Profile Image
-                  </span>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    className={styles.imageUploadInput}
-                    onChange={handleImageChange}
-                    
-                  />
-                </label>
-              </div>
-              {showModal && (
-                <div className={styles.modal}>
-                  <div className={styles.modalContent}>
-                    <h3>Preview</h3>
-                    <img
-                      src={preview}
-                      alt="Selected Preview"
-                      style={{
-                        objectFit: "cover",
-                        borderRadius: "10px",
-                        width: "236px",
-                        height: "398px",
-                        backgroundColor: " #f0c040",
-                        cursor: "pointer",
-                        overflow: "hidden",
-                      }}
-                    />
-                    <div className={styles.modalButtons}>
-                      <button onClick={handleUpload}>Yes</button>
-                      <button onClick={() => setShowModal(false)}>No</button>
-                    </div>
-                  </div>
-                </div>
-              )}
+              
 
               <div className={styles.formGroup}>
                 <div className={styles.fieldGroup}>
@@ -239,6 +202,44 @@ function FormPage4() {
                   </div>
                 </div>
               </div>
+              <div className={styles.imageUploadDiv}>
+                <label className={styles.imageUploadLabel}>
+                  <span className="material-icons">
+                    Upload Your Profile Image
+                  </span>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className={styles.imageUploadInput}
+                    onChange={handleImageChange}
+                    
+                  />
+                </label>
+              </div>
+              {showModal && (
+                <div className={styles.modal}>
+                  <div className={styles.modalContent}>
+                    <h3>Preview</h3>
+                    <img
+                      src={preview}
+                      alt="Selected Preview"
+                      style={{
+                        objectFit: "cover",
+                        borderRadius: "10px",
+                        width: "236px",
+                        height: "398px",
+                        backgroundColor: " #f0c040",
+                        cursor: "pointer",
+                        overflow: "hidden",
+                      }}
+                    />
+                    <div className={styles.modalButtons}>
+                      <button onClick={handleUpload}>Yes</button>
+                      <button onClick={() => setShowModal(false)}>No</button>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               <div className={styles.btnDiv}>
                 <button type="submit" className={styles.submitButton}>
