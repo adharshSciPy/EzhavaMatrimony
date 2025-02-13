@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import Nav from "../../component/Navbar/Nav";
 import Footer from "../../component/Footer/Footer";
 import image from "../../assets/free-photo-of-couple-in-green-grass-field.jpeg";
-import "../UserMain/usermain.css";
+import "../MyProfile/myprofile.css";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -32,27 +32,25 @@ function MyProfile() {
     const selectedFile = Array.from(e.target.files);
     if (selectedFile.length>0) {
       setFile((prevFiles)=>[...prevFiles,...selectedFile]);
-      await handleUpload(selectedFile)
     }
   };
-  const handleUpload = async (selectedFile) => {
-    if (selectedFile.length===0) return;
-    const formData = new FormData();
-    selectedFile.forEach((file)=>formData.append("image",file))
-    // formData.append("image", selectedFile);
+  useEffect(() => {
+    if (file.length === 0) return;
 
-    try {
-      const response = await axios.patch(
-        `http://localhost:8000/api/v1/user/edit/${userId}`,
-        formData
-      );
-      console.log("Upload successful:", response);
-    } catch (error) {
-      console.log("Upload error:", error);
-    }
-    setFile([]);
-    
-  };
+    const handleUpload = async () => {
+      const formData = new FormData();
+      file.forEach((image) => formData.append("image", image));
+
+      try {
+        await axios.patch(`http://localhost:8000/api/v1/user/edit/${userId}`, formData);
+        setFile([]); // Clear file state after upload
+      } catch (error) {
+        console.error("Upload error:", error);
+      }
+    };
+
+    handleUpload();
+  }, [file, userId]);
   return (
     <div>
       <Nav />
@@ -80,16 +78,9 @@ function MyProfile() {
               </div>
               <div className="option-container">
                 <div className="option">
-                  <i>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      className="w-6 h-6 text-gray-600 cursor-pointer"
-                    >
-                      <path d="M12 8.5a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm0 5a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm0 5a1.5 1.5 0 110-3 1.5 1.5 0 010 3z" />
-                    </svg>
-                  </i>
+                <i class="material-icons text-gray-600 cursor-pointer w-6 h-6" style={{ marginLeft: "-50px", fontSize: "40px" }}>add_a_photo</i>
+
+
                   <div className="dropdown-menu">
                     <div className="dropdown-item"   onClick={() => fileInputRef.current.click()}
                   style={{ cursor: "pointer" }}>Upload Images</div>
