@@ -92,9 +92,11 @@ function MyProfile() {
                   <i
                     class="material-icons text-gray-600 cursor-pointer w-6 h-6"
                     style={{ marginLeft: "-50px", fontSize: "40px" }}
+                
                   >
                     add_a_photo
-                  </i>
+                  
+                </i>
 
                   <div className="dropdown-menu">
                     <div
