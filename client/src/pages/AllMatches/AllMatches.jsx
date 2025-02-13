@@ -104,26 +104,18 @@ function AllMatches() {
   };
 
   useEffect(() => {
-    let timeoutId;
     const handleScrollHam = () => {
-      if (timeoutId) return;
-  
-      timeoutId = setTimeout(() => {
-        const filterIcon = document.querySelector(`.${DashStyles.FilterIcon}`);
-        if (filterIcon) {
-          if (
-            window.scrollY > 10 &&
-            !filterIcon.classList.contains(DashStyles.open1) &&
-            !filterIcon.classList.contains(DashStyles.open2) &&
-            !filterIcon.classList.contains(DashStyles.open3)
-          ) {
-            filterIcon.style.display = "none";
-          } else {
-            filterIcon.style.display = "block";
-          }
+      const filterIcons = document.querySelectorAll(`.${DashStyles.FilterIcon}`);
+      filterIcons.forEach((el) => {
+        if (
+          window.scrollY > 10 &&
+          !el.classList.contains(DashStyles.FilterCloseIcon)
+        ) {
+          el.style.display = "none";
+        } else {
+          el.style.display = "block";
         }
-        timeoutId = null;
-      }, 100); // Adjust delay as needed
+      });
     };
   
     window.addEventListener("scroll", handleScrollHam);
@@ -132,6 +124,7 @@ function AllMatches() {
     };
   }, []);
   
+
 
   const getAllMatches = async () => {
     try {
