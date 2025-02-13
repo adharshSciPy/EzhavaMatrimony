@@ -2,18 +2,23 @@ import React, { useState, useEffect } from "react";
 import "./usermain.css";
 import Nav from "../../component/Navbar/Nav";
 import padam from "../../assets/bridde.jpg";
-import { useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Footer from "../../component/Footer/Footer";
 import axios from "axios"; // Import axios
+import { useSelector, useDispatch } from "react-redux";
 
 function UserMain() {
+  const navigate = useNavigate();
+  const userId = useSelector((state) => state.user.id);
   const { id } = useParams();
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showNumber, setShowNumber] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [topMatches, setTopMatches] = useState([]);
+
   const fetchUserData = async () => {
     try {
       const response = await axios.get(
@@ -30,10 +35,25 @@ function UserMain() {
       console.error("Error fetching user data:", error);
     }
   };
+  const TopMatch = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/api/v1/user/topmatch/${userId}`
+      );
+      let user = response.data.matches;
+      const shuffledUsers = user.sort(() => 0.5 - Math.random()).slice(0, 4);
 
+      console.log("topMatch", response.data.matches);
+      setTopMatches(shuffledUsers);
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
   useEffect(() => {
     fetchUserData();
+    TopMatch();
   }, []);
+
   // useEffect(() => {
   //   const fetchPhoneNumber = async () => {
   //     try {
@@ -366,16 +386,19 @@ function UserMain() {
 
               <div className="profile-like-container">
                 <div className="profile-like-main">
-                  <div className="heading">
+                  {/* <div className="heading">
                     <h3>Profiles You May Like</h3>
-                  </div>
+                  </div> */}
                   <div className="like-card-container">
-                    {userData &&
-                      userData.similarProfiles &&
-                      userData.similarProfiles.map((profile, index) => (
+                    {/* {topMatches &&
+                      topMatches &&
+                      topMatches.map((profile, index) => (
                         <div className="like-card" key={index}>
                           <div className="image-container">
-                            <img src={profile.image || padam} alt="Profile" />
+                            <img
+                              src={`http://localhost:8000${profile.profilePicture}`}
+                              alt="Profile"
+                            />
                           </div>
                           <div className="description-container">
                             <div className="name">
@@ -384,15 +407,14 @@ function UserMain() {
                             <div className="age">
                               <p>{profile.age} Yrs</p>
                             </div>
-                            <div className="location">
-                              <p>{profile.location}</p>
-                            </div>
                             <div className="view-button">
-                              <button>View Profile</button>
+                              <button onClick={()=>handleChangeProfile(profile.id)}>
+                                View Profile
+                              </button>
                             </div>
                           </div>
                         </div>
-                      ))}
+                      ))} */}
                   </div>
                 </div>
               </div>
@@ -404,29 +426,16 @@ function UserMain() {
                 <h3>Similar Profile</h3>
               </div>
               <div className="like-card-container">
-                {userData &&
-                  userData.similarProfiles &&
-                  userData.similarProfiles.map((profile, index) => (
-                    <div className="like-card" key={index}>
-                      <div className="image-container">
-                        <img src={profile.image || padam} alt="Profile" />
-                      </div>
-                      <div className="description-container">
-                        <div className="name">
-                          <h5>{profile.name}</h5>
-                        </div>
-                        <div className="age">
-                          <p>{profile.age} Yrs</p>
-                        </div>
-                        <div className="location">
-                          <p>{profile.location}</p>
-                        </div>
-                        <div className="view-button">
-                          <button>View Profile</button>
-                        </div>
-                      </div>
-                    </div>
+                <div className="my-profile-image23">
+                  {userData.image?.map((imgSrc, index) => (
+                    <img
+                      key={index}
+                      className="my-profile-image23-single"
+                      src={`http://localhost:8000${imgSrc}`}
+                      alt={`User Image ${index}`}
+                    />
                   ))}
+                </div>
               </div>
             </div>
           </div>
