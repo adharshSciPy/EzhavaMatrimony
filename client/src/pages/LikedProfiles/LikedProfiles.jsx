@@ -187,10 +187,14 @@ const navigate=useNavigate();
                     onClick={() => profileView(item._id)}
                   >
                     <img
-                      src={image}
-                      alt="Crad imgae"
-                      className={DashStyles.cardImage}
-                    />
+                          src={
+                            item.profilePicture
+                              ? `http://localhost:8000${item.profilePicture}`
+                              : " "
+                          }
+                          alt=""
+                          className={DashStyles.cardImage}
+                        />
                   </div>
                   <div className={DashStyles.trCardDetails}>
                     <div className={DashStyles.trCardDetailSub}
