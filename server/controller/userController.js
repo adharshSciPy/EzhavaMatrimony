@@ -93,7 +93,22 @@ const registerUser = async (req, res) => {
       .json({ message: `Internal Server Error: ${err.message}` });
   }
 };
-
+const logout = async (req, res) => {
+  try {
+      const { refreshToken } = req.cookies;
+      if (!refreshToken) {
+          return res.status(204).json({ message: "Invalid Cookie" })
+      }
+      res.clearCookie("refreshToken", {
+          httpOnly: true,
+          secure: false,
+          sameSite: "None"
+      })
+      return res.status(200).json({ message: "Logout Successfully" })
+  } catch (error) {
+      return res.status(500).json({ message: `Internal server error due to ${error.message}` })
+  }
+}
 
 const editUser = async (req, res) => {
   const { id } = req.params;
@@ -907,5 +922,6 @@ export {
   getComplaint,
   unVerifiedUser,
   notificationTrigger,
-  unreadNotification
+  unreadNotification,
+  logout
 };

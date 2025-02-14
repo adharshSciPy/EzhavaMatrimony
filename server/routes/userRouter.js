@@ -18,6 +18,7 @@ import {
   unVerifiedUser,
   notificationTrigger,
   unreadNotification,
+  logout,
 } from "../controller/userController.js";
 import { Router } from "express";
 import upload from "../multer/multer.js";
@@ -67,5 +68,6 @@ userRouter.route("/getComplaint").get(getComplaint);
 userRouter.route("/unverfieduser").get(unVerifiedUser);
 userRouter.route("/notificationTrigger/:id").get(notificationTrigger);
 userRouter.route("/unread/:id").get(unreadNotification);
+userRouter.route('/logout').post(logout)
 
 export default userRouter;
