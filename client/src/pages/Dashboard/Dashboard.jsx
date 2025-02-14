@@ -22,6 +22,9 @@ import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { clearUser } from "../../features/slice";
+import { Avatar } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
+
 
 function Dashboard() {
   const dispatch = useDispatch();
@@ -305,7 +308,7 @@ function Dashboard() {
                 onClick={() => fileInputRef.current.click()}
                 style={{ cursor: "pointer" }}
               >
-                {/* {" "} */}
+                <Avatar size={80} icon={<UserOutlined />} />
               </div>
               <input
                 type="file"
@@ -501,7 +504,7 @@ function Dashboard() {
           {/* Profile details div for small screens start */}
           <div
             className={isOpen ? "overlay overlayActive" : "overlay"}
-            // onClick={toggleMenu}
+          // onClick={toggleMenu}
           >
             <div className={DashStyles.HamburgerMain}>
               {/* {showHamburger&&( */}
@@ -510,34 +513,32 @@ function Dashboard() {
                 onClick={() => toggleMenu()}
               >
                 <div
-                  className={`${DashStyles.ham1} ${
-                    isOpen ? DashStyles.open1 : ""
-                  }`}
+                  className={`${DashStyles.ham1} ${isOpen ? DashStyles.open1 : ""
+                    }`}
                 ></div>
                 <div
-                  className={`${DashStyles.ham2} ${
-                    isOpen ? DashStyles.open2 : ""
-                  }`}
+                  className={`${DashStyles.ham2} ${isOpen ? DashStyles.open2 : ""
+                    }`}
                 ></div>
                 <div
-                  className={`${DashStyles.ham3} ${
-                    isOpen ? DashStyles.open3 : ""
-                  }`}
+                  className={`${DashStyles.ham3} ${isOpen ? DashStyles.open3 : ""
+                    }`}
                 ></div>
               </div>
               {/* )} */}
               {/* profile div for smaller screens */}
               <div
-                className={`${DashStyles.drawer} ${
-                  isOpen ? DashStyles.drawerOpen : DashStyles.drawerClosed
-                }`}
+                className={`${DashStyles.drawer} ${isOpen ? DashStyles.drawerOpen : DashStyles.drawerClosed
+                  }`}
               >
                 <div className={DashStyles.ProfileCard}>
                   <div
                     className={DashStyles.ProfileImage}
                     onClick={() => fileInputRef.current.click()}
                     style={{ cursor: "pointer" }}
-                  ></div>
+                  >
+                    <Avatar size={80} icon={<UserOutlined />} />
+                  </div>
                   <input
                     type="file"
                     ref={fileInputRef}
@@ -743,9 +744,8 @@ function Dashboard() {
           </div>
 
           <div
-            className={`${DashStyles.Container} ${
-              isOpen ? DashStyles.contentDimmed : ""
-            }`}
+            className={`${DashStyles.Container} ${isOpen ? DashStyles.contentDimmed : ""
+              }`}
           >
             <div className={DashStyles.OuterBox}>
               <div className={DashStyles.SmallBox}></div>
@@ -795,9 +795,8 @@ function Dashboard() {
                           <HeartStraight
                             size={20}
                             weight={liked[item.id] ? "fill" : "light"}
-                            className={`${DashStyles.likedHeartBefore} ${
-                              liked[item.id] ? DashStyles.likedHeart : ""
-                            }`}
+                            className={`${DashStyles.likedHeartBefore} ${liked[item.id] ? DashStyles.likedHeart : ""
+                              }`}
                           />
                         </div>
                       </div>
@@ -885,7 +884,7 @@ function Dashboard() {
             {/* All Matches end */}
 
             {/* Discover Matches start */}
-            <div className={DashStyles.PreferenceDiv}>
+            {/* <div className={DashStyles.PreferenceDiv}>
               <div className={DashStyles.trHeading}>
                 <h2 className={DashStyles.TrHead}>Discover Matches</h2>
                 <h4 className={DashStyles.TrContent}>
@@ -916,7 +915,7 @@ function Dashboard() {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
             {/* Discover Matches end */}
             {/* Nearby Matches start*/}
             {/* <div className={DashStyles.TopRecommendation}>
