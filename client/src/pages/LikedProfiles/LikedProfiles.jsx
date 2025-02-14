@@ -139,7 +139,7 @@ const navigate=useNavigate();
   };
   return (
     <div className={DashStyles.mainContainer}>
-      <Nav />
+      <Nav userId={userId} />
       <div className={DashStyles.PageSelection}>
         <Link
           to={`/likedprofiles/${id}`}

@@ -12,6 +12,7 @@ import {
   Users,
   Crown,
   User,
+  SignOut,
 } from "phosphor-react";
 import { Link, useNavigate } from "react-router-dom";
 // import image from "../../assets/free-photo-of-couple-in-green-grass-field.jpeg";
@@ -20,6 +21,7 @@ import Footer from "../../component/Footer/Footer";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
+import { clearUser } from "../../features/slice";
 
 function Dashboard() {
   const dispatch = useDispatch();
@@ -279,7 +281,6 @@ function Dashboard() {
       if (dropdownMenu && dropdownMenu.classList.contains(DashStyles.show2)) {
         dropdownMenu.classList.remove(DashStyles.show2);
       }
-    
     } catch (error) {
       console.log("Upload error:", error);
       notifyError(error.response?.data?.message || "Please try again.");
@@ -294,7 +295,7 @@ function Dashboard() {
     <div>
       {/* <ToastContainer position="bottom-right" /> */}
       <div className={DashStyles.mainContainer}>
-        <Nav userId={userId}/>
+        <Nav userId={userId} />
         <div className={DashStyles.SubContainer}>
           {/* static details div for larger screens  starts*/}
           <div className={DashStyles.ProfileDiv}>
@@ -350,7 +351,7 @@ function Dashboard() {
               <p style={{ fontWeight: "600", fontSize: "14px" }}>
                 Complete your profile
               </p>
-              <p style={{ fontSize: "10px" }}>Your Profile Strength: 30%</p>
+              {/* <p style={{ fontSize: "10px" }}>Your Profile Strength: 30%</p> */}
               <div className={DashStyles.LinkIcon}>
                 <div className={DashStyles.Icon}>
                   <Pen
@@ -475,6 +476,22 @@ function Dashboard() {
                 </div>
                 <div className={DashStyles.link}>
                   <Link to={`/myprofile/${userId}`}>My Profile</Link>
+                </div>
+              </div>
+              <div className={DashStyles.LinkIcon}>
+                <div className={DashStyles.Icon}>
+                  <SignOut size={20} weight="duotone" />
+                </div>
+                <div className={DashStyles.link}>
+                  <Link
+                    to="/"
+                    onClick={() => {
+                      dispatch(clearUser());
+                      navigate("/");
+                    }}
+                  >
+                    Logout
+                  </Link>
                 </div>
               </div>
             </div>
@@ -632,38 +649,38 @@ function Dashboard() {
                           </div>
                         </div>
                         {pdfModal && (
-                        <div className={DashStyles.PdfModalOverlay}>
-                          <div className={DashStyles.PdfModalContent}>
-                            <h3>Document Upload</h3>
-                            {preview ? (
-                              <p className={DashStyles.FileName}>
-                                Selected File: {pdfFile.name}
-                              </p>
-                            ) : (
-                              <p>No file selected</p>
-                            )}
+                          <div className={DashStyles.PdfModalOverlay}>
+                            <div className={DashStyles.PdfModalContent}>
+                              <h3>Document Upload</h3>
+                              {preview ? (
+                                <p className={DashStyles.FileName}>
+                                  Selected File: {pdfFile.name}
+                                </p>
+                              ) : (
+                                <p>No file selected</p>
+                              )}
 
-                            <div className={DashStyles.PdfModalActions}>
-                              <button
-                                onClick={handlePdfUpload}
-                                className={DashStyles.PdfYesButton}
-                              >
-                                Confirm
-                              </button>
-                              <button
-                                onClick={() => {
-                                  setPdfModal(false);
-                                  setPdfFile(null);
-                                  setPreview(null);
-                                }}
-                                className={DashStyles.PdfNoButton}
-                              >
-                                Cancel
-                              </button>
+                              <div className={DashStyles.PdfModalActions}>
+                                <button
+                                  onClick={handlePdfUpload}
+                                  className={DashStyles.PdfYesButton}
+                                >
+                                  Confirm
+                                </button>
+                                <button
+                                  onClick={() => {
+                                    setPdfModal(false);
+                                    setPdfFile(null);
+                                    setPreview(null);
+                                  }}
+                                  className={DashStyles.PdfNoButton}
+                                >
+                                  Cancel
+                                </button>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      )}
+                        )}
                       </div>
                     </div>
                   </div>
@@ -702,6 +719,22 @@ function Dashboard() {
                     </div>
                     <div className={DashStyles.link}>
                       <Link to={`/myprofile/${userId}`}>My Profile</Link>
+                    </div>
+                  </div>
+                  <div className={DashStyles.LinkIcon}>
+                    <div className={DashStyles.Icon}>
+                      <SignOut size={20} weight="duotone" />
+                    </div>
+                    <div className={DashStyles.link}>
+                      <Link
+                        to="/"
+                        onClick={() => {
+                          dispatch(clearUser());
+                          navigate("/");
+                        }}
+                      >
+                        Logout
+                      </Link>
                     </div>
                   </div>
                 </div>

@@ -146,7 +146,11 @@ function FormPage4() {
           </div>
 
           <div className={styles.formContainer}>
-            <h3 className={styles.formHeading}>About your Friend's life</h3>
+            <h3 className={styles.formHeading}>  {userProfie.relation === "Myself" 
+  ? "About yourself" 
+  : `About your ${userProfie.relation} `}
+
+            </h3>
 
             <form className={styles.form} onSubmit={handleSubmit}>
               <div className={styles.textAreaDiv}>

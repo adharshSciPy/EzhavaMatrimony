@@ -61,14 +61,15 @@ function Nav({ userId }) {
           <button className="icon-button7">
             <span className="material-symbols-outlined">home</span>
             <span className="matches-text">
-              <h6>Home</h6>
+              <Link to={`/dashboard/${userId}`}>Home</Link>
             </span>
           </button>
 
           <button className="icon-button7">
             <span className="material-symbols-outlined">group</span>
             <span className="matches-text">
-              <h6>Matches</h6>
+            <Link to={`/toprecommendations/${userId}`}>Matches</Link>
+
             </span>
           </button>
 
@@ -99,12 +100,12 @@ function Nav({ userId }) {
         </div>
       </header>
       <hr className="divider7" />
-      <div className="content">
+      {/* <div className="content">
         <div className="match-buttons">
           <button className="btn outlined">Regular</button>
           <button className="btn outlined">Premium</button>
         </div>
-      </div>
+      </div> */}
 
       <link
         rel="stylesheet"
