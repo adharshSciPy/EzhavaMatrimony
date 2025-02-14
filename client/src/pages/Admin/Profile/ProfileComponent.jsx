@@ -19,7 +19,7 @@ function ReportComponent({data} ) {
             <p>ID: {data._id || "Unknown"}</p>
           </div>
           <div className="profile-view">
-            <Link to={`/Adminreportview/${data._id}`} className="custom-link">
+            <Link to={`/userProfileVerify/${data._id}`} className="custom-link">
               View
             </Link>
           </div>

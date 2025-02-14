@@ -871,7 +871,7 @@ const getComplaint = async (req, res) => {
 
 const unVerifiedUser=async(req,res)=>{
 try {
-  const unverfiedUser=await User.find({isVerified:false})
+  const unverfiedUser=await User.find({userVerified:false})
   if(!unverfiedUser.length===0){
     res.status(400).json({message:"no unverfiedUser found" })
   }

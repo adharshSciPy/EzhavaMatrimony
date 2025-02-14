@@ -10,13 +10,13 @@ function Report() {
   useEffect(()=>{
     fetchUserData()
   },[])
-  const fetchUserData=async()=>{
+  const fetchUserData=async(req,res)=>{
     try {
       const response=await axios.get (`http://localhost:8000/api/v1/user/usercarddetails/${id}`)
       setUserData(response.data);
       
     } catch (error) {
-      
+      res.status(400)("server error")
     }
   }
   return (
