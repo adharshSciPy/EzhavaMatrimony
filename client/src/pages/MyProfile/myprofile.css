@@ -35,9 +35,10 @@
     position: relative;
   }
   .profile-cards .image-container img {
-    height: 100%;
+    height: 500px;
     width: 100%;
     object-fit: cover;
+    
   }
   .profile-cards .details-sections {
     display: flex;
