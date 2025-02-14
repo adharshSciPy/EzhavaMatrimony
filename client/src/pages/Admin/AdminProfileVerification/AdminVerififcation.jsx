@@ -46,14 +46,14 @@ function AdminVerification() {
             <p>No PDF available for this user.</p>
           )}
 
-          <div className="button-container">
+          {/* <div className="button-container">
             <button id="reject-btn" disabled>
               Reject
             </button>
             <button id="verify-btn" disabled>
               Verify
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
