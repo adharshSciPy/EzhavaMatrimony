@@ -107,7 +107,10 @@ function FormPage1() {
           {/* Form Section */}
           <div className={styles.formContainer}>
             <h3 className={styles.formHeading}>
-              Tell us about your friend's basic details
+            {userProfie.relation === "Myself" 
+  ? "Tell us about yourself" 
+  : `Tell us about your ${userProfie.relation} basic details`}
+
             </h3>
 
             <form className={styles.form} onSubmit={handleSubmit}>
@@ -132,6 +135,9 @@ function FormPage1() {
                   <div className={styles.helperTextDiv}>
                     <p className={styles.helperText}>
                       Your friend's date of birth to find a perfect match
+                      {userProfie.relation === "Myself" 
+  ? "Your date of birth to find a perfect match" 
+  : `Your ${userProfie.relation}'s date of birth to find a perfect match`}
                     </p>
                   </div>
                 </div>
