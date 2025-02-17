@@ -40,31 +40,35 @@ function UserSettings() {
 
   const handleSave = async () => {
     try {
-      
       if (newUsername) {
-        await axios.patch(`http://localhost:8000/api/v1/user/editUser/${id}`, {
-          username: newUsername,
+        await axios.patch(`http://localhost:8000/api/v1/user/edit/${id}`, {
+          firstName: newUsername,
         });
-
-        setUsername(newUsername); // Update UI
-        setNewUsername(""); // Clear input field
+  
+        setUsername(newUsername); 
+        console.log("changed user name ", newUsername);
       }
-
-      
+  
       if (password) {
-        await axios.patch(`http://localhost:8000/api/v1/user/resetpassworduser/${id}`, {
-          password: password,
-        });
-
-        setPassword(""); // Clear password field
+        await axios.patch(
+          `http://localhost:8000/api/v1/user/resetpassworduser/${id}`,
+          {
+            password: password,
+          }
+        );
       }
-
+  
       alert("Profile updated successfully!");
     } catch (error) {
       console.error("Error updating profile:", error);
       alert("Failed to update profile. Try again.");
+    } finally {
+      // Always clear input fields after API calls
+      setNewUsername("");
+      setPassword("");
     }
   };
+  
 
   if (loading) return <p>Loading user data...</p>;
 
@@ -102,7 +106,7 @@ function UserSettings() {
                         type="text"
                         value={newUsername}
                         onChange={(e) => setNewUsername(e.target.value)}
-                        placeholder={username || "Enter new username"}
+                        placeholder= "Enter new username"
                       />
                     </div>
                     <div className="pass-username5">

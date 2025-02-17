@@ -29,7 +29,13 @@ import { UserOutlined } from '@ant-design/icons';
 function Dashboard() {
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.user.id);
+  const userToken = useSelector((state) => {
+    console.log("hambooo", state);
+    return state.user.token;  // Return the token or other needed state
+  });
+  
   console.log("hey kitty", userId);
+
   const navigate = useNavigate();
   const [liked, setLiked] = useState({});
   const [getLike, setGetLike] = useState([]);
