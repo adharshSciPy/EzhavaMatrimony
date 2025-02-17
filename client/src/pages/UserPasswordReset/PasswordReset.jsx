@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "./passwordrename.css";
 import axios from "axios";
-import { toast, ToastContainer } from "react-toastify";  // Ensure ToastContainer is imported
-import "react-toastify/dist/ReactToastify.css";  // Import the CSS for Toast
+import { toast, ToastContainer } from "react-toastify"; // Ensure ToastContainer is imported
+import "react-toastify/dist/ReactToastify.css"; // Import the CSS for Toast
 import { useNavigate, useParams } from "react-router-dom";
 
 function PasswordReset() {
-  const [showPassword, setShowPassword] = useState('');
+  const [showPassword, setShowPassword] = useState("");
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
   const { token } = useParams();
@@ -28,7 +28,7 @@ function PasswordReset() {
 
       if (response.status === 200) {
         toast.success("Password reset successfully", {
-          onClose: () => navigate('/'),  // Navigate after the toast is closed
+          onClose: () => navigate("/"), // Navigate after the toast is closed
         });
       }
     } catch (error) {
