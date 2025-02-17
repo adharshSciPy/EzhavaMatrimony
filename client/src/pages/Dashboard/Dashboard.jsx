@@ -29,11 +29,8 @@ import { UserOutlined } from '@ant-design/icons';
 function Dashboard() {
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.user.id);
-  const userToken = useSelector((state) => {
-    console.log("hambooo", state);
-    return state.user.token;  // Return the token or other needed state
-  });
-  
+  const token=useSelector((state) => state.user.token);
+  console.log("tokennnnn",token);
   console.log("hey kitty", userId);
 
   const navigate = useNavigate();

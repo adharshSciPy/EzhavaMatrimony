@@ -79,7 +79,7 @@ function UserMain() {
 
   return (
     <div>
-      <Nav />
+      <Nav userId={userId}  />
       <h2 className="all-match">All Matches 14/112</h2>
       <div className="profile-view-main-container">
         <div className="profile-cards">

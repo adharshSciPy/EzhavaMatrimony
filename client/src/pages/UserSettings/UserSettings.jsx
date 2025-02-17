@@ -4,9 +4,14 @@ import axios from "axios"; // Import Axios
 import "./usersettings.css";
 import Nav from "../../component/Navbar/Nav";
 import defaultPic from "../../assets/serious-man-portrait-real-people-high-definition-grey-background-photo.jpg";
+import { useSelector, useDispatch } from "react-redux";
 
 function UserSettings() {
   const { id } = useParams();
+  const dispatch = useDispatch();
+  const token = useSelector((state) => state.user.token);
+  console.log("hhelloooo",token);
+  
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -19,7 +24,9 @@ function UserSettings() {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/api/v1/user/usercarddetails/${id}`);
+        const response = await axios.get(
+          `http://localhost:8000/api/v1/user/usercarddetails/${id}`
+        );
         const userData = response.data;
         console.log("Fetched User Data:", userData);
 
@@ -37,27 +44,26 @@ function UserSettings() {
     fetchUserData();
   }, [id]);
 
-
   const handleSave = async () => {
     try {
       if (newUsername) {
         await axios.patch(`http://localhost:8000/api/v1/user/edit/${id}`, {
           firstName: newUsername,
         });
-  
-        setUsername(newUsername); 
+
+        setUsername(newUsername);
         console.log("changed user name ", newUsername);
       }
-  
+
       if (password) {
-        await axios.patch(
-          `http://localhost:8000/api/v1/user/resetpassworduser/${id}`,
+        await axios.post(
+          `http://localhost:8000/api/v1/user/resetpassword/${id}/${token}`,
           {
             password: password,
           }
         );
       }
-  
+
       alert("Profile updated successfully!");
     } catch (error) {
       console.error("Error updating profile:", error);
@@ -68,7 +74,6 @@ function UserSettings() {
       setPassword("");
     }
   };
-  
 
   if (loading) return <p>Loading user data...</p>;
 
@@ -106,7 +111,7 @@ function UserSettings() {
                         type="text"
                         value={newUsername}
                         onChange={(e) => setNewUsername(e.target.value)}
-                        placeholder= "Enter new username"
+                        placeholder="Enter new username"
                       />
                     </div>
                     <div className="pass-username5">
