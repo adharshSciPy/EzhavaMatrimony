@@ -193,6 +193,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
   }
   .inputGroupButtons{
     width:70% ;
@@ -203,7 +204,23 @@
     justify-content: center;
     align-items: center;
     padding: 5px 0;
+    margin-left: 10px;
+    /* border: 2px solid greenyellow; */
   }
+  .PasswordEyeIcon{
+    position: absolute;
+    right: 10px;
+    font-size: 22px;
+    
+  }
+  /* .PasswordEyeIconClose{
+    position: absolute;
+    right: 10px;
+    font-size: 22px;
+    display: none;
+
+
+  } */
   
   .label {
     font-size: 14px;
@@ -529,6 +546,7 @@
             size: 13px;
             padding: 2px;
             justify-content: flex-start;
+            margin-left: 0;
         }
         .optionalDiv{
           display: none;

@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
+import { Eye, EyeSlash } from "phosphor-react";
 
 function FormPage1() {
   const [form, setForm] = useState({
@@ -16,12 +17,13 @@ function FormPage1() {
     password: "",
   });
   const [errorMessage, setErrorMessage] = useState("");
-  const[userProfie,setUserProfile]=useState([])
+  const [userProfie, setUserProfile] = useState([]);
+  const [showPassword, setShowPassword] = useState(false);
   const notifyError = (message) => toast.error(message);
   const notifySuccess = (message) => toast.success(message);
   const navigate = useNavigate();
   const { id, userEmail } = useSelector((state) => state.user);
-  console.log("id kitti",id)
+  console.log("id kitti", id);
 
   const handleChange = (e) => {
     setForm({
@@ -44,7 +46,9 @@ function FormPage1() {
 
       if (response.status === 200) {
         if (!userProfie || Object.keys(userProfie).length === 0) {
-          notifySuccess(response.data.data.message || "Successfully Submitted.");
+          notifySuccess(
+            response.data.data.message || "Successfully Submitted."
+          );
         }
         navigate(`/formpage2`);
       }
@@ -56,7 +60,7 @@ function FormPage1() {
       );
     }
   };
-  const dataBinding=async()=>{
+  const dataBinding = async () => {
     try {
       const response = await axios.get(
         `http://localhost:8000/api/v1/user/usercarddetails/${id}`
@@ -66,10 +70,10 @@ function FormPage1() {
     } catch (error) {
       console.log("error", error);
     }
-  }
-  useEffect(()=>{
-    dataBinding()
-  },[id])
+  };
+  useEffect(() => {
+    dataBinding();
+  }, [id]);
   useEffect(() => {
     if (userProfie) {
       setForm((prevForm) => ({
@@ -78,10 +82,13 @@ function FormPage1() {
         gender: userProfie.gender || "",
         motherTongue: userProfie.motherTongue || "",
         email: userProfie.email || "",
-        password:userProfie.password?"*********": "", 
+        password: userProfie.password ? "*********" : "",
       }));
     }
   }, [userProfie]);
+  const passwordVisibility = () => {
+    setShowPassword((prevState) => !prevState);
+  };
   return (
     <div className={styles.mainContainer}>
       <ToastContainer position="bottom-right" />
@@ -107,10 +114,9 @@ function FormPage1() {
           {/* Form Section */}
           <div className={styles.formContainer}>
             <h3 className={styles.formHeading}>
-            {userProfie.relation === "Myself" 
-  ? "Tell us about yourself" 
-  : `Tell us about your ${userProfie.relation} basic details`}
-
+              {userProfie.relation === "Myself"
+                ? "Tell us about yourself"
+                : `Tell us about your ${userProfie.relation} basic details`}
             </h3>
 
             <form className={styles.form} onSubmit={handleSubmit}>
@@ -135,9 +141,9 @@ function FormPage1() {
                   <div className={styles.helperTextDiv}>
                     <p className={styles.helperText}>
                       Your friend's date of birth to find a perfect match
-                      {userProfie.relation === "Myself" 
-  ? "Your date of birth to find a perfect match" 
-  : `Your ${userProfie.relation}'s date of birth to find a perfect match`}
+                      {userProfie.relation === "Myself"
+                        ? "Your date of birth to find a perfect match"
+                        : `Your ${userProfie.relation}'s date of birth to find a perfect match`}
                     </p>
                   </div>
                 </div>
@@ -224,16 +230,31 @@ function FormPage1() {
                   </div>
                   <div className={styles.inputGroup}>
                     <input
-                      type="password"
+                      type={showPassword ? "text" : "password"}
                       className={styles.input}
                       placeholder="Enter password"
-                      required={!userProfie.password} 
+                      required={!userProfie.password}
                       disabled={!!userProfie.password}
                       value={form.password}
                       onChange={handleChange}
                       name="password"
                     />
+                    {!userProfie.password &&
+                    (showPassword ? (
+                      <EyeSlash
+                        className={styles.PasswordEyeIcon}
+                        weight="duotone"
+                        onClick={passwordVisibility}
+                      />
+                    ) : (
+                      <Eye
+                        className={styles.PasswordEyeIcon}
+                        weight="duotone"
+                        onClick={passwordVisibility}
+                      />
+                    ))}
                   </div>
+
                   <div className={styles.helperTextDiv}>
                     <p className={styles.helperText}>
                       Password must have between 6–20 characters
