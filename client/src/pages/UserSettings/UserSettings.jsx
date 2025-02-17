@@ -6,7 +6,7 @@ import Nav from "../../component/Navbar/Nav";
 import defaultPic from "../../assets/serious-man-portrait-real-people-high-definition-grey-background-photo.jpg";
 
 function UserSettings() {
-  const { id } = useParams(); 
+  const { id } = useParams();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,15 +15,18 @@ function UserSettings() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [loading, setLoading] = useState(true);
 
- 
+  // Fetch user data
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/api/v1/user/${id}`);
+        const response = await axios.get(`http://localhost:8000/api/v1/user/usercarddetails/${id}`);
         const userData = response.data;
-        setUsername(userData.username);
+        console.log("Fetched User Data:", userData);
+
+        setUsername(userData.firstName);
         setEmail(userData.email);
         setProfilePic(userData.profilePic || defaultPic);
+
         setLoading(false);
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -34,19 +37,27 @@ function UserSettings() {
     fetchUserData();
   }, [id]);
 
-  
-  
-  
+
   const handleSave = async () => {
     try {
-      const formData = new FormData();
-      formData.append("username", newUsername || username);
-      if (password) formData.append("password", password);
-      if (selectedFile) formData.append("profilePic", selectedFile); 
+      
+      if (newUsername) {
+        await axios.patch(`http://localhost:8000/api/v1/user/editUser/${id}`, {
+          username: newUsername,
+        });
 
-      await axios.patch(`http://localhost:8000/api/v1/user/edit/${id}`, formData, {
-        headers: { "Content-Type": "multipart/form-data" }, 
-      });
+        setUsername(newUsername); // Update UI
+        setNewUsername(""); // Clear input field
+      }
+
+      
+      if (password) {
+        await axios.patch(`http://localhost:8000/api/v1/user/resetpassworduser/${id}`, {
+          password: password,
+        });
+
+        setPassword(""); // Clear password field
+      }
 
       alert("Profile updated successfully!");
     } catch (error) {
@@ -75,7 +86,6 @@ function UserSettings() {
                 <div className="profile-container5">
                   <div className="profile-icon5">
                     <img src={profilePic} alt="Profile" />
-                    
                   </div>
                   <div className="profile-details5">
                     <p>{username}</p>
@@ -92,7 +102,7 @@ function UserSettings() {
                         type="text"
                         value={newUsername}
                         onChange={(e) => setNewUsername(e.target.value)}
-                        placeholder={username}
+                        placeholder={username || "Enter new username"}
                       />
                     </div>
                     <div className="pass-username5">
@@ -105,17 +115,7 @@ function UserSettings() {
                           placeholder="Enter new password"
                         />
                       </div>
-                      <div className="username5">
-                        <label>Reset Username</label>
-                        <input 
-                          type="text" 
-                          value={newUsername} 
-                          onChange={(e) => setNewUsername(e.target.value)} 
-                          placeholder="Enter new username"
-                        />
-                      </div>
                     </div>
-                    
                   </div>
                   <div className="save-button5">
                     <button onClick={handleSave}>Save</button>
