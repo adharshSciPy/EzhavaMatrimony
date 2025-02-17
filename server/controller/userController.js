@@ -353,7 +353,7 @@ const forgotPassword = async (req, res) => {
       expiresIn: "1d",
     });
 
-    const resetLink = `${process.env.CLIENT_URL}/resetpassworduser/${user._id}/${token}`;
+    const resetLink = `${process.env.CLIENT_URL}/resetpassword/${user._id}/${token}`;
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -901,6 +901,26 @@ const unreadNotification=async (req,res) => {
     res.status(500).json({ message: "Server error", error });
   }
 }
+const markNotificationAsRead = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const updatedNotification = await Notification.findByIdAndUpdate(
+      id,
+      { notified: true },
+      { new: true } 
+    );
+
+    if (!updatedNotification) {
+      return res.status(404).json({ success: false, message: "Notification not found" });
+    }
+
+    res.status(200).json({ success: true, message: "Notification marked as read", updatedNotification });
+  } catch (error) {
+    console.error("Error updating notification:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
 
 export {
   registerUser,
@@ -923,5 +943,6 @@ export {
   unVerifiedUser,
   notificationTrigger,
   unreadNotification,
-  logout
+  logout,
+  markNotificationAsRead
 };
