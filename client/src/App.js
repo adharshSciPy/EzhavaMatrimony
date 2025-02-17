@@ -29,7 +29,7 @@ import AdminSideUserReport from "./pages/Admin/Reports/Report"
 import ProfileVerification from "./pages/Admin/Profile/Profile"
 import UnverifiedUsers from "./pages/Admin/Profile/GetFullProfile"
 import AdminUserVerification from "./pages/Admin/AdminProfileVerification/AdminVerififcation";
-
+import UserPasswordReset from "./pages/UserPasswordReset/PasswordReset"
 function App() {
   return (
     <div className="App">
@@ -57,9 +57,9 @@ function App() {
           <Route path="/report/:userId" element={<Report1 />} />
           <Route path="/mainuser/:id" element={<UserMain/>} />
           <Route path="/Usettings" element={<UserSettings />} />
-          <Route path="/resetPassworduser/:id/:token" element={<ResetPassword />} />
+          <Route path="/resetPassword/:token" element={<ResetPassword />} />
           <Route path="/Usettings/:id" element={<UserSettings />} />
-          <Route path="/resetPassword" element={<ResetPassword />} />
+          <Route path="/resetPasswordUser/:id/:token" element={<UserPasswordReset />} />
           <Route path="/likedprofiles/:id" element={<LikedProfiles />} />
           <Route path="/getFullReport" element={<AdminFullReport />} />
           <Route path="/myprofile/:id" element={<MyProfile   />} />

@@ -16,7 +16,17 @@ body {
     box-sizing: border-box;
     overflow: auto;
   }
-  
+  .loader{
+    position: absolute;
+    height: 100px;
+    border-radius: 50%  ;
+    width: 100px;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+  }
   /* Left text section */
   .landing-text-container {
     display: flex;

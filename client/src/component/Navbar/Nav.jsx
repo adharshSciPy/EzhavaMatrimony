@@ -12,6 +12,7 @@ function Nav({ userId }) {
   const navigate = useNavigate();
   const [notifications, setNotifications] = useState([]);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [selectedSenderId, setSelectedSenderId] = useState(null);
   useEffect(() => {
     if (!userId) return;
 
@@ -57,12 +58,17 @@ function Nav({ userId }) {
       await axios.patch(
         `http://localhost:8000/api/v1/user/notificationPreview/${id}`
       );
+      setSelectedSenderId(senderId);
       navigate(`/mainuser/${senderId}`);
     } catch (error) {
       console.error("Error handling notification:", error);
     }
   };  
-
+  useEffect(() => {
+    if (selectedSenderId) {
+      window.location.reload();
+    }
+  }, [selectedSenderId]);
   return (
     <div>
       <header className="Prof-header7">
