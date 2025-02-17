@@ -126,7 +126,7 @@ function UserMain() {
             <div className="profile-age-container">
               <p className="">
                 {userData
-                  ? `${userData.age} Yrs, ${userData.height}`
+                  ? `${userData.age} Yrs, ${userData.height} cms`
                   : "25 Yrs, 5'7\""}
               </p>
             </div>
@@ -140,7 +140,9 @@ function UserMain() {
             </div>
 
             <div className="profile-location-container">
-              <span>{userData ? userData.location : "Kerala, India"}</span>
+              <span>{userData.location || userData.state
+                  ? `${userData.location}  ${userData.state}`
+                  : "No data Found"}</span>
             </div>
             <div className="premium-container">
               <h3>Premium</h3>
@@ -203,7 +205,9 @@ function UserMain() {
                       <p>Location</p>
                     </div>
                     <div className="prof-detail same1">
-                      {userData ? userData.city : "Kerala, India"}
+                    {userData.location || userData.state
+                  ? `${userData.location}  ${userData.state}`
+                  : "No data Found"}
                     </div>
                   </div>
                   <div className="spoken-language-container details-main">
@@ -227,7 +231,8 @@ function UserMain() {
                       <p>Profile Created By</p>
                     </div>
                     <div className="prof-detail same1">
-                      {userData ? userData.profileCreatedBy : "Friend"}
+                    {userData.relation ? userData.relation : ""}
+
                     </div>
                   </div>
                   <div className="maritial-status-container details-main">
