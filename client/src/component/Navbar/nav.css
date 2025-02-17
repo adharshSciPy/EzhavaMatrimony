@@ -120,6 +120,12 @@
     padding: 10px;
     color: gray;
   }
+  h4{
+    font-size: 15px;
+  }
+  h6{
+    font-size: 15px;
+  }
   /* General Styles (Already Defined) */
 
 /* Responsive Styles */
