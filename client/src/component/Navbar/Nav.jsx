@@ -53,6 +53,7 @@ function Nav({ userId }) {
       clearTimeout(timeoutId); // Clear interval on unmount
     };
   }, [userId]);
+  
 
   return (
     <div>
@@ -61,14 +62,15 @@ function Nav({ userId }) {
           <button className="icon-button7">
             <span className="material-symbols-outlined">home</span>
             <span className="matches-text">
-              <h6>Home</h6>
+              <h6 onClick={()=>navigate(`/dashboard/${userId}`)}>Home</h6>
             </span>
           </button>
 
           <button className="icon-button7">
             <span className="material-symbols-outlined">group</span>
             <span className="matches-text">
-              <h6>Matches</h6>
+            <h6 onClick={()=>navigate(`/toprecommendations/${userId}`)}>Matches</h6>
+
             </span>
           </button>
 
@@ -99,12 +101,12 @@ function Nav({ userId }) {
         </div>
       </header>
       <hr className="divider7" />
-      <div className="content">
+      {/* <div className="content">
         <div className="match-buttons">
           <button className="btn outlined">Regular</button>
           <button className="btn outlined">Premium</button>
         </div>
-      </div>
+      </div> */}
 
       <link
         rel="stylesheet"

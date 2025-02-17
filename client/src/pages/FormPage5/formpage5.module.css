@@ -16,9 +16,10 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    position: relative;
+    transition: opacity 0.3s ease;
   }
-  
-  
+ 
   .container {
     width: 75%;
     /* height: 500px; */

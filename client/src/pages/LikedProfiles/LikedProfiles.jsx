@@ -139,7 +139,7 @@ const navigate=useNavigate();
   };
   return (
     <div className={DashStyles.mainContainer}>
-      <Nav />
+      <Nav userId={userId} />
       <div className={DashStyles.PageSelection}>
         <Link
           to={`/likedprofiles/${id}`}
@@ -187,10 +187,14 @@ const navigate=useNavigate();
                     onClick={() => profileView(item._id)}
                   >
                     <img
-                      src={image}
-                      alt="Crad imgae"
-                      className={DashStyles.cardImage}
-                    />
+                          src={
+                            item.profilePicture
+                              ? `http://localhost:8000${item.profilePicture}`
+                              : " "
+                          }
+                          alt=""
+                          className={DashStyles.cardImage}
+                        />
                   </div>
                   <div className={DashStyles.trCardDetails}>
                     <div className={DashStyles.trCardDetailSub}

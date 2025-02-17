@@ -94,7 +94,7 @@ const adminlogout = async (req, res) => {
         }
         res.clearCookie("refreshToken", {
             httpOnly: true,
-            secure: false,//Secure only in production
+            secure: false,
             sameSite: "None"
         })
         return res.status(200).json({ message: "Logout Successfully" })

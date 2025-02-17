@@ -6,6 +6,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../features/slice";
+import Loader from "../../component/Loader/Loadertext.jsx"
 
 function FormPage5() {
   const { id } = useSelector((state) => state.user);
@@ -13,6 +14,7 @@ function FormPage5() {
   const [residentStatus, setResidentStatus] = useState("");
   const [form, setForm] = useState({});
   const [userProfie, setUserProfile] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -24,6 +26,7 @@ function FormPage5() {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     const formData = {
       ...form,
       employmentStatus,
@@ -38,13 +41,17 @@ function FormPage5() {
         formData
       );
       if (response.status === 200) {
-        dispatch(setUser({ id: id }));
-        navigate(`/dashboard/${id}`);
-        console.log(response);
+        setTimeout(() => {
+          setIsLoading(false);
+          dispatch(setUser({ id: id }));
+          navigate(`/dashboard/${id}`);
+          console.log(response);
+        }, 3000);
       }
     } catch (error) {
       console.error(error);
       alert("An error occurred while submitting the form.");
+      setIsLoading(false);
     }
   };
 
@@ -53,9 +60,8 @@ function FormPage5() {
       <button
         key={option}
         type="button"
-        className={`${styles.optionSingleButton} ${
-          selectedOption === option ? styles.selected : ""
-        }`}
+        className={`${styles.optionSingleButton} ${selectedOption === option ? styles.selected : ""
+          }`}
         onClick={() => setSelectedOption(option)}
       >
         {option}
@@ -94,6 +100,7 @@ function FormPage5() {
   }, [userProfie]);
   return (
     <div className={styles.mainContainer}>
+      {isLoading && <Loader />}
       <div className={styles.progressDiv}>
         <div className={styles.progressHeading}>You have completed</div>
         <div className={styles.progressHeading2}>90%</div>
@@ -131,7 +138,7 @@ function FormPage5() {
                     <select
                       className={styles.input}
                       required
-                      value={form.education||""}
+                      value={form.education || ""}
                       onChange={handleChange}
                       name="education"
                     >
@@ -204,7 +211,7 @@ function FormPage5() {
                       placeholder="Education in Details"
                       name="educationDetails"
                       onChange={handleChange}
-                      value={form.educationDetails||""}
+                      value={form.educationDetails || ""}
                     />
                   </div>
                   <div className={styles.helperTextDiv}></div>
@@ -247,7 +254,7 @@ function FormPage5() {
                     <select
                       className={styles.input}
                       required
-                      value={form.annualIncome||""}
+                      value={form.annualIncome || ""}
                       onChange={handleChange}
                       name="annualIncome"
                     >
@@ -277,7 +284,7 @@ function FormPage5() {
                     <select
                       className={styles.input}
                       required
-                      value={form.occupation||""}
+                      value={form.occupation || ""}
                       onChange={handleChange}
                       name="occupation"
                     >
@@ -365,7 +372,7 @@ function FormPage5() {
                     <select
                       className={styles.input}
                       required
-                      value={form.state||""}
+                      value={form.state || ""}
                       onChange={handleChange}
                       name="state"
                     >
@@ -430,7 +437,7 @@ function FormPage5() {
                       type="text"
                       className={styles.input}
                       placeholder="city"
-                      value={form.location||""}
+                      value={form.location || ""}
                       name="location"
                       onChange={handleChange}
                     />
@@ -450,7 +457,7 @@ function FormPage5() {
                       className={styles.input}
                       placeholder=""
                       name="citizenship"
-                      value={form.citizenship||""}
+                      value={form.citizenship || ""}
                       onChange={handleChange}
                     />
                   </div>
@@ -482,7 +489,7 @@ function FormPage5() {
               </div>
 
               <div className={styles.btnDiv}>
-                <button type="submit" className={styles.submitButton}>
+                <button type="submit" className={styles.submitButton} disabled={isLoading}>
                   Complete
                 </button>
               </div>

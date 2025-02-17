@@ -115,7 +115,9 @@ function FormPage3() {
 
           <div className={styles.formContainer}>
             <h3 className={styles.formHeading}>
-              Tell us about your friends personal details
+            {userProfie.relation === "Myself" 
+  ? "Tell us about yourself" 
+  : `Tell us about your ${userProfie.relation} basic details`}
             </h3>
 
             <form className={styles.form} onSubmit={handleSubmit}>

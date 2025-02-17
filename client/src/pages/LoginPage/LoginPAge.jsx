@@ -91,7 +91,7 @@ function LoginPage() {
             <label>
               Matrimony Profile for
               <select name="relation" onChange={handleChange} value={form.relation}>
-                <option value="">Select</option>
+                <option>Select</option>
                 <option value="Myself">Myself</option>
                 <option value="Friend">Friend</option>
                 <option value="Son">Son</option>

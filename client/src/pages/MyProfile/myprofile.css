@@ -30,15 +30,16 @@
   
   .profile-cards .image-container {
     width: 40%;
-    height: 300px;
-    z-index: 10;
+    z-index: 100;
     position: relative;
+    height: 330px;
+    background-color: white;
   }
   .profile-cards .image-container img {
-    height: 500px;
+    height: 100%;
     width: 100%;
     object-fit: cover;
-    
+    object-position: top;
   }
   .profile-cards .details-sections {
     display: flex;

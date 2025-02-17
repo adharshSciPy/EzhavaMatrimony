@@ -12,6 +12,7 @@ import {
   Users,
   Crown,
   User,
+  SignOut,
 } from "phosphor-react";
 import { Link, useNavigate } from "react-router-dom";
 // import image from "../../assets/free-photo-of-couple-in-green-grass-field.jpeg";
@@ -20,6 +21,10 @@ import Footer from "../../component/Footer/Footer";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
+import { clearUser } from "../../features/slice";
+import { Avatar } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
+
 
 function Dashboard() {
   const dispatch = useDispatch();
@@ -279,7 +284,6 @@ function Dashboard() {
       if (dropdownMenu && dropdownMenu.classList.contains(DashStyles.show2)) {
         dropdownMenu.classList.remove(DashStyles.show2);
       }
-    
     } catch (error) {
       console.log("Upload error:", error);
       notifyError(error.response?.data?.message || "Please try again.");
@@ -294,7 +298,7 @@ function Dashboard() {
     <div>
       {/* <ToastContainer position="bottom-right" /> */}
       <div className={DashStyles.mainContainer}>
-        <Nav userId={userId}/>
+        <Nav userId={userId} />
         <div className={DashStyles.SubContainer}>
           {/* static details div for larger screens  starts*/}
           <div className={DashStyles.ProfileDiv}>
@@ -304,7 +308,7 @@ function Dashboard() {
                 onClick={() => fileInputRef.current.click()}
                 style={{ cursor: "pointer" }}
               >
-                {/* {" "} */}
+                <Avatar size={80} icon={<UserOutlined />} />
               </div>
               <input
                 type="file"
@@ -350,7 +354,7 @@ function Dashboard() {
               <p style={{ fontWeight: "600", fontSize: "14px" }}>
                 Complete your profile
               </p>
-              <p style={{ fontSize: "10px" }}>Your Profile Strength: 30%</p>
+              {/* <p style={{ fontSize: "10px" }}>Your Profile Strength: 30%</p> */}
               <div className={DashStyles.LinkIcon}>
                 <div className={DashStyles.Icon}>
                   <Pen
@@ -477,6 +481,22 @@ function Dashboard() {
                   <Link to={`/myprofile/${userId}`}>My Profile</Link>
                 </div>
               </div>
+              <div className={DashStyles.LinkIcon}>
+                <div className={DashStyles.Icon}>
+                  <SignOut size={20} weight="duotone" />
+                </div>
+                <div className={DashStyles.link}>
+                  <Link
+                    to="/"
+                    onClick={() => {
+                      dispatch(clearUser());
+                      navigate("/");
+                    }}
+                  >
+                    Logout
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
           {/* static details div for larger screens  end*/}
@@ -484,7 +504,7 @@ function Dashboard() {
           {/* Profile details div for small screens start */}
           <div
             className={isOpen ? "overlay overlayActive" : "overlay"}
-            // onClick={toggleMenu}
+          // onClick={toggleMenu}
           >
             <div className={DashStyles.HamburgerMain}>
               {/* {showHamburger&&( */}
@@ -493,34 +513,32 @@ function Dashboard() {
                 onClick={() => toggleMenu()}
               >
                 <div
-                  className={`${DashStyles.ham1} ${
-                    isOpen ? DashStyles.open1 : ""
-                  }`}
+                  className={`${DashStyles.ham1} ${isOpen ? DashStyles.open1 : ""
+                    }`}
                 ></div>
                 <div
-                  className={`${DashStyles.ham2} ${
-                    isOpen ? DashStyles.open2 : ""
-                  }`}
+                  className={`${DashStyles.ham2} ${isOpen ? DashStyles.open2 : ""
+                    }`}
                 ></div>
                 <div
-                  className={`${DashStyles.ham3} ${
-                    isOpen ? DashStyles.open3 : ""
-                  }`}
+                  className={`${DashStyles.ham3} ${isOpen ? DashStyles.open3 : ""
+                    }`}
                 ></div>
               </div>
               {/* )} */}
               {/* profile div for smaller screens */}
               <div
-                className={`${DashStyles.drawer} ${
-                  isOpen ? DashStyles.drawerOpen : DashStyles.drawerClosed
-                }`}
+                className={`${DashStyles.drawer} ${isOpen ? DashStyles.drawerOpen : DashStyles.drawerClosed
+                  }`}
               >
                 <div className={DashStyles.ProfileCard}>
                   <div
                     className={DashStyles.ProfileImage}
                     onClick={() => fileInputRef.current.click()}
                     style={{ cursor: "pointer" }}
-                  ></div>
+                  >
+                    <Avatar size={80} icon={<UserOutlined />} />
+                  </div>
                   <input
                     type="file"
                     ref={fileInputRef}
@@ -632,38 +650,38 @@ function Dashboard() {
                           </div>
                         </div>
                         {pdfModal && (
-                        <div className={DashStyles.PdfModalOverlay}>
-                          <div className={DashStyles.PdfModalContent}>
-                            <h3>Document Upload</h3>
-                            {preview ? (
-                              <p className={DashStyles.FileName}>
-                                Selected File: {pdfFile.name}
-                              </p>
-                            ) : (
-                              <p>No file selected</p>
-                            )}
+                          <div className={DashStyles.PdfModalOverlay}>
+                            <div className={DashStyles.PdfModalContent}>
+                              <h3>Document Upload</h3>
+                              {preview ? (
+                                <p className={DashStyles.FileName}>
+                                  Selected File: {pdfFile.name}
+                                </p>
+                              ) : (
+                                <p>No file selected</p>
+                              )}
 
-                            <div className={DashStyles.PdfModalActions}>
-                              <button
-                                onClick={handlePdfUpload}
-                                className={DashStyles.PdfYesButton}
-                              >
-                                Confirm
-                              </button>
-                              <button
-                                onClick={() => {
-                                  setPdfModal(false);
-                                  setPdfFile(null);
-                                  setPreview(null);
-                                }}
-                                className={DashStyles.PdfNoButton}
-                              >
-                                Cancel
-                              </button>
+                              <div className={DashStyles.PdfModalActions}>
+                                <button
+                                  onClick={handlePdfUpload}
+                                  className={DashStyles.PdfYesButton}
+                                >
+                                  Confirm
+                                </button>
+                                <button
+                                  onClick={() => {
+                                    setPdfModal(false);
+                                    setPdfFile(null);
+                                    setPreview(null);
+                                  }}
+                                  className={DashStyles.PdfNoButton}
+                                >
+                                  Cancel
+                                </button>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      )}
+                        )}
                       </div>
                     </div>
                   </div>
@@ -704,15 +722,30 @@ function Dashboard() {
                       <Link to={`/myprofile/${userId}`}>My Profile</Link>
                     </div>
                   </div>
+                  <div className={DashStyles.LinkIcon}>
+                    <div className={DashStyles.Icon}>
+                      <SignOut size={20} weight="duotone" />
+                    </div>
+                    <div className={DashStyles.link}>
+                      <Link
+                        to="/"
+                        onClick={() => {
+                          dispatch(clearUser());
+                          navigate("/");
+                        }}
+                      >
+                        Logout
+                      </Link>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
           <div
-            className={`${DashStyles.Container} ${
-              isOpen ? DashStyles.contentDimmed : ""
-            }`}
+            className={`${DashStyles.Container} ${isOpen ? DashStyles.contentDimmed : ""
+              }`}
           >
             <div className={DashStyles.OuterBox}>
               <div className={DashStyles.SmallBox}></div>
@@ -762,9 +795,8 @@ function Dashboard() {
                           <HeartStraight
                             size={20}
                             weight={liked[item.id] ? "fill" : "light"}
-                            className={`${DashStyles.likedHeartBefore} ${
-                              liked[item.id] ? DashStyles.likedHeart : ""
-                            }`}
+                            className={`${DashStyles.likedHeartBefore} ${liked[item.id] ? DashStyles.likedHeart : ""
+                              }`}
                           />
                         </div>
                       </div>
@@ -852,7 +884,7 @@ function Dashboard() {
             {/* All Matches end */}
 
             {/* Discover Matches start */}
-            <div className={DashStyles.PreferenceDiv}>
+            {/* <div className={DashStyles.PreferenceDiv}>
               <div className={DashStyles.trHeading}>
                 <h2 className={DashStyles.TrHead}>Discover Matches</h2>
                 <h4 className={DashStyles.TrContent}>
@@ -883,7 +915,7 @@ function Dashboard() {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
             {/* Discover Matches end */}
             {/* Nearby Matches start*/}
             {/* <div className={DashStyles.TopRecommendation}>
