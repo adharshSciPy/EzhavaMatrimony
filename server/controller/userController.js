@@ -353,7 +353,7 @@ const forgotPassword = async (req, res) => {
       expiresIn: "1d",
     });
 
-    const resetLink = `${process.env.CLIENT_URL}/resetpassword/${user._id}/${token}`;
+    const resetLink = `${process.env.CLIENT_URL}/resetPasswordUser/${user._id}/${token}`;
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
