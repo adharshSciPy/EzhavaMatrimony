@@ -13,6 +13,7 @@
   .profile-view-main-container .separator {
     border: 1px solid #cfcfcf;
     margin: 60px 0px 30px 60px;
+    
   }
   .all-match {
     margin-left: 70px;
@@ -388,6 +389,12 @@
     background-color: transparent;
     color: #f8cb58;
     font-size: 20px;
+  }
+  .container-similar h3{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
   }
   .profile-view-main-container .about-similar .similar-profile-container {
     width: 35%;
