@@ -20,12 +20,15 @@ import {
   unreadNotification,
   logout,
   markNotificationAsRead,
-  deleteUser
+  updateUserAccess,
+  deleteUser,
+  getunlockedProfile
 } from "../controller/userController.js";
 import { Router } from "express";
 import upload from "../multer/multer.js";
 import multer from "multer";
 import { __dirname } from "../app.js";
+import { createPaymentIntent } from "../controller/paymentController.js"
 
 const userRouter = Router();
 userRouter.route("/register").post(registerUser);
@@ -72,9 +75,13 @@ userRouter.route("/notificationTrigger/:id").get(notificationTrigger);
 userRouter.route("/unread/:id").get(unreadNotification);
 userRouter.route('/logout').post(logout)
 userRouter.route('/notificationPreview/:id').patch(markNotificationAsRead)
-userRouter.route('/notificationPreview/:id').patch(markNotificationAsRead)
+// userRouter.route('/notificationPreview/:id').patch(markNotificationAsRead)
 userRouter.route('/deleteUser/:id').delete(deleteUser)
+userRouter.route('/getunlockedProfile').post(getunlockedProfile)
 
+//STRIPE ROUTES
+userRouter.route('/create-payment-intent/:userId/:profileId').post(createPaymentIntent)
+userRouter.route('/updateUserAccess/:userId/:profileId').post(updateUserAccess)
 
 
 export default userRouter;
