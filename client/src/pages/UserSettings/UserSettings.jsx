@@ -5,6 +5,7 @@ import "./usersettings.css";
 import Nav from "../../component/Navbar/Nav";
 import defaultPic from "../../assets/serious-man-portrait-real-people-high-definition-grey-background-photo.jpg";
 import { useSelector, useDispatch } from "react-redux";
+import Footer from "../../component/Footer/Footer";
 
 function UserSettings() {
   const { id } = useParams();
@@ -135,6 +136,7 @@ function UserSettings() {
           </div>
         </div>
       </div>
+      <Footer/>
     </div>
   );
 }
