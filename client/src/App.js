@@ -66,7 +66,7 @@ function App() {
           <Route path="/profileVerification" element={<ProfileVerification />} />
           <Route path="/unverifieduser" element={<UnverifiedUsers />} />
           <Route path="/userProfileVerify/:id" element={<AdminUserVerification />} />
-          <Route path="main/mainuser/:id" element={<UserMain/>} />
+          {/* <Route path="main/mainuser/:id" element={<UserMain/>} /> */}
 
 
 
