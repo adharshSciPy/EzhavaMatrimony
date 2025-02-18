@@ -219,6 +219,27 @@ body {
     margin: 5px;
     cursor: pointer;
   }
+  .password-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .password-container input {
+    padding-right: 40px;
+  }
+  
+  .password-toggle {
+    position: absolute;
+    right: 30px;
+    bottom: 5px;
+    cursor: pointer;
+    color: gray;
+  }
+  
+  .password-toggle:hover {
+    color: black;
+  }
   @media (max-width: 1024px) {
     .landing-main-container {
       flex-direction: column;
@@ -246,6 +267,14 @@ body {
     .landing-form-container button {
       width: 80%;
       margin-left: 72px;
+    }
+    .password-container input {
+      font-size: 15px;
+      padding: 9px 38px 9px 10px;
+    }
+    .toggle-password {
+      font-size: 21px;
+      right: 20px;
     }
   }
   @media (max-width: 768px) {
@@ -289,6 +318,10 @@ body {
     .landing-form-container label {
       margin-left: 0;
     }
+    .password-container input {
+      padding-right: 40px;
+    }
+    
   }
   
   

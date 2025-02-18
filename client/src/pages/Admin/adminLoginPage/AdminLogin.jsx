@@ -15,6 +15,7 @@ function AdminLogin() {
     userEmail: "",
     password: "",
   };
+  const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form, setForm] = useState(field);
@@ -22,6 +23,12 @@ function AdminLogin() {
   const notifyError = (message) => toast.error(message);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
+
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
+
 
   const navigate = useNavigate();
   const handleEmail = (e) => {
@@ -116,14 +123,24 @@ function AdminLogin() {
               />
             </label>
             <label>
+            <div className="password-container">
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 name="password"
                 placeholder="password"
                 required
                 value={form.Password}
                 onChange={handleChange}
               />
+               <span
+                  className="password-toggle"
+                  onClick={togglePasswordVisibility}
+                >
+                  <span className="material-icons">
+                    {showPassword ? "visibility_off" : "visibility"}
+                  </span>
+                </span>
+              </div>
             </label>
             <button type="submit">Sign In</button>
             <div className="fp">
@@ -157,6 +174,10 @@ function AdminLogin() {
           </form>
         </div>
       </div>
+      <link
+        href="https://fonts.googleapis.com/icon?family=Material+Icons"
+        rel="stylesheet"
+      />
     </div>
   );
 }

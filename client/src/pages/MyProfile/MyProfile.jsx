@@ -153,9 +153,9 @@ function MyProfile() {
               <h3>Premium</h3>
             </div>
           </div>
-          <div className="verify-container">
+          {/* <div className="verify-container">
             <h3>Verify Profile</h3>
-          </div>
+          </div> */}
         </div>
 
         <div className="about-similar">
@@ -442,7 +442,7 @@ function MyProfile() {
             </div>
           </div>
           <div className="similar-profile-container">
-            <div className="main-similar-profile">
+            {/* <div className="main-similar-profile"> */}
               <div className="container-similar">
                 <h3>Uploaded Images</h3>
               </div>
@@ -457,7 +457,7 @@ function MyProfile() {
                     />
                   ))}
                 </div>
-              </div>
+              {/* </div> */}
             </div>
           </div>
         </div>

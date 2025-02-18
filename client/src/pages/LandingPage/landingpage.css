@@ -193,6 +193,27 @@ body {
     color: red; 
     margin-left: 18px;
   }
+  .password-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .password-container input {
+    padding-right: 40px;
+  }
+  
+  .password-toggle {
+    position: absolute;
+    right: 30px;
+    bottom: 5px;
+    cursor: pointer;
+    color: gray;
+  }
+  
+  .password-toggle:hover {
+    color: black;
+  }
   .signup-link{
     cursor: pointer;
   }

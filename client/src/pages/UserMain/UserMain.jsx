@@ -167,9 +167,9 @@ function UserMain() {
               <h3>Premium</h3>
             </div>
           </div>
-          <div className="verify-container">
+          {/* <div className="verify-container">
             <h3>Verify Profile</h3>
-          </div>
+          </div> */}
         </div>
 
         <div className="about-similar">
@@ -444,9 +444,9 @@ function UserMain() {
             </div>
           </div>
           <div className="similar-profile-container">
-            <div className="main-similar-profile">
+            {/* <div className="main-similar-profile"> */}
               <div className="container-similar">
-                <h3>Similar Profile</h3>
+                <h3>Uploaded Images</h3>
               </div>
               <div className="like-card-container">
                 <div className="image-container">
@@ -467,7 +467,7 @@ function UserMain() {
                     </div>
                   )}
                 </div>
-              </div>
+              {/* </div> */}
 
             </div>
           </div>

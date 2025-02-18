@@ -10,7 +10,8 @@ footer {
   grid-template-columns: 2fr 1fr 1fr 1fr 1fr; 
   gap: 20px;
   width: 95%;
-  margin: auto;
+  margin : auto;
+  margin-top: 100px;
 }  
 .footer-main .container .heading h4 {
   margin-bottom: 10px;
@@ -50,15 +51,30 @@ footer {
   display: flex;
   justify-content: center;
 }
+
+
+@media (max-width: 1042px) {
+  .footer-main .container {
+    grid-template-columns: 2fr 1fr 1fr; 
+    height: 100px;
+    margin-top: 200px;
+
+  }
+  
+}
+
 @media (max-width: 1024px) {
   .footer-main .container {
     grid-template-columns: 2fr 1fr 1fr; 
+
   }
+  
 }
 
 @media (max-width: 768px) {
   .footer-main .container {
     grid-template-columns: repeat(2, 1fr);
+    
   }
   .footer-main .container .part-one .description p{
       padding-right: 10px;

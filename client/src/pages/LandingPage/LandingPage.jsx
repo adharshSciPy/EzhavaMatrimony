@@ -15,12 +15,17 @@ function LandingPage() {
     userEmail: "",
     password: "",
   };
+  const [showPassword, setShowPassword] = useState(false);
   const [form, setForm] = useState(field);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-  
-  const [errorMessage, setErrorMessage] = useState(""); 
-    const [email, setEmail] = useState("");
-  
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [errorMessage, setErrorMessage] = useState("");
+  const [email, setEmail] = useState("");
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
+
   const notifyError = (message) => toast.error(message);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -34,7 +39,8 @@ function LandingPage() {
     setIsLoading(true); 
     try {
       const response = await axios.post(
-        `http://localhost:8000/api/v1/user/forgotpassworduser`,{ userEmail: email }
+        `http://localhost:8000/api/v1/user/forgotpassworduser`,
+        { userEmail: email }
       );
       if (response.status === 200) {
     setIsLoading(false); 
@@ -44,29 +50,25 @@ function LandingPage() {
         });
       }
     } catch (error) {
-      
       notifyError(error.response?.data?.message);
     }
   };
   const handleSignin = async (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
     try {
       const response = await axios.post(
         `http://localhost:8000/api/v1/user/login`,
         form
       );
-      if(response){
+      if (response) {
         console.log(response.data);
         dispatch(setUser({ id: response.data.userId ,token:response.data.token})); // Dispatch Redux action
         console.log("Dispatched ID:", response.data.userId); // Debug Redux action
-        localStorage.setItem("userId", response.data.userId); 
-        console.log("Token:", response?.data?.token)
+        localStorage.setItem("userId", response.data.userId);
+        console.log("Token:", response?.data?.token);
         console.log(response.data.userId);
-        const userId=response.data.userId;
-        navigate(`/dashboard/${userId}`)
-
-        
-        
+        const userId = response.data.userId;
+        navigate(`/dashboard/${userId}`);
       }
     } catch (error) {
       setErrorMessage(
@@ -88,7 +90,6 @@ function LandingPage() {
     <div>
       <div className="landing-main-container">
       {isLoading && <div className="loader"><BounceLoader color="#f8cb58" /> </div>}
-        
         {/* Left section text */}
         <div className="landing-text-container">
           <h1>Ezhava Matrimony</h1>
@@ -115,46 +116,54 @@ function LandingPage() {
               />
             </label>
             <label>
-              <input
-                type="password"
-                name="password"
-                placeholder="password"
-                required
-                onChange={handleChange}
-                value={form.password}
-              />
+              <div className="password-container">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  placeholder="password"
+                  required
+                  onChange={handleChange}
+                  value={form.password}
+                />
+                <span
+                  className="password-toggle"
+                  onClick={togglePasswordVisibility}
+                >
+                  <span className="material-icons">
+                    {showPassword ? "visibility_off" : "visibility"}
+                  </span>
+                </span>
+              </div>
             </label>
             <button type="submit">Sign In</button>
             <div className="fp">
-              <p className="signup-link" 
-              onClick={() => setIsModalOpen(true)}
-              >
+              <p className="signup-link" onClick={() => setIsModalOpen(true)}>
                 Forgot Password
               </p>
             </div>
-             <Modal
-                          isOpen={isModalOpen}
-                          onRequestClose={() => setIsModalOpen(false)}
-                          className="modal-content"
-                          overlayClassName="modal-overlay"
-                        >
-                          <h2>Forgot Password</h2>
-                          <p>Enter your email to receive a reset link.</p>
-            
-                          <input
-                            type="email"
-                            placeholder="Enter your email"
-                            required
-                            value={email}
-                            onChange={handleEmail}
-                          />
-            
-                          <button onClick={submitEmail}>Submit</button>
-                          <button onClick={() => setIsModalOpen(false)}>Close</button>
-                        </Modal>
+            <Modal
+              isOpen={isModalOpen}
+              onRequestClose={() => setIsModalOpen(false)}
+              className="modal-content"
+              overlayClassName="modal-overlay"
+            >
+              <h2>Forgot Password</h2>
+              <p>Enter your email to receive a reset link.</p>
+
+              <input
+                type="email"
+                placeholder="Enter your email"
+                required
+                value={email}
+                onChange={handleEmail}
+              />
+
+              <button onClick={submitEmail}>Submit</button>
+              <button onClick={() => setIsModalOpen(false)}>Close</button>
+            </Modal>
             <div className="adminLogin">
               <Link className="signup-link" to="/adminLanding">
-              Login as Admin
+                Login as Admin
               </Link>
             </div>
             <div className="signin">
@@ -165,6 +174,10 @@ function LandingPage() {
             </div>
           </form>
         </div>
+        <link
+        href="https://fonts.googleapis.com/icon?family=Material+Icons"
+        rel="stylesheet"
+      />
       </div>
     </div>
   );

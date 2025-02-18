@@ -281,7 +281,7 @@
 /* Default mobile-first approach */
 
 /* Large Devices */
-@media (min-width: 1024px) {
+@media (max-width: 1024px) {
   .settings-container5 .container-main5 {
     width: 90%;
   }
@@ -296,6 +296,10 @@
     .contents5
     .box-contents5 {
     padding: 40px;
+  }
+  .toggle-password {
+    font-size: 21px;
+    right: 200px;
   }
 }
   
@@ -440,6 +444,6 @@
     width: 100%;
     margin-top: 20px;
   }
-
+  
     }
     

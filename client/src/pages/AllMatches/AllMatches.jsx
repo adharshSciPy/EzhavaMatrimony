@@ -825,9 +825,9 @@ function AllMatches() {
               setCurrentPage={setCurrentPage}
             />
           </div>
-          <Footer />
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
