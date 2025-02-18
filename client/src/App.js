@@ -30,10 +30,9 @@ import ProfileVerification from "./pages/Admin/Profile/Profile"
 import UnverifiedUsers from "./pages/Admin/Profile/GetFullProfile"
 import AdminUserVerification from "./pages/Admin/AdminProfileVerification/AdminVerififcation";
 import { loadStripe } from '@stripe/stripe-js';
-import Checkout from "./pages/Checkout/CheckoutForm";
-
-const stripePromise = loadStripe('pk_test_51QrI1KDAmifl26iyPebU9XYcNl3sWZW8yLoG7YWx7ejIQEUjsHnEt3v242qu7BlTH3eQydrwP4t3ugXInfzMf0qp0035cEq2zC');
-
+import Checkout from "./pages/Checkout/Checkout";
+import UserPasswordReset from "./pages/UserPasswordReset/PasswordReset"
+import PaymentSuccess from "./pages/Checkout/PaymentSuccess";
 function App() {
 
 
@@ -66,18 +65,18 @@ function App() {
           <Route path="/report/:userId" element={<Report1 />} />
           <Route path="/mainuser/:id" element={<UserMain />} />
           <Route path="/Usettings" element={<UserSettings />} />
-          <Route path="/resetPassworduser/:id/:token" element={<ResetPassword />} />
+          <Route path="/resetPassword/:token" element={<ResetPassword />} />
           <Route path="/Usettings/:id" element={<UserSettings />} />
-          <Route path="/resetPassword" element={<ResetPassword />} />
+          <Route path="/resetPasswordUser/:id/:token" element={<UserPasswordReset />} />
           <Route path="/likedprofiles/:id" element={<LikedProfiles />} />
           <Route path="/getFullReport" element={<AdminFullReport />} />
           <Route path="/myprofile/:id" element={<MyProfile />} />
           <Route path="/profileVerification" element={<ProfileVerification />} />
           <Route path="/unverifieduser" element={<UnverifiedUsers />} />
           <Route path="/userProfileVerify/:id" element={<AdminUserVerification />} />
-          <Route path="main/mainuser/:id" element={<UserMain />} />
-
-
+          {/* <Route path="main/mainuser/:id" element={<UserMain/>} /> */}
+          <Route path="/checkout/:profileId/:userId" element={<Checkout />} />
+          <Route path="/payment-success/:profileId" element={<PaymentSuccess />} />
 
 
 

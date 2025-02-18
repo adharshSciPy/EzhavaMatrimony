@@ -3,17 +3,20 @@ import Nav from "../../../component/AdminNav/Adminnav";
 import padam from "../../../assets/bridde.jpg";
 import "./adminuserprofile.css";
 import { useParams } from "react-router-dom";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import Footer from "../../../component/Footer/Footer";
 import axios from "axios";
-import ImageCard from "../../Admin/components/ImageCard"
+import Modal from "react-modal";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import ImageCard from "../../Admin/components/ImageCard";
 function Adminprofile() {
   const [data, setData] = useState(null);
   const { id } = useParams();
-  console.log("thk", id);
-
-  console.log(data);
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const notifyError = (message) => toast.error(message);
+  const notifySuccess = (message) => toast.success(message);
+  const Navigate=useNavigate()
   const userData = async () => {
     try {
       const response = await axios.get(
@@ -22,6 +25,7 @@ function Adminprofile() {
       setData(response.data.data);
     } catch (error) {
       console.error("Error fetching user data:", error);
+
     }
   };
   useEffect(() => {
@@ -30,9 +34,31 @@ function Adminprofile() {
   if (!data) {
     return <div>Loading</div>;
   }
-
+  const handleDelete = async (req, res) => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:8000/api/v1/user/deleteUser/${id}`
+      );
+      toast.success("User Deleted Successfully")
+      setIsModalOpen(false)
+      Navigate("/getFullUser")
+    } catch (error) {
+      notifyError(error.response?.data?.message || "Something went wrong. Please try again.");
+      
+    }
+  };
   return (
     <div>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        pauseOnHover
+      />
       <Nav />
       <div className="profile-view-main-container">
         <div className="profile-cards">
@@ -60,21 +86,50 @@ function Adminprofile() {
               </div>
             </div>
             <div className="profile-age-container">
-              <p className="">{data?.age||"Nil"}</p>
-              <div className="media">
-                <div className="watsapp"></div>
-                <div className="call-icon"></div>
+              <p className="">{data?.age || "Nil"}</p>
+              <div className="media-admin">
+                <div className="delete" onClick={() => setIsModalOpen(true)}>
+                  Delete Account
+                </div>
+                <Modal
+                  isOpen={isModalOpen}
+                  onRequestClose={() => setIsModalOpen(false)}
+                  className="modal-content"
+                  overlayClassName="modal-overlay"
+                  style={{
+                    overlay: { zIndex: 1000 },
+                    content: { zIndex: 1001 },
+                  }}
+                >
+                  <h2 style={{ padding: "20px" }}>Delete User </h2>
+                  <p style={{ padding: "20px" }}>
+                    Are you sure want to delete this User.
+                  </p>
+
+                  <button
+                    style={{ backgroundColor: "red", border: "none" }}
+                    onClick={handleDelete}
+                  >
+                    Yes
+                  </button>
+                  <button
+                    style={{ backgroundColor: "#13f534", border: "none" }}
+                    onClick={() => setIsModalOpen(false)}
+                  >
+                    No
+                  </button>
+                </Modal>
               </div>
             </div>
 
             <div className="profile-info-container">
               <span className="profile-degree-container">
-               {data?.education|| "Nil"}   
+                {data?.education || "Nil"}
               </span>
             </div>
 
             <div className="profile-location-container">
-              <span>{data?.city|| "Nil"}</span>
+              <span>{data?.city || "Nil"}</span>
             </div>
             <div className="premium-container">
               <h3>Premium</h3>
@@ -89,12 +144,10 @@ function Adminprofile() {
             <div className="about-card-container">
               <div className="user-description">
                 <div className="about-user-container">
-                  <h3>About {data?.firstName||"user"}</h3>
+                  <h3>About {data?.firstName || "user"}</h3>
                 </div>
                 <div className="description-container">
-                  <p>
-                  {data?.about||"Nil"}
-                  </p>
+                  <p>{data?.about || "Nil"}</p>
                 </div>
               </div>
               <div className="basic-details-container">
@@ -109,7 +162,9 @@ function Adminprofile() {
                       </span>
                       <p>Age</p>
                     </div>
-                    <div className="prof-detail same1">{data?.age||"Nil"} </div>
+                    <div className="prof-detail same1">
+                      {data?.age || "Nil"}{" "}
+                    </div>
                   </div>
                   <div className="degree-container details-main">
                     <div className="prof-detail same">
@@ -119,7 +174,7 @@ function Adminprofile() {
                       <p>Degree</p>
                     </div>
                     <div className="prof-detail same1">
-                      <p>{data?.educationDetails||"Nil"}</p>
+                      <p>{data?.educationDetails || "Nil"}</p>
                     </div>
                   </div>
                   <div className="location-container details-main">
@@ -141,7 +196,7 @@ function Adminprofile() {
                       <p>Mother Toungue</p>
                     </div>
                     <div className="prof-detail same1">
-                      {data?.motherTongue||"Nil"}
+                      {data?.motherTongue || "Nil"}
                     </div>
                   </div>
                   <div className="profile-created-container details-main">
@@ -151,7 +206,9 @@ function Adminprofile() {
                       </span>
                       <p>Profile Created By</p>
                     </div>
-                    <div className="prof-detail same1">{data?.relation||"Nil"}</div>
+                    <div className="prof-detail same1">
+                      {data?.relation || "Nil"}
+                    </div>
                   </div>
                   <div className="maritial-status-container details-main">
                     <div className="prof-detail same">
@@ -160,14 +217,18 @@ function Adminprofile() {
                       </span>
                       <p>Maritial Status</p>
                     </div>
-                    <div className="prof-detail same1">{data?.maritalStatus||"Nil"}</div>
+                    <div className="prof-detail same1">
+                      {data?.maritalStatus || "Nil"}
+                    </div>
                   </div>
                   <div className="citizenship-container details-main">
                     <div className="prof-detail same">
                       <span className="material-icons profiles-icon">flag</span>
                       <p>Citizenship</p>
                     </div>
-                    <div className="prof-detail same1">{data?.citizenship||"Nil"}</div>
+                    <div className="prof-detail same1">
+                      {data?.citizenship || "Nil"}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -214,14 +275,18 @@ function Adminprofile() {
                     </span>
                     <p>subcaste</p>
                   </div>
-                  <div className="prof-detail same1">{data?.subCaste||"Nil"}</div>
+                  <div className="prof-detail same1">
+                    {data?.subCaste || "Nil"}
+                  </div>
                 </div>
                 <div className="location-container details-main">
                   <div className="prof-detail same">
                     <span className="material-icons profiles-icon">school</span>
                     <p>Gothram</p>
                   </div>
-                  <div className="prof-detail same1">{data?.gothram||"Nil"}</div>
+                  <div className="prof-detail same1">
+                    {data?.gothram || "Nil"}
+                  </div>
                 </div>
                 <div className="spoken-language-container details-main">
                   <div className="prof-detail same">
@@ -238,7 +303,9 @@ function Adminprofile() {
                     </span>
                     <p>Dosham</p>
                   </div>
-                  <div className="prof-detail same1">{data?.dosham||"Nil"}</div>
+                  <div className="prof-detail same1">
+                    {data?.dosham || "Nil"}
+                  </div>
                 </div>
               </div>
               <div className="basic-details-container">
@@ -250,7 +317,9 @@ function Adminprofile() {
                     <span className="material-icons profiles-icon">school</span>
                     <p>Education</p>
                   </div>
-                  <div className="prof-detail same1">{data?.educationDetails||"Nil"}</div>
+                  <div className="prof-detail same1">
+                    {data?.educationDetails || "Nil"}
+                  </div>
                 </div>
                 <div className="location-container details-main">
                   <div className="prof-detail same">
@@ -271,14 +340,18 @@ function Adminprofile() {
                     <span className="material-icons profiles-icon">home </span>
                     <p>Family Type</p>
                   </div>
-                  <div className="prof-detail same1">{data.familyType || "Nil"}</div>
+                  <div className="prof-detail same1">
+                    {data.familyType || "Nil"}
+                  </div>
                 </div>
                 <div className="location-container details-main">
                   <div className="prof-detail same">
                     <span className="material-icons profiles-icon">group</span>
                     <p>Family Values</p>
                   </div>
-                  <div className="prof-detail same1">{data?.familyValues||"NIL"}</div>
+                  <div className="prof-detail same1">
+                    {data?.familyValues || "NIL"}
+                  </div>
                 </div>
               </div>
             </div>

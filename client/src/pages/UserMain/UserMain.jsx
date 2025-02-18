@@ -9,15 +9,16 @@ import axios from "axios"; // Import axios
 import { useSelector, useDispatch } from "react-redux";
 
 function UserMain() {
-  const navigate = useNavigate();
+  const Navigate = useNavigate();
   const userId = useSelector((state) => state.user.id);
   const { id } = useParams();
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [showNumber, setShowNumber] = useState(false);
+  const [showDetails, setShowDetails] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [topMatches, setTopMatches] = useState([]);
+  const [unlockedProfiles, setUnlockedProfiles] = useState([])
 
   const fetchUserData = async () => {
     try {
@@ -27,7 +28,7 @@ function UserMain() {
       setUserData(response.data.data);
       console.log(response.data.data, "pwada");
       setPhoneNumber(response.data.data.phoneNumber);
-
+      
       setLoading(false);
     } catch (error) {
       setError("Failed to fetch user data. Please try again later.");
@@ -49,26 +50,39 @@ function UserMain() {
       console.log("error", error);
     }
   };
+  const unlockedProfile = async () => {
+    try {
+      const response = await axios.post("http://localhost:8000/api/v1/user/getunlockedProfile",{id: userId});
+      // setUserData(response.data.data);
+      // setPhoneNumber(response.data.data.phoneNumber);
+      setUnlockedProfiles(response.data.data.unlockedProfiles);
+
+        console.log("pari",response);
+        console.log("adba",userId);
+        
+    } catch (error) {
+      setError("Failed to fetch user data. Please try again later.");
+      console.error("Error fetching user data:", error);
+    }
+  };
   useEffect(() => {
     fetchUserData();
     TopMatch();
-  }, []);
+    unlockedProfile();
+  }, [id,userId  ]);
+  console.log('unlocke',unlockedProfiles);
 
-  // useEffect(() => {
-  //   const fetchPhoneNumber = async () => {
-  //     try {
-  //       const response = await axios.get(
-  //         `http://localhost:8000/api/v1/user/${id}`
-  //       );
-  //       setPhoneNumber(response.data.phoneNumber); // Assuming phoneNumber exists in backend response
-  //     } catch (error) {
-  //       console.error("Error fetching phone number:", error);
-  //     }
-  //   };
 
-  //   fetchPhoneNumber();
-  // }, [id]);
 
+
+  useEffect(() => {
+    if (unlockedProfiles.includes(id)) {
+      setShowDetails(true);  // Unblur images if the userId is in unlockedProfiles
+    } else {
+      setShowDetails(false); // Otherwise, blur images
+    }
+  }, [unlockedProfiles, id]);
+  
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -76,15 +90,18 @@ function UserMain() {
   if (error) {
     return <div>{error}</div>;
   }
+  const handlePayment = async (userId, profileId) => {
+    Navigate(`/checkout/${profileId}/${userId}`)
+  }
 
   return (
     <div>
-      <Nav userId={userId}  />
+      <Nav userId={userId} />
       <h2 className="all-match">All Matches 14/112</h2>
       <div className="profile-view-main-container">
         <div className="profile-cards">
           <div className="image-container">
-            <img
+          <img
               src={
                 userData.profilePicture
                   ? `http://localhost:8000${userData.profilePicture}`
@@ -140,9 +157,11 @@ function UserMain() {
             </div>
 
             <div className="profile-location-container">
-              <span>{userData.location || userData.state
+              <span>
+                {userData.location || userData.state
                   ? `${userData.location}  ${userData.state}`
-                  : "No data Found"}</span>
+                  : "No data Found"}
+              </span>
             </div>
             <div className="premium-container">
               <h3>Premium</h3>
@@ -205,9 +224,9 @@ function UserMain() {
                       <p>Location</p>
                     </div>
                     <div className="prof-detail same1">
-                    {userData.location || userData.state
-                  ? `${userData.location}  ${userData.state}`
-                  : "No data Found"}
+                      {userData.location || userData.state
+                        ? `${userData.location}  ${userData.state}`
+                        : "No data Found"}
                     </div>
                   </div>
                   <div className="spoken-language-container details-main">
@@ -231,8 +250,7 @@ function UserMain() {
                       <p>Profile Created By</p>
                     </div>
                     <div className="prof-detail same1">
-                    {userData.relation ? userData.relation : ""}
-
+                      {userData.relation ? userData.relation : ""}
                     </div>
                   </div>
                   <div className="maritial-status-container details-main">
@@ -281,10 +299,10 @@ function UserMain() {
                   </div>
                   <div className="digit-container">
                     <div className="digit-main">
-                      <h3>{showNumber ? phoneNumber : "**********"}</h3>
+                      <h3>{showDetails ? phoneNumber : "**********"}</h3>
                       <div className="call-now">
                         <span className="material-icons">phone</span>
-                        <h4>Call Now</h4>
+                        <h4 onClick={() => handlePayment(userId, id)}>Call Now</h4>
                       </div>
                     </div>
                   </div>
@@ -431,17 +449,26 @@ function UserMain() {
                 <h3>Similar Profile</h3>
               </div>
               <div className="like-card-container">
-                <div className="my-profile-image23">
-                  {userData.image?.map((imgSrc, index) => (
-                    <img
-                      key={index}
-                      className="my-profile-image23-single"
-                      src={`http://localhost:8000${imgSrc}`}
-                      alt={`User Image ${index}`}
-                    />
-                  ))}
+                <div className="image-container">
+                  <div className="my-profile-image23">
+                    {userData.image?.map((imgSrc, index) => (
+                      <img
+                        key={index}
+                        className={`my-profile-image23-single ${!showDetails ? "bluredProfile234" : ""
+                          }`}
+                        src={`http://localhost:8000${imgSrc}`}
+                        alt={`UserImage ${index}`}
+                      />
+                    ))}
+                  </div>
+                  {!showDetails && (
+                    <div className="payment-message">
+                      <p>Unlock to view images. Please make a payment to proceed.</p>
+                    </div>
+                  )}
                 </div>
               </div>
+
             </div>
           </div>
         </div>

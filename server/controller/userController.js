@@ -353,7 +353,7 @@ const forgotPassword = async (req, res) => {
       expiresIn: "1d",
     });
 
-    const resetLink = `${process.env.CLIENT_URL}/resetpassword/${user._id}/${token}`;
+    const resetLink = `${process.env.CLIENT_URL}/resetPasswordUser/${user._id}/${token}`;
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -413,8 +413,8 @@ const resetPassword = async (req, res) => {
     }
 
     // Hash the new password
-    const hashedPassword = await bcrypt.hash(password, 10);
-    user.password = hashedPassword;
+    // const hashedPassword = await bcrypt.hash(password, 10);
+    user.password = password;
 
     await user.save();
 
@@ -925,7 +925,7 @@ const markNotificationAsRead = async (req, res) => {
 // Example route in paymentController.js
 
 const updateUserAccess = async (req, res) => {
-  const { userId, profileId } = req.body;
+  const { userId, profileId } = req.params;
 
   try {
     // Use { new: true } to get the updated document in the response
@@ -948,6 +948,28 @@ const updateUserAccess = async (req, res) => {
 
 
 
+const deleteUser = async (req, res) => {
+
+  try {
+    const { id } = req.params;
+    const deleteUser = await User.findByIdAndDelete(id)
+    if (!deleteUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.json({ message: "User deleted successfully", user: deleteUser });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+}
+const getunlockedProfile = async (req, res) => {
+  const { id } = req.body;
+  try {
+    const response = await User.findById(id).select("unlockedProfiles");
+    res.status(200).json({ message: 'get',data:response })
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+}
 export {
   registerUser,
   editUser,
@@ -971,5 +993,8 @@ export {
   unreadNotification,
   logout,
   markNotificationAsRead,
-  updateUserAccess
+  updateUserAccess,
+  deleteUser,
+  getunlockedProfile
+  
 };

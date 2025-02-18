@@ -16,3 +16,18 @@ flex-direction: column;
     justify-content: center;
     margin-bottom: 50px;
 }
+.profile-content div {
+    overflow: hidden;
+}
+@media(max-width:660px){
+    .report-container .container-main {
+        margin: 0;
+        width: 100%;
+    }
+    .report-container .container-main .contents {
+        width: 100%;
+    }
+    .main-container-profiles {
+        width: 100%;
+    }
+}

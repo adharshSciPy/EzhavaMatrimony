@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../features/slice";
 import Modal from "react-modal";
+import BounceLoader from "react-spinners/BounceLoader";
 
 
 function LandingPage() {
@@ -21,6 +22,7 @@ function LandingPage() {
     const [email, setEmail] = useState("");
   
   const notifyError = (message) => toast.error(message);
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -29,11 +31,14 @@ function LandingPage() {
   };
   const submitEmail = async (e) => {
     e.preventDefault();
+    setIsLoading(true); 
     try {
       const response = await axios.post(
         `http://localhost:8000/api/v1/user/forgotpassworduser`,{ userEmail: email }
       );
       if (response.status === 200) {
+    setIsLoading(false); 
+
         toast.success("Password reset link sent to registered mail ID", {
           onClose: () => setIsModalOpen(false),
         });
@@ -82,6 +87,7 @@ function LandingPage() {
   return (
     <div>
       <div className="landing-main-container">
+      {isLoading && <div className="loader"><BounceLoader color="#f8cb58" /> </div>}
         
         {/* Left section text */}
         <div className="landing-text-container">
