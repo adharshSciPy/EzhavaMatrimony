@@ -449,24 +449,30 @@ function UserMain() {
                 <h3>Uploaded Images</h3>
               </div>
               <div className="like-card-container">
-                <div className="image-container">
-                  <div className="my-profile-image23">
-                    {userData.image?.map((imgSrc, index) => (
-                      <img
-                        key={index}
-                        className={`my-profile-image23-single ${!showDetails ? "bluredProfile234" : ""
-                          }`}
-                        src={`http://localhost:8000${imgSrc}`}
-                        alt={`UserImage ${index}`}
-                      />
-                    ))}
-                  </div>
-                  {!showDetails && (
-                    <div className="payment-message">
-                      <p>Unlock to view images. Please make a payment to proceed.</p>
-                    </div>
-                  )}
-                </div>
+              <div className="image-container">
+  <div className="my-profile-image23">
+    {userData.image && userData.image.length > 0 ? (
+      userData.image.map((imgSrc, index) => (
+        <img
+          key={index}
+          className={`my-profile-image23-single ${
+            !showDetails ? "bluredProfile234" : ""
+          }`}
+          src={`http://localhost:8000${imgSrc}`}
+          alt={`UserImage ${index}`}
+        />
+      ))
+    ) : (
+      <p>No images uploaded.</p>
+    )}
+  </div>
+  {userData.image && userData.image.length > 0 && !showDetails && (
+    <div className="payment-message">
+      <p>Unlock to view images. Please make a payment to proceed.</p>
+    </div>
+  )}
+</div>
+
               {/* </div> */}
 
             </div>
