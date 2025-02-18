@@ -79,7 +79,7 @@ function Nav({ userId }) {
           >
             <span className="material-symbols-outlined">home</span>
             <span className="matches-text">
-              <h6>Home</h6>
+              <h4>Home</h4>
             </span>
           </button>
 
@@ -89,7 +89,7 @@ function Nav({ userId }) {
           >
             <span className="material-symbols-outlined">group</span>
             <span className="matches-text">
-              <h6>Matches</h6>
+              <h4>Matches</h4>
             </span>
           </button>
 

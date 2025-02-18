@@ -19,7 +19,8 @@ import {
   notificationTrigger,
   unreadNotification,
   logout,
-  markNotificationAsRead
+  markNotificationAsRead,
+  deleteUser
 } from "../controller/userController.js";
 import { Router } from "express";
 import upload from "../multer/multer.js";
@@ -71,5 +72,9 @@ userRouter.route("/notificationTrigger/:id").get(notificationTrigger);
 userRouter.route("/unread/:id").get(unreadNotification);
 userRouter.route('/logout').post(logout)
 userRouter.route('/notificationPreview/:id').patch(markNotificationAsRead)
+userRouter.route('/notificationPreview/:id').patch(markNotificationAsRead)
+userRouter.route('/deleteUser/:id').delete(deleteUser)
+
+
 
 export default userRouter;
