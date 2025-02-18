@@ -172,7 +172,10 @@ const userSchema = new Schema({
     type:Boolean,
     default:false
   },
-  like:[{type: mongoose.Schema.Types.ObjectId, ref: "User"}]
+  like:[{type: mongoose.Schema.Types.ObjectId, ref: "User"}],
+  unlockedProfiles:{
+    type: Array
+  },
   
 });
 

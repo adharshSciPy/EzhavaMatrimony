@@ -8,7 +8,7 @@ import mongoose from "mongoose";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from 'url';
-import  {__dirname}  from '../app.js';
+import { __dirname } from '../app.js';
 
 const generateShortId = () => {
   const timestamp = Date.now(); // Get current time in milliseconds
@@ -95,18 +95,18 @@ const registerUser = async (req, res) => {
 };
 const logout = async (req, res) => {
   try {
-      const { refreshToken } = req.cookies;
-      if (!refreshToken) {
-          return res.status(204).json({ message: "Invalid Cookie" })
-      }
-      res.clearCookie("refreshToken", {
-          httpOnly: true,
-          secure: false,
-          sameSite: "None"
-      })
-      return res.status(200).json({ message: "Logout Successfully" })
+    const { refreshToken } = req.cookies;
+    if (!refreshToken) {
+      return res.status(204).json({ message: "Invalid Cookie" })
+    }
+    res.clearCookie("refreshToken", {
+      httpOnly: true,
+      secure: false,
+      sameSite: "None"
+    })
+    return res.status(200).json({ message: "Logout Successfully" })
   } catch (error) {
-      return res.status(500).json({ message: `Internal server error due to ${error.message}` })
+    return res.status(500).json({ message: `Internal server error due to ${error.message}` })
   }
 }
 
@@ -211,15 +211,15 @@ const editUser = async (req, res) => {
         if (fs.existsSync(fullPath)) {
           fs.unlinkSync(fullPath);
           console.log('Image removed successfully');
-        }else{
+        } else {
           console.log("not found");
-          
+
         }
         existingImages.shift(); // Remove the first image
       } else if (images.length === 2) {
         // Remove both old images if two new images are uploaded
         existingImages.forEach((imgPath) => {
-        const baseDir = path.resolve();
+          const baseDir = path.resolve();
 
           const fullPath = path.join(baseDir, imgPath);
           if (fs.existsSync(fullPath)) {
@@ -578,9 +578,9 @@ const topMatch = async (req, res) => {
     const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
     const hobbiesRegex = user.hobbies
       ? user.hobbies
-          .split(",")
-          .map((hobby) => escapeRegex(hobby.trim()))
-          .join("|")
+        .split(",")
+        .map((hobby) => escapeRegex(hobby.trim()))
+        .join("|")
       : null;
 
     const oppositeGender =
@@ -620,7 +620,7 @@ const topMatch = async (req, res) => {
       city: match.city,
       hobbies: match.hobbies,
       height: match.height,
-      profilePicture:match.profilePicture
+      profilePicture: match.profilePicture
     }));
 
     res.status(200).json({ message: "Matches found", matches: response });
@@ -774,7 +774,7 @@ const getNotifications = async (req, res) => {
 
 const likeProfile = async (req, res) => {
   try {
-    const io = req.app.get("io"); 
+    const io = req.app.get("io");
     const { likerId } = req.params;
     const { likedId } = req.body;
 
@@ -869,34 +869,34 @@ const getComplaint = async (req, res) => {
   }
 };
 
-const unVerifiedUser=async(req,res)=>{
-try {
-  const unverfiedUser=await User.find({userVerified:false})
-  if(!unverfiedUser.length===0){
-    res.status(400).json({message:"no unverfiedUser found" })
+const unVerifiedUser = async (req, res) => {
+  try {
+    const unverfiedUser = await User.find({ userVerified: false })
+    if (!unverfiedUser.length === 0) {
+      res.status(400).json({ message: "no unverfiedUser found" })
+    }
+    return res.status(200).json({ unverfiedUser })
+  } catch (error) {
+    res.status(500).json({ message: "server-error" })
   }
-  return res.status(200).json({unverfiedUser})
-} catch (error) {
-  res.status(500).json({message:"server-error"})
-}
 }
 const notificationTrigger = async (req, res) => {
-  const { id } = req.params; 
+  const { id } = req.params;
   try {
     const response = await Notification.find({ receiverId: id })
       .sort({ createdAt: -1 })
-      .populate("senderId", "name profilePicture"); 
+      .populate("senderId", "name profilePicture");
 
     res.json(response);
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
   }
 };
-const unreadNotification=async (req,res) => {
-  const {id}=req.params;
+const unreadNotification = async (req, res) => {
+  const { id } = req.params;
   try {
-    const notifications=await Notification.find({receiverId:id,isRead:false});
-    res.json({response:notifications})
+    const notifications = await Notification.find({ receiverId: id, isRead: false });
+    res.json({ response: notifications })
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
   }
@@ -908,7 +908,7 @@ const markNotificationAsRead = async (req, res) => {
     const updatedNotification = await Notification.findByIdAndUpdate(
       id,
       { notified: true },
-      { new: true } 
+      { new: true }
     );
 
     if (!updatedNotification) {
@@ -921,6 +921,32 @@ const markNotificationAsRead = async (req, res) => {
     res.status(500).json({ success: false, message: "Server error" });
   }
 };
+
+// Example route in paymentController.js
+
+const updateUserAccess = async (req, res) => {
+  const { userId, profileId } = req.body;
+
+  try {
+    // Use { new: true } to get the updated document in the response
+    const payment = await User.findByIdAndUpdate(
+      userId,
+      { $addToSet: { unlockedProfiles: profileId } }, // $addToSet prevents duplicates
+      { new: true }
+    );
+
+    if (!payment) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.status(200).json({ message: 'Access Granted', data: payment });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server Error', error: error.message });
+  }
+};
+
+
 
 export {
   registerUser,
@@ -944,5 +970,6 @@ export {
   notificationTrigger,
   unreadNotification,
   logout,
-  markNotificationAsRead
+  markNotificationAsRead,
+  updateUserAccess
 };
