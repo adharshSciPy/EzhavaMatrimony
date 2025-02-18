@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { setUser } from "../../../features/slice";
 import Modal from "react-modal";
 import "react-toastify/dist/ReactToastify.css";
+import BounceLoader from "react-spinners/BounceLoader";
 
 function AdminLogin() {
   let field = {
@@ -21,6 +22,7 @@ function AdminLogin() {
   const [errorMessage, setErrorMessage] = useState("");
   const notifyError = (message) => toast.error(message);
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
 
 
   const togglePasswordVisibility = () => {
@@ -40,11 +42,15 @@ function AdminLogin() {
   };
   const submitEmail = async (e) => {
     e.preventDefault();
+    setIsLoading(true); 
+
     try {
       const response = await axios.post(
         `http://localhost:8000/api/v1/admin/forgotpasswordadmin`,{ userEmail: email }
       );
       if (response.status === 200) {
+    setIsLoading(false); 
+
         toast.success("Password reset link sent to registered mail ID", {
           onClose: () => setIsModalOpen(false),
         });
@@ -79,6 +85,8 @@ function AdminLogin() {
   return (
     <div>
       <div className="landing-main-container">
+      {isLoading && <div className="loader"><BounceLoader color="#f8cb58" /> </div>}
+
         <ToastContainer
           position="bottom-right"
           autoClose={2000}

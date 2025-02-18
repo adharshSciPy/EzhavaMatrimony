@@ -353,7 +353,7 @@ const forgotPassword = async (req, res) => {
       expiresIn: "1d",
     });
 
-    const resetLink = `${process.env.CLIENT_URL}/resetpassworduser/${user._id}/${token}`;
+    const resetLink = `${process.env.CLIENT_URL}/resetPasswordUser/${user._id}/${token}`;
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -413,8 +413,8 @@ const resetPassword = async (req, res) => {
     }
 
     // Hash the new password
-    const hashedPassword = await bcrypt.hash(password, 10);
-    user.password = hashedPassword;
+    // const hashedPassword = await bcrypt.hash(password, 10);
+    user.password =password;
 
     await user.save();
 
@@ -901,6 +901,40 @@ const unreadNotification=async (req,res) => {
     res.status(500).json({ message: "Server error", error });
   }
 }
+const markNotificationAsRead = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const updatedNotification = await Notification.findByIdAndUpdate(
+      id,
+      { notified: true },
+      { new: true } 
+    );
+
+    if (!updatedNotification) {
+      return res.status(404).json({ success: false, message: "Notification not found" });
+    }
+
+    res.status(200).json({ success: true, message: "Notification marked as read", updatedNotification });
+  } catch (error) {
+    console.error("Error updating notification:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+const deleteUser=async(req,res)=>{
+  
+  try {
+    const{id}=req.params;
+    const deleteUser=await User.findByIdAndDelete(id)
+    if (!deleteUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.json({ message: "User deleted successfully", user: deleteUser });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+}
 
 export {
   registerUser,
@@ -923,5 +957,7 @@ export {
   unVerifiedUser,
   notificationTrigger,
   unreadNotification,
-  logout
+  logout,
+  markNotificationAsRead,
+  deleteUser
 };

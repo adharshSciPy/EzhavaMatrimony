@@ -19,6 +19,8 @@ import {
   notificationTrigger,
   unreadNotification,
   logout,
+  markNotificationAsRead,
+  deleteUser
 } from "../controller/userController.js";
 import { Router } from "express";
 import upload from "../multer/multer.js";
@@ -52,7 +54,7 @@ userRouter.route("/edit/:id").patch(
 userRouter.route("/userdetails").get(userdetails);
 userRouter.route("/verifyOtp/:userEmail").post(verifyOtp);
 userRouter.route("/getUserById/:id").get(getUser); //all matches
-userRouter.route("/resetpassworduser/:id/:token").post(resetPassword);
+userRouter.route("/resetpassword/:id/:token").post(resetPassword);
 userRouter.route("/forgotpassworduser").post(forgotPassword);
 userRouter.route("/usercarddetails/:id").get(getUserById); //dashboard api
 userRouter.route("/login").post(userLogin);
@@ -69,5 +71,10 @@ userRouter.route("/unverfieduser").get(unVerifiedUser);
 userRouter.route("/notificationTrigger/:id").get(notificationTrigger);
 userRouter.route("/unread/:id").get(unreadNotification);
 userRouter.route('/logout').post(logout)
+userRouter.route('/notificationPreview/:id').patch(markNotificationAsRead)
+userRouter.route('/notificationPreview/:id').patch(markNotificationAsRead)
+userRouter.route('/deleteUser/:id').delete(deleteUser)
+
+
 
 export default userRouter;

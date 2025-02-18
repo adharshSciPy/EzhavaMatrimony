@@ -169,3 +169,10 @@
     padding-bottom: 20px;
 }
 }
+@media (max-width:650px) {
+    .contents .profiles-container .main-container-profiles .profiles div     {
+        flex-direction: column;
+        width: 100%;
+        text-align: center;
+    }
+}

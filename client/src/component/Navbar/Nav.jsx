@@ -9,10 +9,10 @@ const socket = io("http://localhost:8000", {
 });
 
 function Nav({ userId }) {
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   const [notifications, setNotifications] = useState([]);
   const [showNotifications, setShowNotifications] = useState(false);
-  console.log("see", notifications);
+  const [selectedSenderId, setSelectedSenderId] = useState(null);
   useEffect(() => {
     if (!userId) return;
 
@@ -27,10 +27,8 @@ function Nav({ userId }) {
         );
         setNotifications(Array.isArray(data?.response) ? data.response : []);
       } catch (error) {
-        console.error("Error fetching notifications:", error);
         setNotifications([]);
       } finally {
-        // Fetch notifications every 10 seconds to avoid rapid updates
         timeoutId = setTimeout(fetchNotifications, 10000);
       }
     };
@@ -40,7 +38,6 @@ function Nav({ userId }) {
 
     const handleNotification = (newNotification) => {
       setNotifications((prev) => {
-        // Prevent duplicate notifications
         const exists = prev.some((n) => n._id === newNotification._id);
         return exists ? prev : [newNotification, ...prev];
       });
@@ -53,24 +50,46 @@ function Nav({ userId }) {
       clearTimeout(timeoutId); // Clear interval on unmount
     };
   }, [userId]);
-  
 
+  const hasUnreadMessages = notifications.some((item) => !item.notified);
+
+  const hideAlert = async (id, senderId) => {
+    try {
+      await axios.patch(
+        `http://localhost:8000/api/v1/user/notificationPreview/${id}`
+      );
+      setSelectedSenderId(senderId);
+      navigate(`/mainuser/${senderId}`);
+    } catch (error) {
+      console.error("Error handling notification:", error);
+    }
+  };  
+  useEffect(() => {
+    if (selectedSenderId) {
+      window.location.reload();
+    }
+  }, [selectedSenderId]);
   return (
     <div>
       <header className="Prof-header7">
         <div className="Prof-header-left7">
-          <button className="icon-button7">
+          <button
+            className="icon-button7"
+            onClick={() => navigate(`/dashboard/${userId}`)}
+          >
             <span className="material-symbols-outlined">home</span>
             <span className="matches-text">
-              <h6 onClick={()=>navigate(`/dashboard/${userId}`)}>Home</h6>
+              <h4>Home</h4>
             </span>
           </button>
 
-          <button className="icon-button7">
+          <button
+            className="icon-button7"
+            onClick={() => navigate(`/toprecommendations/${userId}`)}
+          >
             <span className="material-symbols-outlined">group</span>
             <span className="matches-text">
-            <h6 onClick={()=>navigate(`/toprecommendations/${userId}`)}>Matches</h6>
-
+              <h4>Matches</h4>
             </span>
           </button>
 
@@ -80,16 +99,22 @@ function Nav({ userId }) {
           >
             <span className="material-symbols-outlined">notifications</span>
             <h6>Notification</h6>
-            {notifications.length > 0 && (
-              <div className="notification-alert">{notifications.length}</div>
-            )}
+            {hasUnreadMessages && <div className="notification-alert"></div>}
             {showNotifications && (
               <div className="notification-dropdown">
                 {notifications.length > 0 ? (
                   notifications.map((notification) => (
-                    <div key={notification._id} className="notification-item" onClick={()=>{navigate(`/mainuser/${notification.senderId}`)}} >
-                        <p>{notification.message}</p>
-
+                    <div
+                      key={notification._id}
+                      className="notification-item"
+                      // onClick={() => {
+                      //   navigate(`/mainuser/${notification.senderId}`);
+                      // }}
+                      onClick={() =>
+                        hideAlert(notification._id, notification.senderId)
+                      }
+                    >
+                      <p>{notification.message}</p>
                     </div>
                   ))
                 ) : (
