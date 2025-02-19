@@ -4,7 +4,8 @@ const initialState = {
   id: null,
   userEmail: null,
   isVerified: false,
-  token:null
+  token:null,
+  role:null
 };
 
 const userSlice = createSlice({
@@ -12,10 +13,11 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     setUser(state, action) {
+      console.log("Payload:", action.payload);
       state.id = action.payload.id;
       state.userEmail = action.payload.userEmail;
       state.token = action.payload.token;
-
+      state.role=action.payload.role;
     },
     setVerified(state, action) {
       state.isVerified = action.payload.isVerified;
@@ -24,6 +26,7 @@ const userSlice = createSlice({
       state.id = null;
       state.userEmail = null;
       state.isVerified = false;
+      state.role=null
     },
   },
 });
