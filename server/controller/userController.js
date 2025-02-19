@@ -42,9 +42,9 @@ const registerUser = async (req, res) => {
 
     const role = process.env.USER_ROLE;
 
-    const otp = crypto.randomInt(100000, 999999); // Generate a 6-digit OTP
-    const hashedOtp = await bcrypt.hash(otp.toString(), 10); // Hash the OTP
-    const otpExpiry = Date.now() + 10 * 60 * 1000; // OTP valid for 10 minutes
+    const otp = crypto.randomInt(100000, 999999);
+    const hashedOtp = await bcrypt.hash(otp.toString(), 10);
+    const otpExpiry = Date.now() + 10 * 60 * 1000; 
 
     const user = await User.create({
       relation,
@@ -52,9 +52,9 @@ const registerUser = async (req, res) => {
       userEmail,
       userId,
       role,
-      otp: hashedOtp, // Save hashed OTP
-      otpExpiry, // Save OTP expiry time
-      isVerified: false, // Default to false
+      otp: hashedOtp, 
+      otpExpiry, 
+      isVerified: false, 
     });
 
     const transporter = nodemailer.createTransport({
@@ -244,6 +244,18 @@ const editUser = async (req, res) => {
     }
 
     if (profilePicture) {
+      const baseDir = path.resolve();
+      const imageToRemove = existingUser.profilePicture
+      if (imageToRemove) {
+        const fullPath = path.join(baseDir, imageToRemove);
+
+    
+        if (fs.existsSync(fullPath)) {
+          fs.unlinkSync(fullPath);
+        }
+      }
+    
+      // Assign new profile picture path AFTER deletion
       updatedData.profilePicture = `/uploads/${profilePicture.filename}`;
     }
 
@@ -486,6 +498,7 @@ const userLogin = async (req, res) => {
       success: true,
       userId: user._id, // Send MongoDB _id
       token: accessToken,
+      role:process.env.USER_ROLE
     });
   } catch (err) {
     console.error("Error during login:", err);
