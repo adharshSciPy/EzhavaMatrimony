@@ -9,20 +9,24 @@ import axios from "axios";
 import Modal from "react-modal";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import ImageCard from "../../Admin/components/ImageCard";
+import { Carousel } from 'antd';
+import { Trash } from "phosphor-react";
 function Adminprofile() {
   const [data, setData] = useState(null);
   const { id } = useParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const notifyError = (message) => toast.error(message);
   const notifySuccess = (message) => toast.success(message);
-  const Navigate=useNavigate()
+  const [uploadimage, setUploadimage] = useState([])
+  const Navigate = useNavigate()
   const userData = async () => {
     try {
       const response = await axios.get(
         `http://localhost:8000/api/v1/user/usercarddetails/${id}`
       );
       setData(response.data.data);
+      setUploadimage([response.data.data.profilePicture, ...response.data.data.image]);
+      console.log("in admin userdata:", response.data.data);
     } catch (error) {
       console.error("Error fetching user data:", error);
 
@@ -44,9 +48,11 @@ function Adminprofile() {
       Navigate("/getFullUser")
     } catch (error) {
       notifyError(error.response?.data?.message || "Something went wrong. Please try again.");
-      
+
     }
   };
+  console.log("image", uploadimage)
+
   return (
     <div>
       <ToastContainer
@@ -63,7 +69,32 @@ function Adminprofile() {
       <div className="profile-view-main-container">
         <div className="profile-cards">
           <div className="image-container">
-            <ImageCard />
+            {/* <Carousel arrows infinite={false}>
+              {data.profilePicture && (
+                <div className='cardimage'>
+                  <img src={
+                    data.profilePicture ? `http://localhost:8000${data.profilePicture}` : ""} alt="Profile"></img>
+                </div>
+              )}
+
+
+              {uploadimage.length > 0 &&
+                uploadimage.map((image, index) => (
+                  <div key={index} className="cardimage">
+                    <img src={`http://localhost:8000${image}`} alt={`Image ${index + 1}`} />
+                  </div>
+                ))}
+
+            </Carousel> */}
+
+            <Carousel arrows infinite={false}>
+              {uploadimage.length > 0 && uploadimage.map((image, index) => (
+                <div key={index} className="cardimage">
+                  <img src={`http://localhost:8000${image}`} alt={`Image ${index + 1}`} />
+                </div>
+              ))}
+            </Carousel>
+
           </div>
 
           <div className="details-sections">
@@ -89,7 +120,7 @@ function Adminprofile() {
               <p className="">{data?.age || "Nil"}</p>
               <div className="media-admin">
                 <div className="delete" onClick={() => setIsModalOpen(true)}>
-                  Delete Account
+                  <Trash size={32} color="red" />
                 </div>
                 <Modal
                   isOpen={isModalOpen}
