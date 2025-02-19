@@ -18,7 +18,7 @@
 .all-match {
   margin-left: 70px;
 }
-.profile-cards {
+.profile-cardsAd {
   width: 85%;
   display: flex;
   margin-left: 60px;
@@ -28,18 +28,18 @@
   border-radius: 20px;
   margin-top: 25px;
 }
-.profile-cards .image-container {
-  width: 40%;
+.profile-cardsAd .image-containerAd {
+  width: 240px;
   height: 300px;
   z-index: 10;
   position: relative;
 }
-.profile-cards .image-container img {
-  height: 100%;
-  width: 100%;
-  object-fit: cover;
+.profile-cardsAd .image-containerAd img {
+  height: 398px;
+  width: 240px;
+  object-fit: fill;
 }
-.profile-cards .details-sections {
+.profile-cardsAd .details-sections {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -47,30 +47,30 @@
   padding-left: 20px;
   position: relative;
 }
-.profile-cards .details-sections div {
+.profile-cardsAd .details-sections div {
   padding-top: 20px;
 }
-.profile-cards .profile-name-container .option {
+.profile-cardsAd .profile-name-container .option {
   height: 30px;
   width: 30px;
 }
-.profile-cards .profile-name-container {
+.profile-cardsAd .profile-name-container {
   display: flex;
   width: 100%;
   justify-content: space-between;
   position: relative;
 }
-.profile-cards .profile-name-container .option svg {
+.profile-cardsAd .profile-name-container .option svg {
   height: 30px;
   width: 30px;
   object-fit: cover;
 }
-.profile-cards .profile-age-container {
+.profile-cardsAd .profile-age-container {
   align-items: center;
   display: flex;
   justify-content: space-between;
 }
-.profile-cards .profile-age-container .media-admin {
+.profile-cardsAd .profile-age-container .media-admin {
   display: flex;
   gap: 10px;
   padding-top: 0px;
@@ -79,7 +79,7 @@
   border-radius: 20px;
   cursor: pointer;
 }
-.profile-cards .profile-age-container .media-admin .delete {
+.profile-cardsAd .profile-age-container .media-admin .delete {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -87,12 +87,12 @@
   padding: 10px;
   cursor: pointer;
 }
-.profile-cards .profile-age-container .media div {
+.profile-cardsAd .profile-age-container .media div {
   height: 30px;
   width: 30px;
   margin-right: 10px;
 }
-.profile-cards .verify-container {
+.profile-cardsAd .verify-container {
   position: absolute;
   right: -30px;
   background-color: #e2e2e2;
@@ -100,7 +100,7 @@
   border-radius: 50px;
   bottom: -25px;
 }
-.profile-cards .premium-container {
+.profile-cardsAd .premium-container {
   position: absolute;
   left: -50px;
   background-color: white;

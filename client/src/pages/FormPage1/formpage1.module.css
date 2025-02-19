@@ -401,22 +401,22 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.6); /* Dark overlay for better focus */
+    background: rgba(0, 0, 0, 0.6); 
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 1000;
-    backdrop-filter: blur(5px); /* Soft blur effect */
+    backdrop-filter: blur(5px); 
     animation: fadeIn 0.3s ease-in-out;
   }
   
   .modalContent {
-    background: rgba(255, 255, 255, 0.15); /* Light glassmorphism */
+    background: rgba(255, 255, 255, 0.15); 
     padding: 20px;
     border-radius: 15px;
     width: 320px;
     text-align: center;
-    backdrop-filter: blur(15px); /* Stronger blur effect for depth */
+    backdrop-filter: blur(15px); 
     box-shadow: 0px 4px 20px rgba(255, 255, 255, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.2);
     animation: slideIn 0.4s ease-in-out;

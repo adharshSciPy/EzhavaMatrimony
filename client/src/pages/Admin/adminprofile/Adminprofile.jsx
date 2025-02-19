@@ -67,8 +67,8 @@ function Adminprofile() {
       />
       <Nav />
       <div className="profile-view-main-container">
-        <div className="profile-cards">
-          <div className="image-container">
+        <div className="profile-cardsAd">
+          <div className="image-containerAd">
             {/* <Carousel arrows infinite={false}>
               {data.profilePicture && (
                 <div className='cardimage'>
@@ -165,9 +165,6 @@ function Adminprofile() {
             <div className="premium-container">
               <h3>Premium</h3>
             </div>
-          </div>
-          <div className="verify-container">
-            <h3>Verify Profile</h3>
           </div>
         </div>
         <div className="about-similar">
