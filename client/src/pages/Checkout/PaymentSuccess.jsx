@@ -22,7 +22,7 @@ const PaymentSuccess = () => {
     }, [redirectStatus]);
 
     const handleContinueShopping = () => {
-        navigate(`/mainuser/${profileId}`);
+        navigate(`/mainuser/${profileId}`,{ replace: true });
     };
 
     return (

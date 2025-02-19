@@ -30,9 +30,10 @@ function Dashboard() {
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.user.id);
   const token=useSelector((state) => state.user.token);
+  const role=useSelector((state)=>state.user.role)
   console.log("tokennnnn",token);
   console.log("hey kitty", userId);
-
+  console.log("role",role)
   const navigate = useNavigate();
   const [liked, setLiked] = useState({});
   const [getLike, setGetLike] = useState([]);
