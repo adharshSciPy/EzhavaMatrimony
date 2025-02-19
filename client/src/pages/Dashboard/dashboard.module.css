@@ -375,18 +375,20 @@ gap: 10px;
 .ExploreMatrimonyDiv {
   /* border: 2px solid #666; */
   width: 95%;
-  margin: 20px 0 20px 0;
+  /* margin: 20px 0 20px 0; */
+  margin-top: 30px;
 }
 .ExploreContent {
-  margin-bottom: 30px;
+  margin-top: 30px;
   /* border: 2px solid #222; */
 }
 .ExploreContentIcons {
-  display: grid;
-  width: 90%;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-place-items: center;
-  padding: 10px;
+  display: flex;
+  width: 100%;
+  /* grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); */
+  justify-content: space-between;
+  gap: 300px;
+  padding: 50px;
 }
 .ExploreIcons {
   width: 100px;

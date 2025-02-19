@@ -1048,7 +1048,7 @@ function Dashboard() {
             </div> */}
             {/* Nearby Matches end*/}
             {/* Explore Matrimony start */}
-            <div className={DashStyles.ExploreMatrimonyDiv}>
+            {/* <div className={DashStyles.ExploreMatrimonyDiv}>
               <div className={DashStyles.trHeading}>
                 <h2 className={DashStyles.TrHead}>Explore Matrimony</h2>
               </div>
@@ -1076,7 +1076,7 @@ function Dashboard() {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
             {/* Explore Matrimony end */}
           </div>
         </div>

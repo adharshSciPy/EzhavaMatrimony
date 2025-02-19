@@ -21,7 +21,7 @@ function UserSettings() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Fetch user data
+  
   useEffect(() => {
     const fetchUserData = async () => {
       try {

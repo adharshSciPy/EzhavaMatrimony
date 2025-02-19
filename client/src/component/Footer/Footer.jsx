@@ -15,7 +15,10 @@ function Footer() {
                 <p>
                   Welcome to UK Ezhava Matrimony, the premier matchmaking
                   platform dedicated to helping Ezhava community members living
-                  in the UK find their perfect life partners. 
+                  in the UK find their perfect life partners.We understand the
+                  importance of tradition, values, and cultural compatibility in
+                  a marriage, and our platform is designed to bring together
+                  like-minded individuals who share a common heritage.
                 </p>
               </div>
             </div>
@@ -49,8 +52,10 @@ function Footer() {
                 </div>
                 <ul>
                   <li>
-                    <p>SNDP Cambridge <br></br>
-                    Cambridge, United Kingdom.</p>
+                    <p>
+                      SNDP Cambridge <br></br>
+                      Cambridge, United Kingdom.
+                    </p>
                   </li>
                 </ul>
               </div>
@@ -69,7 +74,7 @@ function Footer() {
               </div>
             </div>
 
-            <div className="part-five">
+            {/* <div className="part-five">
               <div className="social-media">
                 <div className="heading">
                   <h4>Social Media</h4>
@@ -82,13 +87,13 @@ function Footer() {
                   <div class="insta"></div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
           <div class="copy-right">
             <p>Copyright@2025.All rights recieved</p>
           </div>
         </div>
-        </footer>
+      </footer>
     </div>
   );
 }
