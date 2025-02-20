@@ -140,7 +140,7 @@ function FormPage1() {
                   </div>
                   <div className={styles.helperTextDiv}>
                     <p className={styles.helperText}>
-                      Your friend's date of birth to find a perfect match
+              
                       {userProfie.relation === "Myself"
                         ? "Your date of birth to find a perfect match"
                         : `Your ${userProfie.relation}'s date of birth to find a perfect match`}
