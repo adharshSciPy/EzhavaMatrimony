@@ -300,9 +300,9 @@ function UserMain() {
                   <div className="digit-container">
                     <div className="digit-main">
                       <h3>{showDetails ? phoneNumber : "**********"}</h3>
-                      <div className="call-now">
+                      <div onClick={() => handlePayment(userId, id)}className="call-now" style={{cursor:"pointer"}}>
                         <span className="material-icons">phone</span>
-                        <h4 onClick={() => handlePayment(userId, id)}>Call Now</h4>
+                        <h4 >Call Now</h4>
                       </div>
                     </div>
                   </div>

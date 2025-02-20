@@ -19,9 +19,8 @@ const CheckoutForm = ({ userId, profileId }) => {
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: `http://localhost:3000/payment-success/${profileId}`,
+        return_url: `http://localhost:3000/payment-success/${profileId}?userId=${userId}`,
       },
-      datapusher: datapusher()
     });
 
     if (error) {
@@ -34,16 +33,7 @@ const CheckoutForm = ({ userId, profileId }) => {
     setIsLoading(false);
   };
 
-  const datapusher = async () => {
-    try {
-      const response = await axios.post(`http://localhost:8000/api/v1/user/updateUserAccess/${userId}/${profileId}`)
-      console.log(response);
-
-    } catch (error) {
-      console.log(error);
-
-    }
-  }
+  
 
   return (
     <div className="checkout-main-container">

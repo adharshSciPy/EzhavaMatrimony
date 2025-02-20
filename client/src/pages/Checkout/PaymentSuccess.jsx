@@ -3,19 +3,25 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './PaymentSucess.css'; // Import the CSS file
+import axios  from 'axios';
 
 const PaymentSuccess = () => {
-    const { profileId } = useParams()
     const location = useLocation();
     const navigate = useNavigate();
     const queryParams = new URLSearchParams(location.search);
-
     const paymentIntent = queryParams.get('payment_intent');
     const redirectStatus = queryParams.get('redirect_status');
+    const { profileId} = useParams()
+    const userId = queryParams.get("userId");
+    console.log("id" ,userId,profileId);
+    
+    
 
+    
     useEffect(() => {
         if (redirectStatus === 'succeeded') {
-            toast.success('Payment succeeded!');
+            toast.success('Payment succeeded! thidssss');
+            datapusher()
         } else {
             toast.error('Payment failed or was canceled.');
         }
@@ -24,7 +30,16 @@ const PaymentSuccess = () => {
     const handleContinueShopping = () => {
         navigate(`/mainuser/${profileId}`,{ replace: true });
     };
-
+    const datapusher = async () => {
+        try {
+          const response = await axios.post(`http://localhost:8000/api/v1/user/updateUserAccess/${userId}/${profileId}`)
+          console.log(response);
+    
+        } catch (error) {
+          console.log(error);
+    
+        }
+      }
     return (
         <div className="payment-success-container">
             <div className="payment-success-card">
