@@ -69,7 +69,16 @@ function Report1() {
   };
   useEffect(()=>{
     fetchUserData()
-  },userId)
+  },[userId]);
+  useEffect(() => {
+    if (userData.userId) {
+      setFormData((prevData) => ({
+        ...prevData,
+        complainstAgainst: userData.userId, // Set userId into formData
+      }));
+    }
+  }, [userData]); // Runs when userData updates
+  
   return (
     <div>
       <Nav />
@@ -173,7 +182,7 @@ function Report1() {
             name="complainstAgainst"
             rows="4"
             placeholder="Enter User name"
-            value={userData.userId}
+            value={formData.complainstAgainst || userData.userId}
             onChange={handleChange}
             required
           ></textarea>
