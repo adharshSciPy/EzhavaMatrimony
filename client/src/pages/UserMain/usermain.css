@@ -513,30 +513,126 @@
   pointer-events: none;  /* Make the message non-interactive */
 }
 
+/* Modal Overlay */
 .modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  backdrop-filter: blur(6px); /* Blurred background effect */
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Modal Box */
+/* Modal Overlay */
+/* Modal Overlay - Vibrant Glass Effect */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 15%;
+  background: rgba(0, 0, 0, 0.6); /* Dark overlay */
+  backdrop-filter: blur(8px); /* Frosted glass effect */
+  animation: fadeIn 0.5s ease-in-out;
 }
 
 .modal {
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
+  background: linear-gradient(135deg, #ff6b6b, #f06595, #845ef7); /* Colorful gradient */
+  padding: 24px;
+  width: 420px;
+  border-radius: 15px;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
   text-align: center;
+  color: white;
+  transform: scale(0.8);
+  animation: bounceIn 0.6s ease-in-out forwards;
 }
 
-.modal button {
-  margin: 10px;
-  padding: 10px 15px;
-  cursor: pointer;
+/* Heading */
+.modal h2 {
+  font-size: 24px;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
 }
+
+/* Text */
+.modal p {
+  font-size: 16px;
+  color: #f8f9fa;
+  margin-top: 10px;
+  opacity: 0.9;
+}
+
+
+.modal button {
+  margin-top: 20px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+
+.modal button:first-child {
+  background: #00e676;
+  color: #fff;
+  box-shadow: 0px 0px 15px rgba(0, 230, 118, 0.6);
+}
+
+.modal button:first-child:hover {
+  background: #00c853;
+  box-shadow: 0px 0px 20px rgba(0, 200, 83, 0.9);
+  transform: scale(1.05);
+}
+
+
+.modal button:last-child {
+  background: #ff3d00;
+  color: #fff;
+  margin-left: 10px;
+  box-shadow: 0px 0px 15px rgba(255, 61, 0, 0.6);
+}
+
+.modal button:last-child:hover {
+  background: #dd2c00;
+  box-shadow: 0px 0px 20px rgba(221, 44, 0, 0.9);
+  transform: scale(1.05);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
 
 @media (max-width: 1150px) {
   .profile-view-main-container .about-card .about-card-container {
@@ -599,6 +695,7 @@
   .all-match {
     padding: 20px 0px;
   }
+  
 }
 @media (max-width: 500px) {
   .profile-cards .verify-container {
@@ -615,5 +712,8 @@
   }
   .profile-cards .image-container {
     width: 100%;
+  }
+  .modal{
+    margin-right: 50px;
   }
 }
