@@ -311,8 +311,8 @@ function UserMain() {
                       {isModalOpen && (
                         <div className="modal-overlay">
                           <div className="modal">
-                            <h2>Confirm Payment</h2>
-                            <p>Do you want to proceed with the payment?</p>
+                            <h2>Unlock Profile Access</h2>
+                            <p>Pay £10 to view images and phone number.</p>
                             <button onClick={() => handlePayment(userId, id)}>Proceed</button>
                             <button onClick={() => setIsModalOpen(false)}>
                               Cancel
