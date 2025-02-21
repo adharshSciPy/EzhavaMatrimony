@@ -507,27 +507,25 @@
   padding: 20px;
   border-radius: 10px;
   text-align: center;
-  z-index: 10;  /* Ensures message is above blurred images */
+  z-index: 10;  
   width: 80%;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  pointer-events: none;  /* Make the message non-interactive */
+  pointer-events: none; 
 }
 
-/* Modal Overlay */
+
 .modal-overlay {
   position: fixed;
   inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-  backdrop-filter: blur(6px); /* Blurred background effect */
+  background: rgba(0, 0, 0, 0.5); 
+  backdrop-filter: blur(6px); 
   animation: fadeIn 0.3s ease-in-out;
 }
 
-/* Modal Box */
-/* Modal Overlay */
-/* Modal Overlay - Vibrant Glass Effect */
+
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -535,13 +533,13 @@
   align-items: center;
   justify-content: flex-start;
   padding-left: 15%;
-  background: rgba(0, 0, 0, 0.6); /* Dark overlay */
-  backdrop-filter: blur(8px); /* Frosted glass effect */
+  background: rgba(0, 0, 0, 0.6); 
+  backdrop-filter: blur(8px); 
   animation: fadeIn 0.5s ease-in-out;
 }
 
 .modal {
-  background: linear-gradient(135deg, #ff6b6b, #f06595, #845ef7); /* Colorful gradient */
+  background: linear-gradient(135deg, #ff6b6b, #f06595, #845ef7);
   padding: 24px;
   width: 420px;
   border-radius: 15px;
