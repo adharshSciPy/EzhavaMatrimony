@@ -168,26 +168,28 @@ function Dashboard() {
   // hamburger scrolling control
   useEffect(() => {
     const handleScrollHam = () => {
-      console.log("ScrollY:", window.scrollY); // Debug scroll position
-      document.querySelectorAll(
-        `.${DashStyles.ham1}, .${DashStyles.ham2}, .${DashStyles.ham3}`
-      ).forEach((el) => {
-        console.log("Element:", el); // Debug selected elements
+      const elements = [
+        ...document.getElementsByClassName(DashStyles.ham1),
+        ...document.getElementsByClassName(DashStyles.ham2),
+        ...document.getElementsByClassName(DashStyles.ham3),
+      ];
+    
+      elements.forEach((el) => {
         if (
           window.scrollY > 159 &&
           !el.classList.contains(DashStyles.open1) &&
           !el.classList.contains(DashStyles.open2) &&
           !el.classList.contains(DashStyles.open3)
         ) {
-          console.log("Hiding element:", el); // Debug hiding logic
           el.style.display = "none";
         } else {
-          console.log("Showing element:", el); // Debug showing logic
           el.style.display = "block";
         }
       });
     };
-  
+    
+    
+
     window.addEventListener("scroll", handleScrollHam);
     return () => {
       window.removeEventListener("scroll", handleScrollHam);
