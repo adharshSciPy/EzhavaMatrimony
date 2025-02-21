@@ -155,7 +155,7 @@ function FormPage3() {
                     <input
                       type="number"
                       className={styles.input}
-                      placeholder=""
+                      placeholder="Height in centimeters"
                       value={form.height || ""}
                       onChange={handleChange}
                       name="height"

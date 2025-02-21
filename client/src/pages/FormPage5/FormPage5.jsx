@@ -6,7 +6,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../features/slice";
-import Loader from "../../component/Loader/Loadertext.jsx"
+import Loader from "../../component/Loader/Loadertext.jsx";
 
 function FormPage5() {
   const { id } = useSelector((state) => state.user);
@@ -60,8 +60,9 @@ function FormPage5() {
       <button
         key={option}
         type="button"
-        className={`${styles.optionSingleButton} ${selectedOption === option ? styles.selected : ""
-          }`}
+        className={`${styles.optionSingleButton} ${
+          selectedOption === option ? styles.selected : ""
+        }`}
         onClick={() => setSelectedOption(option)}
       >
         {option}
@@ -98,6 +99,203 @@ function FormPage5() {
       setResidentStatus(userProfie.residentStatus || "");
     }
   }, [userProfie]);
+
+  const citizenships = [
+    "Afghanistan",
+    "Albania",
+    "Algeria",
+    "Andorra",
+    "Angola",
+    "Antigua and Barbuda",
+    "Argentina",
+    "Armenia",
+    "Australia",
+    "Austria",
+    "Azerbaijan",
+    "Bahamas",
+    "Bahrain",
+    "Bangladesh",
+    "Barbados",
+    "Belarus",
+    "Belgium",
+    "Belize",
+    "Benin",
+    "Bhutan",
+    "Bolivia",
+    "Bosnia and Herzegovina",
+    "Botswana",
+    "Brazil",
+    "Brunei",
+    "Bulgaria",
+    "Burkina Faso",
+    "Burundi",
+    "Cabo Verde",
+    "Cambodia",
+    "Cameroon",
+    "Canada",
+    "Central African Republic",
+    "Chad",
+    "Chile",
+    "China",
+    "Colombia",
+    "Comoros",
+    "Congo (Congo-Brazzaville)",
+    "Costa Rica",
+    "Croatia",
+    "Cuba",
+    "Cyprus",
+    "Czech Republic",
+    "Denmark",
+    "Djibouti",
+    "Dominica",
+    "Dominican Republic",
+    "Ecuador",
+    "Egypt",
+    "El Salvador",
+    "Equatorial Guinea",
+    "Eritrea",
+    "Estonia",
+    "Eswatini",
+    "Ethiopia",
+    "Fiji",
+    "Finland",
+    "France",
+    "Gabon",
+    "Gambia",
+    "Georgia",
+    "Germany",
+    "Ghana",
+    "Greece",
+    "Grenada",
+    "Guatemala",
+    "Guinea",
+    "Guinea-Bissau",
+    "Guyana",
+    "Haiti",
+    "Honduras",
+    "Hungary",
+    "Iceland",
+    "India",
+    "Indonesia",
+    "Iran",
+    "Iraq",
+    "Ireland",
+    "Israel",
+    "Italy",
+    "Jamaica",
+    "Japan",
+    "Jordan",
+    "Kazakhstan",
+    "Kenya",
+    "Kiribati",
+    "Kuwait",
+    "Kyrgyzstan",
+    "Laos",
+    "Latvia",
+    "Lebanon",
+    "Lesotho",
+    "Liberia",
+    "Libya",
+    "Liechtenstein",
+    "Lithuania",
+    "Luxembourg",
+    "Madagascar",
+    "Malawi",
+    "Malaysia",
+    "Maldives",
+    "Mali",
+    "Malta",
+    "Marshall Islands",
+    "Mauritania",
+    "Mauritius",
+    "Mexico",
+    "Micronesia",
+    "Moldova",
+    "Monaco",
+    "Mongolia",
+    "Montenegro",
+    "Morocco",
+    "Mozambique",
+    "Myanmar (Burma)",
+    "Namibia",
+    "Nauru",
+    "Nepal",
+    "Netherlands",
+    "New Zealand",
+    "Nicaragua",
+    "Niger",
+    "Nigeria",
+    "North Korea",
+    "North Macedonia",
+    "Norway",
+    "Oman",
+    "Pakistan",
+    "Palau",
+    "Panama",
+    "Papua New Guinea",
+    "Paraguay",
+    "Peru",
+    "Philippines",
+    "Poland",
+    "Portugal",
+    "Qatar",
+    "Romania",
+    "Russia",
+    "Rwanda",
+    "Saint Kitts and Nevis",
+    "Saint Lucia",
+    "Saint Vincent and the Grenadines",
+    "Samoa",
+    "San Marino",
+    "Sao Tome and Principe",
+    "Saudi Arabia",
+    "Senegal",
+    "Serbia",
+    "Seychelles",
+    "Sierra Leone",
+    "Singapore",
+    "Slovakia",
+    "Slovenia",
+    "Solomon Islands",
+    "Somalia",
+    "South Africa",
+    "South Korea",
+    "South Sudan",
+    "Spain",
+    "Sri Lanka",
+    "Sudan",
+    "Suriname",
+    "Sweden",
+    "Switzerland",
+    "Syria",
+    "Taiwan",
+    "Tajikistan",
+    "Tanzania",
+    "Thailand",
+    "Timor-Leste",
+    "Togo",
+    "Tonga",
+    "Trinidad and Tobago",
+    "Tunisia",
+    "Turkey",
+    "Turkmenistan",
+    "Tuvalu",
+    "Uganda",
+    "Ukraine",
+    "United Arab Emirates",
+    "United Kingdom",
+    "United States",
+    "Uruguay",
+    "Uzbekistan",
+    "Vanuatu",
+    "Vatican City",
+    "Venezuela",
+    "Vietnam",
+    "Yemen",
+    "Zambia",
+    "Zimbabwe",
+    "Other",
+  ];
   return (
     <div className={styles.mainContainer}>
       {isLoading && <Loader />}
@@ -142,7 +340,7 @@ function FormPage5() {
                       onChange={handleChange}
                       name="education"
                     >
-                      <option >Select Your Highest Education</option>
+                      <option>Select Your Highest Education</option>
                       <option value="Below 10">Below 10th</option>
                       <option value="10th">10th (SSLC/Matriculation)</option>
                       <option value="12th Science">12th - Science</option>
@@ -197,7 +395,6 @@ function FormPage5() {
                   <div className={styles.helperTextDiv}></div>
                 </div>
               </div>
-
               <div className={styles.formGroup}>
                 <div className={styles.fieldGroup}>
                   <div className={styles.labelGroup}>
@@ -217,7 +414,6 @@ function FormPage5() {
                   <div className={styles.helperTextDiv}></div>
                 </div>
               </div>
-
               <div className={styles.formGroup}>
                 <div className={styles.fieldGroup}>
                   <div className={styles.labelGroup}>
@@ -243,7 +439,6 @@ function FormPage5() {
                   {/* <div className={styles.helperTextDiv}></div> */}
                 </div>
               </div>
-
               <div className={styles.formGroup}>
                 <div className={styles.fieldGroup}>
                   <div className={styles.labelGroup}>
@@ -273,7 +468,6 @@ function FormPage5() {
                   <div className={styles.helperTextDiv}></div>
                 </div>
               </div>
-
               <div className={styles.formGroup}>
                 <div className={styles.fieldGroup}>
                   <div className={styles.labelGroup}>
@@ -288,7 +482,7 @@ function FormPage5() {
                       onChange={handleChange}
                       name="occupation"
                     >
-                      <option >Select Your Occupation</option>
+                      <option>Select Your Occupation</option>
 
                       <option value="Doctor">Doctor</option>
                       <option value="Nurse">Nurse</option>
@@ -361,7 +555,6 @@ function FormPage5() {
                   <div className={styles.helperTextDiv}></div>
                 </div>
               </div>
-
               <div className={styles.formGroup}>
                 <div className={styles.fieldGroup}>
                   <div className={styles.labelGroup}>
@@ -376,7 +569,7 @@ function FormPage5() {
                       onChange={handleChange}
                       name="state"
                     >
-                      <option >Select Your State</option>
+                      <option>Select Your State</option>
                       <option value="Andhra Pradesh">Andhra Pradesh</option>
                       <option value="Arunachal Pradesh">
                         Arunachal Pradesh
@@ -452,18 +645,26 @@ function FormPage5() {
                     <p className={styles.starHead}>*</p>
                   </div>
                   <div className={styles.inputGroup}>
-                    <input
-                      type="text"
+                    <select
                       className={styles.input}
-                      placeholder=""
                       name="citizenship"
                       value={form.citizenship || ""}
                       onChange={handleChange}
-                    />
+                    >
+                      <option value="" disabled>
+                        Select Citizenship
+                      </option>
+                      {citizenships.map((country) => (
+                        <option key={country} value={country}>
+                          {country}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                   <div className={styles.helperTextDiv}></div>
                 </div>
               </div>
+              ;
               <div className={styles.formGroup}>
                 <div className={styles.fieldGroup}>
                   <div className={styles.labelGroup}>
@@ -487,9 +688,12 @@ function FormPage5() {
                   <div className={styles.helperTextDiv}></div>
                 </div>
               </div>
-
               <div className={styles.btnDiv}>
-                <button type="submit" className={styles.submitButton} disabled={isLoading}>
+                <button
+                  type="submit"
+                  className={styles.submitButton}
+                  disabled={isLoading}
+                >
                   Complete
                 </button>
               </div>
