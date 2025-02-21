@@ -168,24 +168,26 @@ function Dashboard() {
   // hamburger scrolling control
   useEffect(() => {
     const handleScrollHam = () => {
-      document
-        .querySelectorAll(
-          `.${DashStyles.ham1}, .${DashStyles.ham2}, .${DashStyles.ham3}`
-        )
-        .forEach((el) => {
-          if (
-            window.scrollY > 159 &&
-            !el.classList.contains(DashStyles.open1) &&
-            !el.classList.contains(DashStyles.open2) &&
-            !el.classList.contains(DashStyles.open3)
-          ) {
-            el.style.display = "none";
-          } else {
-            el.style.display = "block";
-          }
-        });
+      console.log("ScrollY:", window.scrollY); // Debug scroll position
+      document.querySelectorAll(
+        `.${DashStyles.ham1}, .${DashStyles.ham2}, .${DashStyles.ham3}`
+      ).forEach((el) => {
+        console.log("Element:", el); // Debug selected elements
+        if (
+          window.scrollY > 159 &&
+          !el.classList.contains(DashStyles.open1) &&
+          !el.classList.contains(DashStyles.open2) &&
+          !el.classList.contains(DashStyles.open3)
+        ) {
+          console.log("Hiding element:", el); // Debug hiding logic
+          el.style.display = "none";
+        } else {
+          console.log("Showing element:", el); // Debug showing logic
+          el.style.display = "block";
+        }
+      });
     };
-
+  
     window.addEventListener("scroll", handleScrollHam);
     return () => {
       window.removeEventListener("scroll", handleScrollHam);
@@ -595,7 +597,7 @@ function Dashboard() {
                   <p style={{ fontWeight: "600", fontSize: "14px" }}>
                     Complete your profile
                   </p>
-                  <p style={{ fontSize: "10px" }}>Your Profile Strength: 30%</p>
+                  <p style={{ fontSize: "10px" }}></p>
                   <div className={DashStyles.LinkIcon}>
                     <div className={DashStyles.Icon}>
                       <Pen
