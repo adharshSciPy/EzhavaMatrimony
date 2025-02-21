@@ -161,7 +161,7 @@ function FormPage4() {
                   value={form.about || ""}
                   onChange={handleChange}
                   name="about"
-                  required
+                  // required
                 ></textarea>
               </div>
 
