@@ -23,20 +23,20 @@ function Nav() {
           </button>
         </div>
 
-        <div className="image-upload-icon">
+        {/* <div className="image-upload-icon">
           <Badge count={1}>
             <Avatar shape="round" icon={<UserOutlined />} />
           </Badge>
-        </div>
+        </div> */}
       </header>
       <hr className="divider" />
 
-      <div className="content">
+      {/* <div className="content">
         <div className="match-buttons">
           <button className="btn outlined">Regular</button>
           <button className="btn outlined">Premium</button>
         </div>
-      </div>
+      </div> */}
 
       <link
         rel="stylesheet"
