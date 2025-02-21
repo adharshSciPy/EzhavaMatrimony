@@ -15,6 +15,7 @@ function Report1() {
     abuseCategory: "",
     complainstAgainst: "",
   });
+  const[userData,setUserData]=useState({});
   const notifySuccess = (message) => toast.success(message);
 
   const handleChange = (e) => {
@@ -55,7 +56,29 @@ function Report1() {
       console.error("Error submitting report:", error);
     }
   };
-
+  const fetchUserData = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/api/v1/user/usercarddetails/${userId}`
+      );
+      console.log("User data:", response.data.data);
+      setUserData(response.data.data);
+    } catch (error) {
+      console.log("Error fetching user data:", error);
+    }
+  };
+  useEffect(()=>{
+    fetchUserData()
+  },[userId]);
+  useEffect(() => {
+    if (userData.userId) {
+      setFormData((prevData) => ({
+        ...prevData,
+        complainstAgainst: userData.userId, // Set userId into formData
+      }));
+    }
+  }, [userData]); // Runs when userData updates
+  
   return (
     <div>
       <Nav />
@@ -159,7 +182,7 @@ function Report1() {
             name="complainstAgainst"
             rows="4"
             placeholder="Enter User name"
-            value={formData.complainstAgainst}
+            value={formData.complainstAgainst || userData.userId}
             onChange={handleChange}
             required
           ></textarea>

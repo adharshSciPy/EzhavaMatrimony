@@ -18,7 +18,8 @@ function UserMain() {
   const [showDetails, setShowDetails] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [topMatches, setTopMatches] = useState([]);
-  const [unlockedProfiles, setUnlockedProfiles] = useState([])
+  const [unlockedProfiles, setUnlockedProfiles] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const fetchUserData = async () => {
     try {
@@ -28,7 +29,7 @@ function UserMain() {
       setUserData(response.data.data);
       console.log(response.data.data, "pwada");
       setPhoneNumber(response.data.data.phoneNumber);
-      
+
       setLoading(false);
     } catch (error) {
       setError("Failed to fetch user data. Please try again later.");
@@ -52,14 +53,16 @@ function UserMain() {
   };
   const unlockedProfile = async () => {
     try {
-      const response = await axios.post("http://localhost:8000/api/v1/user/getunlockedProfile",{id: userId});
+      const response = await axios.post(
+        "http://localhost:8000/api/v1/user/getunlockedProfile",
+        { id: userId }
+      );
       // setUserData(response.data.data);
       // setPhoneNumber(response.data.data.phoneNumber);
       setUnlockedProfiles(response.data.data.unlockedProfiles);
 
-        console.log("pari",response);
-        console.log("adba",userId);
-        
+      console.log("pari", response);
+      console.log("adba", userId);
     } catch (error) {
       setError("Failed to fetch user data. Please try again later.");
       console.error("Error fetching user data:", error);
@@ -69,20 +72,17 @@ function UserMain() {
     fetchUserData();
     TopMatch();
     unlockedProfile();
-  }, [id,userId  ]);
-  console.log('unlocke',unlockedProfiles);
-
-
-
+  }, [id, userId]);
+  console.log("unlocke", unlockedProfiles);
 
   useEffect(() => {
     if (unlockedProfiles.includes(id)) {
-      setShowDetails(true);  // Unblur images if the userId is in unlockedProfiles
+      setShowDetails(true); // Unblur images if the userId is in unlockedProfiles
     } else {
       setShowDetails(false); // Otherwise, blur images
     }
   }, [unlockedProfiles, id]);
-  
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -91,17 +91,17 @@ function UserMain() {
     return <div>{error}</div>;
   }
   const handlePayment = async (userId, profileId) => {
-    Navigate(`/checkout/${profileId}/${userId}`)
-  }
+    Navigate(`/checkout/${profileId}/${userId}`);
+  };
 
   return (
     <div>
       <Nav userId={userId} />
-      <h2 className="all-match">All Matches 14/112</h2>
+      <h2 className="all-match">All Matches  </h2>
       <div className="profile-view-main-container">
         <div className="profile-cards">
           <div className="image-container">
-          <img
+            <img
               src={
                 userData.profilePicture
                   ? `http://localhost:8000${userData.profilePicture}`
@@ -300,10 +300,26 @@ function UserMain() {
                   <div className="digit-container">
                     <div className="digit-main">
                       <h3>{showDetails ? phoneNumber : "**********"}</h3>
-                      <div onClick={() => handlePayment(userId, id)}className="call-now" style={{cursor:"pointer"}}>
+                      <div
+                        onClick={() => setIsModalOpen(true)}
+                        className="call-now"
+                        style={{ cursor: "pointer" }}
+                      >
                         <span className="material-icons">phone</span>
-                        <h4 >Call Now</h4>
+                        <h4>Call Now</h4>
                       </div>
+                      {isModalOpen && (
+                        <div className="modal-overlay">
+                          <div className="modal">
+                            <h2>Confirm Payment</h2>
+                            <p>Do you want to proceed with the payment?</p>
+                            <button onClick={() => handlePayment(userId, id)}>Proceed</button>
+                            <button onClick={() => setIsModalOpen(false)}>
+                              Cancel
+                            </button>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -445,36 +461,37 @@ function UserMain() {
           </div>
           <div className="similar-profile-container">
             {/* <div className="main-similar-profile"> */}
-              <div className="container-similar">
-                <h3>Uploaded Images</h3>
-              </div>
-              <div className="like-card-container">
+            <div className="container-similar">
+              <h3>Uploaded Images</h3>
+            </div>
+            <div className="like-card-container">
               <div className="image-container">
-  <div className="my-profile-image23">
-    {userData.image && userData.image.length > 0 ? (
-      userData.image.map((imgSrc, index) => (
-        <img
-          key={index}
-          className={`my-profile-image23-single ${
-            !showDetails ? "bluredProfile234" : ""
-          }`}
-          src={`http://localhost:8000${imgSrc}`}
-          alt={`UserImage ${index}`}
-        />
-      ))
-    ) : (
-      <p>No images uploaded.</p>
-    )}
-  </div>
-  {userData.image && userData.image.length > 0 && !showDetails && (
-    <div className="payment-message">
-      <p>Unlock to view images. Please make a payment to proceed.</p>
-    </div>
-  )}
-</div>
+                <div className="my-profile-image23">
+                  {userData.image && userData.image.length > 0 ? (
+                    userData.image.map((imgSrc, index) => (
+                      <img
+                        key={index}
+                        className={`my-profile-image23-single ${
+                          !showDetails ? "bluredProfile234" : ""
+                        }`}
+                        src={`http://localhost:8000${imgSrc}`}
+                        alt={`UserImage ${index}`}
+                      />
+                    ))
+                  ) : (
+                    <p>No images uploaded.</p>
+                  )}
+                </div>
+                {userData.image && userData.image.length > 0 && !showDetails && (
+                  <div className="payment-message">
+                    <p>
+                      Unlock to view images. Please make a payment to proceed.
+                    </p>
+                  </div>
+                )}
+              </div>
 
               {/* </div> */}
-
             </div>
           </div>
         </div>
