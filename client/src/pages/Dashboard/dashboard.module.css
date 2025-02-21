@@ -575,6 +575,7 @@ gap: 10px;
   opacity: 0.2; 
   transition: opacity 0.7s ease-in-out;
   pointer-events: none;
+  background-attachment: fixed;
 }
 .DropdownMenuSecondSmall {
   display: none;
@@ -961,6 +962,15 @@ padding: 10px 0 10px 0;
   .ProfileDiv,.FilterDiv {
     display: none;
   }
+  .Hamburger{
+    right: -10px;
+  }
+  .ham1,.ham2,.ham3{
+    height: 5px;
+  }
+  .open1,.open2,.open3{
+    height: 5px;
+  }
   .Hamburger,.FilterHam {
     display: flex;
     top: 5px;
@@ -989,6 +999,24 @@ padding: 10px 0 10px 0;
 }
 .FilterDivButtonOne:hover{
   color: #fff;
+}
+.drawer{
+  width: 70%;
+}
+
+.link{
+  gap: 20px;
+  font-size: 18px;
+}
+.LinkIcon{
+  padding: 10px;
+  gap: 20px;
+  /* font-size: 30px;  */
+}
+.DropdownSecond,.HelpButton{
+  gap: 20px;
+  font-size: 18px;
+  color: #333;
 }
 }
 @media (max-width:503px) {

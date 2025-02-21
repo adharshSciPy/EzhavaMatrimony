@@ -179,6 +179,8 @@ function TopRecommendation() {
     setCurrentPage(1);
     setFilteredMatches(filteredData);
     setFiltersApplied(isFiltersApplied);
+    if(isOpen)setIsOpen(false);
+
   };
 
   const resetFilters = () => {

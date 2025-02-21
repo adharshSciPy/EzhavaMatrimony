@@ -302,6 +302,20 @@ function Dashboard() {
     }
   };
 
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+  
+    return () => {
+      document.body.style.overflow = ""; // Cleanup when unmounting
+    };
+  }, [isOpen]);
+  
+
+
   return (
     <div>
       {/* <ToastContainer position="bottom-right" /> */}
@@ -596,7 +610,7 @@ function Dashboard() {
                   </div>
                 </div>
                 <div className={DashStyles.ProfileCompletion}>
-                  <p style={{ fontWeight: "600", fontSize: "14px" }}>
+                  <p style={{ fontWeight: "600", fontSize: "20px" }}>
                     Complete your profile
                   </p>
                   <p style={{ fontSize: "10px" }}></p>
