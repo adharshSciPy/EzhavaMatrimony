@@ -33,23 +33,23 @@ function FormPage1() {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (form.password === "********") {
-      delete form.password;
+
+    // Create a copy of the form data
+    const updatedForm = { ...form };
+
+    // If password is "********" (placeholder), remove it from the update request
+    if (form.password === "********" || !form.password) {
+      delete updatedForm.password;
     }
 
     try {
       const response = await axios.patch(
         `http://localhost:8000/api/v1/user/edit/${id}`,
-        form
+        updatedForm
       );
-      console.log(response);
 
       if (response.status === 200) {
-        if (!userProfie || Object.keys(userProfie).length === 0) {
-          notifySuccess(
-            response.data.data.message || "Successfully Submitted."
-          );
-        }
+        notifySuccess(response.data.data.message || "Successfully Submitted.");
         navigate(`/formpage2`);
       }
     } catch (error) {
@@ -60,6 +60,7 @@ function FormPage1() {
       );
     }
   };
+
   const dataBinding = async () => {
     try {
       const response = await axios.get(
@@ -82,10 +83,11 @@ function FormPage1() {
         gender: userProfie.gender || "",
         motherTongue: userProfie.motherTongue || "",
         email: userProfie.email || "",
-        password: userProfie.password ? "*********" : "",
+        // Don't set password in the form
       }));
     }
   }, [userProfie]);
+
   const passwordVisibility = () => {
     setShowPassword((prevState) => !prevState);
   };
@@ -140,7 +142,6 @@ function FormPage1() {
                   </div>
                   <div className={styles.helperTextDiv}>
                     <p className={styles.helperText}>
-              
                       {userProfie.relation === "Myself"
                         ? "Your date of birth to find a perfect match"
                         : `Your ${userProfie.relation}'s date of birth to find a perfect match`}
@@ -221,47 +222,46 @@ function FormPage1() {
                   </div>
                 </div>
               </div>
-
-              <div className={styles.formGroup}>
-                <div className={styles.fieldGroup}>
-                  <div className={styles.labelGroup}>
-                    <label>Password</label>
-                    <p className={styles.starHead}>*</p>
-                  </div>
-                  <div className={styles.inputGroup}>
-                    <input
-                      type={showPassword ? "text" : "password"}
-                      className={styles.input}
-                      placeholder="Enter password"
-                      required={!userProfie.password}
-                      disabled={!!userProfie.password}
-                      value={form.password}
-                      onChange={handleChange}
-                      name="password"
-                    />
-                    {!userProfie.password &&
-                    (showPassword ? (
-                      <EyeSlash
-                        className={styles.PasswordEyeIcon}
-                        weight="duotone"
-                        onClick={passwordVisibility}
+              {!userProfie.password && (
+                <div className={styles.formGroup}>
+                  <div className={styles.fieldGroup}>
+                    <div className={styles.labelGroup}>
+                      <label>Password</label>
+                      <p className={styles.starHead}>*</p>
+                    </div>
+                    <div className={styles.inputGroup}>
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        className={styles.input}
+                        placeholder="Enter password"
+                        required
+                        value={form.password}
+                        onChange={handleChange}
+                        name="password"
                       />
-                    ) : (
-                      <Eye
-                        className={styles.PasswordEyeIcon}
-                        weight="duotone"
-                        onClick={passwordVisibility}
-                      />
-                    ))}
-                  </div>
-
-                  <div className={styles.helperTextDiv}>
-                    <p className={styles.helperText}>
-                      Password must have between 6–20 characters
-                    </p>
+                      {showPassword ? (
+                        <EyeSlash
+                          className={styles.PasswordEyeIcon}
+                          weight="duotone"
+                          onClick={passwordVisibility}
+                        />
+                      ) : (
+                        <Eye
+                          className={styles.PasswordEyeIcon}
+                          weight="duotone"
+                          onClick={passwordVisibility}
+                        />
+                      )}
+                    </div>
+                    <div className={styles.helperTextDiv}>
+                      <p className={styles.helperText}>
+                        Password must have between 6–20 characters
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
+
               <div className={styles.btnDiv}>
                 <button type="submit" className={styles.submitButton}>
                   Continue
