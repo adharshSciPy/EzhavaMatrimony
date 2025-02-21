@@ -68,24 +68,7 @@ function Adminprofile() {
       <Nav />
       <div className="profile-view-main-container">
         <div className="profile-cardsAd">
-          <div className="image-containerAd">
-            {/* <Carousel arrows infinite={false}>
-              {data.profilePicture && (
-                <div className='cardimage'>
-                  <img src={
-                    data.profilePicture ? `http://localhost:8000${data.profilePicture}` : ""} alt="Profile"></img>
-                </div>
-              )}
-
-
-              {uploadimage.length > 0 &&
-                uploadimage.map((image, index) => (
-                  <div key={index} className="cardimage">
-                    <img src={`http://localhost:8000${image}`} alt={`Image ${index + 1}`} />
-                  </div>
-                ))}
-
-            </Carousel> */}
+          <div className="image-containerAd"> 
 
             <Carousel arrows infinite={false}>
               {uploadimage.length > 0 && uploadimage.map((image, index) => (
@@ -162,9 +145,9 @@ function Adminprofile() {
             <div className="profile-location-container">
               <span>{data?.city || "Nil"}</span>
             </div>
-            <div className="premium-container">
+            {/* <div className="premium-container">
               <h3>Premium</h3>
-            </div>
+            </div> */}
           </div>
         </div>
         <div className="about-similar">
@@ -232,7 +215,7 @@ function Adminprofile() {
                       <span className="material-icons profiles-icon">
                         account_circle
                       </span>
-                      <p>Profile Created By</p>
+                      <p>Profile Created For</p>
                     </div>
                     <div className="prof-detail same1">
                       {data?.relation || "Nil"}
@@ -258,32 +241,18 @@ function Adminprofile() {
                       {data?.citizenship || "Nil"}
                     </div>
                   </div>
-                </div>
-              </div>
-              <div className="verification-main-container">
-                <div className="verfication-container">
-                  <div className="letter-container">
-                    <div className="letter-main same">
-                      <span className="material-icons ">phone</span>
-                      <h3>PHONE NUMBER</h3>
-                      <div className="hr">
-                        <hr />
-                      </div>
-                      <span className="material-icons ">check_circle</span>
-                      <h3>Verified</h3>
+                  <div className="citizenship-container details-main">
+                    <div className="prof-detail same">
+                      <span className="material-icons profiles-icon">phone</span>
+                      <p>Phone</p>
                     </div>
-                  </div>
-                  <div className="digit-container">
-                    <div className="digit-main">
-                      <h3>+91 65*********</h3>
-                      <div className="call-now">
-                        <span className="material-icons ">phone</span>
-                        <h4>Call Now</h4>
-                      </div>
+                    <div className="prof-detail same1">
+                      {data?.phoneNumber || "Nil"}
                     </div>
                   </div>
                 </div>
               </div>
+             
               <div className="basic-details-container">
                 <div className="about-user-container">
                   <h3>About Religion</h3>

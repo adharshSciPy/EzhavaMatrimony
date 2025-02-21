@@ -20,7 +20,7 @@ const PaymentSuccess = () => {
     
     useEffect(() => {
         if (redirectStatus === 'succeeded') {
-            toast.success('Payment succeeded! thidssss');
+            toast.success('Payment succeeded!');
             datapusher()
         } else {
             toast.error('Payment failed or was canceled.');
