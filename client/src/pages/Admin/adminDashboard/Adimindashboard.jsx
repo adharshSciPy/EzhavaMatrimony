@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./admindashboard.css";
 import verification from "../../../assets/circle-check-regular.svg";
 import Sidebar from "../../../component/sidebar/Sidebar.jsx";
@@ -9,7 +9,7 @@ import Profilebox from "../components/Profilebox.jsx";
 function Adimindashboard() {
   const [userData, setUserData] = useState([]);
   const showData=userData.slice(0,4)
-  
+  const navigate =useNavigate()
   useEffect(() => {
     fetchUserData();
   }, []);
@@ -39,7 +39,9 @@ function Adimindashboard() {
                 </div>
               </div>
               <div className="button-container">
-                <div className="profile-verification-container">
+                <div className="profile-verification-container"onClick={()=>{
+                    navigate("/profileVerification")
+                  }}>
                   <div className="icon-container">
                     <img src={verification} alt="" />
                   </div>
@@ -49,11 +51,13 @@ function Adimindashboard() {
                     </p>
                   </div>
                 </div>
-                <div className="profile-verification-container">
+                <div className="profile-verification-container" onClick={()=>{
+                    navigate("/Adminreport")
+                  }}>
                   <div className="icon-container">
                     <img src={verification} alt="" />
                   </div>
-                  <div className="text-containers">
+                  <div className="text-containers" >
                     <p>Reports & Complaints</p>
                   </div>
                 </div>
