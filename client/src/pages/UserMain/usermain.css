@@ -523,10 +523,11 @@
   background: rgba(0, 0, 0, 0.5); 
   backdrop-filter: blur(6px); 
   animation: fadeIn 0.3s ease-in-out;
+  z-index: 999;
 }
 
 
-.modal-overlay {
+/* .modal-overlay {
   position: fixed;
   inset: 0;
   display: flex;
@@ -536,7 +537,7 @@
   background: rgba(0, 0, 0, 0.6); 
   backdrop-filter: blur(8px); 
   animation: fadeIn 0.5s ease-in-out;
-}
+} */
 
 .modal {
   background: linear-gradient(135deg, #ff6b6b, #f06595, #845ef7);
