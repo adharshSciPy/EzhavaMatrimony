@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./PaymentSucess.css"; // Import the CSS file
 import axios from "axios";
-import { PDFDocument, rgb } from "pdf-lib";
+import { PDFDocument, rgb,StandardFonts } from "pdf-lib";
 
 const PaymentSuccess = () => {
   const location = useLocation();
@@ -44,74 +44,76 @@ const PaymentSuccess = () => {
       const userResponse = await axios.get(
         `http://localhost:8000/api/v1/user/usercarddetails/${userId}`
       );
-      console.log('hheheuhiue',userResponse.data.data);
-      
+      console.log('User Data:', userResponse.data.data);
+  
       const profileResponse = await axios.get(
         `http://localhost:8000/api/v1/user/usercarddetails/${profileId}`
       );
-
+  
       const userName = userResponse.data.data.firstName || "User";
       const otherUserName = profileResponse.data.data.firstName || "Other User";
       const amount = "100 Pounds"; // Static amount
-
+  
       // Create a new PDF document
       const pdfDoc = await PDFDocument.create();
       const page = pdfDoc.addPage([600, 400]);
-
+      const { width, height } = page.getSize();
+  
+      // Correct way to embed standard fonts
+      const boldFont = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+      const regularFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
+  
       // Define styles
-      const fontSize = 14;
+      const fontSize = 12;
       const titleSize = 20;
-      const lineHeight = 30;
-      let yPos = 350; // Starting Y position
-
-      // Add title
-      page.drawText("Payment Invoice", {
-        x: 50,
+      const sectionTitleSize = 14;
+      const lineHeight = 24;
+      let yPos = height - 50;
+  
+      // Invoice Title
+      page.drawText("PAYMENT INVOICE", {
+        x: width / 2 - 60,
         y: yPos,
         size: titleSize,
         color: rgb(0, 0, 0),
+        font: boldFont, // Use the correct bold font reference
       });
+      yPos -= lineHeight * 1.5;
+  
+      // Company & Invoice Details
+      page.drawText("Ezhava Matrimony", { x: 50, y: yPos, size: fontSize, font: regularFont, color: rgb(0, 0, 0) });
+      page.drawText(`Invoice No: INV-${Math.floor(Math.random() * 10000)}`, { x: 400, y: yPos, size: fontSize, font: regularFont, color: rgb(0, 0, 0) });
       yPos -= lineHeight;
-
-      // Add payment details
-      page.drawText(`Account Holder: ${userName}`, {
-        x: 50,
-        y: yPos,
-        size: fontSize,
-        color: rgb(0.2, 0.2, 0.2),
-      });
+  
+      page.drawText(`Date: ${new Date().toLocaleDateString()}`, { x: 50, y: yPos, size: fontSize, font: regularFont, color: rgb(0, 0, 0) });
       yPos -= lineHeight;
-      page.drawText(`Unlocked User: ${otherUserName}`, {
-        x: 50,
-        y: yPos,
-        size: fontSize,
-        color: rgb(0.2, 0.2, 0.2),
-      });
+  
+      // Invoice Details Section
+      page.drawText("BILL TO:", { x: 50, y: yPos, size: sectionTitleSize, font: boldFont, color: rgb(0, 0, 0.8) });
       yPos -= lineHeight;
-      page.drawText(`Transaction ID: ${paymentIntent}`, {
-        x: 50,
-        y: yPos,
-        size: fontSize,
-        color: rgb(0.2, 0.2, 0.2),
-      });
+  
+      page.drawText(`Account Holder: ${userName}`, { x: 50, y: yPos, size: fontSize, font: regularFont, color: rgb(0.2, 0.2, 0.2) });
       yPos -= lineHeight;
-      page.drawText(`Amount: ${amount}`, {
-        x: 50,
-        y: yPos,
-        size: fontSize,
-        color: rgb(0.2, 0.2, 0.2),
-      });
+      page.drawText(`Unlocked User: ${otherUserName}`, { x: 50, y: yPos, size: fontSize, font: regularFont, color: rgb(0.2, 0.2, 0.2) });
       yPos -= lineHeight;
-      page.drawText(`Status: Payment Succeeded`, {
-        x: 50,
-        y: yPos,
-        size: fontSize,
-        color: rgb(0, 0.5, 0),
-      });
-
+  
+      // Payment Details Section
+      page.drawText("PAYMENT DETAILS:", { x: 50, y: yPos, size: sectionTitleSize, font: boldFont, color: rgb(0, 0, 0.8) });
+      yPos -= lineHeight;
+  
+      page.drawText(`Transaction ID: ${paymentIntent}`, { x: 50, y: yPos, size: fontSize, font: regularFont, color: rgb(0.2, 0.2, 0.2) });
+      yPos -= lineHeight;
+      page.drawText(`Amount Paid: ${amount}`, { x: 50, y: yPos, size: fontSize, font: boldFont, color: rgb(0, 0.5, 0) });
+      yPos -= lineHeight;
+      page.drawText(`Status: Payment Succeeded`, { x: 50, y: yPos, size: fontSize, font: boldFont, color: rgb(0, 0.5, 0) });
+      yPos -= lineHeight * 2;
+  
+      // Footer
+      page.drawText("Thank you for your payment!", { x: 50, y: 30, size: fontSize, font: regularFont, color: rgb(0, 0, 0) });
+  
       // Serialize the PDFDocument to bytes (Uint8Array)
       const pdfBytes = await pdfDoc.save();
-
+  
       // Create a Blob and trigger download
       const blob = new Blob([pdfBytes], { type: "application/pdf" });
       const link = document.createElement("a");
@@ -125,6 +127,7 @@ const PaymentSuccess = () => {
       toast.error("Failed to generate invoice");
     }
   };
+  
 
   return (
     <div className="payment-success-container">
