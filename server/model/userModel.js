@@ -43,7 +43,7 @@ const userSchema = new Schema({
   subCaste: {
     type: String,
   },
-  Gothran: {
+  gothram: {
     type: String,
   },
   suddhaJathakam: {
