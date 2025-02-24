@@ -22,7 +22,7 @@ function FormPage1() {
   const notifyError = (message) => toast.error(message);
   const notifySuccess = (message) => toast.success(message);
   const navigate = useNavigate();
-  const { id, userEmail } = useSelector((state) => state.user);
+  const { id, userEmail,token } = useSelector((state) => state.user);
   console.log("id kitti", id);
 
   const handleChange = (e) => {

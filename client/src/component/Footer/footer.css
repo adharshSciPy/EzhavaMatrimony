@@ -3,6 +3,7 @@ footer {
   font-family: Arial, sans-serif;
   color: rgb(173, 169, 169);
   padding: 10px;
+  height: auto;
 }
 
 .footer-main .container {
@@ -11,7 +12,7 @@ footer {
   gap: 10px;
   width: 95%;
   margin : auto;
-  margin-top: 100px;
+  height: max-content;
 }  
 .footer-main .container .heading h4 {
   margin-bottom: 10px;
@@ -52,12 +53,17 @@ footer {
   justify-content: center;
 }
 
+.copy-right-footer{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 50px;
 
+}
 @media (max-width: 1042px) {
   .footer-main .container {
-    grid-template-columns: 2fr 1fr 1fr; 
-    height: 100px;
-    margin-top: 200px;
+    grid-template-columns: 2fr 1fr 1fr;
 
   }
   

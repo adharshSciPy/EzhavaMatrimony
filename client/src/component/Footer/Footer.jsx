@@ -35,12 +35,7 @@ function Footer() {
                   <li>
                     <p>Contact Us</p>
                   </li>
-                  <li>
-                    <p>Feedback</p>
-                  </li>
-                  <li>
-                    <p>FAQs</p>
-                  </li>
+                  
                 </ul>
               </div>
             </div>
@@ -89,8 +84,8 @@ function Footer() {
               </div>
             </div> */}
           </div>
-          <div class="copy-right">
-            <p>Copyright@2025.All rights recieved</p>
+          <div class="copy-right-footer">
+            <p>Developed by Scipy Technologies</p>
           </div>
         </div>
       </footer>

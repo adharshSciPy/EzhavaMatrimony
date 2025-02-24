@@ -81,7 +81,7 @@
 
 @media (max-width: 480px) {
   .otp-container-main .container .otp-input {
-      width: 2.5rem;
+      width: 80%;
       height: 2.5rem;
       font-size: 1.2rem;
   }
