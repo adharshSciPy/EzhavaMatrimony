@@ -37,10 +37,10 @@ function LoginPage() {
       );
       if (response.status === 201) {
         // Show success toast
-        const { id, userEmail } = response.data.user; 
+        const { id, userEmail,token,role } = response.data.user; 
         
         
-        dispatch(setUser({ id, userEmail }));
+        dispatch(setUser({ id, userEmail ,token,role}));
         toast.success("OTP sent to registered mail ID", {
           onClose: () => navigate(`/OtpPage`,{ state: { userEmail: form.userEmail } }),
         });

@@ -9,7 +9,7 @@ import { setUser } from "../../features/slice";
 import Loader from "../../component/Loader/Loadertext.jsx";
 
 function FormPage5() {
-  const { id } = useSelector((state) => state.user);
+  const { id ,token,role} = useSelector((state) => state.user);
   const [employmentStatus, setEmploymentStatus] = useState("");
   const [residentStatus, setResidentStatus] = useState("");
   const [form, setForm] = useState({});
@@ -43,7 +43,7 @@ function FormPage5() {
       if (response.status === 200) {
         setTimeout(() => {
           setIsLoading(false);
-          dispatch(setUser({ id: id }));
+          dispatch(setUser({ id: id ,token:token,role:role}));
           navigate(`/dashboard/${id}`);
           console.log(response);
         }, 3000);

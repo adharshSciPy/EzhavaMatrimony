@@ -167,6 +167,7 @@
     padding: 10px;
     
     column-gap: 10px;
+    /* position: relative; */
   }
   .labelGroup{
     width: 32%;
@@ -174,6 +175,7 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    font-weight: bold;
     
     /* border: 2px solid #666; */
   }
@@ -355,6 +357,15 @@
     color: #ffff;
     font-size: 14px;
   }
+  .errorMessage {
+    color: red;
+    font-size: 12px;
+    display: block;
+    margin-top: 4px; /* Small gap like native validation */
+  }
+  
+  
+  
   @media (max-width:1024px) {
     .imageDisplayDiv{
         display: none;

@@ -13,7 +13,9 @@ function FormPage3() {
   const [familyValues, setFamilyValues] = useState("");
   const [physicallyChallenged, setPhysicallyChallenged] = useState("");
   const [form, setForm] = useState({});
-    const [userProfie, setUserProfile] = useState([]);
+  const [userProfie, setUserProfile] = useState([]);
+  const [errors, setErrors] = useState({});
+
   
   const navigate = useNavigate();
   const handleChange = (e) => {
@@ -24,6 +26,21 @@ function FormPage3() {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    let newErrors = {};
+
+    if (!maritalStatus) newErrors.maritalStatus = "Please select your marital status.";
+    if (!familyStatus) newErrors.familyStatus = "Please select your family status.";
+    if (!familyType) newErrors.familyType = "Please select your family type.";
+    if (!familyValues) newErrors.familyValues = "Please select your family values.";
+    if (!physicallyChallenged) newErrors.physicallyChallenged = "Please select an option.";
+    
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+  
+    // If no errors, proceed with submission
+    setErrors({});
 
     const formData = {
       ...form,
@@ -121,29 +138,30 @@ function FormPage3() {
             </h3>
 
             <form className={styles.form} onSubmit={handleSubmit}>
-              <div className={styles.formGroup}>
-                <div className={styles.fieldGroup}>
-                  <div className={styles.labelGroup}>
-                    <label>Maritial Status</label>
-                    <p className={styles.starHead}>*</p>
-                  </div>
-                  <div className={styles.inputGroupButtons}>
-                    <div className={styles.optionButtonOuterDiv}>
-                      {renderOptionButtons(
-                        [
-                          "Never Married",
-                          "Widowed",
-                          "Divorced",
-                          "Awaiting Divorce",
-                        ],
-                        maritalStatus,
-                        setMaritalStatus
-                      )}
+                <div className={styles.formGroup}>
+                  <div className={styles.fieldGroup}>
+                    <div className={styles.labelGroup}>
+                      <label>Maritial Status</label>
+                      <p className={styles.starHead}>*</p>
                     </div>
+                    <div className={styles.inputGroupButtons}>
+                      <div className={styles.optionButtonOuterDiv}>
+                        {renderOptionButtons(
+                          [
+                            "Never Married",
+                            "Widowed",
+                            "Divorced",
+                            "Awaiting Divorce",
+                          ],
+                          maritalStatus,
+                          setMaritalStatus
+                        )}
+                      </div>
+                    </div>
+                    {errors.maritalStatus && <p className={styles.errorMessage}>{errors.maritalStatus}</p>}
+                    {/* <div className={styles.helperTextDiv}></div> */}
                   </div>
-                  {/* <div className={styles.helperTextDiv}></div> */}
                 </div>
-              </div>
 
               <div className={styles.formGroup}>
                 <div className={styles.fieldGroup}>
@@ -159,8 +177,11 @@ function FormPage3() {
                       value={form.height || ""}
                       onChange={handleChange}
                       name="height"
+                      required
                     />
                   </div>
+                  {/* <div className={styles.helperTextDiv}></div>   */}
+
                 </div>
               </div>
 
@@ -185,6 +206,8 @@ function FormPage3() {
                     </div>
                   </div>
                   {/* <div className={styles.helperTextDiv}></div> */}
+
+                  {errors.familyStatus && <p className={styles.errorMessage}>{errors.familyStatus}</p>}
                 </div>
               </div>
 
@@ -200,6 +223,7 @@ function FormPage3() {
                       name="familyIncome"
                       value={form.value}
                       onChange={handleChange}
+                      required
                     >
                       <option value="less_than_1M">Less than $1M</option>
                       <option value="1M_to_5M">$1M to $5M</option>
@@ -227,7 +251,8 @@ function FormPage3() {
                       )}
                     </div>
                   </div>
-                  <div className={styles.helperTextDiv}></div>
+                  {errors.familyType && <p className={styles.errorMessage}>{errors.familyType}</p>}
+                  {/* <div className={styles.helperTextDiv}></div> */}
                 </div>
               </div>
 
@@ -246,6 +271,7 @@ function FormPage3() {
                       )}
                     </div>
                   </div>
+                  {errors.familyValues && <p className={styles.errorMessage}>{errors.familyValues}</p>}
                   {/* <div className={styles.helperTextDiv}></div> */}
                 </div>
               </div>
@@ -265,7 +291,8 @@ function FormPage3() {
                       )}
                     </div>
                   </div>
-                  <div className={styles.helperTextDiv}></div>
+                  {errors.physicallyChallenged && <p className={styles.errorMessage}>{errors.physicallyChallenged}</p>}
+                  {/* <div className={styles.helperTextDiv}></div>   */}
                 </div>
               </div>
 

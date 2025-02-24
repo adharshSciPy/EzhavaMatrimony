@@ -33,6 +33,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import Checkout from "./pages/Checkout/Checkout";
 import UserPasswordReset from "./pages/UserPasswordReset/PasswordReset"
 import PaymentSuccess from "./pages/Checkout/PaymentSuccess";
+import ProtectedRoute from "./component/ProtectedRoute/ProtectedRoute";
 function App() {
 
 
@@ -46,12 +47,14 @@ function App() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/register" element={<LoginPAge />} />
-          <Route path="/formpage1" element={<FormPage1 />} />
-          <Route path="/formpage2" element={<FormPage2 />} />
-          <Route path="/formpage3" element={<FormPage3 />} />
-          <Route path="/formpage5" element={<Formpage5 />} />
-          <Route path="/formpage4" element={<FormPage4 />} />
-          <Route path="/dashboard/:userId" element={<Dashboard />} />
+            <Route path="/formpage1" element={<FormPage1 />} />
+            <Route path="/formpage2" element={<FormPage2 />} />
+            <Route path="/formpage3" element={<FormPage3 />} />
+            <Route path="/formpage4" element={<FormPage4 />} />
+            <Route element={<ProtectedRoute allowedRoles={[300]} />}>
+            <Route path="/dashboard/:userId" element={<Dashboard />} />
+            <Route path="/formpage5" element={<Formpage5 />} />
+            </Route>
           <Route path="/OtpPage" element={<OtpPage />} />
           <Route path="/Admindashboard" element={<AdminProfile />} />
           <Route path="/Adminreport" element={<Report />} />
