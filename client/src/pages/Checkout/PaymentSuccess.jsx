@@ -144,14 +144,17 @@ const PaymentSuccess = () => {
             <strong>Status:</strong> {redirectStatus}
           </p>
         </div>
+        <div className="buttonClass">
         <button
           className="continue-shopping-button"
           onClick={handleContinueShopping}
         >
           Continue
         </button>
+        <button  className="continue-shopping-button2 "onClick={generateInvoice}>Download Invoice</button>  
       </div>
-      <button onClick={generateInvoice}>Download Invoice</button>
+      </div>
+      
     </div>
   );
 };
