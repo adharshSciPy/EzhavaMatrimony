@@ -56,7 +56,11 @@ const registerUser = async (req, res) => {
       otpExpiry, 
       isVerified: false, 
     });
-
+    const token = jwt.sign(
+      { id: user._id, email: user.userEmail, role: user.role },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: "7d" } 
+    );
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -76,8 +80,7 @@ const registerUser = async (req, res) => {
     await transporter.sendMail(mailOptions);
 
     return res.status(201).json({
-      message:
-        "User registered successfully. Please check your email for the OTP.",
+      message: "User registered successfully. Please check your email for the OTP.",
       user: {
         id: user._id,
         relation: user.relation,
@@ -85,7 +88,9 @@ const registerUser = async (req, res) => {
         userEmail: user.userEmail,
         role: user.role,
       },
+      token,
     });
+    
   } catch (err) {
     console.error("Error during registration:", err);
     return res
