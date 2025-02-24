@@ -17,7 +17,8 @@ const userSlice = createSlice({
       state.id = action.payload.id;
       state.userEmail = action.payload.userEmail;
       state.token = action.payload.token;
-      state.role=action.payload.role;
+      state.role=Number(action.payload.role);
+      localStorage.setItem("user", JSON.stringify(state));
     },
     setVerified(state, action) {
       state.isVerified = action.payload.isVerified;
@@ -26,7 +27,9 @@ const userSlice = createSlice({
       state.id = null;
       state.userEmail = null;
       state.isVerified = false;
-      state.role=null
+      state.role=null;
+      localStorage.removeItem("user");
+
     },
   },
 });

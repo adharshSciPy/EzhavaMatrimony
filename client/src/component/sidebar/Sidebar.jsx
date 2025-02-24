@@ -22,7 +22,10 @@ const navigate = useNavigate();
   const [isPinned, setIsPinned] = useState(window.innerWidth > 768);
   const location = useLocation();
   const { token } = useSelector((state) => state.user);
-  
+  const handleLogout=()=>{
+    dispatch(clearUser())
+    navigate("/");
+  }
 
   const menuItems = useMemo(
     () => [
@@ -30,12 +33,9 @@ const navigate = useNavigate();
       { key: "profile", label: "Profile Verification", icon: <UserOutlined />, path: "/profileVerification" },
       { key: "Report", label: "Reports & Complaints", icon: <ContainerOutlined />, path: "/Adminreport" },
       { key: "settings", label: "Settings", icon: <SettingOutlined />, path: `/Adminsettings/${token}` },
-      { key: "signout", label: "Signout", icon: <LogoutOutlined />, path: "/" ,onClick:()=>{
-        dispatch(clearUser())
-        navigate("/");
-      } },
+      { key: "signout", label: "Signout", icon: <LogoutOutlined /> ,onClick:handleLogout},
     ],
-    []
+    [token,handleLogout]
   );
 
   const pathKey = useMemo(() => {
@@ -92,8 +92,8 @@ const navigate = useNavigate();
             mode="vertical"
             selectedKeys={[pathKey]}
           >
-            {menuItems.map(({ key, label, icon, path }) => (
-              <Menu.Item key={key} icon={icon}>
+            {menuItems.map(({ key, label, icon, path,onClick }) => (
+              <Menu.Item key={key} icon={icon} onClick={onClick}>
                 <NavLink to={path}>{isPinned && label}</NavLink>
               </Menu.Item>
             ))}
