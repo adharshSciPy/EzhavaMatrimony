@@ -5,6 +5,7 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";  // Ensure ToastContainer is imported
 import "react-toastify/dist/ReactToastify.css";  // Import the CSS for Toast
 import { useNavigate, useParams } from "react-router-dom";
+import baseUrl from "../../../baseUrl";
 
 function PasswordReset() {
   const [showPassword, setShowPassword] = useState('');
@@ -20,7 +21,7 @@ function PasswordReset() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `http://localhost:8000/api/v1/admin/resetpasswordadmin/${token}`,
+        `${baseUrl}:8000/api/v1/admin/resetpasswordadmin/${token}`,
         { password: showPassword }
       );
       console.log(response.status);

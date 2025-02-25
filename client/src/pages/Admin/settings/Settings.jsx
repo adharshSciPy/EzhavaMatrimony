@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { message } from "antd";
+import baseUrl from "../../../baseUrl";
 
 
 function Settings() {
@@ -24,7 +25,7 @@ function Settings() {
   const handleSubmit=async(e)=>{
     e.preventDefault()
     try {
-      const response = await axios.patch(`http://localhost:8000/api/v1/admin/resetpassword/${token}`,form)
+      const response = await axios.patch(`${baseUrl}:8000/api/v1/admin/resetpassword/${token}`,form)
       
       
       if(response.status===200){

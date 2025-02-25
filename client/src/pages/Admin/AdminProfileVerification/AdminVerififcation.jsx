@@ -5,6 +5,7 @@ import "./AdminVerfication.css";
 import Sidebar from "../../../component/sidebar/Sidebar.jsx";
 import { Worker, Viewer } from "@react-pdf-viewer/core";
 import "@react-pdf-viewer/core/lib/styles/index.css";
+import baseUrl from "../../../baseUrl.js";
 
 function AdminVerification() {
   const { id } = useParams();
@@ -17,7 +18,7 @@ function AdminVerification() {
   const fetchUserData = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/v1/user/usercarddetails/${id}`
+        `${baseUrl}:8000/api/v1/user/usercarddetails/${id}`
       );
       setUserData(response.data);
       console.log(response.data);
@@ -39,7 +40,7 @@ function AdminVerification() {
           {userData?.data?.pdfFile ? (
             <div style={{ height: "600px", border: "1px solid #ccc" }}>
               <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js">
-                <Viewer fileUrl={`http://localhost:8000${userData.data.pdfFile}`} />
+                <Viewer fileUrl={`${baseUrl}:8000${userData.data.pdfFile}`} />
               </Worker>
             </div>
           ) : (

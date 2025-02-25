@@ -7,6 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
 import { Eye, EyeSlash } from "phosphor-react";
+import baseUrl from "../../baseUrl";
 
 function FormPage1() {
   const [form, setForm] = useState({
@@ -44,7 +45,7 @@ function FormPage1() {
 
     try {
       const response = await axios.patch(
-        `http://localhost:8000/api/v1/user/edit/${id}`,
+        `${baseUrl}:8000/api/v1/user/edit/${id}`,
         updatedForm
       );
 
@@ -64,7 +65,7 @@ function FormPage1() {
   const dataBinding = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/v1/user/usercarddetails/${id}`
+        `${baseUrl}:8000/api/v1/user/usercarddetails/${id}`
       );
       console.log("response", response.data.data);
       setUserProfile(response.data.data);

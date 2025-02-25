@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import baseUrl from "../../baseUrl";
 // import image2 from "../../assets/heartshape.png";
 
 function FormPage2() {
@@ -41,7 +42,7 @@ function FormPage2() {
     };
     try {
       const response = await axios.patch(
-        `http://localhost:8000/api/v1/user/edit/${id}`,
+        `${baseUrl}:8000/api/v1/user/edit/${id}`,
         updatedForm
       );
       console.log(response);
@@ -73,7 +74,7 @@ function FormPage2() {
   const dataBinding = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/v1/user/usercarddetails/${id}`
+        `${baseUrl}:8000/api/v1/user/usercarddetails/${id}`
       );
       console.log("he hee heee", response.data.data);
       setUserProfile(response.data.data);

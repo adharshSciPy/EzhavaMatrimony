@@ -3,6 +3,7 @@ import axios from 'axios';
 import Profilebox from "../components/ReportComponent.jsx";
 import "./GetFullReport.css"
 import Pagination from "../components/PaginationAdmin"
+import baseUrl from '../../../baseUrl.js';
 
 function GetFullReport() {
   const [userData, setUserData] = useState([]);
@@ -20,7 +21,7 @@ function GetFullReport() {
   const fetchUserData = async () => {   
     try {
       const response = await axios.get(
-        "http://localhost:8000/api/v1/user/getComplaint"
+        `${baseUrl}:8000/api/v1/user/getComplaint`
       );
       setUserData(response.data.reportedUser);
     } catch (error) {

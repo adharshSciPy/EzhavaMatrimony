@@ -3,6 +3,7 @@ import Sidebar from "../../../component/sidebar/Sidebar.jsx";
 import "./report.css";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import baseUrl from "../../../baseUrl.js";
 function Report() {
   const{id}=useParams()  
   const [userData,setUserData]=useState({});  
@@ -12,7 +13,7 @@ function Report() {
   },[])
   const fetchUserData=async(req,res)=>{
     try {
-      const response=await axios.get (`http://localhost:8000/api/v1/user/usercarddetails/${id}`)
+      const response=await axios.get (`${baseUrl}t:8000/api/v1/user/usercarddetails/${id}`)
       setUserData(response.data);
       
     } catch (error) {

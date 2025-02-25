@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { useEffect } from "react";
 import Profilebox from "../components/ReportComponent.jsx";
+import baseUrl from "../../../baseUrl.js";
 
 
 function AdminReportPage() {
@@ -15,7 +16,7 @@ function AdminReportPage() {
    const fetchReportData = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8000/api/v1/user/getComplaint"
+        `${baseUrl}:8000/api/v1/user/getComplaint`
       );
       if(response.status===200){
           setUserData(response.data.reportedUser || [])

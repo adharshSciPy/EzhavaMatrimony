@@ -4,6 +4,7 @@ import "./otp.css";
 import {  useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setVerified } from "../../features/slice";
+import baseUrl from "../../baseUrl";
 
 const OtpPage = () => {
   const navigate = useNavigate();
@@ -36,7 +37,7 @@ const OtpPage = () => {
       console.log(userEmail);
       
       const response = await axios.post(
-        `http://localhost:8000/api/v1/user/verifyOtp/${userEmail}`,
+        `${baseUrl}:8000/api/v1/user/verifyOtp/${userEmail}`,
         form
       );
       setMessage(response.data.message);
@@ -57,7 +58,7 @@ const OtpPage = () => {
   const handleResendOtp = async () => {
     try {
       const response = await axios.post(
-        `http://localhost:8000/api/v1/user/resendOtp/${userEmail}`
+        `${baseUrl}:8000/api/v1/user/resendOtp/${userEmail}`
       );
       setMessage("OTP resent successfully!");
       setError("");

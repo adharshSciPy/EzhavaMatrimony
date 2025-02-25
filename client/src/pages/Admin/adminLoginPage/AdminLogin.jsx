@@ -9,6 +9,7 @@ import { setUser } from "../../../features/slice";
 import Modal from "react-modal";
 import "react-toastify/dist/ReactToastify.css";
 import BounceLoader from "react-spinners/BounceLoader";
+import baseUrl from "../../../baseUrl";
 
 function AdminLogin() {
   let field = {
@@ -46,7 +47,7 @@ function AdminLogin() {
 
     try {
       const response = await axios.post(
-        `http://localhost:8000/api/v1/admin/forgotpasswordadmin`,{ userEmail: email }
+        `${baseUrl}:8000/api/v1/admin/forgotpasswordadmin`,{ userEmail: email }
       );
       if (response.status === 200) {
     setIsLoading(false); 
@@ -64,7 +65,7 @@ function AdminLogin() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `http://localhost:8000/api/v1/admin/login`,
+        `${baseUrl}:8000/api/v1/admin/login`,
         form
       );
       if (response) {

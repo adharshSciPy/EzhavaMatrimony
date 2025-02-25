@@ -6,6 +6,7 @@ import Nav from "../../component/Navbar/Nav";
 import defaultPic from "../../assets/serious-man-portrait-real-people-high-definition-grey-background-photo.jpg";
 import { useSelector, useDispatch } from "react-redux";
 import Footer from "../../component/Footer/Footer";
+import baseUrl from "../../baseUrl";
 
 function UserSettings() {
   const { id } = useParams();
@@ -26,7 +27,7 @@ function UserSettings() {
     const fetchUserData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8000/api/v1/user/usercarddetails/${id}`
+          `${baseUrl}:8000/api/v1/user/usercarddetails/${id}`
         );
         const userData = response.data;
         console.log("Fetched User Data:", userData);
@@ -48,7 +49,7 @@ function UserSettings() {
   const handleSave = async () => {
     try {
       if (newUsername) {
-        await axios.patch(`http://localhost:8000/api/v1/user/edit/${id}`, {
+        await axios.patch(`${baseUrl}:8000/api/v1/user/edit/${id}`, {
           firstName: newUsername,
         });
 
@@ -58,7 +59,7 @@ function UserSettings() {
 
       if (password) {
         await axios.post(
-          `http://localhost:8000/api/v1/user/resetpassword/${id}/${token}`,
+          `${baseUrl}:8000/api/v1/user/resetpassword/${id}/${token}`,
           {
             password: password,
           }

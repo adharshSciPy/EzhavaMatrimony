@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../features/slice";
 import Loader from "../../component/Loader/Loadertext.jsx";
+import baseUrl from "../../baseUrl.js";
 
 function FormPage5() {
   const { id ,token,role} = useSelector((state) => state.user);
@@ -37,7 +38,7 @@ function FormPage5() {
       console.log(employmentStatus);
 
       const response = await axios.patch(
-        `http://localhost:8000/api/v1/user/edit/${id}`,
+        `${baseUrl}:8000/api/v1/user/edit/${id}`,
         formData
       );
       if (response.status === 200) {
@@ -71,7 +72,7 @@ function FormPage5() {
   const dataBinding = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/v1/user/usercarddetails/${id}`
+        `${baseUrl}:8000/api/v1/user/usercarddetails/${id}`
       );
       console.log("he hee heee", response.data.data);
       setUserProfile(response.data.data);

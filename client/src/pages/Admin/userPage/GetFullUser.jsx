@@ -3,6 +3,7 @@ import axios from 'axios';
 import Profilebox from '../components/Profilebox';
 import "./userpage.css"
 import Pagination from "../components/PaginationAdmin"
+import baseUrl from '../../../baseUrl';
 
 function GetFullUser() {
   const [userData, setUserData] = useState([]);
@@ -20,7 +21,7 @@ function GetFullUser() {
   const fetchUserData = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8000/api/v1/user/userdetails"
+        `${baseUrl}:8000/api/v1/user/userdetails`
       );
       setUserData(response.data.data);
     } catch (error) {

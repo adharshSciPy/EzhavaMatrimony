@@ -5,6 +5,7 @@ import Sidebar from "../../../component/sidebar/Sidebar";
 import Profilebox from "./ProfileComponent";
 import Pagination from "../components/PaginationAdmin";
 import "./GetFullProfile.css";
+import baseUrl from "../../../baseUrl";
 
 function GetFullProfile() {
   const [userData, setUserData] = useState([]);
@@ -21,7 +22,7 @@ function GetFullProfile() {
   const fetchUserData = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8000/api/v1/user/unverfieduser"
+        `${baseUrl}:8000/api/v1/user/unverfieduser`
       );
       setUserData(response.data.unverfiedUser || []);
     } catch (error) {

@@ -24,6 +24,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { clearUser } from "../../features/slice";
 import { Avatar } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
+import baseUrl from "../../baseUrl";
 
 
 function Dashboard() {
@@ -65,7 +66,7 @@ function Dashboard() {
   const getLikedProfiles = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/v1/user/likedProfiles/${userId}`
+        `${baseUrl}:8000/api/v1/user/likedProfiles/${userId}`
       );
       console.log("liked profiles:", response.data.likedUsers);
 
@@ -98,7 +99,7 @@ function Dashboard() {
 
     try {
       const response = await axios.post(
-        `http://localhost:8000/api/v1/user/likeProfile/${userId}`,
+        `${baseUrl}:8000/api/v1/user/likeProfile/${userId}`,
         { likedId: id }
       );
 
@@ -121,7 +122,7 @@ function Dashboard() {
   const userDetails = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/v1/user/usercarddetails/${userId}`
+        `${baseUrl}:8000/api/v1/user/usercarddetails/${userId}`
       );
       console.log("response", response.data.data);
       setUserProfile(response.data.data);
@@ -133,7 +134,7 @@ function Dashboard() {
   const TopMatch = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/v1/user/topmatch/${userId}`
+        `${baseUrl}:8000/api/v1/user/topmatch/${userId}`
       );
       let user = response.data.matches;
       const shuffledUsers = user.sort(() => 0.5 - Math.random()).slice(0, 5);
@@ -148,7 +149,7 @@ function Dashboard() {
   const AllMatches = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/v1/user/getUserById/${userId}`
+        `${baseUrl}:8000/api/v1/user/getUserById/${userId}`
       );
       let users = response.data.user;
 
@@ -203,7 +204,7 @@ function Dashboard() {
     }
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/v1/user/usercarddetails/${id}`
+        `${baseUrl}:8000/api/v1/user/usercarddetails/${id}`
       );
       console.log("single user data", response);
       navigate(`/mainuser/${id}`);
@@ -242,7 +243,7 @@ function Dashboard() {
 
     try {
       const response = await axios.patch(
-        `http://localhost:8000/api/v1/user/edit/${userId}`,
+        `${baseUrl}:8000/api/v1/user/edit/${userId}`,
         formData
       );
       console.log("Upload successful:", response);
@@ -276,7 +277,7 @@ function Dashboard() {
 
     try {
       const response = await axios.patch(
-        `http://localhost:8000/api/v1/user/edit/${userId}`,
+        `${baseUrl}:8000/api/v1/user/edit/${userId}`,
         formData
       );
       console.log("Upload successful:", response);
@@ -793,7 +794,7 @@ function Dashboard() {
                         <img
                           src={
                             item.profilePicture
-                              ? `http://localhost:8000${item.profilePicture}`
+                              ? `${baseUrl}:8000${item.profilePicture}`
                               : " "
                           }
                           alt=""
@@ -854,7 +855,7 @@ function Dashboard() {
                         <img
                           src={
                             item.profilePicture
-                              ? `http://localhost:8000${item.profilePicture}`
+                              ? `${baseUrl}:8000${item.profilePicture}`
                               : ""
                           }
                           alt=""
