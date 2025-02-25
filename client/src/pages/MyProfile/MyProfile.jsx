@@ -461,7 +461,7 @@ function MyProfile() {
             </div>
           </div>
         </div>
-        <hr className="separator"></hr>
+        
       </div>
       <link
         href="https://fonts.googleapis.com/icon?family=Material+Icons"
