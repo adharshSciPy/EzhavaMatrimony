@@ -88,7 +88,7 @@
 }
 
 .settings-container5 .container-main5 .contents5 .box-contents5 .part-two5 .save-button5 button {
-  background-color: blue;
+  background-color: #f8cb58;
   color: white;
   padding: 10px 20px;
   border: none;
@@ -96,7 +96,7 @@
 }
 
 .settings-container5 .container-main5 .contents5 .box-contents5 .part-two5 .save-button5 button:hover {
-  background-color: yellow;
+  background-color: #f8cb58;;
   cursor: pointer;
 }
 
