@@ -44,7 +44,7 @@ const registerUser = async (req, res) => {
 
     const otp = crypto.randomInt(100000, 999999);
     const hashedOtp = await bcrypt.hash(otp.toString(), 10);
-    const otpExpiry = Date.now() + 10 * 60 * 1000; 
+    const otpExpiry = Date.now() + 10 * 60 * 1000;
 
     const user = await User.create({
       relation,
@@ -52,14 +52,14 @@ const registerUser = async (req, res) => {
       userEmail,
       userId,
       role,
-      otp: hashedOtp, 
-      otpExpiry, 
-      isVerified: false, 
+      otp: hashedOtp,
+      otpExpiry,
+      isVerified: false,
     });
     const token = jwt.sign(
       { id: user._id, email: user.userEmail, role: user.role },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "7d" } 
+      { expiresIn: "7d" }
     );
     const transporter = nodemailer.createTransport({
       service: "gmail",
@@ -90,7 +90,7 @@ const registerUser = async (req, res) => {
       },
       token,
     });
-    
+
   } catch (err) {
     console.error("Error during registration:", err);
     return res
@@ -254,12 +254,12 @@ const editUser = async (req, res) => {
       if (imageToRemove) {
         const fullPath = path.join(baseDir, imageToRemove);
 
-    
+
         if (fs.existsSync(fullPath)) {
           fs.unlinkSync(fullPath);
         }
       }
-    
+
       // Assign new profile picture path AFTER deletion
       updatedData.profilePicture = `/uploads/${profilePicture.filename}`;
     }
@@ -503,7 +503,7 @@ const userLogin = async (req, res) => {
       success: true,
       userId: user._id, // Send MongoDB _id
       token: accessToken,
-      role:process.env.USER_ROLE
+      role: process.env.USER_ROLE
     });
   } catch (err) {
     console.error("Error during login:", err);
@@ -622,7 +622,7 @@ const topMatch = async (req, res) => {
 
     // Find matching users
     const matches = await User.find(matchQuery).select(
-      "firstName occupation age city hobbies gender height profilePicture"
+      "firstName occupation age city hobbies gender height profilePicture education annualIncome maritalStatus"
     );
 
     if (matches.length === 0) {
@@ -638,7 +638,11 @@ const topMatch = async (req, res) => {
       city: match.city,
       hobbies: match.hobbies,
       height: match.height,
-      profilePicture: match.profilePicture
+      profilePicture: match.profilePicture,
+      maritalStatus: match.maritalStatus,
+      annualIncome: match.annualIncome,
+      education: match.education,
+
     }));
 
     res.status(200).json({ message: "Matches found", matches: response });
@@ -983,7 +987,7 @@ const getunlockedProfile = async (req, res) => {
   const { id } = req.body;
   try {
     const response = await User.findById(id).select("unlockedProfiles");
-    res.status(200).json({ message: 'get',data:response })
+    res.status(200).json({ message: 'get', data: response })
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
   }
@@ -1015,5 +1019,5 @@ export {
   updateUserAccess,
   deleteUser,
   getunlockedProfile
-  
+
 };
