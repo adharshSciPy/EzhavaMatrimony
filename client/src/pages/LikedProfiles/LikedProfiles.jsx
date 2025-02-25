@@ -8,6 +8,7 @@ import Footer from "../../component/Footer/Footer";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import PaginationAdmin from "../Admin/components/PaginationAdmin";
+import baseUrl from "../../baseUrl";
 
 function LikedProfiles() {
   const dispatch = useDispatch();
@@ -31,7 +32,7 @@ const navigate=useNavigate();
   const getLikedProfiles = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/v1/user/likedProfiles/${userId}`
+        `${baseUrl}:8000/api/v1/user/likedProfiles/${userId}`
       );
       console.log("liked profiles:", response.data.likedUsers);
 
@@ -63,7 +64,7 @@ const navigate=useNavigate();
 
     try {
       const response = await axios.post(
-        `http://localhost:8000/api/v1/user/likeProfile/${userId}`,
+        `${baseUrl}:8000/api/v1/user/likeProfile/${userId}`,
         { likedId: id }
       );
 
@@ -111,7 +112,7 @@ const navigate=useNavigate();
   const fetchLikedUsers = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/v1/user/likedProfiles/${id}`
+        `${baseUrl}:8000/api/v1/user/likedProfiles/${id}`
       );
       console.log("vishvaaa", response.data.likedUsers);
       setLikedProfiles(response.data.likedUsers);
@@ -129,7 +130,7 @@ const navigate=useNavigate();
     }
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/v1/user/usercarddetails/${id}`
+        `${baseUrl}:8000/api/v1/user/usercarddetails/${id}`
       );
       console.log("single user data", response);
       navigate(`/mainuser/${id}`);
@@ -189,7 +190,7 @@ const navigate=useNavigate();
                     <img
                           src={
                             item.profilePicture
-                              ? `http://localhost:8000${item.profilePicture}`
+                              ? `${baseUrl}:8000${item.profilePicture}`
                               : " "
                           }
                           alt=""

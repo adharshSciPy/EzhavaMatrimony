@@ -8,6 +8,7 @@ import Footer from "../../component/Footer/Footer";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import PaginationAdmin from "../Admin/components/PaginationAdmin";
+import baseUrl from "../../baseUrl";
 
 function TopRecommendation() {
   const dispatch = useDispatch();
@@ -48,7 +49,7 @@ function TopRecommendation() {
   const getLikedProfiles = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/v1/user/likedProfiles/${userId}`
+        `${baseUrl}:8000/api/v1/user/likedProfiles/${userId}`
       );
       console.log("liked profiles:", response.data.likedUsers);
 
@@ -80,7 +81,7 @@ function TopRecommendation() {
 
     try {
       const response = await axios.post(
-        `http://localhost:8000/api/v1/user/likeProfile/${userId}`,
+        `${baseUrl}:8000/api/v1/user/likeProfile/${userId}`,
         { likedId: id }
       );
 
@@ -124,7 +125,7 @@ function TopRecommendation() {
   const TopMatch = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/v1/user/topmatch/${userId}`
+        `${baseUrl}:8000/api/v1/user/topmatch/${userId}`
       );
 
       console.log("topMatch123", response.data.matches);
@@ -204,7 +205,7 @@ function TopRecommendation() {
     }
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/v1/user/usercarddetails/${id}`
+        `${baseUrl}:8000/api/v1/user/usercarddetails/${id}`
       );
       console.log("single user data", response);
       navigate(`/mainuser/${id}`);
@@ -762,7 +763,7 @@ function TopRecommendation() {
                       <img
                         src={
                           item.profilePicture
-                            ? `http://localhost:8000${item.profilePicture}`
+                            ? `${baseUrl}:8000${item.profilePicture}`
                             : " "
                         }
                         alt="CardImage"

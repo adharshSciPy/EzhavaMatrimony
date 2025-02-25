@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import BounceLoader from "react-spinners/BounceLoader";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../features/slice";
+import baseUrl from "../../baseUrl";
 
 function LoginPage() {
   const [form, setForm] = useState({
@@ -32,7 +33,7 @@ function LoginPage() {
      setIsLoading(true); 
     try {
       const response = await axios.post(
-        `http://localhost:8000/api/v1/user/register`,
+        `${baseUrl}:8000/api/v1/user/register`,
         form
       );
       if (response.status === 201) {

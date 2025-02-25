@@ -5,6 +5,7 @@ import verification from "../../../assets/circle-check-regular.svg";
 import Sidebar from "../../../component/sidebar/Sidebar.jsx";
 import axios from "axios";
 import Profilebox from "../components/Profilebox.jsx";
+import baseUrl from "../../../baseUrl.js";
 
 function Adimindashboard() {
   const [userData, setUserData] = useState([]);
@@ -16,7 +17,7 @@ function Adimindashboard() {
   const fetchUserData = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8000/api/v1/user/userdetails"
+        `${baseUrl}:8000/api/v1/user/userdetails`
       );
       setUserData(response.data.data);
     } catch (error) {

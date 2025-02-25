@@ -4,6 +4,7 @@ import image from "../../assets/free-photo-of-couple-in-green-grass-field.jpeg";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import baseUrl from "../../baseUrl";
 
 function FormPage3() {
   const { id } = useSelector((state) => state.user);
@@ -52,7 +53,7 @@ function FormPage3() {
     };
     try {
       const response = await axios.patch(
-        `http://localhost:8000/api/v1/user/edit/${id}`,
+        `${baseUrl}:8000/api/v1/user/edit/${id}`,
         formData
       );
       if (response.status === 200) {
@@ -81,7 +82,7 @@ function FormPage3() {
     const dataBinding = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8000/api/v1/user/usercarddetails/${id}`
+          `${baseUrl}:8000/api/v1/user/usercarddetails/${id}`
         );
         console.log("he hee heee", response.data.data);
         setUserProfile(response.data.data);

@@ -6,6 +6,7 @@ import image from "../../assets/free-photo-of-couple-in-green-grass-field.jpeg";
 import "../MyProfile/myprofile.css";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
+import baseUrl from "../../baseUrl";
 
 function MyProfile() {
   const [userData, setUserData] = useState({});
@@ -19,7 +20,7 @@ function MyProfile() {
   const fetchUserData = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/v1/user/usercarddetails/${userId}`
+        `${baseUrl}:8000/api/v1/user/usercarddetails/${userId}`
       );
       console.log("User data:", response.data.data);
       setUserData(response.data.data);
@@ -48,7 +49,7 @@ function MyProfile() {
 
       try {
         const response = await axios.patch(
-          `http://localhost:8000/api/v1/user/edit/${userId}`,
+          `${baseUrl}:8000/api/v1/user/edit/${userId}`,
           formData
         );
         console.log("Upload successful:", response);
@@ -72,7 +73,7 @@ function MyProfile() {
             <img
               src={
                 userData.profilePicture
-                  ? `http://localhost:8000${userData.profilePicture}`
+                  ? `${baseUrl}:8000${userData.profilePicture}`
                   : ""
               }
               alt="Profile"
@@ -452,7 +453,7 @@ function MyProfile() {
                     <img
                       key={index}
                       className="my-profile-image23-single"
-                      src={`http://localhost:8000${imgSrc}`}
+                      src={`${baseUrl}:8000${imgSrc}`}
                       alt={`User Image ${index}`}
                     />
                   ))}

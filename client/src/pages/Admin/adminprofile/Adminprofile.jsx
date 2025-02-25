@@ -11,6 +11,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Carousel } from 'antd';
 import { Trash } from "phosphor-react";
+import baseUrl from "../../../baseUrl";
 function Adminprofile() {
   const [data, setData] = useState(null);
   const { id } = useParams();
@@ -22,7 +23,7 @@ function Adminprofile() {
   const userData = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/v1/user/usercarddetails/${id}`
+        `${baseUrl}:8000/api/v1/user/usercarddetails/${id}`
       );
       setData(response.data.data);
       setUploadimage([response.data.data.profilePicture, ...response.data.data.image]);
@@ -41,7 +42,7 @@ function Adminprofile() {
   const handleDelete = async (req, res) => {
     try {
       const response = await axios.delete(
-        `http://localhost:8000/api/v1/user/deleteUser/${id}`
+        `${baseUrl}:8000/api/v1/user/deleteUser/${id}`
       );
       toast.success("User Deleted Successfully")
       setIsModalOpen(false)
@@ -73,7 +74,7 @@ function Adminprofile() {
             <Carousel arrows infinite={false}>
               {uploadimage.length > 0 && uploadimage.map((image, index) => (
                 <div key={index} className="cardimage">
-                  <img src={`http://localhost:8000${image}`} alt={`Image ${index + 1}`} />
+                  <img src={`${baseUrl}:8000${image}`} alt={`Image ${index + 1}`} />
                 </div>
               ))}
             </Carousel>

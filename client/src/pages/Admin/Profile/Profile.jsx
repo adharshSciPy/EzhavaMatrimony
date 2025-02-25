@@ -5,6 +5,7 @@ import Profilebox from "./ProfileComponent"
 import {useState,useEffect} from "react"
 import axios from "axios"
 import { Link } from "react-router-dom";
+import baseUrl from "../../../baseUrl";
 
 
 function Profile() {
@@ -13,7 +14,7 @@ const [UserData,setuserData]=useState([])
 const showData=UserData.slice(0,4)
 const fetchuserData=async (req,res) => {
   
-  const response=await axios.get('http://localhost:8000/api/v1/user/unverfieduser')
+  const response=await axios.get(`${baseUrl}:8000/api/v1/user/unverfieduser`)
   if(response.status===200){
     setuserData(response.data.unverfiedUser || [  ])
     console.log("this",response.data.unverfiedUser);

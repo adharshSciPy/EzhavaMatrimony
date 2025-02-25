@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { setUser } from "../../features/slice";
 import Modal from "react-modal";
 import BounceLoader from "react-spinners/BounceLoader";
+import baseUrl from "../../baseUrl";
 
 
 function LandingPage() {
@@ -39,7 +40,7 @@ function LandingPage() {
     setIsLoading(true); 
     try {
       const response = await axios.post(
-        `http://localhost:8000/api/v1/user/forgotpassworduser`,
+        `${baseUrl}:8000/api/v1/user/forgotpassworduser`,
         { userEmail: email }
       );
       if (response.status === 200) {
@@ -57,7 +58,7 @@ function LandingPage() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `http://localhost:8000/api/v1/user/login`,
+        `${baseUrl}:8000/api/v1/user/login`,
         form
       );
       if (response) {

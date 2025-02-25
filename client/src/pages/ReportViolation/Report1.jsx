@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import baseUrl from "../../baseUrl";
 
 function Report1() {
   const [formData, setFormData] = useState({
@@ -35,7 +36,7 @@ function Report1() {
       console.log(formData);
 
       const response = await axios.patch(
-        `http://localhost:8000/api/v1/user/userReport/${userId}`,
+        `${baseUrl}:8000/api/v1/user/userReport/${userId}`,
         formData
       );
 
@@ -59,7 +60,7 @@ function Report1() {
   const fetchUserData = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/v1/user/usercarddetails/${userId}`
+        `${baseUrl}:8000/api/v1/user/usercarddetails/${userId}`
       );
       console.log("User data:", response.data.data);
       setUserData(response.data.data);
@@ -137,14 +138,14 @@ function Report1() {
               required
             >
               <option value="">Select Category</option>
-              <option value="spam">Spam</option>
-              <option value="harassment">Verbal Abuse</option>
-              <option value="inappropriate">Financial Abuse</option>
-              <option value="inappropriate">Emotional Abuse</option>
-              <option value="inappropriate">Online Harassment</option>
-              <option value="inappropriate">Stalking</option>
-              <option value="inappropriate">Threatening Behavior</option>
-              <option value="inappropriate">Other</option>
+              <option value="Spam">Spam</option>
+              <option value="Verbal Abuse">Verbal Abuse</option>
+              <option value="Financial Abuse">Financial Abuse</option>
+              <option value="Emotional Abuse">Emotional Abuse</option>
+              <option value="Online Harassment">Online Harassment</option>
+              <option value="Stalking">Stalking</option>
+              <option value="Threatening Behavior">Threatening Behavior</option>
+              <option value="Other">Other</option>
             </select>
           </div>
 

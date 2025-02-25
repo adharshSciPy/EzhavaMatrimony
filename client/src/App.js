@@ -33,7 +33,6 @@ import { loadStripe } from '@stripe/stripe-js';
 import Checkout from "./pages/Checkout/Checkout";
 import UserPasswordReset from "./pages/UserPasswordReset/PasswordReset"
 import PaymentSuccess from "./pages/Checkout/PaymentSuccess";
-import ProtectedRoute from "./component/ProtectedRoute/ProtectedRoute";
 function App() {
 
 
@@ -49,46 +48,68 @@ function App() {
           <Route path="/register" element={<LoginPAge />} />
           <Route path="/OtpPage" element={<OtpPage />} />
           <Route element={<ProtectedRoute allowedRoles={[300]} />}>
-          <Route path="/formpage1" element={<FormPage1 />} />
-          <Route path="/formpage2" element={<FormPage2 />} />
-          <Route path="/formpage3" element={<FormPage3 />} />
-          <Route path="/formpage5" element={<Formpage5 />} />
-          <Route path="/formpage4" element={<FormPage4 />} />
-          <Route path="/dashboard/:userId" element={<Dashboard />} />
+            <Route path="/formpage1" element={<FormPage1 />} />
+            <Route path="/formpage2" element={<FormPage2 />} />
+            <Route path="/formpage3" element={<FormPage3 />} />
+            <Route path="/formpage5" element={<Formpage5 />} />
+            <Route path="/formpage4" element={<FormPage4 />} />
+            <Route path="/dashboard/:userId" element={<Dashboard />} />
+            <Route
+              path="/toprecommendations/:id"
+              element={<TopRecommendation />}
+            />
+            <Route path="/allmatches/:id" element={<AllMatches />} />
+            <Route path="/report/:userId" element={<Report1 />} />
+            <Route path="/mainuser/:id" element={<UserMain />} />
+            <Route path="/Usettings" element={<UserSettings />} />
+            <Route path="/Usettings/:id" element={<UserSettings />} />
+            <Route
+              path="/resetPasswordUser/:id/:token"
+              element={<UserPasswordReset />}
+            />
+            <Route path="/likedprofiles/:id" element={<LikedProfiles />} />
+            <Route path="/myprofile/:id" element={<MyProfile />} />
           </Route>
-          <Route element={<ProtectedRoute allowedRoles={[500]} />}>
 
-          <Route path="/Admindashboard" element={<AdminProfile />} />
-          <Route path="/Adminreport" element={<Report />} />
+
+
+
+          {/* Admin routes */}
+          <Route element={<ProtectedRoute allowedRoles={[500]} />}>
+            <Route path="/Admindashboard" element={<AdminProfile />} />
+            <Route path="/Adminreport" element={<Report />} />
+            <Route path="/Adminsettings/:token" element={<Settings />} />
+            <Route
+              path="/Adminusersview/:id"
+              element={<AdminUserProfileView />}
+            />
+            <Route
+              path="/Adminreportview/:id"
+              element={<AdminSideUserReport />}
+            />
+            <Route path="/getFullUser" element={<GetFullUser />} />
+            <Route path="/resetPassword/:token" element={<ResetPassword />} />
+            <Route path="/getFullReport" element={<AdminFullReport />} />
+            <Route
+              path="/profileVerification"
+              element={<ProfileVerification />}
+            />
+            <Route path="/unverifieduser" element={<UnverifiedUsers />} />
+            <Route
+              path="/userProfileVerify/:id"
+              element={<AdminUserVerification />}
+            />
           </Route>
-          <Route path="/toprecommendations/:id" element={<TopRecommendation />} />
-          <Route path="/allmatches/:id" element={< AllMatches />} />
-          <Route path="/Adminsettings/:token" element={<Settings />} />
-          <Route path="/Adminusersview/:id" element={<AdminUserProfileView />} />
-          <Route path="/Adminreportview/:id" element={<AdminSideUserReport />} />
-          <Route path="/getFullUser" element={<GetFullUser />} />
+
           <Route path="/adminlanding" element={<AdminLanding />} />
-          <Route path="/report/:userId" element={<Report1 />} />
-          <Route path="/mainuser/:id" element={<UserMain />} />
-          <Route path="/Usettings" element={<UserSettings />} />
-          <Route path="/resetPassword/:token" element={<ResetPassword />} />
-          <Route path="/Usettings/:id" element={<UserSettings />} />
-          <Route path="/resetPasswordUser/:id/:token" element={<UserPasswordReset />} />
-          <Route path="/likedprofiles/:id" element={<LikedProfiles />} />
-          <Route path="/getFullReport" element={<AdminFullReport />} />
-          <Route path="/myprofile/:id" element={<MyProfile />} />
-          <Route path="/profileVerification" element={<ProfileVerification />} />
-          <Route path="/unverifieduser" element={<UnverifiedUsers />} />
-          <Route path="/userProfileVerify/:id" element={<AdminUserVerification />} />
+
+
           {/* <Route path="main/mainuser/:id" element={<UserMain/>} /> */}
           <Route path="/checkout/:profileId/:userId" element={<Checkout />} />
-          <Route path="/payment-success/:profileId" element={<PaymentSuccess />} />
-
-
-
-
-
-
+          <Route
+            path="/payment-success/:profileId"
+            element={<PaymentSuccess />}
+          />
         </Routes>
 
         <ToastContainer
