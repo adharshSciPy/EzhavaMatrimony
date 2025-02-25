@@ -33,6 +33,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import Checkout from "./pages/Checkout/Checkout";
 import UserPasswordReset from "./pages/UserPasswordReset/PasswordReset"
 import PaymentSuccess from "./pages/Checkout/PaymentSuccess";
+import ProtectedRoute from "./component/ProtectedRoute/ProtectedRoute";
 function App() {
 
 
