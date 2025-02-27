@@ -1068,6 +1068,7 @@ padding: 10px 0 10px 0;
   }
 .drawer{
 width: 90%;
+overflow-y: scroll;
 /* padding: 10px; */
 }
 .ExploreContentIcons{
