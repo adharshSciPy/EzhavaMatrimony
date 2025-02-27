@@ -8,39 +8,42 @@ import FormPage4 from "./pages/FormPage4/FormPage4";
 import FormPage3 from "./pages/FormPage3/FormPage3";
 import Formpage5 from "./pages/FormPage5/FormPage5";
 import Dashboard from "./pages/Dashboard/Dashboard";
-import OtpPage from "./pages/Otppage/OtpPage";
-import AdminProfile from "./pages/Admin/adminDashboard/Adimindashboard";
-import Report from "./pages/Admin/AdminReportPage/AdminReportPage";
+import OtpPage from "./pages/Otppage/OtpPage"
+import AdminProfile from "./pages/Admin/adminDashboard/Adimindashboard"
+import Report from "./pages/Admin/AdminReportPage/AdminReportPage"
 import TopRecommendation from "./pages/TopRecomendation/TopRecommendation";
 import Settings from "./pages/Admin/settings/Settings";
-import AdminUserProfileView from "./pages/Admin/adminprofile/Adminprofile";
-import GetFullUser from "./pages/Admin/userPage/GetFullUser";
+import AdminUserProfileView from "./pages/Admin/adminprofile/Adminprofile"
+import GetFullUser from "./pages/Admin/userPage/GetFullUser"
 import AllMatches from "./pages/AllMatches/AllMatches";
-import AdminLanding from "./pages/Admin/adminLoginPage/AdminLogin";
+import AdminLanding from "./pages/Admin/adminLoginPage/AdminLogin"
 import Report1 from "./pages/ReportViolation/Report1";
 import UserMain from "./pages/UserMain/UserMain";
 import UserSettings from "./pages/UserSettings/UserSettings";
 import LikedProfiles from "./pages/LikedProfiles/LikedProfiles";
-import ResetPassword from "./pages/Admin/Passwordreset/PasswordReset";
+import ResetPassword from "./pages/Admin/Passwordreset/PasswordReset"
 import { ToastContainer } from "react-toastify";
 import MyProfile from "./pages/MyProfile/MyProfile";
-import AdminFullReport from "./pages/Admin/Reports/GetFullReport";
-import AdminSideUserReport from "./pages/Admin/Reports/Report";
-import ProfileVerification from "./pages/Admin/Profile/Profile";
-import UnverifiedUsers from "./pages/Admin/Profile/GetFullProfile";
+import AdminFullReport from "./pages/Admin/Reports/GetFullReport"
+import AdminSideUserReport from "./pages/Admin/Reports/Report"
+import ProfileVerification from "./pages/Admin/Profile/Profile"
+import UnverifiedUsers from "./pages/Admin/Profile/GetFullProfile"
 import AdminUserVerification from "./pages/Admin/AdminProfileVerification/AdminVerififcation";
-import { loadStripe } from "@stripe/stripe-js";
+import { loadStripe } from '@stripe/stripe-js';
 import Checkout from "./pages/Checkout/Checkout";
-import UserPasswordReset from "./pages/UserPasswordReset/PasswordReset";
+import UserPasswordReset from "./pages/UserPasswordReset/PasswordReset"
 import PaymentSuccess from "./pages/Checkout/PaymentSuccess";
 import ProtectedRoute from "./component/ProtectedRoute/ProtectedRoute";
 function App() {
+
+
   // Enable the skeleton loader UI for optimal loading.
-  const loader = "auto";
+  const loader = 'auto';
 
   return (
     <div className="App">
       <BrowserRouter>
+
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/register" element={<LoginPAge />} />
@@ -68,6 +71,9 @@ function App() {
             <Route path="/likedprofiles/:id" element={<LikedProfiles />} />
             <Route path="/myprofile/:id" element={<MyProfile />} />
           </Route>
+
+
+
 
           {/* Admin routes */}
           <Route element={<ProtectedRoute allowedRoles={[500]} />}>
