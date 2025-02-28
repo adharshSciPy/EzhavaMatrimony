@@ -463,7 +463,7 @@ function UserMain() {
           <div className="similar-profile-container">
             {/* <div className="main-similar-profile"> */}
             <div className="container-similar">
-              <h3>Uploaded Images</h3>
+              <h3>Gallery</h3>
             </div>
             <div className="like-card-container">
               <div className="image-container">
