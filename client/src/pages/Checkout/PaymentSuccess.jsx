@@ -53,7 +53,7 @@ const PaymentSuccess = () => {
   
       const userName = userResponse.data.data.firstName || "User";
       const otherUserName = profileResponse.data.data.firstName || "Other User";
-      const amount = "100 Pounds"; // Static amount
+      const amount = "10 Pounds"; // Static amount
   
       // Create a new PDF document
       const pdfDoc = await PDFDocument.create();

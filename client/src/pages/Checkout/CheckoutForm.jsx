@@ -4,6 +4,7 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './CheckoutForm.css'
+import baseUrl from '../../baseUrl.js';
 const CheckoutForm = ({ userId, profileId }) => {
   const stripe = useStripe();
   const elements = useElements();
@@ -54,7 +55,7 @@ const CheckoutWrapper = ({ userId, profileId, stripePromise }) => {
 
   useEffect(() => {
     // Create PaymentIntent when component mounts
-    axios.post(`http://localhost:8000/api/v1/user/create-payment-intent/${userId}/${profileId}`)
+    axios.post(`${baseUrl}:8000/api/v1/user/create-payment-intent/${userId}/${profileId}`)
       .then((res) => {
         setClientSecret(res.data.clientSecret);
       })
