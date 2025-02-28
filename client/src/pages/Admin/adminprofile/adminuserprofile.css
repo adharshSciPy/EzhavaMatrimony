@@ -331,7 +331,7 @@
     padding: 20px 0px;
   }
 }
-@media (max-width: 500px) {
+@media (max-width: 560px) {
   .profile-cards .verify-container {
     display: none;
   }
@@ -345,6 +345,11 @@
     display: none;
   }
   .profile-cards .image-container {
+    width: 100%;
+  }
+  .profile-cardsAd {
+    margin-left: 10px;
+    flex-direction: column;
     width: 100%;
   }
 }
