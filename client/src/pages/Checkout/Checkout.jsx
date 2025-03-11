@@ -7,7 +7,7 @@ import axios from 'axios';
 import baseUrl from '../../baseUrl';
 
 // Ensure the key is loaded correctly
-const stripePromise ="pk_live_51QrI1EDwmH1bsjVeetTsbHXP0sck6KzS37v8kW9wjHAo1pw5dH9N7JM14R3vBYvFhoPQYinPBkJXKHCfbqkVaqss00UqSf6J9S";
+const stripePromise = loadStripe(pk_live_51QrI1EDwmH1bsjVeetTsbHXP0sck6KzS37v8kW9wjHAo1pw5dH9N7JM14R3vBYvFhoPQYinPBkJXKHCfbqkVaqss00UqSf6J9S);
 console.log(stripePromise,"this");
 
 
