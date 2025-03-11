@@ -19,7 +19,7 @@ const CheckoutForm = ({ userId, profileId }) => {
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: `http://localhost:3000/payment-success/${profileId}?userId=${userId}`,
+        return_url: `${baseUrl}:3000/payment-success/${profileId}?userId=${userId}`,
       },
     });
 
