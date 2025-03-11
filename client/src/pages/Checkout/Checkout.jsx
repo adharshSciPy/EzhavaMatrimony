@@ -15,12 +15,8 @@ console.log(stripePromise,"this");
 const Checkout = () => {
   const { profileId, userId } = useParams();
   const [clientSecret, setClientSecret] = useState('');
-  const [stripe, setStripe] = useState(null);
 
   useEffect(() => {
-    // Resolve stripePromise
-    stripePromise.then(setStripe);
-
     // Fetch clientSecret from backend
     axios
       .post(`${baseUrl}:8000/api/v1/user/create-payment-intent/${userId}/${profileId}`)
@@ -32,12 +28,12 @@ const Checkout = () => {
       });
   }, [userId, profileId]);
 
-  if (!stripe || !clientSecret) {
+  if (!clientSecret) {
     return <div>Loading...</div>;
   }
 
   return (
-    <Elements stripe={stripe} options={{ clientSecret }}>
+    <Elements stripe={stripePromise} options={{ clientSecret }}>
       <CheckoutWrapper userId={userId} profileId={profileId} />
     </Elements>
   );
