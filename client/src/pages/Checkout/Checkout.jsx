@@ -8,6 +8,8 @@ import baseUrl from '../../baseUrl';
 
 // Ensure the key is loaded correctly
 const stripePromise = loadStripe(process.env.REACT_APP_PUBLISHABLE_KEY || "");
+console.log(stripePromise,"this");
+
 
 const Checkout = () => {
   const { profileId, userId } = useParams();
