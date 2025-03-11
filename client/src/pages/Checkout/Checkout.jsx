@@ -11,29 +11,35 @@ const stripePromise = loadStripe("pk_live_51QrI1EDwmH1bsjVeetTsbHXP0sck6KzS37v8k
 console.log(stripePromise,"this");
 
 
+
 const Checkout = () => {
   const { profileId, userId } = useParams();
   const [clientSecret, setClientSecret] = useState('');
+  const [stripe, setStripe] = useState(null);
 
   useEffect(() => {
+    // Resolve stripePromise
+    stripePromise.then(setStripe);
+
+    // Fetch clientSecret from backend
     axios
       .post(`${baseUrl}:8000/api/v1/user/create-payment-intent/${userId}/${profileId}`)
       .then((res) => {
         setClientSecret(res.data.clientSecret);
       })
       .catch((err) => {
-        console.error(err);
+        console.error("Error fetching clientSecret:", err);
       });
   }, [userId, profileId]);
 
+  if (!stripe || !clientSecret) {
+    return <div>Loading...</div>;
+  }
+
   return (
-    stripePromise && clientSecret ? (
-      <Elements stripe={stripePromise} options={{ clientSecret }}>
-        <CheckoutWrapper userId={userId} profileId={profileId} />
-      </Elements>
-    ) : (
-      <div>Loading...</div>
-    )
+    <Elements stripe={stripe} options={{ clientSecret }}>
+      <CheckoutWrapper userId={userId} profileId={profileId} />
+    </Elements>
   );
 };
 
