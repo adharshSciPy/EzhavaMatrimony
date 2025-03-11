@@ -13,30 +13,12 @@ console.log(stripePromise,"this");
 
 
 const Checkout = () => {
-  const { profileId, userId } = useParams();
-  const [clientSecret, setClientSecret] = useState('');
-
-  useEffect(() => {
-    // Fetch clientSecret from backend
-    axios
-      .post(`${baseUrl}:8000/api/v1/user/create-payment-intent/${userId}/${profileId}`)
-      .then((res) => {
-        setClientSecret(res.data.clientSecret);
-      })
-      .catch((err) => {
-        console.error("Error fetching clientSecret:", err);
-      });
-  }, [userId, profileId]);
-
-  if (!clientSecret) {
-    return <div>Loading...</div>;
-  }
-
-  return (
-    <Elements stripe={stripePromise} options={{ clientSecret }}>
-      <CheckoutWrapper userId={userId} profileId={profileId} />
-    </Elements>
-  );
+  const { profileId, userId } = useParams(); 
+return (
+  <Elements stripe={stripePromise}>
+    <CheckoutWrapper userId={userId} profileId={profileId} stripePromise={stripePromise}/>
+  </Elements>
+);
 };
 
 export default Checkout;
