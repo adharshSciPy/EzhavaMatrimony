@@ -4,7 +4,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import CheckoutWrapper from './CheckoutForm';
 import { useParams } from 'react-router-dom';
 
-const stripePromise = loadStripe(process.env.PUBLISH_KEY); 
+const stripePromise = loadStripe(`${process.env.PUBLISH_KEY}`); 
 
 const Checkout = () => {
     const { profileId, userId } = useParams(); 
