@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import baseUrl from '../../baseUrl';
 
-const stripePromise = loadStripe(`${process.env.REACT_APP_PUBLISH_KEY}`);
+const stripePromise = loadStripe(`${process.env.PUBLISH_KEY}`);
 
 const Checkout = () => {
   const { profileId, userId } = useParams();
