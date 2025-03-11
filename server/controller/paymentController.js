@@ -1,7 +1,7 @@
 import Stripe from "stripe"
 import dotenv from "dotenv"
 dotenv.config()
-const stripe = new Stripe(`${process.env.REACT_APP_SECRET_KEY}`);
+const stripe = new Stripe(String(process.env.REACT_APP_SECRET_KEY));
 
 // Create Payment Intent
 const createPaymentIntent = async (req, res) => {
