@@ -6,7 +6,8 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import baseUrl from '../../baseUrl';
 
-const stripePromise = loadStripe(process.env.REACT_APP_PUBLISHABLE_KEY);
+// Ensure the key is loaded correctly
+const stripePromise = loadStripe(process.env.REACT_APP_PUBLISHABLE_KEY || "");
 
 const Checkout = () => {
   const { profileId, userId } = useParams();
@@ -23,14 +24,14 @@ const Checkout = () => {
       });
   }, [userId, profileId]);
 
-  if (!clientSecret) {
-    return <div>Loading...</div>;
-  }
-
   return (
-    <Elements stripe={stripePromise} options={{ clientSecret }}>
-      <CheckoutWrapper userId={userId} profileId={profileId} />
-    </Elements>
+    stripePromise && clientSecret ? (
+      <Elements stripe={stripePromise} options={{ clientSecret }}>
+        <CheckoutWrapper userId={userId} profileId={profileId} />
+      </Elements>
+    ) : (
+      <div>Loading...</div>
+    )
   );
 };
 
