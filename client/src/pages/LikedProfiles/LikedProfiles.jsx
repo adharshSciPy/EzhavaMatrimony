@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import DashStyles from "./likedprofiles.module.css";
 import { HeartStraight } from "phosphor-react";
 import { Link, useParams,useNavigate } from "react-router-dom";
-import image from "../../assets/free-photo-of-couple-in-green-grass-field.jpeg";
 import Nav from "../../component/Navbar/Nav";
 import Footer from "../../component/Footer/Footer";
 import axios from "axios";
@@ -13,7 +12,6 @@ import baseUrl from "../../baseUrl";
 function LikedProfiles() {
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.user.id);
-  console.log("hey kitty", userId);
   const [getLike, setGetLike] = useState([]);
   const [liked, setLiked] = useState({});
   const [isOpen, setIsOpen] = useState(false);
@@ -28,13 +26,11 @@ function LikedProfiles() {
 const navigate=useNavigate();
   // const[showHamburger,setShowHamburger]=useState(true);
   const { id } = useParams();
-  console.log("iddddd", id);
   const getLikedProfiles = async () => {
     try {
       const response = await axios.get(
         `${baseUrl}:8000/api/v1/user/likedProfiles/${userId}`
       );
-      console.log("liked profiles:", response.data.likedUsers);
 
       // Convert the array into an object for easy lookups
       const likedProfilesMap = response.data.likedUsers.reduce((acc, user) => {
@@ -68,7 +64,6 @@ const navigate=useNavigate();
         { likedId: id }
       );
 
-      console.log("Liked profile response:", response.data);
 
       // If successfully liked, refresh liked profiles
       getLikedProfiles();
@@ -114,7 +109,6 @@ const navigate=useNavigate();
       const response = await axios.get(
         `${baseUrl}:8000/api/v1/user/likedProfiles/${id}`
       );
-      console.log("vishvaaa", response.data.likedUsers);
       setLikedProfiles(response.data.likedUsers);
     } catch (error) {
       console.log("error", error);
@@ -132,7 +126,6 @@ const navigate=useNavigate();
       const response = await axios.get(
         `${baseUrl}:8000/api/v1/user/usercarddetails/${id}`
       );
-      console.log("single user data", response);
       navigate(`/mainuser/${id}`);
     } catch (error) {
       console.log("Error fetching the data", error);

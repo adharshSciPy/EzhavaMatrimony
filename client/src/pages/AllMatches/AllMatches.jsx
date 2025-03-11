@@ -1,8 +1,7 @@
 import React, { useEffect, useState, useMemo } from "react";
 import DashStyles from "../Dashboard/dashboard.module.css";
-import { HeartStraight, SlidersHorizontal, Pencil, X } from "phosphor-react";
+import { HeartStraight, SlidersHorizontal, X } from "phosphor-react";
 import { Link, useNavigate } from "react-router-dom";
-import image from "../../assets/free-photo-of-couple-in-green-grass-field.jpeg";
 import Nav from "../../component/Navbar/Nav";
 import Footer from "../../component/Footer/Footer";
 import { useSelector, useDispatch } from "react-redux";
@@ -13,7 +12,6 @@ import baseUrl from "../../baseUrl";
 function AllMatches() {
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.user.id);
-  console.log("hey kitty", userId);
   const [getLike, setGetLike] = useState([]);
   const [liked, setLiked] = useState({}); //state to control the likes
   const [isOpen, setIsOpen] = useState(false); //state to control the  opening and closing of filter
@@ -37,14 +35,6 @@ function AllMatches() {
     education: "",
   });
 
-  // const lastIndex = currentPage * itemsPerPage;
-  // const indexOfFirstItem = lastIndex - itemsPerPage;
-
-  // const showItems = useMemo(() => {
-  //   const data =
-  //     filteredMatches.length > 0 ? filteredMatches : "No Matches Available";
-  //   return data.slice(indexOfFirstItem, lastIndex);
-  // }, [allMatches, filteredMatches, currentPage]);
 
   const navigate = useNavigate();
 
@@ -54,7 +44,6 @@ function AllMatches() {
       const response = await axios.get(
         `${baseUrl}:8000/api/v1/user/likedProfiles/${userId}`
       );
-      console.log("liked profiles:", response.data.likedUsers);
 
       // Convert the array into an object for easy lookups
       const likedProfilesMap = response.data.likedUsers.reduce((acc, user) => {
@@ -88,7 +77,6 @@ function AllMatches() {
         { likedId: id }
       );
 
-      console.log("Liked profile response:", response.data);
 
       // If successfully liked, refresh liked profiles
       getLikedProfiles();
@@ -134,7 +122,6 @@ function AllMatches() {
         `${baseUrl}:8000/api/v1/user/getUserById/${userId}`
       );
       let matchedProfiles = response.data.user;
-      console.log("response", response.data.user);
       // let matchedLength=matchedProfiles.length;
       // console.log("length",matchedLength);
       setAllMatches(matchedProfiles);
@@ -214,7 +201,6 @@ function AllMatches() {
       const response = await axios.get(
         `${baseUrl}:8000/api/v1/user/usercarddetails/${id}`
       );
-      console.log("single user data", response);
       navigate(`/mainuser/${id}`);
     } catch (error) {
       console.log("Error fetching the data", error);

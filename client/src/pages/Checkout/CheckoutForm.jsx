@@ -9,7 +9,6 @@ const CheckoutForm = ({ userId, profileId }) => {
   const stripe = useStripe();
   const elements = useElements();
   const [isLoading, setIsLoading] = useState(false);
-  console.log("ninta", userId, profileId);
 
   const handleSubmit = async (event) => {
     event.preventDefault();

@@ -1,8 +1,7 @@
 import React, { useEffect, useState, useMemo } from "react";
 import DashStyles from "../Dashboard/dashboard.module.css";
-import { HeartStraight, SlidersHorizontal, Pencil, X } from "phosphor-react";
+import { HeartStraight, SlidersHorizontal, X } from "phosphor-react";
 import { Link, useNavigate } from "react-router-dom";
-import image from "../../assets/free-photo-of-couple-in-green-grass-field.jpeg";
 import Nav from "../../component/Navbar/Nav";
 import Footer from "../../component/Footer/Footer";
 import { useSelector, useDispatch } from "react-redux";
@@ -13,7 +12,6 @@ import baseUrl from "../../baseUrl";
 function TopRecommendation() {
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.user.id);
-  console.log("hey kitty", userId);
   const [getLike, setGetLike] = useState([]);
   const [liked, setLiked] = useState({});
   const [isOpen, setIsOpen] = useState(false);
@@ -37,23 +35,14 @@ function TopRecommendation() {
     education: "",
   });
 
-  // const lastIndex = currentPage * itemsPerPage;
-  // const indexOfFirstItem = lastIndex - itemsPerPage;
-
-  // const showItems = useMemo(() => {
-  //   const data = filteredMatches.length > 0 ? filteredMatches : "No Matches Available";
-  //   return data.slice(indexOfFirstItem, lastIndex);
-  // }, [topMatches, filteredMatches, currentPage]);
+ 
   const navigate = useNavigate();
-  // const[showHamburger,setShowHamburger]=useState(true);
   const getLikedProfiles = async () => {
     try {
       const response = await axios.get(
         `${baseUrl}:8000/api/v1/user/likedProfiles/${userId}`
       );
-      console.log("liked profiles:", response.data.likedUsers);
 
-      // Convert the array into an object for easy lookups
       const likedProfilesMap = response.data.likedUsers.reduce((acc, user) => {
         acc[user._id] = true;
         return acc;
@@ -85,7 +74,6 @@ function TopRecommendation() {
         { likedId: id }
       );
 
-      console.log("Liked profile response:", response.data);
 
       // If successfully liked, refresh liked profiles
       getLikedProfiles();
@@ -128,7 +116,6 @@ function TopRecommendation() {
         `${baseUrl}:8000/api/v1/user/topmatch/${userId}`
       );
 
-      console.log("topMatch123", response.data.matches);
       setTopMatches(response.data.matches);
     } catch (error) {
       console.log("error", error);
@@ -207,7 +194,6 @@ function TopRecommendation() {
       const response = await axios.get(
         `${baseUrl}:8000/api/v1/user/usercarddetails/${id}`
       );
-      console.log("single user data", response);
       navigate(`/mainuser/${id}`);
     } catch (error) {
       console.log("Error fetching the data", error);
@@ -290,20 +276,7 @@ function TopRecommendation() {
                 <option value="Divorced">Divorced</option>
                 <option value="Awaiting Divorce">Awaiting Divorce</option>
               </select>
-              {/* <select name="motherTongue" className={DashStyles.bdSelect} onChange={handleFilterChange} value={filters.motherTongue}>
-                     <option >Mother Tongue</option>
-                     <option value="malayalam">Malayalam</option>
-                     <option value="english">English</option>
-                     <option value="hindi">Hindi</option>
-                   </select> */}
-
-              {/* <select name="physicalStatus" className={DashStyles.bdSelect}onChange={handleFilterChange} value={filters.physicalStatus}>
-                     <option >Physical Status</option>
-                     <option value="none">None</option>
-                     <option value="physicallyChallenged">
-                       Physically Challenged
-                     </option>
-                   </select> */}
+            
             </div>
           </div>
 

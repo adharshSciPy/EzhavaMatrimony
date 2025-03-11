@@ -6,16 +6,11 @@ import {
   Gear,
   Question,
   ShieldCheck,
-  Shield,
   HeartStraight,
-  Headset,
-  Users,
-  Crown,
   User,
   SignOut,
 } from "phosphor-react";
 import { Link, useNavigate } from "react-router-dom";
-// import image from "../../assets/free-photo-of-couple-in-green-grass-field.jpeg";
 import Nav from "../../component/Navbar/Nav";
 import Footer from "../../component/Footer/Footer";
 import { useSelector, useDispatch } from "react-redux";
@@ -32,9 +27,7 @@ function Dashboard() {
   const userId = useSelector((state) => state.user.id);
   const token=useSelector((state) => state.user.token);
   const role=useSelector((state)=>state.user.role)
-  console.log("tokennnnn",token);
-  console.log("hey kitty", userId);
-  console.log("role",role)
+  
   const navigate = useNavigate();
   const [liked, setLiked] = useState({});
   const [getLike, setGetLike] = useState([]);
@@ -68,7 +61,6 @@ function Dashboard() {
       const response = await axios.get(
         `${baseUrl}:8000/api/v1/user/likedProfiles/${userId}`
       );
-      console.log("liked profiles:", response.data.likedUsers);
 
       // Convert the array into an object for easy lookups
       const likedProfilesMap = response.data.likedUsers.reduce((acc, user) => {
@@ -124,7 +116,6 @@ function Dashboard() {
       const response = await axios.get(
         `${baseUrl}:8000/api/v1/user/usercarddetails/${userId}`
       );
-      console.log("response", response.data.data);
       setUserProfile(response.data.data);
     } catch (error) {
       console.log("error", error);
@@ -139,7 +130,6 @@ function Dashboard() {
       let user = response.data.matches;
       const shuffledUsers = user.sort(() => 0.5 - Math.random()).slice(0, 5);
 
-      console.log("topMatch", response.data.matches);
       setTopMatches(shuffledUsers);
     } catch (error) {
       console.log("error", error);
@@ -154,7 +144,6 @@ function Dashboard() {
       let users = response.data.user;
 
       const shuffledUsers = users.sort(() => 0.5 - Math.random()).slice(0, 5);
-      console.log("all match", response.data.user);
       setAllMatches(shuffledUsers);
     } catch (error) {
       console.log("Error fetching all matches", error);
@@ -206,7 +195,6 @@ function Dashboard() {
       const response = await axios.get(
         `${baseUrl}:8000/api/v1/user/usercarddetails/${id}`
       );
-      console.log("single user data", response);
       navigate(`/mainuser/${id}`);
     } catch (error) {
       console.log("Error fetching the data", error);
@@ -246,7 +234,6 @@ function Dashboard() {
         `${baseUrl}:8000/api/v1/user/edit/${userId}`,
         formData
       );
-      console.log("Upload successful:", response);
     } catch (error) {
       console.log("Upload error:", error);
     } finally {
@@ -280,7 +267,6 @@ function Dashboard() {
         `${baseUrl}:8000/api/v1/user/edit/${userId}`,
         formData
       );
-      console.log("Upload successful:", response);
 
       // If upload is successful, show success notification
       if (response.status === 200) {
@@ -645,7 +631,6 @@ function Dashboard() {
                       <div
                         className={DashStyles.DropdownSecond}
                         onClick={() => {
-                          console.log("Dropdown toggled");
                           document
                             .querySelector(
                               `.${DashStyles.DropdownMenuSecondSmall}`

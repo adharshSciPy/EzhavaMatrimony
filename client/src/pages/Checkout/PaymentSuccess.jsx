@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import "./PaymentSucess.css"; // Import the CSS file
+import "./PaymentSucess.css"; 
 import axios from "axios";
 import { PDFDocument, rgb,StandardFonts } from "pdf-lib";
 import baseUrl from "../../baseUrl";
@@ -15,7 +15,6 @@ const PaymentSuccess = () => {
   const redirectStatus = queryParams.get("redirect_status");
   const { profileId } = useParams();
   const userId = queryParams.get("userId");
-  console.log("id", userId, profileId);
 
   useEffect(() => {
     if (redirectStatus === "succeeded") {
@@ -34,7 +33,6 @@ const PaymentSuccess = () => {
       const response = await axios.post(
         `${baseUrl}:8000/api/v1/user/updateUserAccess/${userId}/${profileId}`
       );
-      console.log(response);
     } catch (error) {
       console.log(error);
     }
@@ -45,7 +43,6 @@ const PaymentSuccess = () => {
       const userResponse = await axios.get(
         `${baseUrl}:8000/api/v1/user/usercarddetails/${userId}`
       );
-      console.log('User Data:', userResponse.data.data);
   
       const profileResponse = await axios.get(
         `${baseUrl}:8000/api/v1/user/usercarddetails/${profileId}`

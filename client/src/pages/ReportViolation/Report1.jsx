@@ -3,7 +3,6 @@ import "./report1.css";
 import Nav from "../../component/Navbar/Nav";
 import Footer from "../../component/Footer/Footer";
 import axios from "axios";
-import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -26,14 +25,12 @@ function Report1() {
     });
   };
   const { userId } = useParams();
-  console.log("hellochimp", userId);
-  console.log("user", userId);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      console.log(formData);
 
       const response = await axios.patch(
         `${baseUrl}:8000/api/v1/user/userReport/${userId}`,
@@ -62,7 +59,6 @@ function Report1() {
       const response = await axios.get(
         `${baseUrl}:8000/api/v1/user/usercarddetails/${userId}`
       );
-      console.log("User data:", response.data.data);
       setUserData(response.data.data);
     } catch (error) {
       console.log("Error fetching user data:", error);

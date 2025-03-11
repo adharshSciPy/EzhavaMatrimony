@@ -34,8 +34,7 @@ function FormPage5() {
       residentStatus,
     };
     try {
-      console.log(id);
-      console.log(employmentStatus);
+      
 
       const response = await axios.patch(
         `${baseUrl}:8000/api/v1/user/edit/${id}`,
@@ -46,7 +45,6 @@ function FormPage5() {
           setIsLoading(false);
           dispatch(setUser({ id: id ,token:token,role:role}));
           navigate(`/dashboard/${id}`);
-          console.log(response);
         }, 3000);
       }
     } catch (error) {
@@ -74,7 +72,6 @@ function FormPage5() {
       const response = await axios.get(
         `${baseUrl}:8000/api/v1/user/usercarddetails/${id}`
       );
-      console.log("he hee heee", response.data.data);
       setUserProfile(response.data.data);
     } catch (error) {
       console.log("error", error);

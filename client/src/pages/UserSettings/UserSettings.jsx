@@ -12,7 +12,6 @@ function UserSettings() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const token = useSelector((state) => state.user.token);
-  console.log("hhelloooo",token);
   
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -30,7 +29,6 @@ function UserSettings() {
           `${baseUrl}:8000/api/v1/user/usercarddetails/${id}`
         );
         const userData = response.data;
-        console.log("Fetched User Data:", userData);
 
         setUsername(userData.firstName);
         setEmail(userData.email);
@@ -54,7 +52,6 @@ function UserSettings() {
         });
 
         setUsername(newUsername);
-        console.log("changed user name ", newUsername);
       }
 
       if (password) {

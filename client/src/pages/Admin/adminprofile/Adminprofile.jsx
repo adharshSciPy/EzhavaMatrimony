@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Nav from "../../../component/AdminNav/Adminnav";
-import padam from "../../../assets/bridde.jpg";
 import "./adminuserprofile.css";
 import { useParams } from "react-router-dom";
-import { Link, useNavigate } from "react-router";
+import {  useNavigate } from "react-router";
 import Footer from "../../../component/Footer/Footer";
 import axios from "axios";
 import Modal from "react-modal";
@@ -27,7 +26,6 @@ function Adminprofile() {
       );
       setData(response.data.data);
       setUploadimage([response.data.data.profilePicture, ...response.data.data.image]);
-      console.log("in admin userdata:", response.data.data);
     } catch (error) {
       console.error("Error fetching user data:", error);
 
@@ -52,7 +50,6 @@ function Adminprofile() {
 
     }
   };
-  console.log("image", uploadimage)
 
   return (
     <div>

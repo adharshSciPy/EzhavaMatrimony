@@ -24,7 +24,6 @@ function FormPage1() {
   const notifySuccess = (message) => toast.success(message);
   const navigate = useNavigate();
   const { id, userEmail,token } = useSelector((state) => state.user);
-  console.log("id kitti", id);
 
   const handleChange = (e) => {
     setForm({
@@ -67,7 +66,6 @@ function FormPage1() {
       const response = await axios.get(
         `${baseUrl}:8000/api/v1/user/usercarddetails/${id}`
       );
-      console.log("response", response.data.data);
       setUserProfile(response.data.data);
     } catch (error) {
       console.log("error", error);

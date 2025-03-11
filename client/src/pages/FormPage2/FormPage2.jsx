@@ -45,7 +45,6 @@ function FormPage2() {
         `${baseUrl}:8000/api/v1/user/edit/${id}`,
         updatedForm
       );
-      console.log(response);
       if (response.status === 200) {
         navigate(`/formpage3`);
       }
@@ -76,7 +75,6 @@ function FormPage2() {
       const response = await axios.get(
         `${baseUrl}:8000/api/v1/user/usercarddetails/${id}`
       );
-      console.log("he hee heee", response.data.data);
       setUserProfile(response.data.data);
     } catch (error) {
       console.log("error", error);

@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./usermain.css";
 import Nav from "../../component/Navbar/Nav";
-import padam from "../../assets/bridde.jpg";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import {  useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Footer from "../../component/Footer/Footer";
 import axios from "axios"; // Import axios
@@ -28,7 +27,6 @@ function UserMain() {
         `${baseUrl}:8000/api/v1/user/usercarddetails/${id}`
       );
       setUserData(response.data.data);
-      console.log(response.data.data, "pwada");
       setPhoneNumber(response.data.data.phoneNumber);
 
       setLoading(false);
@@ -46,7 +44,6 @@ function UserMain() {
       let user = response.data.matches;
       const shuffledUsers = user.sort(() => 0.5 - Math.random()).slice(0, 4);
 
-      console.log("topMatch", response.data.matches);
       setTopMatches(shuffledUsers);
     } catch (error) {
       console.log("error", error);
@@ -62,8 +59,7 @@ function UserMain() {
       // setPhoneNumber(response.data.data.phoneNumber);
       setUnlockedProfiles(response.data.data.unlockedProfiles);
 
-      console.log("pari", response);
-      console.log("adba", userId);
+      
     } catch (error) {
       setError("Failed to fetch user data. Please try again later.");
       console.error("Error fetching user data:", error);
@@ -74,7 +70,6 @@ function UserMain() {
     TopMatch();
     unlockedProfile();
   }, [id, userId]);
-  console.log("unlocke", unlockedProfiles);
 
   useEffect(() => {
     if (unlockedProfiles.includes(id)) {

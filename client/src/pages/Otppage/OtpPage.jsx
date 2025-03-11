@@ -15,8 +15,7 @@ const OtpPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const { id, userEmail } = useSelector((state) => state.user);
-  console.log("hai",id);
-  console.log("hai",form);
+  
   
   const handleChange = (e) => {
     setForm({
@@ -34,7 +33,6 @@ const OtpPage = () => {
 
     setIsLoading(true); // Start spinner
     try {
-      console.log(userEmail);
       
       const response = await axios.post(
         `${baseUrl}:8000/api/v1/user/verifyOtp/${userEmail}`,
@@ -62,7 +60,6 @@ const OtpPage = () => {
       );
       setMessage("OTP resent successfully!");
       setError("");
-      console.log(response);
       
     } catch (err) {
       console.error("Resend OTP Error:", err);
@@ -71,32 +68,7 @@ const OtpPage = () => {
   };
 
   return (
-    // <div className="verify-otp-container">
-    //   <h2>Verify OTP</h2>
-    //   <form onSubmit={handleVerifyOtp}>
-    //     <div className="form-group">
-    //       <label htmlFor="otp">OTP:</label>
-    //       <input
-    //         type="text"
-            // id="otp"
-            // name="otp" // Add this to bind to form state
-            // value={form.otp}
-            // onChange={handleChange}
-            // placeholder="Enter the OTP"
-        //   />
-        // </div>
-
-    //     {error && <p className="error-message">{error}</p>}
-    //     {message && <p className="success-message">{message}</p>}
-
-    //     <button type="submit" className="verify-btn" disabled={isLoading}>
-    //       {isLoading ? "Verifying..." : "Verify OTP"}
-    //     </button>
-    //     <button type="button" className="resend-btn" onClick={handleResendOtp}>
-    //       Resend OTP
-    //     </button>
-    //   </form>
-    // </div>
+    
     <div className="otp-container-main">
       <div class="container">
         <h2>OTP Verification</h2>

@@ -1,8 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Link, useParams } from "react-router-dom";
 import Nav from "../../component/Navbar/Nav";
 import Footer from "../../component/Footer/Footer";
-import image from "../../assets/free-photo-of-couple-in-green-grass-field.jpeg";
 import "../MyProfile/myprofile.css";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
@@ -17,14 +15,12 @@ function MyProfile() {
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.user.id);
 
-  console.log("User ID:", userId);
 
   const fetchUserData = async () => {
     try {
       const response = await axios.get(
         `${baseUrl}:8000/api/v1/user/usercarddetails/${userId}`
       );
-      console.log("User data:", response.data.data);
       setUserData(response.data.data);
     } catch (error) {
       console.log("Error fetching user data:", error);
@@ -54,7 +50,6 @@ function MyProfile() {
           `${baseUrl}:8000/api/v1/user/edit/${userId}`,
           formData
         );
-        console.log("Upload successful:", response);
         setFile([]); // Clear file after upload
         fetchUserData(); // Refresh user data to reflect new images
       } catch (error) {

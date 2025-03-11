@@ -58,7 +58,6 @@ function FormPage3() {
       );
       if (response.status === 200) {
         navigate(`/formpage4`);
-        console.log(response);
       }
     } catch (error) {
       console.error(error);
@@ -84,7 +83,6 @@ function FormPage3() {
         const response = await axios.get(
           `${baseUrl}:8000/api/v1/user/usercarddetails/${id}`
         );
-        console.log("he hee heee", response.data.data);
         setUserProfile(response.data.data);
       } catch (error) {
         console.log("error", error);

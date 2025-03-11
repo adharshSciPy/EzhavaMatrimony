@@ -54,7 +54,6 @@ function FormPage4() {
         `${baseUrl}:8000/api/v1/user/edit/${id}`,
         formData
       );
-      console.log("Upload successful:", response);
       if (response.status === 200) {
         notifySuccess(response.data.data.message || "Successfully Submitted.");
         setShowModal(false); // Close modal after successful upload
@@ -110,7 +109,6 @@ function FormPage4() {
       const response = await axios.get(
         `${baseUrl}:8000/api/v1/user/usercarddetails/${id}`
       );
-      console.log("he hee heee", response.data.data);
       setUserProfile(response.data.data);
     } catch (error) {
       console.log("error", error);

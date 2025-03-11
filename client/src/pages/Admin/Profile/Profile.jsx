@@ -17,7 +17,6 @@ const fetchuserData=async (req,res) => {
   const response=await axios.get(`${baseUrl}:8000/api/v1/user/unverfieduser`)
   if(response.status===200){
     setuserData(response.data.unverfiedUser || [  ])
-    console.log("this",response.data.unverfiedUser);
     
   }else{
     console.log("no users found");

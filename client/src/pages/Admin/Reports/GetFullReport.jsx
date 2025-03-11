@@ -13,7 +13,6 @@ function GetFullReport() {
   let lastIndex = currentPage * itemsPerPage;
   let indexOfFirstItem = lastIndex - itemsPerPage;
   let showItem = userData.slice(indexOfFirstItem, lastIndex)
-  console.log("userdata in admin", userData);
 
   useEffect(() => {
     fetchUserData();

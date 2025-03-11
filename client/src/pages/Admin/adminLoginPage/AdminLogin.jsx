@@ -70,7 +70,6 @@ function AdminLogin() {
       );
       if (response) {
         navigate(`/Admindashboard`);
-        console.log(response.data);
         dispatch(setUser({ id: response.data.userId ,token:response.data.token,role:Number(response.data.role)})); // Dispatch Redux action
       }
     } catch (error) {

@@ -21,7 +21,6 @@ function AdminVerification() {
         `${baseUrl}:8000/api/v1/user/usercarddetails/${id}`
       );
       setUserData(response.data);
-      console.log(response.data);
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
